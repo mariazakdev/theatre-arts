@@ -1,0 +1,37 @@
+@import "../../styles/variables";
+@import "../../styles/mixins" ;
+
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    &-content {
+        padding: 1rem;
+      
+        @include mobile {
+          padding: 0.8rem;
+        }
+      
+        @include tablet {
+          padding: 1.2rem;
+        }
+      
+        @include desktop {
+          padding: 1.5rem;
+        }
+      }
+    @include mobile {
+      font-size: 14px;
+    }
+  
+    @include tablet {
+      font-size: 16px;
+    }
+  
+    @include desktop {
+      font-size: 18px;
+      margin-left: $paddingDesktop;
+      margin-right: $paddingDesktop;
+    }
+  }

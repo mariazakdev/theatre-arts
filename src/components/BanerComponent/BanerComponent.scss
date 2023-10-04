@@ -1,0 +1,19 @@
+@import "../../styles/variables";
+@import "../../styles/mixins" ;
+@import "../../styles/colors" ;
+
+.baner{
+        padding: 1.5rem;
+      @include tablet {
+        padding: 2.5rem;
+      }
+    
+      @include desktop {
+        padding: 3rem;
+     
+      }
+      &-image{
+        background-image: url("../../assets/images/23000025_1791748780898081_3907654337008672183_o.jpg");
+        height: 37.5rem;
+      }
+}
