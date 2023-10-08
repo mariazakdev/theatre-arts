@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from "./components/Header/Header";
 import HomePage from './pages/HomePage/HomePage';
 import Footer from './components/Footer/Footer';
@@ -14,16 +14,16 @@ function App() {
     <Router>
       <div className="App">
         <Header/>
-        <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route path="/signup" component={SignUpPage} />
-          <Route path="/login" component={LoginPage} />
-          <Route path="/profile" component={UserPage} />
-          <Route path="/actors" component={ActorsPage} />
-          <Route path="/upload" component={VideoUploadPage} />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/profile" element={<UserPage />} />
+          <Route path="/actors" element={<ActorsPage />} />
+          <Route path="/upload" element={<VideoUploadPage />} />
           {/* Catch-all route for 404 should be at the end */}
-          <Route path="*" render={() => <div>404 Not Found</div>} />
-        </Switch>
+          <Route path="*" element={<div>404 Not Found</div>} />
+        </Routes>
       </div>
     </Router>
   );
