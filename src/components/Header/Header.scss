@@ -1,0 +1,19 @@
+@import "../../styles/variables";
+@import "../../styles/mixins" ;
+@import "../../styles/colors" ;
+
+header {
+    background-color: darkolivegreen;
+    color: #fff;
+    padding: 1rem;
+    text-align: center;
+  
+    @include tablet {
+      padding: 1.5rem;
+    }
+  
+    @include desktop {
+      padding: 2rem;
+    }
+  }
+  

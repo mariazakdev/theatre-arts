@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Header from "./components/Header/Header";
+import HomePage from './pages/HomePage/HomePage';
+import Footer from './components/Footer/Footer';
+import VideoUploadPage from './pages/VideoUploadPage/VideoUploadPage';
+import UserPage from './pages/UserPage/UserPage';
+import ActorsPage from './pages/ActorsPage/ActorsPage';
+import LoginPage from './pages/LoginPage/LoginPage';
+import SignUpPage from './pages/SignUpPage/SignUpPage';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Header/>
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route path="/signup" component={SignUpPage} />
+          <Route path="/login" component={LoginPage} />
+          <Route path="/profile" component={UserPage} />
+          <Route path="/actors" component={ActorsPage} />
+          <Route path="/upload" component={VideoUploadPage} />
+          {/* Catch-all route for 404 should be at the end */}
+          <Route path="*" render={() => <div>404 Not Found</div>} />
+        </Switch>
+      </div>
+    </Router>
   );
 }
 

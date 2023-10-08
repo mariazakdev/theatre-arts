@@ -1,0 +1,22 @@
+@import "../../styles/variables";
+@import "../../styles/mixins" ;
+@import "../../styles/colors" ;
+
+
+footer {
+    background-color: $primaryBackground;
+    color: #aaa;
+    padding: 1rem;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  
+    @include tablet {
+      padding: 1.2rem;
+    }
+  
+    @include desktop {
+      padding: 1.5rem;
+    }
+  }

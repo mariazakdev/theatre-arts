@@ -1,0 +1,21 @@
+// Breakpoints
+$breakpoint-mobile: 480px;
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 1024px;
+
+$breakpoint-mobile-plus1: $breakpoint-mobile + 1px;
+$breakpoint-tablet-plus1: $breakpoint-tablet + 1px;
+$breakpoint-desktop-plus1:$breakpoint-desktop + 1px;
+
+$paddingDesktop: 12.5rem;
+$primary-color: #007BFF;
+$primary-hover: #0056b3;
+$error-color: red;
+$shadow-color: rgba(0, 0, 0, 0.1);
+$border-color: #ddd;
+$font-weight-normal: 500;
+$font-size-normal: 16px;
+$primary-hover: darken($primary-color, 10%);
+$font-weight-normal: 500;
+$font-size-normal: 16px;
+$spacing-unit: 10px;
