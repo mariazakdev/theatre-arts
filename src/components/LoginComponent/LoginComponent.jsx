@@ -1,70 +1,88 @@
-import React, { useState } from 'react';
-import './LoginComponent.scss';
+import React, {useState} from 'react';
+import { useAuth } from '../../contexts/AuthContext';
+import { NavLink, useNavigate } from 'react-router-dom'
+
 
 function LoginComponent() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState({ email: '', password: '' });
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    if (validateForm()) {
-      console.log('Form is valid!');
-      // Here, you can trigger the login action or whatever you'd like to do on valid form submission.
+  const { login} = useAuth(); 
+  const navigate = useNavigate();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+       
+    const onLogin = (e) => {
+        e.preventDefault();
+        login(email, password)
+        .then((userCredential) => {
+            // Signed in
+            const user = userCredential.user;
+            navigate("/")
+            console.log(user);
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode, errorMessage)
+        });
+       
     }
-  };
+ 
+    return(
+        <>
+            <main >        
+                <section>
+                    <div>                                            
+                        <p> Monologue Challenge App </p>                       
+                                                       
+                        <form>                                              
+                            <div>
+                                <label htmlFor="email-address">
+                                    Email address
+                                </label>
+                                <input
+                                    id="email-address"
+                                    name="email"
+                                    type="email"                                    
+                                    required                                                                                
+                                    placeholder="Email address"
+                                    onChange={(e)=>setEmail(e.target.value)}
+                                />
+                            </div>
 
-  const validateForm = () => {
-    let valid = true;
-    let errors = { email: '', password: '' };
-
-    if (!email) {
-      valid = false;
-      errors.email = 'Email is required.';
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      valid = false;
-      errors.email = 'Email address is invalid.';
-    }
-
-    if (!password) {
-      valid = false;
-      errors.password = 'Password is required.';
-    } else if (password.length < 6) {
-      valid = false;
-      errors.password = 'Password must be at least 6 characters.';
-    }
-
-    setErrors(errors);
-    return valid;
-  };
-
-  return (
-    <form onSubmit={handleSubmit} className="login-form">
-    <div className="form-group">
-      <label className="label">Email:</label>
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className={`input ${errors.email ? 'input-error' : ''}`}
-      />
-      {errors.email && <div className="error-text">{errors.email}</div>}
-    </div>
-    <div className="form-group">
-      <label className="label">Password:</label>
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        className={`input ${errors.password ? 'input-error' : ''}`}
-      />
-      {errors.password && <div className="error-text">{errors.password}</div>}
-    </div>
-    <button type="submit" className="button">Login</button>
-  </form>
-  
-  );
+                            <div>
+                                <label htmlFor="password">
+                                    Password
+                                </label>
+                                <input
+                                    id="password"
+                                    name="password"
+                                    type="password"                                    
+                                    required                                                                                
+                                    placeholder="Password"
+                                    onChange={(e)=>setPassword(e.target.value)}
+                                />
+                            </div>
+                                                
+                            <div>
+                                <button                                    
+                                    onClick={onLogin}                                        
+                                >      
+                                    Login                                                                  
+                                </button>
+                            </div>                               
+                        </form>
+                       
+                        <p className="text-sm text-white text-center">
+                            No account yet? {' '}
+                            <NavLink to="/signup">
+                                Sign up
+                            </NavLink>
+                        </p>
+                                                   
+                    </div>
+                </section>
+            </main>
+        </>
+    )
 }
 
 export default LoginComponent;
