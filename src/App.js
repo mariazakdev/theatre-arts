@@ -12,6 +12,7 @@ import DashBoard from './pages/DashBoard/DashBoard';
 import UpdateProfilePage from './pages/UpdateProfilePage/UpdateProfilePage';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import { AuthProvider } from './contexts/AuthContext';
+import ForgotPasswordPage from './pages/ForgotPasswordPage/ForgotPasswordPage';
 
 console.log("REACT_APP_TEST:", process.env.REACT_APP_TEST);
 
@@ -29,6 +30,8 @@ function App() {
             <Route path="/home" element={<HomePage />} />
             <Route path="/signup" element={<SignUpPage />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+
             <Route path="/profile" element={<PrivateRoute><UserPage /></PrivateRoute>} />
             <Route path="/actors" element={<ActorsPage />} />
             <Route path="/upload" element={<PrivateRoute><VideoUploadPage /></PrivateRoute>} />

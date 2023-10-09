@@ -4,7 +4,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 
 
 function LoginComponent() {
-  const { login} = useAuth(); 
+  const { login } = useAuth(); 
   const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -25,7 +25,8 @@ function LoginComponent() {
         });
        
     }
- 
+
+
     return(
         <>
             <main >        
@@ -61,14 +62,16 @@ function LoginComponent() {
                                     onChange={(e)=>setPassword(e.target.value)}
                                 />
                             </div>
-                                                
                             <div>
                                 <button                                    
                                     onClick={onLogin}                                        
                                 >      
                                     Login                                                                  
                                 </button>
-                            </div>                               
+
+                            </div>     
+                            <NavLink to="/forgot-password" >Forgot Password?</NavLink>        
+                   
                         </form>
                        
                         <p className="text-sm text-white text-center">
