@@ -8,9 +8,15 @@ import UserPage from './pages/UserPage/UserPage';
 import ActorsPage from './pages/ActorsPage/ActorsPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import SignUpPage from './pages/SignUpPage/SignUpPage';
+import { AuthProvider } from './contexts/AuthContext';
+
+console.log("REACT_APP_TEST:", process.env.REACT_APP_TEST);
+
+console.log("REACT_APP_TEST_URL:", process.env.REACT_APP_URL);
 
 function App() {
   return (
+    <AuthProvider>
     <Router>
       <div className="App">
         <Header/>
@@ -26,6 +32,7 @@ function App() {
         </Routes>
       </div>
     </Router>
+    </AuthProvider>
   );
 }
 
