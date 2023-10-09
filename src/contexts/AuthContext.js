@@ -27,6 +27,19 @@ export function AuthProvider({children}) {
     function resetPassword(email) {
         return sendPasswordResetEmail(auth, email)
     }
+    function updateEmailFunction(newEmail) {
+        if (currentUser) {
+            return currentUser.updateEmail(newEmail);
+        }
+        throw new Error("No user is authenticated");
+    }
+    
+    function updatePasswordFunction(newPassword) {
+        if (currentUser) {
+            return currentUser.updatePassword(newPassword);
+        }
+        throw new Error("No user is authenticated");
+    }
     useEffect(()=> {
         const unsubscribe = auth.onAuthStateChanged(user => {
             
@@ -41,8 +54,9 @@ export function AuthProvider({children}) {
         signup,
         login,
         logout,
-        resetPassword 
-
+        resetPassword, 
+        updateEmail: updateEmailFunction,
+        updatePassword: updatePasswordFunction
     };
 
     return(
