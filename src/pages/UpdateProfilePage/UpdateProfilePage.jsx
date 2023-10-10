@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from "../../contexts/AuthContext"; 
 import { useNavigate } from 'react-router-dom';
-import './UpdateProfilePage.scss';
+import '../../styles/forms.scss';
 
 export default function UpdateProfilePage() {
     const [email, setEmail] = useState('');
@@ -34,7 +34,7 @@ export default function UpdateProfilePage() {
     };
 
     return (
-        <div className="update-profile-container">
+<div className="form-container">
             <h2>Update Profile</h2>
 
             {message && <div className="success-message">{message}</div>}

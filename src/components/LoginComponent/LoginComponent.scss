@@ -1,77 +1,80 @@
 @import "../../styles/mixins";
 @import "../../styles/variables";
 
-.login-form {
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  box-shadow: 0 4px 6px $shadow-color;
-  border-radius: 8px;
-  background-color: #ffffff;
+.signup-container {
+    width: 90%;  
+    max-width: 320px;  
+    margin: 50px auto;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    @include mobile {
+        width: 90%;  
+    }
+
+    @include tablet {
+        width: 280px;  
+    }
+
+    h1 {
+        font-size: 24px;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    form {
+        padding: 20px;
+
+        .input-group {
+            margin-bottom: 15px;
+
+            label {
+                display: block;
+                margin-bottom: 5px;
+            }
+
+            input {
+                width: 100%;
+                padding: 8px;
+                box-sizing: border-box;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                font-size: 14px;
+            }
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+
+            &:hover {
+                background-color: #0056b3;
+            }
+        }
+    }
+
+    .login-redirect {
+        margin-top: 15px;
+        text-align: center;
+        padding-bottom: 1rem;
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    .error-message {
+        color: red;
+        text-align: center;
+    }
 }
-
-.form-group {
-  margin-bottom: 15px;
-}
-
-.label {
-  display: block;
-  margin-bottom: 8px;
-  font-size: $font-size-normal;
-  font-weight: $font-weight-normal;
-}
-
-.input {
-  width: 100%;
-  padding: 10px 15px;
-  font-size: $font-size-normal;
-  border: 1px solid $border-color;
-  border-radius: 4px;
-  outline: none;
-  transition: border-color 0.3s;
-  box-sizing: border-box;
-
-}
-
-.input-error {
-  border-color: $error-color;
-}
-
-.error-text {
-  color: $error-color;
-  margin-top: 5px;
-  font-size: 14px;
-}
-
-.button {
-  padding: 10px 15px;
-  font-size: $font-size-normal;
-  background-color: $primary-color;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  box-sizing: border-box;
-  
-  &:hover {
-    background-color: $primary-hover;
-  }
-}
-
-
-// body {
-//   @include flex(center, center, column);
-
-//   @include mobile {
-//     background-color: red;  // Just an example to show mobile styling
-//   }
-
-//   @include tablet {
-//     background-color: yellow;  // Example tablet styling
-//   }
-
-//   @include desktop {
-//     background-color: green;  // Example desktop styling
-//   }
-// }

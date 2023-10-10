@@ -21,7 +21,7 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="reset-password-container">
+    <div className="form-container">
       <h2>Reset Password</h2>
       
       {message && <div className="success-message">{message}</div>}
