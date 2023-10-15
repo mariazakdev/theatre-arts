@@ -1,0 +1,25 @@
+
+.button-container{
+    &__payment-btn {
+          background: linear-gradient(to bottom, #e9cfca, #faf8f7);
+          transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+          border:  grey 1px solid;
+      color: black;
+      padding: 25px 40px; /* Increase padding to make the buttons larger */
+      cursor: pointer;
+      font-size: 20px; /* Increase font size */
+      border-radius: 5px; /* Add border-radius for rounded corners */
+      margin: 1rem;
+  
+      &:hover {
+        background-color: #ff5733;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      }
+    }
+
+}
+
+
+  
+  

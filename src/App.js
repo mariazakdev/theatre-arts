@@ -13,6 +13,7 @@ import UpdateProfilePage from './pages/UpdateProfilePage/UpdateProfilePage';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import { AuthProvider } from './contexts/AuthContext';
 import ForgotPasswordPage from './pages/ForgotPasswordPage/ForgotPasswordPage';
+import VotingPage from './pages/VotingPage/VotingPage';
 
 console.log("REACT_APP_TEST:", process.env.REACT_APP_TEST);
 
@@ -28,15 +29,22 @@ function App() {
           <Routes>
             <Route path="/" element={<PrivateRoute><DashBoard /></PrivateRoute>} />
             <Route path="/home" element={<HomePage />} />
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
-            <Route path="/profile" element={<PrivateRoute><UserPage /></PrivateRoute>} />
+
+            <Route path="voter/signup" element={<SignUpPage />} />
+            <Route path="voter/login" element={<LoginPage />} />
+            <Route path="voter/forgot-password" element={<ForgotPasswordPage />} />
+
+            <Route path="/vote" element={<PrivateRoute><VotingPage /></PrivateRoute>} />
+            {/* results of vote and body */}
+            <Route path="voter/contestant" element={<PrivateRoute><VotingPage /></PrivateRoute>} />
+
             <Route path="/actors" element={<ActorsPage />} />
-            <Route path="/upload" element={<PrivateRoute><VideoUploadPage /></PrivateRoute>} />
-            <Route path="/update-profile" element={<PrivateRoute><UpdateProfilePage /></PrivateRoute>} />
-            {/* Catch-all route for 404 should be at the end */}
+
+            {/* contestants */}
+            <Route path="contestant/upload" element={<PrivateRoute><VideoUploadPage /></PrivateRoute>} />
+            <Route path="contestant/update-profile" element={<PrivateRoute><UpdateProfilePage /></PrivateRoute>} />
+            {/* catch-all */}
             <Route path="*" element={<div>404 Not Found</div>} />
           </Routes>
         </div>

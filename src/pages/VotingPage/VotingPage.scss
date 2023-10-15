@@ -1,0 +1,15 @@
+@import "../../styles/variables";
+@import "../../styles/mixins" ;
+@import "../../styles/colors" ;
+
+.vote{
+    &-top{
+        @include flex(space-around, center, row);
+        border: 2px black solid;
+
+
+    }
+    &-bottom{
+    border: 2px black solid;
+    }
+}

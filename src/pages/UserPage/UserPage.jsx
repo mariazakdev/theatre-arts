@@ -3,8 +3,9 @@ import UserProfile from "../../components/UserProfile/UserProfile";
 function UserPage() {
     return(
         <>
-        <ExtraVotes/>
-        <UserProfile /></>
+    
+        <UserProfile />    
+        <ExtraVotes/></>
     )
 };
 export default UserPage;

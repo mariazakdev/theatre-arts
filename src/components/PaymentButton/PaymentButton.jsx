@@ -1,7 +1,7 @@
 import React from 'react';
+import './PaymentButton.scss';
 
-
-function PaymentButton({ amount, onSuccess }) {
+function PaymentButton({ text, amount, onSuccess }) {
 
   const handlePlaceholderClick = () => {
     alert('Placeholder payment action triggered!');
@@ -10,7 +10,10 @@ function PaymentButton({ amount, onSuccess }) {
   }
 
   return (
-    <button onClick={handlePlaceholderClick}>Pay ${amount}</button>
+    <div className="button-container">
+
+    <div className='button-container__payment-btn' onClick={handlePlaceholderClick}> {text}{amount}</div>
+    </div>
   );
 }
 
