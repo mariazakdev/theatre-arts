@@ -3,7 +3,6 @@ import UserProfile from "../../components/UserProfile/UserProfile";
 function UserPage() {
     return(
         <>
-    
         <UserProfile />    
         <ExtraVotes/></>
     )

@@ -14,6 +14,7 @@ import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 import { AuthProvider } from './contexts/AuthContext';
 import ForgotPasswordPage from './pages/ForgotPasswordPage/ForgotPasswordPage';
 import VotingPage from './pages/VotingPage/VotingPage';
+import StripeWrapper from './components/StripeWrapper/StripeWrapper';
 
 console.log("REACT_APP_TEST:", process.env.REACT_APP_TEST);
 
@@ -22,6 +23,7 @@ console.log("REACT_APP_TEST_URL:", process.env.REACT_APP_URL);
 
 function App() {
   return (
+    <StripeWrapper>
     <AuthProvider>
       <Router>
         <div className="App">
@@ -31,9 +33,9 @@ function App() {
             <Route path="/home" element={<HomePage />} />
 
 
-            <Route path="voter/signup" element={<SignUpPage />} />
-            <Route path="voter/login" element={<LoginPage />} />
-            <Route path="voter/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
             <Route path="/vote" element={<PrivateRoute><VotingPage /></PrivateRoute>} />
             {/* results of vote and body */}
@@ -50,6 +52,7 @@ function App() {
         </div>
       </Router>
     </AuthProvider>
+    </StripeWrapper>
   );
 }
 

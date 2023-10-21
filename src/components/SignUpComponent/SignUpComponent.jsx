@@ -19,7 +19,7 @@ const SignUpComponent = () => {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
-        navigate("voter/login");
+        navigate("/login");
       })
       .catch((error) => {
         const errorCode = error.code;

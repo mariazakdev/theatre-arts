@@ -16,7 +16,7 @@ function LoginComponent() {
         .then((userCredential) => {
             // Signed in
             const user = userCredential.user;
-            navigate("/")
+            navigate("contestant/upload")
             console.log(user);
         })
         .catch((error) => {
