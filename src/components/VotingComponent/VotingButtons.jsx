@@ -1,6 +1,7 @@
 import React from 'react'
 import PaymentButton from '../PaymentButton/PaymentButton'
 import './VotingButtons.scss';
+import ContributionComponent from '../ContributionComponent/ContributionComponent';
 
 export default function VotingButtons() {
   
@@ -17,6 +18,8 @@ export default function VotingButtons() {
       <PaymentButton text="Contribute $" amount="250" priceId= {process.env.REACT_APP_ITEM5_PRICE_ID} />
 
 
-    </div></div>
+    </div>
+    <ContributionComponent/>
+    </div>
   )
 }

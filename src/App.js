@@ -19,7 +19,7 @@ import StripeWrapper from './components/StripeWrapper/StripeWrapper';
 console.log("REACT_APP_TEST:", process.env.REACT_APP_TEST);
 
 console.log("REACT_APP_TEST_URL:", process.env.REACT_APP_URL);
-
+const URL=process.env.REACT_APP_BACKEND_URL;
 
 function App() {
   return (
@@ -44,7 +44,7 @@ function App() {
             <Route path="/actors" element={<ActorsPage />} />
 
             {/* contestants */}
-            <Route path="contestant/upload" element={<PrivateRoute><VideoUploadPage /></PrivateRoute>} />
+            <Route path="contestant/upload" element={<PrivateRoute><VideoUploadPage backendURL={URL} /></PrivateRoute>} />
             <Route path="contestant/update-profile" element={<PrivateRoute><UpdateProfilePage /></PrivateRoute>} />
             {/* catch-all */}
             <Route path="*" element={<div>404 Not Found</div>} />

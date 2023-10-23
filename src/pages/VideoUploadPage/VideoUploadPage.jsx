@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import './VideoUploadPage.scss';
 import UploadForm from '../../components/UploadForm/UploadForm';
 
-function VideoUploadPage() {
+function VideoUploadPage({backendURL}) {
   
   return (
 <>
-<UploadForm/>
+<UploadForm backendURL={backendURL}/>
 </>
   );
 }
