@@ -157,7 +157,8 @@ function UploadForm({backendURL}) {
             ) : (
                 <form className="form-container__form" onSubmit={handleSubmit}>
 
-                  
+<div className="input-group">
+
                     <input
                         className="form-container__input form-container__input--text"
                         type="text"
@@ -166,6 +167,10 @@ function UploadForm({backendURL}) {
                         value={formData.videoUrl}
                         onChange={handleInputChange}
                     />
+                    </div>
+
+                    <div className="input-group">
+
                     <input
                         className="form-container__input form-container__input--text"
                         type="text"
@@ -174,6 +179,9 @@ function UploadForm({backendURL}) {
                         value={formData.description}
                         onChange={handleInputChange}
                     />
+                    </div>
+                    <div className="input-group">
+
                     <input
                         className="form-container__input form-container__input--text"
                         type="text"
@@ -182,6 +190,7 @@ function UploadForm({backendURL}) {
                         value={formData.name}
                         onChange={handleInputChange}
                     />
+                    </div>
                     <button className="form-container__submit-button" type="submit">Submit</button>
                 </form>
             )}

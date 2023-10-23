@@ -1,5 +1,6 @@
 import React from 'react';
 import Logo from "../../assets/icons/drama.png"
+import Nav from '../Nav/Nav';
 import "./Header.scss";
 
 function Header() {
@@ -11,7 +12,7 @@ function Header() {
         <h2>Monologue Competition</h2>
         </div>
       
-      <div className='header-nav'></div>
+      <div className='header-nav'><Nav/></div>
     </header>
   );
 }

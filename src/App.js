@@ -15,6 +15,9 @@ import { AuthProvider } from './contexts/AuthContext';
 import ForgotPasswordPage from './pages/ForgotPasswordPage/ForgotPasswordPage';
 import VotingPage from './pages/VotingPage/VotingPage';
 import StripeWrapper from './components/StripeWrapper/StripeWrapper';
+import VoterDashboard from './pages/VoterDashboard/VoterDashboard';
+import ContestantDetailPage from './pages/ContestantDetailPage/ContestantDetailPage';
+import ContestantListPage from './pages/ContestantListPage/ContestantListPage';
 
 console.log("REACT_APP_TEST:", process.env.REACT_APP_TEST);
 
@@ -29,26 +32,30 @@ function App() {
         <div className="App">
           <Header />
           <Routes>
-            <Route path="/" element={<PrivateRoute><DashBoard /></PrivateRoute>} />
-            <Route path="/home" element={<HomePage />} />
+    {/* Common Routes for All */}
+    <Route path="/home" element={<HomePage />} />
+    <Route path="/signup" element={<SignUpPage />} />
+    <Route path="/login" element={<LoginPage />} />
+    <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
+    {/* Public Routes */}
+    <Route path="/actors" element={<ActorsPage />} />
 
-            <Route path="/signup" element={<SignUpPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+    {/* Routes for Contestants */}
+    <Route path="/contestant/dashboard" element={<PrivateRoute><DashBoard /></PrivateRoute>} />
+    <Route path="/contestant/upload" element={<PrivateRoute><VideoUploadPage backendURL={URL} /></PrivateRoute>} />
+    <Route path="/contestant/update-profile" element={<PrivateRoute><UpdateProfilePage /></PrivateRoute>} />
 
-            <Route path="/vote" element={<PrivateRoute><VotingPage /></PrivateRoute>} />
-            {/* results of vote and body */}
-            <Route path="voter/contestant" element={<PrivateRoute><VotingPage /></PrivateRoute>} />
+    {/* Routes for Voters */}
+    <Route path="/voter/dashboard" element={<PrivateRoute><VoterDashboard /></PrivateRoute>} />
+    <Route path="/voter/vote" element={<PrivateRoute><VotingPage /></PrivateRoute>} />
+    <Route path="/voter/contestants" element={<PrivateRoute><ContestantListPage /></PrivateRoute>} />
+    <Route path="/voter/contestant/:id" element={<PrivateRoute><ContestantDetailPage /></PrivateRoute>} />
 
-            <Route path="/actors" element={<ActorsPage />} />
+    {/* Catch-all */}
+    <Route path="*" element={<div>404 Not Found</div>} />
+</Routes>
 
-            {/* contestants */}
-            <Route path="contestant/upload" element={<PrivateRoute><VideoUploadPage backendURL={URL} /></PrivateRoute>} />
-            <Route path="contestant/update-profile" element={<PrivateRoute><UpdateProfilePage /></PrivateRoute>} />
-            {/* catch-all */}
-            <Route path="*" element={<div>404 Not Found</div>} />
-          </Routes>
         </div>
       </Router>
     </AuthProvider>
