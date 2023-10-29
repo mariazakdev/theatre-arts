@@ -65,7 +65,21 @@
         background-color: #cedceb;
         border-radius: 5px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        button{
+            width: 100%;
+            padding: 10px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            background-color: #007bff;
+            cursor: pointer;
+            transition: background-color 0.3s;
         
+            &:hover {
+                background-color: #0056b3;
+            }
+        }
         label {
             display: block;
             margin-bottom: 15px;
@@ -75,6 +89,7 @@
             &:last-child {
                 margin-bottom: 0;
             }
+       
         }
         input{
             display: block;
@@ -96,6 +111,9 @@
             &::placeholder {
                 color: #aab7c4;
             }   
+        }
+        input[type="file"] {
+            display: none;  
         }
         .StripeElement {
             display: block;
@@ -129,7 +147,7 @@
             background-color: #007bff;
             cursor: pointer;
             transition: background-color 0.3s;
-
+        
             &:hover {
                 background-color: #0056b3;
             }
