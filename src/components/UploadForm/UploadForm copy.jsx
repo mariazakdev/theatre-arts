@@ -16,8 +16,6 @@ import "../../styles/forms.scss";
 
     function UploadForm({ backendURL }) {
         const [uploadStatus, setUploadStatus] = useState("idle");
-        const [showConfirmationMessage, setShowConfirmationMessage] = useState(false);
-        // payment
         const stripe = useStripe();
         const elements = useElements();
       
@@ -136,9 +134,6 @@ import "../../styles/forms.scss";
             compressImage(imageFile, (compressedImage) => {
               if (compressedImage) {
                 setImageFile(compressedImage);
-                // Update the confirmation message visibility
-                setShowConfirmationMessage(true);
-               
                 setUploadStatus("ready"); // Set upload status to 'ready' after confirmation
               } else {
                 alert("There was a problem with the image compression");
@@ -148,7 +143,7 @@ import "../../styles/forms.scss";
             alert("No image file selected");
           }
         };
-
+      
         const handleInputChange = (e) => {
           const { name, value } = e.target;
           setFormData((prevState) => ({
@@ -159,37 +154,68 @@ import "../../styles/forms.scss";
       
         const handleSubmit = async (e) => {
           e.preventDefault();
-      
-          if (imageFile) {
-            const imageUrl = await uploadToS3(imageFile);
-            if (imageUrl) {
-              formData.photoUrl = imageUrl;
-            } else {
-              alert("Failed to upload image. Please try again.");
-              return;
-            }
+        
+          // Check if an image file is selected
+          if (!imageFile) {
+            alert("No image file selected");
+            return;
           }
-      
-          try {
-            const user = auth.currentUser;
-            if (user) {
-              formData.firebaseId = user.uid;
-              const response = await fetch(`${backendURL}/upload`, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData),
-              });
-              const result = await response.json();
-              console.log(result);
+        
+          setUploadStatus("compressing");
+        
+          // Compress the image and then upload to S3
+          compressImage(imageFile, async (compressedImage) => {
+            if (compressedImage) {
+              // Update the state with the compressed image
+              setImageFile(compressedImage);
+              setUploadStatus("uploading");
+        
+              const imageUrl = await uploadToS3(compressedImage);
+              if (imageUrl) {
+                // Set the image URL in the form data
+                setFormData(prevFormData => ({ ...prevFormData, photoUrl: imageUrl }));
+                
+                // Continue with the form submission after successful image upload
+                try {
+                  const user = auth.currentUser;
+                  if (user) {
+                    // Include firebaseId in the form data
+                    const updatedFormData = { ...formData, photoUrl: imageUrl, firebaseId: user.uid };
+        
+                    const response = await fetch(`${backendURL}/upload`, {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                      },
+                      body: JSON.stringify(updatedFormData),
+                    });
+        
+                    if (!response.ok) {
+                      throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+        
+                    const result = await response.json();
+                    console.log(result);
+                    setUploadStatus("success");
+                  } else {
+                    console.log("User not logged in");
+                    setUploadStatus("failed");
+                  }
+                } catch (error) {
+                  console.error("Error submitting form:", error);
+                  setUploadStatus("failed");
+                }
+              } else {
+                alert("Failed to upload image. Please try again.");
+                setUploadStatus("failed");
+              }
             } else {
-              console.log("User not logged in");
+              alert("There was a problem with the image compression");
+              setUploadStatus("failed");
             }
-          } catch (error) {
-            console.error("Error submitting form:", error);
-          }
+          });
         };
+        
         
         // payments
         const handlePayment = async () => {
@@ -292,8 +318,6 @@ import "../../styles/forms.scss";
                   {uploadStatus === "failed" && (
                     <p>Upload Failed. Please try again.</p>
                   )}
-                    {showConfirmationMessage && <p className="flash-message">Photo Confirmed!</p>}
-
                 </div>
                 <div className="input-group">
       
@@ -327,14 +351,15 @@ import "../../styles/forms.scss";
                 </div>
       
                 <div className="input-group">
-  <textarea
-    className="form-container__input form-container__input--text"
-    name="description"
-    placeholder="Description"
-    value={formData.description}
-    onChange={handleInputChange}
-  />
-</div>
+                  <input
+                    className="form-container__input form-container__input--text"
+                    type="text"
+                    name="description"
+                    placeholder="Description"
+                    value={formData.description}
+                    onChange={handleInputChange}
+                  />
+                </div>
       
                 <div className="input-group">
                   <input

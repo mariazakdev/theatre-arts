@@ -33,16 +33,23 @@
                 margin-bottom: 5px;
             }
 
-            input {
+            input,
+            textarea {
                 width: 100%;
                 padding: 8px;
                 box-sizing: border-box;
                 border: 1px solid #ccc;
                 border-radius: 4px;
                 font-size: 14px;
+                &::placeholder {
+                    color: #aab7c4; // Placeholder color
+                    font-size: 12px;
+                }
             }
         }
-
+        textarea {
+height: 6.25rem;
+resize: none;      }
         button {
             width: 100%;
             padding: 10px;
@@ -66,7 +73,7 @@
         border-radius: 5px;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         button{
-            width: 100%;
+            width: 98%;
             padding: 10px;
             font-size: 1em;
             border: none;
@@ -178,3 +185,14 @@
     color: red;
     text-align: center;
 }
+.flash-message {
+    @include flex(center, center, row);
+    background-color: $color5;
+    padding: 1rem;
+    animation: flash 3s;
+  }
+  
+//   @keyframes flash {
+//     0%, 100% { opacity: 0; }
+//     50% { opacity: 1; }
+//   }
