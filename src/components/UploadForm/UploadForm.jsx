@@ -4,6 +4,7 @@ import { currentUser } from 'firebase/auth';
 import { useStripe, useElements } from "@stripe/react-stripe-js";
 import { CardNumberElement, CardExpiryElement, CardCvcElement } from "@stripe/react-stripe-js";
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { useNavigate } from 'react-router-dom';
 
 import "../../styles/forms.scss";
 
@@ -15,6 +16,8 @@ import "../../styles/forms.scss";
 
 
     function UploadForm({ backendURL }) {
+      const navigate = useNavigate();
+
         const [uploadStatus, setUploadStatus] = useState("idle");
         const [showConfirmationMessage, setShowConfirmationMessage] = useState(false);
         // payment
@@ -183,6 +186,8 @@ import "../../styles/forms.scss";
               });
               const result = await response.json();
               console.log(result);
+              navigate('/contestant/dashboard');
+
             } else {
               console.log("User not logged in");
             }

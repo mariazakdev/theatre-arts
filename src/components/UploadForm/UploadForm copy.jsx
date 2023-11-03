@@ -160,7 +160,18 @@ import "../../styles/forms.scss";
             alert("No image file selected");
             return;
           }
-        
+          const auth = getAuth();
+  const user = auth.currentUser;
+
+  if (!user) {
+    alert("You need to be logged in to submit");
+    return;
+  }
+
+  const updatedFormData = {
+    ...formData,
+    userId: user.uid ;
+  };
           setUploadStatus("compressing");
         
           // Compress the image and then upload to S3
