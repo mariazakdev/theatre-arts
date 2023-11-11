@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import axios from "axios";
 import '../../styles/forms.scss';
 
 const SignUpComponent = () => {
@@ -15,19 +16,29 @@ const SignUpComponent = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
 
-    await signup(email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
-        navigate("/login");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        setErrorMessage(errorMessage);
-        console.log(errorCode, errorMessage);
+    if (password !== confirmPassword) {
+      setErrorMessage("Passwords do not match.");
+      return;
+    }
+
+    try {
+      const userCredential = await signup(email, password);
+      const user = userCredential.user;
+
+      await axios.post("http://localhost:8000/users", {
+        email: user.email,
+        firebaseAuthId: user.uid,
+        isContestant: true
       });
+
+      navigate("/login");
+    } catch (error) {
+      console.error('Error during sign up:', error);
+      setErrorMessage(error.message || 'Failed to create user');
+    }
   };
+
+
   return (
     <main>
       <section>

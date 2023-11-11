@@ -22,17 +22,22 @@ export default function Dashboard({backendURL}) {
   useEffect(() => {
     const fetchContestants = async () => {
       try {
-        const response = await fetch(`${backendURL}/contestants`); // backendURL should be defined to point to your server
-        const data = await response.json();
-        setContestants(data);
+        // Add a check to ensure currentUser exists before attempting to fetch data
+        if (currentUser) {
+          const response = await fetch(`${backendURL}/uploads/${currentUser.uid}`); // Fetch user-specific data
+          const data = await response.json();
+          setContestants(data);
+        }
       } catch (error) {
         console.error('Error retrieving contestants: ', error);
         setError('Failed to retrieve contestants');
       }
     };
 
-    fetchContestants();
-  }, []);
+    if (currentUser) {
+      fetchContestants();
+    }
+  }, [currentUser, backendURL]);
 
   return (
     <div>
@@ -45,10 +50,15 @@ export default function Dashboard({backendURL}) {
         <div key={contestant.id}>
           <img src={contestant.signedPhotoUrl} alt={contestant.name} />
           {contestant.url_video && (
-            <video width="320" height="240" controls>
-              <source src={contestant.url_video} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
+            
+            <iframe
+            title="Contestant Video"
+            width="320"
+            height="240"
+            src={contestant.url_video}
+            allowFullScreen
+          ></iframe>
+
           )}
           <p>{contestant.description}</p>
         </div>
