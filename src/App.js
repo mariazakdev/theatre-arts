@@ -18,6 +18,7 @@ import StripeWrapper from './components/StripeWrapper/StripeWrapper';
 import VoterDashboard from './pages/VoterDashboard/VoterDashboard';
 import ContestantDetailPage from './pages/ContestantDetailPage/ContestantDetailPage';
 import ContestantListPage from './pages/ContestantListPage/ContestantListPage';
+import EnterCompetitionPage from './pages/EnterCompetitionPage/EnterCompetitionPage';
 
 console.log("REACT_APP_TEST:", process.env.REACT_APP_TEST);
 
@@ -43,7 +44,9 @@ function App() {
 
     {/* Routes for Contestants */}
     <Route path="/contestant/dashboard" element={<PrivateRoute><VoterDashboard backendURL={URL} /></PrivateRoute>} />
-    <Route path="/contestant/upload" element={<PrivateRoute><VideoUploadPage backendURL={URL} /></PrivateRoute>} />
+    <Route path="/contestant/enter" element={<PrivateRoute><VideoUploadPage backendURL={URL} /></PrivateRoute>} />
+
+    <Route path="/contestant/upload" element={<PrivateRoute><EnterCompetitionPage backendURL={URL} /></PrivateRoute>} />
     <Route path="/contestant/update-profile" element={<PrivateRoute><UpdateProfilePage /></PrivateRoute>} />
 
     {/* Routes for Voters */}

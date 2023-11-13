@@ -194,7 +194,6 @@ function UploadForm({ backendURL }) {
     }
 
     try {
-      // Use `currentUser` from the `useAuth` hook instead of `auth.currentUser`
       if (currentUser) {
         formData.firebaseId = currentUser.uid;
         const response = await fetch(`${backendURL}/upload`, {
