@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './ActorsPage.scss';
 
-// Mock data
-const videoData = [
-    { id: 1, user: 'Alice', name: 'My First Video', description: 'Just testing the waters', url: 'http://example.com/1' },
-    { id: 2, user: 'Bob', name: 'Travel Vlog', description: 'Visit to the mountains', url: 'http://example.com/2' },
-    { id: 3, user: 'Charlie', name: 'Cooking 101', description: 'Making spaghetti', url: 'http://example.com/3' },
-    // ... add as many as you like
-];
-
 function ActorsPage() {
+    const [videoData, setVideoData] = useState([]);
+
+    useEffect(() => {
+        axios.get('http://localhost:8000/upload')
+            .then(response => {
+                // Assuming the response contains the array of videos
+                setVideoData(response.data);
+            })
+            .catch(error => {
+                console.error('There was an error fetching the video data:', error);
+            });
+    }, []); // Empty dependency array ensures this runs once on mount
+
     return (
         <div className="video-list-container">
             <h1>Users and their Videos</h1>
