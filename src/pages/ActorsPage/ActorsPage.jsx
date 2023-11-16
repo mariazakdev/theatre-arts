@@ -1,34 +1,52 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './ActorsPage.scss';
 
 function ActorsPage() {
     const [videoData, setVideoData] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios.get('http://localhost:8000/upload')
             .then(response => {
-                // Assuming the response contains the array of videos
-                setVideoData(response.data);
+                setVideoData(response.data); // Assuming this is an array of videos
             })
             .catch(error => {
                 console.error('There was an error fetching the video data:', error);
             });
-    }, []); // Empty dependency array ensures this runs once on mount
+    }, []);
 
+    const handleCardClick = (video) => {
+        navigate(`/actor/${video.user_id}`, { state: { actor: video } });
+    };
+    
     return (
         <div className="video-list-container">
             <h1>Users and their Videos</h1>
-            <ul>
+            <div className="cards-container">
+
+                
                 {videoData.map(video => (
-                    <li key={video.id} className="video-item">
-                        <h2>{video.user}</h2>
-                        <p><strong>Title:</strong> {video.name}</p>
-                        <p><strong>Description:</strong> {video.description}</p>
-                        <p><strong>URL:</strong> <a href={video.url} target="_blank" rel="noopener noreferrer">{video.url}</a></p>
-                    </li>
+                    <div 
+                        key={video.user_id} 
+                        className="card"
+                        onClick={() => handleCardClick(video)}
+                    >
+                        <div className="card-content">
+                            <h2 className="card-title">{video.name}</h2>
+                            <img src={video.url_photo} alt={video.name} className="card-image"/>
+                            <p className="card-description">{video.description}</p>
+                            <p className="card-votes">Votes: {video.votes}</p>
+                        </div>
+
+                    </div> 
                 ))}
-            </ul>
+
+
+
+
+            </div>
         </div>
     );
 }

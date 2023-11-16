@@ -52,8 +52,8 @@ function App() {
     {/* Routes for Voters */}
     <Route path="/voter/dashboard" element={<PrivateRoute><VoterDashboard /></PrivateRoute>} />
     <Route path="/voter/vote" element={<PrivateRoute><VotingPage /></PrivateRoute>} />
-    <Route path="/voter/contestants" element={<PrivateRoute><ContestantListPage /></PrivateRoute>} />
-    <Route path="/voter/contestant/:id" element={<PrivateRoute><ContestantDetailPage /></PrivateRoute>} />
+
+    <Route path="/actor/:id" element={<UserPage />} />
 
     {/* Catch-all */}
     <Route path="*" element={<div>404 Not Found</div>} />
