@@ -1,4 +1,4 @@
-import React from 'react';
+ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Header from "./components/Header/Header";
 import HomePage from './pages/HomePage/HomePage';
@@ -38,9 +38,9 @@ function App() {
     <Route path="/signup" element={<SignUpPage />} />
     <Route path="/login" element={<LoginPage />} />
     <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-
-    {/* Public Routes */}
     <Route path="/actors" element={<ActorsPage />} />
+    <Route path="/actors/vote/:actorId" element={<VotingPage />} />
+    <Route path="/actors/:actorId" element={<ContestantDetailPage />} />
 
     {/* Routes for Contestants */}
     <Route path="/contestant/dashboard" element={<PrivateRoute><VoterDashboard backendURL={URL} /></PrivateRoute>} />
@@ -51,11 +51,12 @@ function App() {
 
     {/* Routes for Voters */}
     <Route path="/voter/dashboard" element={<PrivateRoute><VoterDashboard /></PrivateRoute>} />
-    <Route path="/voter/vote" element={<PrivateRoute><VotingPage /></PrivateRoute>} />
+    <Route path="/contestants/vote" element={<PrivateRoute><VotingPage /></PrivateRoute>} />
 
-    <Route path="/actor/:id" element={<UserPage />} />
+  
 
     {/* Catch-all */}
+
     <Route path="*" element={<div>404 Not Found</div>} />
 </Routes>
 

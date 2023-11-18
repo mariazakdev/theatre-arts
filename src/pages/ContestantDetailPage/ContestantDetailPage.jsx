@@ -1,11 +1,13 @@
-import React, { Component } from 'react'
+import React from 'react'
+import MessagePopUp from "../../components/MessagePopUp/MessagePopUp";
+import UserProfile from '../../components/UserProfile/UserProfile';
 
-export default class ContestantDetailPage extends Component {
-  render() {
-    return (
-      <div>
-        
-      </div>
-    )
-  }
+
+export default function ContestantDetailPage() {
+  return (
+    <div>
+      <MessagePopUp />
+      <UserProfile />
+    </div>
+  )
 }

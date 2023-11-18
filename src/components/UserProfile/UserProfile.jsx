@@ -1,34 +1,62 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
-import './UserProfile.scss';
-import VideoCard from '../VideoCard/VideoCard';
+import React, { useState, useEffect } from "react";
+import axios from 'axios'; // Make sure to import axios
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import "./UserProfile.scss";
 
 function UserProfile() {
-  const location = useLocation();
-    const actor = location.state?.actor;
+  const { actorId } = useParams();
+  const [localActorData, setLocalActorData] = useState(null);
 
-    if (!actor) {
-        return <div>Loading...</div>;
+  useEffect(() => {
+    if (!actorId) {
+      console.error('No actor ID provided');
+      // Handle missing actorId as needed
+      return;
     }
 
-     return (
-        <div className="user-profile">
+    const fetchActorData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8000/upload/${actorId}`);
+        setLocalActorData(response.data);
+      } catch (error) {
+        console.error('Error fetching actor data:', error);
+        // Handle errors (e.g., actor not found, server error)
+      }
+    };
+
+    fetchActorData();
+  }, [actorId]);
+
+  if (!localActorData) {
+    return <div>Loading...</div>; // or handle the loading state appropriately
+  }
+
+  const actor = localActorData;
+  const videoSrc = actor.url_video ? actor.url_video.replace("watch?v=", "embed/") : '';
+
+  return (
+    <section className="user-profile">
+      <div className="user-profile__data">
+        {actor && (
+          <>
             <h2>{actor.name}</h2>
             <img src={actor.url_photo} alt={actor.name} className="user-headshot" />
             <p className="user-description">{actor.description}</p>
             <div className="user-videos">
-            <iframe 
-                            src={actor.url_video.replace("watch?v=", "embed/")} 
-                            title="YouTube video player" 
-                            frameBorder="0" 
-                            allowFullScreen 
-                            className="card-video"
-                        ></iframe>                {actor.videos?.map(video => (
-                    <VideoCard key={video.url} video={video} />
-                ))}
+              {videoSrc && (
+                <iframe
+                  src={videoSrc}
+                  title="YouTube video player"
+                  allowFullScreen
+                  className="card-video"
+                ></iframe>
+              )}
             </div>
-        </div>
-    );
+          </>
+        )}
+      </div>
+    </section>
+  );
 }
 
 export default UserProfile;

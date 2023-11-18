@@ -30,7 +30,7 @@ function PaymentButton({ text, amount, priceId }) {
 
   return (
     <button onClick={handlePayment}>
-      {text} {amount}
+     {amount}
     </button>
   );
 }

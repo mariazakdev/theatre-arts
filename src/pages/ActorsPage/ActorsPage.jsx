@@ -10,7 +10,7 @@ function ActorsPage() {
     useEffect(() => {
         axios.get('http://localhost:8000/upload')
             .then(response => {
-                setVideoData(response.data); // Assuming this is an array of videos
+                setVideoData(response.data); 
             })
             .catch(error => {
                 console.error('There was an error fetching the video data:', error);
@@ -18,7 +18,7 @@ function ActorsPage() {
     }, []);
 
     const handleCardClick = (video) => {
-        navigate(`/actor/${video.user_id}`, { state: { actor: video } });
+        navigate(`/actors/vote/${video.id}`, { state: { actor: video } });
     };
     
     return (

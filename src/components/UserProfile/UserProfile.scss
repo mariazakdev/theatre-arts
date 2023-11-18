@@ -1,6 +1,9 @@
 .user-profile {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  &__data{
+    width: 45%;
+  }
     .user-headshot {
       width: 100px;
       height: 100px;
