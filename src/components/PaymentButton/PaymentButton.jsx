@@ -2,35 +2,37 @@ import React from 'react';
 import { useStripe } from '@stripe/react-stripe-js';
 import './PaymentButton.scss';
 
-function PaymentButton({ text, amount, priceId }) {
+function PaymentButton({ text, amount, priceId ,onPaymentSuccess, successUrl }) {
   const stripe = useStripe();
 
-  const handlePayment = async () => {
 
-     // Ensure Stripe is loaded
-  if (!stripe) {
-    console.error("Stripe has not been properly initialized.");
-    return;
-  }
+  const handlePayment = async () => {
+    if (!stripe) {
+      console.error("Stripe has not been properly initialized.");
+      return;
+    }
 
     const result = await stripe.redirectToCheckout({
-      lineItems: [{
-        price: priceId, 
-        quantity: 1
-      }],
+      lineItems: [{ price: priceId, quantity: 1 }],
       mode: "payment",
-      successUrl: "http://localhost:3000/success",
+      successUrl: successUrl,
       cancelUrl: "http://localhost:3000/cancel",
     });
 
     if (result.error) {
       console.error(result.error.message);
+    } else {
+      if (onPaymentSuccess) {
+        onPaymentSuccess(amount); 
+      }
     }
   };
 
   return (
-    <button onClick={handlePayment}>
-     {amount}
+
+    <button className="payment-button" onClick={handlePayment}>
+      Contribute ${amount}
+     
     </button>
   );
 }

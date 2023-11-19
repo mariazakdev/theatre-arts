@@ -1,25 +1,25 @@
+$btn-background: linear-gradient(to bottom, #e9cfca, #faf8f7);
+$btn-hover-background: #ff5733;
+$btn-border: grey 1px solid;
+$btn-hover-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+$btn-padding: 25px 40px;
+$btn-font-size: 20px;
+$btn-border-radius: 5px;
+$btn-margin: 1rem;
 
-.button-container{
-    &__payment-btn {
-          background: linear-gradient(to bottom, #e9cfca, #faf8f7);
-          transition: background-color 0.3s ease, box-shadow 0.3s ease;
+.payment-button {
+  background: $btn-background;
+  border: $btn-border;
+  color: black;
+  padding: $btn-padding;
+  cursor: pointer;
+  font-size: $btn-font-size;
+  border-radius: $btn-border-radius;
+  margin: $btn-margin;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 
-          border:  grey 1px solid;
-      color: black;
-      padding: 25px 40px; /* Increase padding to make the buttons larger */
-      cursor: pointer;
-      font-size: 20px; /* Increase font size */
-      border-radius: 5px; /* Add border-radius for rounded corners */
-      margin: 1rem;
-  
-      &:hover {
-        background-color: #ff5733;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-      }
-    }
-
+  &:hover {
+    background-color: $btn-hover-background;
+    box-shadow: $btn-hover-shadow;
+  }
 }
-
-
-  
-  

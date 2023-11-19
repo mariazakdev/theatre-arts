@@ -25,7 +25,7 @@ export default function SingleVote({ actorId, onVoteSuccess }) {
         <div className='button-wrap'>
             <h2>Your Vote</h2>
             <p>{voted ? 'You have voted!' : 'Click the button to vote'}</p>
-            <button onClick={() => handleVoteClick()} disabled={voted}> Vote</button>
+            <button className="payment-button" onClick={() => handleVoteClick()} disabled={voted}> Vote</button>
         </div>
     );
 }

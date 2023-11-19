@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 import VotingButtons from "../../components/VotingComponent/VotingButtons";
 import SingleVote from "../../components/VotingComponent/SingleVote";
 import "./VotingPage.scss";
@@ -30,12 +31,17 @@ export default function VotingPage() {
 
   console.log('Actor ID:', actorId);
 
-  const handleVoteSuccess = () => {
-    if (actorData) {
-      navigate(`/actors/${actorId}`, { state: { actor: actorData } });
-    } else {
-      console.log('Actor data not available for navigation');
-
+  const handleVoteSuccess = async (votes) => {
+    if (votes) {
+      try {
+        const response = await axios.post(`http://localhost:8000/upload/vote/${actorId}`, { votes });
+        if (response.status === 200) {
+          console.log('Votes recorded:', response.data);
+          // Handle any post-vote logic here
+        }
+      } catch (error) {
+        console.error('Error while voting:', error);
+      }
     }
   };
 
@@ -47,7 +53,7 @@ export default function VotingPage() {
           <SingleVote actorId={actorId} onVoteSuccess={handleVoteSuccess} />
         </div>
         <div className="vote-bottom">
-          <VotingButtons />
+          <VotingButtons onVoteSuccess={handleVoteSuccess}  successUrl={`http://localhost:3000/actors/${actorId}`} />
         </div>
       </div>
       <CharityIntro />
