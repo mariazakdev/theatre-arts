@@ -44,9 +44,10 @@ function App() {
 
     {/* Routes for Contestants */}
     <Route path="/contestant/dashboard" element={<PrivateRoute><VoterDashboard backendURL={URL} /></PrivateRoute>} />
-    <Route path="/contestant/enter" element={<PrivateRoute><VideoUploadPage backendURL={URL} /></PrivateRoute>} />
 
-    <Route path="/contestant/upload" element={<PrivateRoute><EnterCompetitionPage backendURL={URL} /></PrivateRoute>} />
+    <Route path="/contestant/upload" element={<PrivateRoute><VideoUploadPage backendURL={URL} /></PrivateRoute>} />
+
+    <Route path="/contestant/enter" element={<PrivateRoute><EnterCompetitionPage backendURL={URL} /></PrivateRoute>} />
     <Route path="/contestant/update-profile" element={<PrivateRoute><UpdateProfilePage /></PrivateRoute>} />
 
     {/* Routes for Voters */}
