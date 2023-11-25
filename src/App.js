@@ -19,7 +19,7 @@ import VoterDashboard from './pages/VoterDashboard/VoterDashboard';
 import ContestantDetailPage from './pages/ContestantDetailPage/ContestantDetailPage';
 import ContestantListPage from './pages/ContestantListPage/ContestantListPage';
 import EnterCompetitionPage from './pages/EnterCompetitionPage/EnterCompetitionPage';
-
+import PaymentSuccess from './components/PaymentSuccess/PaymentSuccess';
 console.log("REACT_APP_TEST:", process.env.REACT_APP_TEST);
 
 console.log("REACT_APP_TEST_URL:", process.env.REACT_APP_URL);
@@ -41,6 +41,7 @@ function App() {
     <Route path="/actors" element={<ActorsPage />} />
     <Route path="/actors/vote/:actorId" element={<VotingPage />} />
     <Route path="/actors/:actorId" element={<ContestantDetailPage />} />
+    <Route path="/payment-success" element={<PaymentSuccess />} />
 
     {/* Routes for Contestants */}
     <Route path="/contestant/dashboard" element={<PrivateRoute><VoterDashboard backendURL={URL} /></PrivateRoute>} />

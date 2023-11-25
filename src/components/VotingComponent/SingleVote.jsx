@@ -4,23 +4,26 @@ import { useParams } from "react-router-dom";
 import axios from 'axios';
 import './VotingButtons.scss';
 
-export default function SingleVote({ actorId, onVoteSuccess }) {
+export default function SingleVote({ actorId, onVoteSuccess,navigate   }) {
     const [voted, setVoted] = useState(false);
 
     const handleVoteClick = async () => {
         try {
-            const response = await axios.post(`http://localhost:8000/upload/vote/${actorId}`);
-
+            const response = await axios.post(
+                `http://localhost:8000/upload/vote/${actorId}`,
+            { votes: 1  }
+            );
+    
             if (response.status === 200) {
                 setVoted(true); 
                 console.log(response.data.message);
-                onVoteSuccess();               
+                onVoteSuccess();           
+                navigate(`/actors/${actorId}`); 
             }
         } catch (error) {
             console.error('Error while voting:', error);
         }
     };
-
     return (
         <div className='button-wrap'>
             <h2>Your Vote</h2>

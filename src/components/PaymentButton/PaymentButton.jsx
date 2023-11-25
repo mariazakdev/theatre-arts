@@ -1,10 +1,11 @@
-import React from 'react';
-import { useStripe } from '@stripe/react-stripe-js';
-import './PaymentButton.scss';
+import React, { useState } from 'react';
+import { useStripe } from "@stripe/react-stripe-js";
 
-function PaymentButton({ text, amount, priceId ,onPaymentSuccess, successUrl }) {
+import "./PaymentButton.scss";
+
+function PaymentButton({ amount, priceId, onPaymentSuccess, successUrl, actorId }) {
   const stripe = useStripe();
-
+  const [voted, setVoted] = useState(false);
 
   const handlePayment = async () => {
     if (!stripe) {
@@ -15,24 +16,19 @@ function PaymentButton({ text, amount, priceId ,onPaymentSuccess, successUrl }) 
     const result = await stripe.redirectToCheckout({
       lineItems: [{ price: priceId, quantity: 1 }],
       mode: "payment",
-      successUrl: successUrl,
+      successUrl: `http://localhost:3000/payment-success?actorId=${actorId}&votes=${amount}`,
       cancelUrl: "http://localhost:3000/cancel",
     });
 
     if (result.error) {
       console.error(result.error.message);
-    } else {
-      if (onPaymentSuccess) {
-        onPaymentSuccess(amount); 
-      }
     }
+    // Removed the updateVotes call here
   };
 
   return (
-
-    <button className="payment-button" onClick={handlePayment}>
+    <button className="payment-button" onClick={handlePayment} disabled={voted}>
       Contribute ${amount}
-     
     </button>
   );
 }

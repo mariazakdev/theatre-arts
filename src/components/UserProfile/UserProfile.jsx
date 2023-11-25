@@ -40,6 +40,8 @@ function UserProfile() {
         {actor && (
           <>
             <h2>{actor.name}</h2>
+            <h2>{actor.votes}</h2>
+
             <img src={actor.url_photo} alt={actor.name} className="user-headshot" />
             <p className="user-description">{actor.description}</p>
             <div className="user-videos">
