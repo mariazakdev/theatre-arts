@@ -1,0 +1,80 @@
+// @import "../../styles/mixins";
+// @import "../../styles/variables";
+
+// .signup-container {
+//     width: 90%;  
+//     max-width: 320px;  
+//     margin: 50px auto;
+//     font-family: Arial, sans-serif;
+//     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+//  @include mobile {
+//     width: 90%;  
+// }
+
+// @include tablet {
+//     width: 280px;  
+// }
+//     h1 {
+//         font-size: 24px;
+//         text-align: center;
+//         margin-top: 20px;
+//     }
+
+//     form {
+//         padding: 20px;
+
+//         .input-group {
+//             margin-bottom: 15px;
+
+//             label {
+//                 display: block;
+//                 margin-bottom: 5px;
+//             }
+
+//             input {
+//                 width: 100%;
+//                 padding: 8px;
+//                 box-sizing: border-box;
+//                 border: 1px solid #ccc;
+//                 border-radius: 4px;
+//                 font-size: 14px;
+             
+//             }
+//         }
+
+//         button {
+//             width: 100%;
+//             padding: 10px;
+//             background-color: #007bff;
+//             color: white;
+//             border: none;
+//             border-radius: 4px;
+//             font-size: 16px;
+//             cursor: pointer;
+//             transition: background-color 0.3s ease;
+
+//             &:hover {
+//                 background-color: #0056b3;
+//             }
+//         }
+//     }
+// }
+
+// .login-redirect {
+//     margin-top: 15px;
+//     text-align: center;
+//     padding-bottom: 1rem;
+
+//     a {
+//         color: #007bff;
+//         text-decoration: none;
+//         &:hover {
+//             text-decoration: underline;
+//         }
+//     }
+// }
+
+// .error-message {
+//     color: red;
+//     text-align: center;
+// }

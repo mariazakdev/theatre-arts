@@ -4,7 +4,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import '../../styles/forms.scss';
 
 
-function LoginComponent() {
+function LoginGeneral() {
   const { login } = useAuth(); 
   const navigate = useNavigate();
     const [email, setEmail] = useState('');
@@ -16,7 +16,7 @@ function LoginComponent() {
         .then((userCredential) => {
             // Signed in
             const user = userCredential.user;
-            navigate("/contestant/enter")
+            navigate("enter")
             console.log(user);
         })
         .catch((error) => {
@@ -62,7 +62,7 @@ function LoginComponent() {
                       <button onClick={onLogin}>Login</button>
                   </div> 
                   <p className="login-redirect">
-                      <NavLink to="/forgot-password">Forgot Password?</NavLink>
+                      <NavLink to="/forgot-password ?????">Forgot Password?</NavLink>
                   </p>       
               </form>
                  
@@ -76,4 +76,4 @@ function LoginComponent() {
     )
 }
 
-export default LoginComponent;
+export default LoginGeneral;

@@ -1,4 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
+
 import { auth } from "../firebase";
 import { 
   createUserWithEmailAndPassword, 
@@ -16,6 +18,8 @@ export function useAuth(){
 }
 
 export function AuthProvider({ children }) {
+    const db = getFirestore();
+
     const [currentUser, setCurrentUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
@@ -36,6 +40,22 @@ export function AuthProvider({ children }) {
                 setError(error.message);
             });
     }
+const checkIfActionCompleted = async (userId) => {
+    try {
+        const userDocRef = doc(db, 'users', userId); // Reference to the user's document in Firestore
+        const userDoc = await getDoc(userDocRef);
+
+        if (userDoc.exists()) {
+            return userDoc.data().hasCompletedAction || false;
+        } else {
+            console.log('User not found in Firestore');
+            return false;
+        }
+    } catch (error) {
+        console.error('Error checking action completion:', error);
+        return false;
+    }
+};
 
     function logout(){
         return signOut(auth).catch(setError);
@@ -79,6 +99,7 @@ export function AuthProvider({ children }) {
         resetPassword,
         updateEmail: updateEmailFunction,
         updatePassword: updatePasswordFunction,
+        checkIfActionCompleted,
         error 
     };
 

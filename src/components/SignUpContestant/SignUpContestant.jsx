@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
+import { doc, setDoc } from 'firebase/firestore';
+import { db } from "../../firebase"; 
 import '../../styles/forms.scss';
 
 const SignUpComponent = () => {
@@ -23,37 +25,50 @@ const SignUpComponent = () => {
 
     try {
       const userCredential = await signup(email, password);
+      // Check if the userCredential contains a user object
+      if (!userCredential || !userCredential.user) {
+        throw new Error('No user credential returned from signup');
+      }
       const user = userCredential.user;
 
+      // Backend API call
       await axios.post("http://localhost:8000/users", {
         email: user.email,
         firebaseAuthId: user.uid,
         isContestant: true
       });
 
-      navigate("/login");
+      // Firestore document creation
+      const userDocRef = doc(db, 'users', user.uid);
+      await setDoc(userDocRef, {
+        hasCompletedAction: false,
+        hasPaid: false,
+        hasUploaded: false,
+        isContestant: true
+      });
+
+      navigate("/contestant/login");
     } catch (error) {
       console.error('Error during sign up:', error);
       setErrorMessage(error.message || 'Failed to create user');
     }
   };
 
-
   return (
     <main>
       <section>
         <div>
           <div className="form-container">
-            <h1> Sign Up to Vote </h1>
-            <h3>You are helping your friend win, but also supporting children with disabilies</h3>
-            <form>
+            <h1>Sign Up to Participate</h1>
+            <h3>You are helping your friend win, but also supporting children with disabilities</h3>
+            <form onSubmit={onSubmit}>
               {errorMessage && <p className="error-message">{errorMessage}</p>}
 
               <div className="input-group">
                 <label htmlFor="email-address">Email address</label>
                 <input
                   type="email"
-                  label="Email address"
+                  id="email-address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -65,19 +80,19 @@ const SignUpComponent = () => {
                 <label htmlFor="password">Password</label>
                 <input
                   type="password"
-                  label="Create password"
+                  id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   placeholder="Password"
                 />
               </div>
+
               <div className="input-group">
                 <label htmlFor="confirm-password">Confirm Password</label>
                 <input
                   type="password"
                   id="confirm-password"
-                  label="Confirm password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
@@ -85,13 +100,13 @@ const SignUpComponent = () => {
                 />
               </div>
 
-              <button type="submit" onClick={onSubmit}>
+              <button type="submit">
                 Sign up
               </button>
             </form>
 
             <p className="login-redirect">
-              Already have an account? <NavLink to="/login">Sign in</NavLink>
+              Already have an account? <NavLink to="/contestant/login">Log in</NavLink>
             </p>
           </div>
         </div>
