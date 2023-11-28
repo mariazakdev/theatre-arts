@@ -22,6 +22,14 @@ const SignUpComponent = () => {
     }
 
     try {
+       // Check if user already exists
+    const existingUser = await checkUserExistence(email);
+    if (existingUser) {
+      navigate("/login");
+      return;
+    }
+        // Continue with signup if user does not exist
+
       const userCredential = await signup(email, password);
       const user = userCredential.user;
 

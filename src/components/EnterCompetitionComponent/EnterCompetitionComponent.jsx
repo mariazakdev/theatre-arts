@@ -27,14 +27,32 @@ function PaymentForm({ backendURL }) {
     const [error, setError] = useState(null);  // State to handle errors
     const [hasPaid, setHasPaid] = useState(false);
     const [stripeToken, setStripeToken] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
+    
     useEffect(() => {
-        if (!currentUser) {
-            alert("You need to log in.")
-            navigate("/login");
-        }
-    }, [currentUser, navigate]);
+      if (!currentUser) {
+          alert("You need to log in.");
+          navigate("/login");
+          return;
+      }
 
+      const checkPaymentStatus = async () => {
+          const userDocRef = doc(db, 'users', currentUser.uid);
+          const userDoc = await getDoc(userDocRef);
+          if (userDoc.exists() && userDoc.data().hasPaid) {
+              navigate('/contestant/dashboard'); // Redirect if payment already made
+          } else {
+              setIsLoading(false);
+          }
+      };
+
+      checkPaymentStatus();
+  }, [currentUser, navigate]);
+
+  if (isLoading) {
+      return <div>Loading...</div>;
+  }
     useEffect(() => {
         if (auth.currentUser) {
           console.log("Current user's Firebase UID:", auth.currentUser.uid);
@@ -118,13 +136,15 @@ function PaymentForm({ backendURL }) {
       }
     }
   };
+  const handleSuccessfulPayment = async () => {
+    // Update the user's document to mark that they've paid
+    const userDocRef = doc(db, 'users', currentUser.uid);
+    await updateDoc(userDocRef, {
+        hasPaid: true
+    });
+    navigate('/contestant/dashboard'); // Redirect after successful payment
+};
 
-    // // Payment was successful before submitting the form
-    // if (!hasPaid) {
-    //     alert("Please complete the payment before submitting.");
-    //     return;
-    //   }
-    
       return (
         <div className="form-container">
           <h2 className="form-container__title">Upload to Enter Contest</h2>

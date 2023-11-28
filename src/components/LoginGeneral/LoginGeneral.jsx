@@ -1,14 +1,18 @@
 import React, {useState} from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import '../../styles/forms.scss';
 
 
 function LoginGeneral() {
   const { login } = useAuth(); 
   const navigate = useNavigate();
+  const location = useLocation();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const { from } = location.state || { from: { pathname: "/" } }; 
+
        
     const onLogin = (e) => {
         e.preventDefault();
@@ -16,7 +20,7 @@ function LoginGeneral() {
         .then((userCredential) => {
             // Signed in
             const user = userCredential.user;
-            navigate("enter")
+            navigate(from.pathname)
             console.log(user);
         })
         .catch((error) => {
@@ -32,7 +36,7 @@ function LoginGeneral() {
       <main>        
       <section>
           <div className="form-container">                                            
-              <h1>Log In To Vote</h1>                       
+              <h1>Log In</h1>                       
                                                  
               <form>
                   <div className="input-group">
@@ -62,7 +66,7 @@ function LoginGeneral() {
                       <button onClick={onLogin}>Login</button>
                   </div> 
                   <p className="login-redirect">
-                      <NavLink to="/forgot-password ?????">Forgot Password?</NavLink>
+                      <NavLink to="/forgot-password">Forgot Password?</NavLink>
                   </p>       
               </form>
                  
