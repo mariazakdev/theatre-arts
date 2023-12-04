@@ -1,17 +1,30 @@
 import React, { useState } from 'react';
+import { useNavigate, useLocation } from "react-router-dom";
 import { useStripe } from "@stripe/react-stripe-js";
-
+import { useAuth } from "../../contexts/AuthContext";
 import "./PaymentButton.scss";
 
-function PaymentButton({ amount, priceId, onPaymentSuccess, successUrl, actorId }) {
+function PaymentButton({ text, amount, priceId, actorId, currentUser }) {
   const stripe = useStripe();
+  const { user } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
   const [voted, setVoted] = useState(false);
 
   const handlePayment = async () => {
+    console.log("Payment button clicked! paymentbutton");
+
     if (!stripe) {
       console.error("Stripe has not been properly initialized.");
       return;
     }
+    if (!currentUser ) {
+      navigate("/login", { state: { returnPath: location.pathname } });
+      return;
+    }
+    console.log("Before payment request"); // Add this log
+
+    setVoted(true);
 
     const result = await stripe.redirectToCheckout({
       lineItems: [{ price: priceId, quantity: 1 }],
@@ -22,13 +35,14 @@ function PaymentButton({ amount, priceId, onPaymentSuccess, successUrl, actorId 
 
     if (result.error) {
       console.error(result.error.message);
+      setVoted(false);
     }
-    // Removed the updateVotes call here
+    console.log("After payment request");
   };
 
   return (
     <button className="payment-button" onClick={handlePayment} disabled={voted}>
-      Contribute ${amount}
+      { text }{ amount }
     </button>
   );
 }

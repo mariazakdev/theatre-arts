@@ -6,7 +6,6 @@ import EnterCompetitionComponent from "../../components/EnterCompetitionComponen
 function HomePage() {
   return (
     <>
-    <EnterCompetitionComponent />
       <Body />
     </>
   );

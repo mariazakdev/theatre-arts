@@ -3,12 +3,10 @@ import PaymentButton from "../PaymentButton/PaymentButton";
 import "./VotingButtons.scss";
 
 export default function VotingButtons({
-  onPaymentSuccess,
-  handleVoteSuccess,
-  successUrl,
   email,
   stripeToken,
   actorId,
+  currentUser
 }) {
 
 
@@ -28,16 +26,14 @@ export default function VotingButtons({
       <div className="button-wrap__button-container">
         {paymentOptions.map(({ amount, priceId }) => (
           <PaymentButton
-            key={amount} // Using amount as a key, assuming it's unique
+            key={amount} 
             text="Contribute $"
             amount={amount}
             priceId={priceId}
-            handleVoteSuccess={handleVoteSuccess}
-            onPaymentSuccess={onPaymentSuccess}
-            successUrl={successUrl}
             email={email}
             stripeToken={stripeToken}
             actorId={actorId}
+            currentUser={currentUser}
           />
         ))}
       </div>

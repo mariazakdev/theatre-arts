@@ -27,6 +27,7 @@
 
         .input-group {
             margin-bottom: 15px;
+            position: relative;
 
             label {
                 display: block;
@@ -45,6 +46,15 @@
                     color: #aab7c4; // Placeholder color
                     font-size: 12px;
                 }
+            }
+            &--password-toggle {
+                cursor: pointer;
+                position: absolute;
+                top: 70%;
+                right: 10px;
+                transform: translateY(-50%);
+                font-size: 10px;
+                color: #007bff;
             }
         }
         textarea {
@@ -118,6 +128,8 @@ resize: none;      }
             &::placeholder {
                 color: #aab7c4;
             }   
+
+        
         }
         input[type="file"] {
             display: none;  

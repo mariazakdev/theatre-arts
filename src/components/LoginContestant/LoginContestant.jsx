@@ -1,14 +1,14 @@
-import React, {useState} from 'react';
-import { useAuth } from '../../contexts/AuthContext';
-import { NavLink, useNavigate } from 'react-router-dom'
-import '../../styles/forms.scss';
+import React, { useState } from "react";
+import { useAuth } from "../../contexts/AuthContext";
+import { NavLink, useNavigate } from "react-router-dom";
+import "../../styles/forms.scss";
 
-
-function LoginComponent() {
+function LoginContestant() {
   const { login } = useAuth(); 
   const navigate = useNavigate();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
        
     const onLogin = (e) => {
         e.preventDefault();
@@ -27,7 +27,10 @@ function LoginComponent() {
        
     }
 
-
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+      };
+    
     return(
       <main>        
       <section>
@@ -52,23 +55,26 @@ function LoginComponent() {
                       <input
                           id="password"
                           name="password"
-                          type="password"                                    
+                          type={showPassword ? "text" : "password"} // Use the state to toggle between text and password type
                           required                                                                                
                           placeholder="Password"
                           onChange={(e)=>setPassword(e.target.value)}
                       />
+                      <span onClick={togglePasswordVisibility}>
+                  {showPassword ? "Hide" : "Show"}
+                </span>
                   </div>
                   <div>
                       <button onClick={onLogin}>Login</button>
                   </div> 
                   <p className="login-redirect">
-                      <NavLink to="/contestant/forgot-password">Forgot Password?</NavLink>
+                      <NavLink to="/forgot-password">Forgot Password?</NavLink>
                   </p>       
               </form>
                  
               <p className="login-redirect">
                   No account yet? {' '}
-                  <NavLink to="/contestant/signup">Sign up</NavLink>
+                  <NavLink to="/signup">Sign up</NavLink>
               </p>
           </div>
       </section>
@@ -76,4 +82,4 @@ function LoginComponent() {
     )
 }
 
-export default LoginComponent;
+export default LoginContestant;

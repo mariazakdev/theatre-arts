@@ -4,11 +4,14 @@ import { useAuth } from "../../contexts/AuthContext";
 import SignUpGeneralComponent from "../../components/SignUpGeneralComponent/SignUpGeneralComponent";
 import '../../styles/forms.scss';
 
-const SignUpPage = () => {
-return(
-  <SignUpGeneralComponent/>
+const SignUpVoterPage = () => {
+return(<>
+<h1>hi</h1>
+<SignUpGeneralComponent/>
+</>
+  
 )
 
 };
 
-export default SignUpPage;
+export default SignUpVoterPage;

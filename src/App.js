@@ -18,7 +18,7 @@ import ContestantDetailPage from "./pages/ContestantDetailPage/ContestantDetailP
 import EnterCompetitionPage from "./pages/EnterCompetitionPage/EnterCompetitionPage";
 import PaymentSuccess from "./components/PaymentSuccess/PaymentSuccess";
 import LoginVoterPage from "./pages/LoginVoterPage/LoginVoterPage";
-import SignUpVoterPage from "./pages/LoginVoterPage/LoginVoterPage";
+import SignUpVoterPage from "./pages/SignUpVoterPage/SignUpVoterPage";
 
 import OneTimeUploadRoute from "./components/OneTimeUploadRoute/OneTimeUploadRoute";
 
@@ -35,10 +35,45 @@ function App() {
             <Header />
             <Routes>
               {/* Common Routes for All */}
-              <Route path="/home" element={<HomePage />} />
+              <Route path="/" element={<HomePage />} />
+
+              {/* Contestants only  */}
               <Route path="/contestant/signup" element={<SignUpPage />} />
-              <Route path="/signup" element={<SignUpVoterPage />} />
               <Route path="contestant/login" element={<LoginPage />} />
+
+              {/* One time contestants only */}
+              <Route
+                path="/contestant/enter"
+                element={
+                  <PrivateRoute>
+                    <OneTimeUploadRoute>
+                      <EnterCompetitionPage backendURL={URL} />
+                    </OneTimeUploadRoute>
+                  </PrivateRoute>
+                }
+              />
+              <Route
+                path="/contestant/upload"
+                element={
+                  <PrivateRoute>
+                  <OneTimeUploadRoute>
+                    <VideoUploadPage backendURL={URL} />
+                  </OneTimeUploadRoute>
+                  </PrivateRoute>
+
+                }
+              />
+              {/* One contestant */}
+              <Route
+                path="/contestant/dashboard"
+                element={
+                  <PrivateRoute>
+                    <VoterDashboard backendURL={URL} />
+                  </PrivateRoute>
+                }
+              />
+              {/* All visitors to site */}
+              <Route path="/signup" element={<SignUpVoterPage />} />
               <Route path="/login" element={<LoginVoterPage />} />
               <Route
                 path="contestant/forgot-password"
@@ -51,33 +86,7 @@ function App() {
                 element={<ContestantDetailPage />}
               />
               <Route path="/payment-success" element={<PaymentSuccess />} />
-              {/* Routes for Contestants */}
-              <Route
-                path="/contestant/dashboard"
-                element={
-                  <PrivateRoute>
-                    <VoterDashboard backendURL={URL} />
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/contestant/upload"
-                element={
-                  <OneTimeUploadRoute>
-                    <VideoUploadPage backendURL={URL} />
-                  </OneTimeUploadRoute>
-                }
-              />
-              <Route
-                path="/contestant/enter"
-                element={
-                  <PrivateRoute>
-                    <OneTimeUploadRoute>
-                      <EnterCompetitionPage backendURL={URL} />
-                    </OneTimeUploadRoute>
-                  </PrivateRoute>
-                }
-              />{" "}
+              {/* Routes for Contestants */}{" "}
               <Route
                 path="/contestant/update-profile"
                 element={
