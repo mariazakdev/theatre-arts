@@ -60,9 +60,11 @@ function LoginContestant() {
                           placeholder="Password"
                           onChange={(e)=>setPassword(e.target.value)}
                       />
-                      <span onClick={togglePasswordVisibility}>
-                  {showPassword ? "Hide" : "Show"}
-                </span>
+                      <span 
+                      className="input-group--password-toggle"
+                      onClick={togglePasswordVisibility}>
+                         {showPassword ? "Hide" : "Show"}
+                      </span>
                   </div>
                   <div>
                       <button onClick={onLogin}>Login</button>

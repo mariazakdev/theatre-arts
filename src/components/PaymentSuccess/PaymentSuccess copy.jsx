@@ -1,4 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react';
+// PaymentSuccess.js
+
+import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -6,7 +8,6 @@ function PaymentSuccess() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [processed, setProcessed] = useState(false);
-  const isMounted = useRef(true);
 
   useEffect(() => {
     const actorId = searchParams.get('actorId');
@@ -29,9 +30,8 @@ function PaymentSuccess() {
       }
     };
 
-    if (isMounted.current && actorId && votes && !processed) {
+    if (actorId && votes && !processed) {
       updateVotes(actorId, votes);
-      isMounted.current = false;
     }
   }, [searchParams, navigate, processed]);
 

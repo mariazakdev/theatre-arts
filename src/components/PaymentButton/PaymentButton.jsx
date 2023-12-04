@@ -22,7 +22,7 @@ function PaymentButton({ text, amount, priceId, actorId, currentUser }) {
       navigate("/login", { state: { returnPath: location.pathname } });
       return;
     }
-    console.log("Before payment request"); // Add this log
+    console.log("Before payment request", amount); 
 
     setVoted(true);
 
@@ -37,7 +37,7 @@ function PaymentButton({ text, amount, priceId, actorId, currentUser }) {
       console.error(result.error.message);
       setVoted(false);
     }
-    console.log("After payment request");
+    console.log("After payment request", amount);
   };
 
   return (
