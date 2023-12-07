@@ -18,7 +18,7 @@ export default function SingleVote({ actorId, onVoteSuccess,currentUser }) {
     console.log("handleVoteClick called from singlevote");
 
     if (!currentUser) {
-      navigate("/login", { state: { returnPath: location.pathname } });
+      navigate("/login", { state: { returnPath: location.pathname, actorId } });
       return;
     }
     try {
@@ -37,6 +37,8 @@ export default function SingleVote({ actorId, onVoteSuccess,currentUser }) {
       console.error("Error while voting:", error);
     }
   };
+
+
   return (
     <div className="button-wrap">
       <h2>Your Vote</h2>

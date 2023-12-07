@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "../../firebase";
-import "../../styles/forms.scss";
+import '../../styles/forms.scss';
 
-const SignUpComponent = () => {
+const SignUpContestant = () => {
   const navigate = useNavigate();
   const { signup } = useAuth();
 
@@ -17,7 +15,7 @@ const SignUpComponent = () => {
   const [flashMessage, setFlashMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  // Define the checkIfUserExists function
+
   const checkIfUserExists = async (email) => {
     try {
       const response = await axios.get(
@@ -30,136 +28,122 @@ const SignUpComponent = () => {
     }
   };
 
+ 
   const onSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (password !== confirmPassword) {
       setErrorMessage("Passwords do not match.");
       return;
     }
-  
+
     try {
       // Check if the user already exists
       const userExists = await checkIfUserExists(email);
-  
-      // Continue with the signup process if the user does NOT exist
+
       if (!userExists) {
         // Continue with the signup process for new users
         const userCredential = await signup(email, password);
-  
-        // Check if the userCredential contains a user object
-        if (!userCredential || !userCredential.user) {
-          throw new Error("No user credential returned from signup");
-        }
-  
         const user = userCredential.user;
-  
-        // Backend API call
+
         await axios.post("http://localhost:8000/users", {
           email: user.email,
           firebaseAuthId: user.uid,
           isContestant: true,
         });
-  
-        // Firestore document creation
-        const userDocRef = doc(db, "users", user.uid);
-        await setDoc(userDocRef, {
-          hasCompletedAction: false,
-          hasPaid: false,
-          hasUploaded: false,
-          isContestant: true,
-          email: user.email,
-        });
-  
-        navigate("/contestant/login");
+
+        navigate("/login");
       } else {
         // User already exists, show flash message
         setFlashMessage("You are already signed up. Please log in.");
+        // Set a timeout to navigate after setting the flash message
         setTimeout(() => {
           navigate("/login");
         }, 4000);
+        return; // Exit the function to prevent further execution
       }
     } catch (error) {
       console.error("Error during sign up:", error);
       setErrorMessage(error.message || "Failed to create user");
     }
   };
-  
- const togglePasswordVisibility = () => {
+  const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
   return (
-    <main>
-      <section>
-        <div>
-          <div className="form-container">
-            {flashMessage && <p className="flash-message">{flashMessage}</p>}
+   < main>
+    <section>
+      <div>
+        <div className="form-container">
+          {flashMessage && <p className="flash-message">{flashMessage}</p>}
 
-            <h1>Sign Up to Participate</h1>
-            <h3>
-              You are helping your friend win, but also supporting children with
-              disabilities
-            </h3>
-            <form onSubmit={onSubmit}>
-              {errorMessage && <p className="error-message">{errorMessage}</p>}
+          <h1>Sign Up to Participate</h1>
+          <h3>
+            You are helping your friend win, but also supporting children with
+            disabilities
+          </h3>
+          <form onSubmit={onSubmit}>
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-              <div className="input-group">
-                <label htmlFor="email-address">Email address</label>
-                <input
-                  type="email"
-                  id="email-address"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  placeholder="Email address"
-                />
-              </div>
+            <div className="input-group">
+              <label htmlFor="email-address">Email address</label>
+              <input
+                type="email"
+                id="email-address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                placeholder="Email address"
+              />
+            </div>
 
-              <div className="input-group">
-                <label htmlFor="password">Password</label>
-                <input
-                  type={showPassword ? "text" : "password"} // Use the state to toggle between text and password type
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  placeholder="Password"
-                />
-                <span onClick={togglePasswordVisibility}>
-                  {showPassword ? "Hide" : "Show"}
-                </span>
-              </div>
+            <div className="input-group">
+              <label htmlFor="password">Password</label>
+              <input
+                type={showPassword ? "text" : "password"} // Use the state to toggle between text and password type
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                placeholder="Password"
+              />
+             <span 
+                    className="input-group--password-toggle"
+                    onClick={togglePasswordVisibility}>
+                       {showPassword ? "Hide" : "Show"}
+                    </span>
+            </div>
 
-              <div className="input-group">
-                <label htmlFor="confirm-password">Confirm Password</label>
-                <input
-                  type={showPassword ? "text" : "password"} // Use the state to toggle between text and password type
-                  id="confirm-password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
-                  placeholder="Confirm Password"
-                />
-                <span 
-                      className="input-group--password-toggle"
-                      onClick={togglePasswordVisibility}>
-                         {showPassword ? "Hide" : "Show"}
-                      </span>
-              </div>
+            <div className="input-group">
+              <label htmlFor="confirm-password">Confirm Password</label>
+              <input
+                type={showPassword ? "text" : "password"} // Use the state to toggle between text and password type
+                id="confirm-password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                placeholder="Confirm Password"
+              />
+              <span 
+                    className="input-group--password-toggle"
+                    onClick={togglePasswordVisibility}>
+                       {showPassword ? "Hide" : "Show"}
+                    </span>
+            </div>
 
-              <button type="submit">Sign up</button>
-            </form>
+            <button type="submit">Sign up</button>
+          </form>
 
-            <p className="login-redirect">
-              Already have an account?{" "}
-              <NavLink to="/contestant/login">Log in</NavLink>
-            </p>
-          </div>
+          <p className="login-redirect">
+            Already have an account?{" "}
+            <NavLink to="/contestant/login">Log in</NavLink>
+          </p>
         </div>
-      </section>
-    </main>
+      </div>
+    </section>
+  </main>
   );
 };
 
-export default SignUpComponent;
+export default SignUpContestant;

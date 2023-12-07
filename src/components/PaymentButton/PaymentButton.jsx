@@ -19,7 +19,7 @@ function PaymentButton({ text, amount, priceId, actorId, currentUser }) {
       return;
     }
     if (!currentUser ) {
-      navigate("/login", { state: { returnPath: location.pathname } });
+      navigate("/login", { state: { returnPath: location.pathname, actorId } });
       return;
     }
     console.log("Before payment request", amount); 

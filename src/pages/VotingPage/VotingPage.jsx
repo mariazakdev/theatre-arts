@@ -20,29 +20,6 @@ export default function VotingPage() {
   const [amount, setAmount] = useState(null);
 console.log(currentUser);
 
-  // const onPaymentSuccess = async (paidAmount) => {
-  //   console.log("onPaymentSuccess called!");
-
-  //   try {
-  //     const userId = currentUser?.uid; // Get the user ID from the current user
-  //     const votes = paidAmount; // Convert paid amount to votes
-
-  //     const voteResponse = await axios.post('http://localhost:8000/vote', {
-  //       actorId,
-  //       userId,
-  //       stripeToken,
-  //       voteCount: votes
-  //     });
-
-  //     console.log(voteResponse);
-  //     if (voteResponse.status === 200) {
-  //       console.log("Votes recorded:", voteResponse.data);
-  //       handleVoteSuccess(votes);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error in payment or voting process:", error);
-  //   }
-  // };
 
   useEffect(() => {
     const fetchActor = async () => {
@@ -63,8 +40,6 @@ console.log(currentUser);
   console.log("Actor ID:", actorId);
 
   const handleVoteSuccess = async (votes) => {
-    console.log("handleVoteSuccess called from 64 votingpage");
-    console.log("handleVoteSuccess called!");
 
     if (votes) {
       try {
@@ -74,7 +49,6 @@ console.log(currentUser);
         );
         if (response.status === 200) {
           console.log("Votes recorded:", response.data);
-          // Handle any post-vote logic here
         }
       } catch (error) {
         console.error("Error while voting:", error);
@@ -84,7 +58,6 @@ console.log(currentUser);
 
   return (
     <section>
-          {currentUser ? (
 
       <div className="vote">
         <div className="vote-top">
@@ -101,9 +74,7 @@ console.log(currentUser);
           />
         </div>
       </div>
-      ) : (
-      <p>Please log in to vote.</p>
-    )}
+ 
       <CharityIntro />
     </section>
   );

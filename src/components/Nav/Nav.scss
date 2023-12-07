@@ -1,5 +1,37 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+@import "../../styles/colors";
+
+.nav {
+  @include flex(center, center, row);
+  // background-color: rgb(202, 166, 148);
+  margin: 0;
+  padding: 0;
+  border: 2px red solid;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  list-style-type: none;
+  transition: max-height 0.3s ease;
 ul{
-    li a{
-        color:aliceblue;
+  @include desktop{
+    @include flex( center, center, row)
+  }
+  @include tablet{
+    @include flex( center, center, row)
+  }
+  @include mobile{
+    @include flex( center, center, column)
+  }
+li {
+    padding: 10px;
+    text-align: center;
+    list-style: none;
+    border: 2px red solid;
+
+    a {
+      color: aliceblue;
+      text-decoration: none;
+      display: block;
     }
+  }
+}
 }

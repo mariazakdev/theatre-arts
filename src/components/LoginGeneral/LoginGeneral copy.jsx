@@ -17,8 +17,8 @@ function LoginGeneral() {
       .then((userCredential) => {
         if (userCredential) {
           const user = userCredential.user;
-          const { state: { returnPath, actorId } = {} } = location || {};
-          navigate(returnPath || "/", { state: { actorId } });
+          const { state: { actorId, returnPath } = {} } = location || {};
+          navigate(returnPath || actorId ? `/vote/${actorId}` : "/");
           console.log(user);
         } else {
           console.log("No user credentials received");
@@ -31,9 +31,10 @@ function LoginGeneral() {
       });
   };
 
- const togglePasswordVisibility = () => {
+  const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
+
 
   return (
     <main>

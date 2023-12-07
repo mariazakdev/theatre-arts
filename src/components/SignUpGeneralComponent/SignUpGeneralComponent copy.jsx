@@ -31,67 +31,63 @@ const SignUpComponent = () => {
     }
   };
 
-// ... (existing code)
-
-const onSubmit = async (e) => {
-  e.preventDefault();
-
-  if (password !== confirmPassword) {
-    setErrorMessage("Passwords do not match.");
-    return;
-  }
-
-  try {
-    // Check if the user already exists
-    const userExists = await checkIfUserExists(email);
-
-    // Continue with the signup process if the user does NOT exist
-    if (!userExists) {
-      // Continue with the signup process for new users
-      const userCredential = await signup(email, password);
-
-      // Check if the userCredential contains a user object
-      if (!userCredential || !userCredential.user) {
-        throw new Error("No user credential returned from signup");
-      }
-
-      const user = userCredential.user;
-
-      // Backend API call
-      await axios.post("http://localhost:8000/users", {
-        email: user.email,
-        firebaseAuthId: user.uid,
-        isContestant: false,
-      });
-
-      // Firestore document creation
-      const userDocRef = doc(db, "users", user.uid);
-      await setDoc(userDocRef, {
-        hasCompletedAction: false,
-        hasPaid: false,
-        hasUploaded: false,
-        isContestant: false,
-        email: user.email,
-      });
-
-   
-      navigate(-1);
-    } else {
-      // User already exists, show flash message
-      setFlashMessage("You are already signed up. Please log in.");
-    
-      setTimeout(() => {
-        navigate(-1);
-      }, 4000);
+  const onSubmit = async (e) => {
+    e.preventDefault();
+  
+    if (password !== confirmPassword) {
+      setErrorMessage("Passwords do not match.");
+      return;
     }
-  } catch (error) {
-    console.error("Error during sign up:", error);
-    setErrorMessage(error.message || "Failed to create user");
-  }
-};
-
-// ... (existing code)
-
+  
+    try {
+      // Check if the user already exists
+      const userExists = await checkIfUserExists(email);
+  
+      // Continue with the signup process if the user does NOT exist
+      if (!userExists) {
+        // Continue with the signup process for new users
+        const userCredential = await signup(email, password);
+  
+        // Check if the userCredential contains a user object
+        if (!userCredential || !userCredential.user) {
+          throw new Error("No user credential returned from signup");
+        }
+  
+        const user = userCredential.user;
+  
+        // Backend API call
+        await axios.post("http://localhost:8000/users", {
+          email: user.email,
+          firebaseAuthId: user.uid,
+          isContestant: false,
+        });
+  
+        // Firestore document creation
+        const userDocRef = doc(db, "users", user.uid);
+        await setDoc(userDocRef, {
+          hasCompletedAction: false,
+          hasPaid: false,
+          hasUploaded: false,
+          isContestant: false,
+          email: user.email,
+        });
+  
+        const { state: { returnPath } = {} } = location || {};
+        navigate("/login", { state: { returnPath: returnPath || "/" } });
+      } else {
+        // User already exists, show flash message
+        setFlashMessage("You are already signed up. Please log in.");
+        const { state: { returnPath } = {} } = location || {};
+        setTimeout(() => {
+          navigate(returnPath || actorId ? `/vote/${actorId}` : "/login");
+        }, 4000);
+      }
+    } catch (error) {
+      console.error("Error during sign up:", error);
+      setErrorMessage(error.message || "Failed to create user");
+    }
+  };
+  
    const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
