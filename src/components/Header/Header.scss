@@ -1,6 +1,6 @@
 @import "../../styles/variables";
-@import "../../styles/mixins" ;
-@import "../../styles/colors" ;
+@import "../../styles/mixins";
+@import "../../styles/colors";
 
 .header {
   background-color: rgb(202, 166, 148);
@@ -45,12 +45,14 @@
     position: absolute;
     top: 110px;
     left: 40%;
- 
     // width: 100%;
-    // transform: translateY(-100%);
+    transform: translateY(-100%);
+    display: none;
     transition: transform 0.3s ease;
 
     &.nav-open {
+      display: inline;
+      transition: transform 0.3s ease;
       transform: translateY(0%);
     }
   }

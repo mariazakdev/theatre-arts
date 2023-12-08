@@ -7,11 +7,12 @@
   // background-color: rgb(202, 166, 148);
   margin: 0;
   padding: 0;
-  border: 2px red solid;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   list-style-type: none;
   transition: max-height 0.3s ease;
 ul{
+  margin: 0;
+  padding: 0;
   @include desktop{
     @include flex( center, center, row)
   }
@@ -25,7 +26,6 @@ li {
     padding: 10px;
     text-align: center;
     list-style: none;
-    border: 2px red solid;
 
     a {
       color: aliceblue;
