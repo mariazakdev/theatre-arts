@@ -21,6 +21,7 @@ import LoginVoterPage from "./pages/LoginVoterPage/LoginVoterPage";
 import SignUpVoterPage from "./pages/SignUpVoterPage/SignUpVoterPage";
 
 import OneTimeUploadRoute from "./components/OneTimeUploadRoute/OneTimeUploadRoute";
+import PaymentContestPage from "./pages/PaymentContestPage/PaymentContestPage";
 
 console.log("REACT_APP_TEST_URL:", process.env.REACT_APP_URL);
 const URL = process.env.REACT_APP_BACKEND_URL;
@@ -72,6 +73,11 @@ function App() {
                   </PrivateRoute>
                 }
               />
+        <Route path="/contestant/payment-success" element={<PaymentContestPage />} />
+
+
+
+
               {/* All visitors to site */}
               <Route path="/signup" element={<SignUpVoterPage />} />
               <Route path="/login" element={<LoginVoterPage />} />

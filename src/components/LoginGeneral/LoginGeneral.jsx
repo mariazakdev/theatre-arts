@@ -18,6 +18,10 @@ function LoginGeneral() {
         if (userCredential) {
           const user = userCredential.user;
           const { state: { returnPath, actorId } = {} } = location || {};
+          const redirectPath = returnPath || "/";
+
+          navigate(redirectPath, { state: { actorId } });
+
           navigate(returnPath || "/", { state: { actorId } });
           console.log(user);
         } else {

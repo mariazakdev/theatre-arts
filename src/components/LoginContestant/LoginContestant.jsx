@@ -9,24 +9,28 @@ function LoginContestant() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-       
-    const onLogin = (e) => {
+    
+    const onLogin = async (e) => {
         e.preventDefault();
-        login(email, password)
-        .then((userCredential) => {
-            // Signed in
+        try {
+            const userCredential = await login(email, password);
             const user = userCredential.user;
-            navigate("/contestant/enter")
-            console.log(user);
-        })
-        .catch((error) => {
+    
+            if (user) {
+                navigate("/contestant/enter");
+                console.log(user);
+            } else {
+                // Handle the case where user is undefined
+                console.error("User is undefined");
+            }
+        } catch (error) {
+            console.error("Error during login:", error);
             const errorCode = error.code;
             const errorMessage = error.message;
-            console.log(errorCode, errorMessage)
-        });
-       
+            console.log(errorCode, errorMessage);
+        }
     }
-
+    
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
       };

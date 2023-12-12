@@ -7,6 +7,8 @@ import {
 } from "@stripe/react-stripe-js";
 import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
+import axios from 'axios';
+
 import { auth } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
@@ -21,9 +23,9 @@ const s3Client = new S3Client({
     secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
   },
 });
-
 function PaymentForm({ backendURL }) {
   const { currentUser } = useAuth();
+  console.log(process.env.REACT_APP_AWS_ACCESS_KEY_ID, process.env.REACT_APP_AWS_SECRET_ACCESS_KEY, process.env.REACT_APP_AWS_BUCKET_NAME, backendURL);
 
   const stripe = useStripe();
   const elements = useElements();
@@ -35,17 +37,13 @@ function PaymentForm({ backendURL }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // if (!currentUser) {
-    //     alert("You need to log in.");
-    //     navigate("/login");
-    //     return;
-    // }
+
 
     const checkPaymentStatus = async () => {
       const userDocRef = doc(db, "users", currentUser.uid);
       const userDoc = await getDoc(userDocRef);
       if (userDoc.exists() && userDoc.data().hasPaid) {
-        navigate("/contestant/upload"); // Redirect if payment already made
+        navigate("/contestant/upload");
       } else {
         setIsLoading(false);
       }
@@ -84,24 +82,24 @@ function PaymentForm({ backendURL }) {
   // payments
   const handlePayment = async () => {
     console.log("handlePayment triggered");
-
+  
     if (!stripe || !elements) {
       console.error("Stripe or Elements not loaded");
       return;
     }
-
+  
     // Get individual card elements
     const cardNumberElement = elements.getElement(CardNumberElement);
     const cardExpiryElement = elements.getElement(CardExpiryElement);
     const cardCvcElement = elements.getElement(CardCvcElement);
-
+  
     if (!cardNumberElement || !cardExpiryElement || !cardCvcElement) {
       console.error("Some card elements are not loaded correctly");
       return;
     }
-
+  
     console.log("Creating token...");
-
+  
     // Use the `createToken` function
     const result = await stripe.createToken(cardNumberElement);
     if (result.error) {
@@ -110,41 +108,36 @@ function PaymentForm({ backendURL }) {
     } else {
       console.log("Token created:", result.token);
       setStripeToken(result.token.id); // Store the token ID
-
+  
       // Send token to your server to handle the actual payment process
       if (currentUser && currentUser.email) {
-        const paymentResponse = await fetch(`${backendURL}/payment`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            stripeToken: stripeToken,
+        try {
+          const response = await axios.post(`${backendURL}/payment`, {
+            stripeToken: result.token.id,
             email: currentUser.email,
-          }),
-        });
-
-        const paymentResult = await paymentResponse.json();
-        if (paymentResult.success) {
-          setHasPaid(true);
-          navigate("/contestant/upload");
-          console.error("Error during payment:", paymentResult.error);
-          alert("Payment failed: " + paymentResult.error);
+          });
+  
+          const paymentResult = response.data;
+  
+          if (paymentResult.success) {
+            setHasPaid(true);
+            navigate("/contestant/upload");
+            console.error("Error during payment:", paymentResult.error);
+            alert("Payment failed: " + paymentResult.error);
+          }
+        } catch (error) {
+          console.error("Error during payment:", error.response.data.error);
+          alert("Payment failed: " + error.response.data.error);
         }
       } else {
         console.error("User not logged in or email not available");
         alert("You must be logged in to make a payment.");
       }
-    }
+    };
   };
-  //   const handleSuccessfulPayment = async () => {
-  //     // Update the user's document to mark that they've paid
-  //     const userDocRef = doc(db, 'users', currentUser.uid);
-  //     await updateDoc(userDocRef, {
-  //         hasPaid: true
-  //     });
-  //     navigate('/contestant/dashboard'); // Redirect after successful payment
-  // };
+
+
+
 
   return (
     <div className="form-container">

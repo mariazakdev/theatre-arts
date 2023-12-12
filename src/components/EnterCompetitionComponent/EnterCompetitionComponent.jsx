@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   useStripe,
   useElements,
@@ -5,148 +6,114 @@ import {
   CardExpiryElement,
   CardCvcElement,
 } from "@stripe/react-stripe-js";
-import { useNavigate } from "react-router-dom";
-import React, { useState, useEffect } from "react";
-import { auth } from "../../firebase";
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
+
 import { useAuth } from "../../contexts/AuthContext";
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, updateDoc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from "../../firebase";
-import axios from 'axios';
+import "./EnterCompetitionComponent.scss";
 
-import "../../styles/forms.scss";
-
-const BUCKET_NAME = process.env.REACT_APP_AWS_BUCKET_NAME;
-const REGION = process.env.REACT_APP_AWS_REGION;
-const s3Client = new S3Client({
-  region: REGION,
-  credentials: {
-    accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY_ID,
-    secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
-  },
-});
-
-function PaymentForm({ backendURL }) {
-  const { currentUser } = useAuth();
-
+const PaymentForm = ({ backendURL }) => {
   const stripe = useStripe();
   const elements = useElements();
+  const { currentUser } = useAuth();
   const navigate = useNavigate();
-  const [error, setError] = useState(null);
-  const [hasPaid, setHasPaid] = useState(false);
-  const [stripeToken, setStripeToken] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+
+  const [cardholderName, setCardholderName] = useState("");
 
   useEffect(() => {
-    const checkPaymentStatus = async () => {
-      if (!currentUser) {
-        alert("You need to log in.");
-        navigate("/login");
-        return;
-      }
-
-      const userDocRef = doc(db, "users", currentUser.uid);
-      const userDoc = await getDoc(userDocRef);
-      if (userDoc.exists() && userDoc.data().hasPaid) {
-        navigate("/contestant/upload");
-      } else {
-        setIsLoading(false);
-      }
-    };
-
-    checkPaymentStatus();
-  }, [currentUser, navigate]);
-
-  useEffect(() => {
-    if (auth.currentUser) {
-      console.log("Current user's Firebase UID:", auth.currentUser.uid);
+    if (currentUser) {
+      console.log("Current user's Firebase UID:", currentUser.uid);
     }
-  }, []);
-
-  const CARD_STYLES = {
-    style: {
-      base: {
-        color: "#32325d",
-        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-        fontSmoothing: "antialiased",
-        fontSize: "16px",
-        "::placeholder": {
-          color: "#aab7c4",
-        },
-      },
-      invalid: {
-        color: "#fa755a",
-        iconColor: "#fa755a",
-      },
-    },
-  };
+  }, [currentUser]);
 
   const handlePayment = async () => {
-    console.log("handlePayment triggered");
-  
     if (!stripe || !elements) {
       console.error("Stripe or Elements not loaded");
       return;
     }
-  
+
     const cardNumberElement = elements.getElement(CardNumberElement);
     const cardExpiryElement = elements.getElement(CardExpiryElement);
     const cardCvcElement = elements.getElement(CardCvcElement);
-  
+
     if (!cardNumberElement || !cardExpiryElement || !cardCvcElement) {
       console.error("Some card elements are not loaded correctly");
       return;
     }
-  
-    console.log("Creating token...");
-  
+
+    console.log("Confirming PaymentIntent...");
+    console.log("Before navigating to upload");
+
     try {
-      // Use the `createToken` function
-      const result = await stripe.createToken(cardNumberElement);
-  
-      if (result.error) {
-        console.error("Error creating token:", result.error.message);
-        setError(result.error.message);
+      // Create a PaymentMethod using card information
+      const { paymentMethod, error: pmError } =
+        await stripe.createPaymentMethod({
+          type: "card",
+          card: cardNumberElement,
+        });
+
+      if (pmError) {
+        console.error("Error creating PaymentMethod:", pmError.message);
+        // Handle error
+        return;
+      }
+
+      // Fetch the PaymentIntent client secret from your server
+      const response = await axios.post(`${backendURL}/payment`, {
+        amount: 250,
+        currency: "cad",
+        paymentMethodId: paymentMethod.id,
+      });
+
+      const clientSecret = response.data.clientSecret;
+
+      // Confirm the PaymentIntent on the client side
+      const { paymentIntent, error } = await stripe.confirmCardPayment(
+        clientSecret,
+        {
+          payment_method: paymentMethod.id,
+          return_url: "http://localhost:3000/contestant/payment-success",
+        }
+      );
+
+      if (error) {
+        console.error("Error confirming PaymentIntent:", error.message);
+        // Handle error
+      } else if (paymentIntent.status === "succeeded") {
+        console.log("PaymentIntent confirmed:", paymentIntent.id);
+
+        //  Firebase
+        const userDocRef = doc(db, "users", currentUser.uid);
+
+        // Check if the document exists
+        const userDoc = await getDoc(userDocRef);
+
+        if (userDoc.exists()) {
+          // Document exists, update it
+          await updateDoc(userDocRef, {
+            hasPaid: true,
+          });
+        } else {
+          // Document doesn't exist, create it
+          await setDoc(userDocRef, {
+            hasPaid: true,
+          });
+    
+
+        }
+      navigate("/contestant/upload"); 
+          console.log("After navigating to upload");
       } else {
-        console.log("Token created:", result.token.id);
-        setStripeToken(result.token.id);
-        await handleServerPayment();
+        console.log("PaymentIntent status:", paymentIntent.status);
       }
     } catch (error) {
-      console.error("Error during token creation:", error.message);
-      alert("Error creating payment token. Please try again.");
+      console.error("Error during PaymentIntent confirmation:", error.message);
+      console.error("Full error object:", error);
     }
   };
-  const handleServerPayment = async () => {
-    if (currentUser && currentUser.email) {
-      try {
-        const paymentResponse = await axios.post('http://localhost:8000/payment', {
-          stripeToken: stripeToken,
-          email: currentUser.email,
-        }, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-  
-        const paymentResult = paymentResponse.data;
-  
-        if (paymentResult.success) {
-          setHasPaid(true);
-          navigate("/contestant/upload");
-        } else {
-          console.error("Error during payment:", paymentResult.error);
-          alert("Payment failed: " + paymentResult.error);
-        }
-      } catch (error) {
-        console.error("Error during fetch:", error);
-        alert("Error during payment. Please try again.");
-      }
-    } else {
-      console.error("User not logged in or email not available");
-      alert("You must be logged in to make a payment.");
-    }
-  };
+
   return (
     <div className="form-container">
       <h2 className="form-container__title">Upload to Enter Contest</h2>
@@ -161,19 +128,21 @@ function PaymentForm({ backendURL }) {
             className="form-container__input form-container__input--text"
             type="text"
             placeholder="Name"
+            value={cardholderName}
+            onChange={(e) => setCardholderName(e.target.value)}
           />
         </label>
         <label>
           Card number
-          <CardNumberElement options={CARD_STYLES} />
+          <CardNumberElement />
         </label>
         <label>
           Expiration date
-          <CardExpiryElement options={CARD_STYLES} />
+          <CardExpiryElement />
         </label>
         <label>
           CVC
-          <CardCvcElement options={CARD_STYLES} />
+          <CardCvcElement />
         </label>
 
         <button
@@ -185,6 +154,6 @@ function PaymentForm({ backendURL }) {
       </div>
     </div>
   );
-}
+};
 
 export default PaymentForm;

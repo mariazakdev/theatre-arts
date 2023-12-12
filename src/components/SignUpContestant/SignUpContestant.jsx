@@ -52,7 +52,7 @@ const SignUpContestant = () => {
           isContestant: true,
         });
 
-        navigate("/login");
+        navigate("/contestant/login");
       } else {
         // User already exists, show flash message
         setFlashMessage("You are already signed up. Please log in.");

@@ -11,15 +11,15 @@ function PaymentButton({ text, amount, priceId, actorId, currentUser }) {
   const navigate = useNavigate();
   const [voted, setVoted] = useState(false);
 
-  const handlePayment = async () => {
+  const handlePayment = async ({onLoginAndNavigate}) => {
     console.log("Payment button clicked! paymentbutton");
 
     if (!stripe) {
       console.error("Stripe has not been properly initialized.");
       return;
     }
-    if (!currentUser ) {
-      navigate("/login", { state: { returnPath: location.pathname, actorId } });
+    if (!currentUser) {
+      onLoginAndNavigate(); 
       return;
     }
     console.log("Before payment request", amount); 

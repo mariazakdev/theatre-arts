@@ -1,24 +1,26 @@
 import React, { useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
-
 import axios from "axios";
 import "./VotingButtons.scss";
 
 export default function SingleVote({ actorId, onVoteSuccess,currentUser }) {
   const { user } = useAuth();
   const location = useLocation();
-  console.log("Return Path:", location.state?.returnPath);
-
   const navigate = useNavigate(); 
 
   const [voted, setVoted] = useState(false);
+  const [flashMessage, setFlashMessage] = useState("");
 
   const handleVoteClick = async () => {
     console.log("handleVoteClick called from singlevote");
 
     if (!currentUser) {
-      navigate("/login", { state: { returnPath: location.pathname, actorId } });
+      setFlashMessage("Log in to vote");
+      // Set a timeout to navigate after setting the flash message
+      setTimeout(() => {
+        navigate("/login", { state: { returnPath: location.pathname, actorId } });
+      }, 4000);
       return;
     }
     try {
@@ -41,6 +43,8 @@ export default function SingleVote({ actorId, onVoteSuccess,currentUser }) {
 
   return (
     <div className="button-wrap">
+                 {flashMessage && <p className="flash-message">{flashMessage}</p>}
+
       <h2>Your Vote</h2>
       <p>{voted ? "You have voted!" : "Click the button to vote"}</p>
       <button
