@@ -17,13 +17,17 @@ function LoginGeneral() {
       .then((userCredential) => {
         if (userCredential) {
           const user = userCredential.user;
-          const { state: { returnPath, actorId } = {} } = location || {};
-          const redirectPath = returnPath || "/";
-
-          navigate(redirectPath, { state: { actorId } });
-
-          navigate(returnPath || "/", { state: { actorId } });
-          console.log(user);
+          const { state } = location || {};
+          const returnPath = state?.returnPath || "/";
+          const actorId = state?.actorId;
+  
+          if (returnPath === null) {
+            console.log("No return path received");
+            navigate("/");
+          } else {
+            navigate(returnPath, { state: { actorId } });
+            console.log(user);
+          }
         } else {
           console.log("No user credentials received");
         }
