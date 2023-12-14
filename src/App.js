@@ -22,6 +22,7 @@ import SignUpVoterPage from "./pages/SignUpVoterPage/SignUpVoterPage";
 
 import OneTimeUploadRoute from "./components/OneTimeUploadRoute/OneTimeUploadRoute";
 import PaymentContestPage from "./pages/PaymentContestPage/PaymentContestPage";
+import AdminPage from "./pages/AdminPage/AdminPage";
 
 console.log("REACT_APP_TEST_URL:", process.env.REACT_APP_URL);
 const URL = process.env.REACT_APP_BACKEND_URL;
@@ -35,6 +36,8 @@ function App() {
           <div className="App">
             <Header />
             <Routes>
+            <Route path="/admin" element={<AdminPage />} />
+
               {/* Common Routes for All */}
               <Route path="/" element={<HomePage />} />
 

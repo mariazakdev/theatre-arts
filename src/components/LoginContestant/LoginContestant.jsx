@@ -59,7 +59,7 @@ function LoginContestant() {
                       <input
                           id="password"
                           name="password"
-                          type={showPassword ? "text" : "password"} // Use the state to toggle between text and password type
+                          type={showPassword ? "text" : "password"} 
                           required                                                                                
                           placeholder="Password"
                           onChange={(e)=>setPassword(e.target.value)}

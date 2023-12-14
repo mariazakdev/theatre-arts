@@ -1,0 +1,63 @@
+.admin-list-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+
+    h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+
+        .video-item {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+
+            h2 {
+                font-size: 20px;
+            }
+
+            p {
+                margin-bottom: 10px;
+
+                strong {
+                    font-weight: bold;
+                }
+
+                a {
+                    color: blue;
+                    text-decoration: none;
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+}
+.admin-list-container {
+    padding: 20px;
+}
+
+.admin-cards-container {
+
+    img{
+        width: 6.25rem;
+    }
+}
+
+.admin-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    margin-bottom: 20px;cursor: pointer;
+}
+
+/* Rest of your CSS for .card-image, .card-video, .card-content, etc. */

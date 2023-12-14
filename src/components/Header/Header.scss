@@ -1,34 +1,38 @@
 @import "../../styles/variables";
 @import "../../styles/mixins";
 @import "../../styles/colors";
-
 .header {
-  background-color: rgb(202, 166, 148);
+  background-color: $sixth-color;
   color: #242222;
   text-align: center;
   border-radius: 15px;
   height: auto;
 
   &--top {
+    padding: 1rem;
+    @include flex(center, center, row);
+
     &__menu-icon {
-      padding: 1rem;
+      display: none; // Hide on larger screens
       cursor: pointer;
       font-weight: 600;
+      @include tablet {
+        display: block;
+      }
     }
-    @include flex(center, flex-start, row);
-  }
 
-  @include tablet {
-    padding: 1.5rem;
-  }
+    @include tablet {
+      padding: 1.5rem;
+    }
 
-  @include desktop {
-    padding: 2rem;
+    @include desktop {
+      padding: 2rem;
+    }
   }
 
   &-logo {
-    width: 70px;
-    height: 70px;
+    max-width: 100%;
+    height: auto;
   }
 
   &-title {
@@ -42,18 +46,83 @@
   }
 
   &-nav {
-    position: absolute;
-    top: 110px;
-    left: 40%;
-    // width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $fifth-color;
     transform: translateY(-100%);
     display: none;
     transition: transform 0.3s ease;
 
     &.nav-open {
-      display: inline;
+      display: block;
       transition: transform 0.3s ease;
       transform: translateY(0%);
     }
+
+    @include tablet {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
   }
 }
+
+// .header {
+//   background-color: $fifth-color;
+//   color: #242222;
+//   text-align: center;
+//   border-radius: 15px;
+//   height: auto;
+
+//   &--top {
+//     &__menu-icon {
+//       padding: 1rem;
+//       cursor: pointer;
+//       font-weight: 600;
+//     }
+//     @include flex(center, flex-start, row);
+//   }
+
+//   @include tablet {
+//     padding: 1.5rem;
+//   }
+
+//   @include desktop {
+//     padding: 2rem;
+//   }
+
+//   &-logo {
+//     width: 70px;
+//     height: 70px;
+//   }
+
+//   &-title {
+//     padding: 0 1rem;
+//     h1 {
+//       margin: 0;
+//     }
+//     h2 {
+//       margin-top: 0;
+//     }
+//   }
+
+//   &-nav {
+//     position: absolute;
+//     top: 110px;
+//     left: 40%;
+//     // width: 100%;
+//     transform: translateY(-100%);
+//     display: none;
+//     transition: transform 0.3s ease;
+
+//     &.nav-open {
+//       display: inline;
+//       transition: transform 0.3s ease;
+//       transform: translateY(0%);
+//     }
+//   }
+// }
