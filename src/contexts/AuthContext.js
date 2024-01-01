@@ -8,7 +8,7 @@ import {
   signOut, 
   sendPasswordResetEmail,
   setPersistence,
-  browserSessionPersistence 
+  browserSessionPersistence // Make sure to import this
 } from "firebase/auth"; 
 
 const AuthContext = React.createContext();

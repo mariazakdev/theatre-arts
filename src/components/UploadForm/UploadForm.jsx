@@ -3,7 +3,6 @@ import { auth } from "../../firebase";
 import { useAuth } from "../../contexts/AuthContext";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { useNavigate } from "react-router-dom";
-import VideoEmbed from "../VideoEmbed/VideoEmbed";
 
 const BUCKET_NAME = process.env.REACT_APP_AWS_BUCKET_NAME;
 const REGION = process.env.REACT_APP_AWS_REGION;
@@ -25,8 +24,6 @@ function UploadForm({ backendURL }) {
     const [showConfirmationMessage, setShowConfirmationMessage] = useState(false);
     const [imageFile, setImageFile] = useState(null);
     const [imagePreview, setImagePreview] = useState(null);
-    const [videoUrl, setVideoUrl] = useState("");
-    const [videoConfirmed, setVideoConfirmed] = useState(false); // Define videoConfirmed state
 
     const [formData, setFormData] = useState({
         photoUrl: "",
@@ -159,9 +156,7 @@ function UploadForm({ backendURL }) {
             [name]: value,
         }));
     };
-    const handleConfirmVideo = () => {
-        setVideoConfirmed(true);
-    };
+
     return (
         <div className="form-container">
             <h2 className="form-container__title">Upload to Enter Contest</h2>
@@ -181,20 +176,8 @@ function UploadForm({ backendURL }) {
                     )}
                 </div>
                 <div className="input-group">
-                    <input
-                        className="form-container__input"
-                        type="text"
-                        name="videoUrl"
-                        placeholder="Video URL"
-                        value={videoUrl}
-                        onChange={(e) => setVideoUrl(e.target.value)}
-                    />
-                    {videoUrl && !videoConfirmed && (
-                        <div>
-<VideoEmbed videoUrl={videoUrl} onConfirmVideo={handleConfirmVideo} />                        </div>
-                    )}
-                </div> 
-         
+                    <input className="form-container__input" type="text" name="videoUrl" placeholder="Video URL" value={formData.videoUrl} onChange={handleInputChange} />
+                </div>
                 <div className="input-group">
                     <textarea className="form-container__input" name="description" placeholder="Description" value={formData.description} onChange={handleInputChange} />
                 </div>
