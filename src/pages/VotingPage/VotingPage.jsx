@@ -58,13 +58,17 @@ export default function VotingPage() {
     <section>
       <div className="vote">
         <div className="vote-top">
+          <div className="vote-top-left">
           <UserProfile actorId={actorId} />
+          </div>
+          <div className="vote-top-right">
           <SingleVote
             actorId={actorId}
             onVoteSuccess={handleVoteSuccess}
             navigate={navigate}
             currentUser={currentUser}
           />
+          </div>
         </div>
         <div className="vote-bottom">
           <VotingButtons

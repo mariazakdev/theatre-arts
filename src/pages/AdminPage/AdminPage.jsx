@@ -35,7 +35,7 @@ function ActorsPage() {
                         className="admin-card"
                         onClick={() => handleCardClick(video)}
                     >
-                        <div className="card-content">
+                        <div className="admin-card-content">
                             <h2 className="card-title">{video.name}</h2>
                             <img src={video.url_photo} alt={video.name} className="card-image"/>
                             <p className="card-description">{video.url_video}</p>

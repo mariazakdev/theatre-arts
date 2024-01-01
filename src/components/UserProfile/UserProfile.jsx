@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from 'axios'; // Make sure to import axios
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 import "./UserProfile.scss";
 
 function UserProfile() {
@@ -9,17 +9,19 @@ function UserProfile() {
 
   useEffect(() => {
     if (!actorId) {
-      console.error('No actor ID provided');
+      console.error("No actor ID provided");
       // Handle missing actorId as needed
       return;
     }
 
     const fetchActorData = async () => {
       try {
-        const response = await axios.get(`http://localhost:8000/upload/${actorId}`);
+        const response = await axios.get(
+          `http://localhost:8000/upload/${actorId}`
+        );
         setLocalActorData(response.data);
       } catch (error) {
-        console.error('Error fetching actor data:', error);
+        console.error("Error fetching actor data:", error);
         // Handle errors (e.g., actor not found, server error)
       }
     };
@@ -28,35 +30,43 @@ function UserProfile() {
   }, [actorId]);
 
   if (!localActorData) {
-    return <div>Loading...</div>; // or handle the loading state appropriately
+    return <div>Loading...</div>;
   }
 
   const actor = localActorData;
-  const videoSrc = actor.url_video ? actor.url_video.replace("watch?v=", "embed/") : '';
+  const videoSrc = actor.url_video
+    ? actor.url_video.replace("watch?v=", "embed/")
+    : "";
 
   return (
     <section className="user-profile">
-      <div className="user-profile__data">
-        {actor && (
-          <>
-            <h2>{actor.name}</h2>
-            <h2>{actor.votes}</h2>
-
-            <img src={actor.url_photo} alt={actor.name} className="user-headshot" />
-            <p className="user-description">{actor.description}</p>
-            <div className="user-videos">
-              {videoSrc && (
-                <iframe
-                  src={videoSrc}
-                  title="YouTube video player"
-                  allowFullScreen
-                  className="card-video"
-                ></iframe>
-              )}
+      {actor && (
+        <>
+          <div className="video-container">
+            {videoSrc && (
+              <iframe
+                src={videoSrc}
+                title="YouTube video player"
+                allowFullScreen
+                className="video-frame"
+              ></iframe>
+            )}
+          </div>
+          <div className="user-info">
+            <div className="user-details">
+              <h2>{actor.name}</h2>
+              <p className="user-description">{actor.description}</p>
             </div>
-          </>
-        )}
-      </div>
+            <div className="user-image-container">
+              <img
+                src={actor.url_photo}
+                alt={actor.name}
+                className="user-headshot"
+              />
+            </div>
+          </div>
+        </>
+      )}
     </section>
   );
 }

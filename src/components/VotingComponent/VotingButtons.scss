@@ -6,8 +6,10 @@
 @include flex(center, center, column);
 padding: 1rem;
 border-radius: 10px;
-background-color: #f0cfcf;
+background-color: $secondaryBackground;
+color: aliceblue;
 
+height: 100%;
 
 &__button-container{
 @include flex(space-between, center, row);

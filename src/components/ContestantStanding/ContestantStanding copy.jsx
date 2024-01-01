@@ -3,18 +3,6 @@ import axios from 'axios';
 
 const ContestantStanding = () => {
   const [contestants, setContestants] = useState([]);
-  const [updateCount, setUpdateCount] = useState(0);
-
-  useEffect(() => {
-    // Fetch contestants from your API
-    axios.get('http://localhost:8000/upload')
-      .then(response => {
-        setContestants(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching contestants:', error);
-      });
-  }, [updateCount]);
 
   // Group contestants into arrays of 10
   const groupedContestants = [];
@@ -22,14 +10,11 @@ const ContestantStanding = () => {
     groupedContestants.push(contestants.slice(i, i + 10));
   }
 
-  // Get the top 3 contestants in each group
-  const topThreeInEachGroup = groupedContestants.map(group => {
-    const sortedGroup = [...group].sort((a, b) => b.votes - a.votes);
-    return sortedGroup.slice(0, 3);
-  });
+  // Sort contestants by votes in descending order
+  const sortedContestants = [...contestants].sort((a, b) => b.votes - a.votes);
 
-  // Flatten the array of top 3 contestants
-  const topThree = [].concat(...topThreeInEachGroup);
+  // Get the top 3 contestants
+  const topThree = sortedContestants.slice(0, 3);
 
   // Display messages based on ranking
   const messages = topThree.map((contestant, index) => {
@@ -44,15 +29,6 @@ const ContestantStanding = () => {
         return '';
     }
   });
-
-  // Timer to trigger update every 7 days
-  useEffect(() => {
-    const timerId = setInterval(() => {
-      setUpdateCount(prevCount => prevCount + 1);
-    }, 7 * 24 * 60 * 60 * 1000); // 7 days in milliseconds
-
-    return () => clearInterval(timerId);
-  }, []);
 
   // Render the messages
   return (

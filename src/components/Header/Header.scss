@@ -2,12 +2,13 @@
 @import "../../styles/mixins";
 @import "../../styles/colors";
 .header {
-  background-color: $sixth-color;
+
+  background-image: url("https://media.istockphoto.com/id/168531310/photo/two-rows-of-egyptian-hieroglyphics.jpg?s=2048x2048&w=is&k=20&c=UrlaCTjiWYs9yCIj8TRRF4HWOtcIpxJmCocfxxhEffk=");
   color: #242222;
   text-align: center;
   border-radius: 15px;
   height: auto;
-
+  color: $sixth-color;
   &--top {
     padding: 1rem;
     @include flex(center, center, row);

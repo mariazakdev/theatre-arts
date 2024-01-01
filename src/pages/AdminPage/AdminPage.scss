@@ -1,3 +1,5 @@
+@use "../../styles/mixins" as *;
+
 .admin-list-container {
     padding: 20px;
     font-family: Arial, sans-serif;
@@ -40,6 +42,7 @@
     }
 }
 .admin-list-container {
+    
     padding: 20px;
 }
 
@@ -47,17 +50,21 @@
 
     img{
         width: 6.25rem;
+        margin: 1rem;
     }
 }
 
 .admin-card {
-    border: 1px solid #ddd;
+    border: 1px solid #865050;
     border-radius: 8px;
-    overflow: hidden;
     width: 100%;
-    text-align: center;
+    @include flex(flex-start, center,row);
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     margin-bottom: 20px;cursor: pointer;
+  
 }
+.admin-card-content{
+    @include flex(flex-start, center,row);
 
+}
 /* Rest of your CSS for .card-image, .card-video, .card-content, etc. */

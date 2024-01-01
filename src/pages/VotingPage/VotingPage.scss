@@ -3,13 +3,29 @@
 @import "../../styles/colors" ;
 
 .vote{
-    &-top{
-        @include flex(space-around, center, row);
-        border: 2px black solid;
+    background-image: url("https://media.istockphoto.com/id/168531310/photo/two-rows-of-egyptian-hieroglyphics.jpg?s=2048x2048&w=is&k=20&c=UrlaCTjiWYs9yCIj8TRRF4HWOtcIpxJmCocfxxhEffk=");
+    background-size: cover;
+            @include flex(stretch, center, column);
+overflow: hidden;
+border-radius: 8px;
+margin-top: 1rem;
+&-top{
+        @include flex(center, stretch, row);
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+      
 
-
+&-right{
+    @include flex(center, center, column);
+    width: 60%;
+//     background-color: $secondaryBackground;
+// height: 100%;
+margin-left: 1rem;
+flex: 1;
+width: 40%;
+}
     }
-    &-bottom{
-    border: 2px black solid;
+    &-bottom{  margin: 1rem;
     }
+  
 }

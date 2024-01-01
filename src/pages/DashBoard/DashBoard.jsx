@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 
-export default function Dashboard({backendURL}) {
-
+export default function Dashboard() {
   const [error, setError] = useState("");
   const [contestants, setContestants] = useState([]);
   const { currentUser, logout } = useAuth();
@@ -12,11 +11,12 @@ export default function Dashboard({backendURL}) {
   useEffect(() => {
     const fetchUserDashboard = async () => {
       try {
-        const token = await currentUser.getIdToken();
-        const response = await fetch(`http://localhost:8000/dashboard`, {
+        // Fetch the data for the currently logged-in user
+        const response = await fetch(`http://localhost:8000/user`, {
+          method: 'GET',
           headers: {
-            'Authorization': `Bearer ${token}`
-          }
+            'Content-Type': 'application/json',
+          },
         });
 
         if (!response.ok) {
@@ -34,8 +34,7 @@ export default function Dashboard({backendURL}) {
     if (currentUser) {
       fetchUserDashboard();
     }
-  }, [currentUser, backendURL]);
-
+  }, [currentUser]);
 
   async function handleLogout() {
     setError('');

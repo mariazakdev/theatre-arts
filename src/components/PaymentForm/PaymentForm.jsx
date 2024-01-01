@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../../contexts/AuthContext";
 import { doc, updateDoc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from "../../firebase";
-import "./EnterCompetitionComponent.scss";
+import "./PaymentForm.scss";
 
 const PaymentForm = ({ backendURL }) => {
   const stripe = useStripe();

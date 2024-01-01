@@ -19,11 +19,10 @@ import EnterCompetitionPage from "./pages/EnterCompetitionPage/EnterCompetitionP
 import PaymentSuccess from "./components/PaymentSuccess/PaymentSuccess";
 import LoginVoterPage from "./pages/LoginVoterPage/LoginVoterPage";
 import SignUpVoterPage from "./pages/SignUpVoterPage/SignUpVoterPage";
-
 import OneTimeUploadRoute from "./components/OneTimeUploadRoute/OneTimeUploadRoute";
 import PaymentContestPage from "./pages/PaymentContestPage/PaymentContestPage";
 import AdminPage from "./pages/AdminPage/AdminPage";
-
+import "./App.scss";
 console.log("REACT_APP_TEST_URL:", process.env.REACT_APP_URL);
 const URL = process.env.REACT_APP_BACKEND_URL;
 console.log(URL);

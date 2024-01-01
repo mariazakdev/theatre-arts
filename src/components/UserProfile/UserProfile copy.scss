@@ -7,15 +7,16 @@
   @include flex(flex-start, center, column);
   width: 100%;
   border-radius: 8px;
+  margin: 1rem;
   overflow: hidden;
-  background-color: $secondaryBackground;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
 }
 
 .video-container {
   width: 100%;
   overflow: hidden;
   border-radius: 8px 8px 0 0;
+  position: relative;
 }
 
 .video-frame {
@@ -29,7 +30,11 @@
   width: 100%;
   border-radius: 0 0 8px 8px;
   overflow: hidden;
+  background: linear-gradient(to bottom, transparent 0%, $second-color 100%);
   padding: 1rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }
 
 .user-details {
@@ -47,18 +52,23 @@
 
 .user-description {
   width: 100%;
-  color: $fifth-color;
 }
 
-.social-icons {
+.action-buttons {
   display: flex;
   gap: 1rem;
-  margin-top: 1rem;
 }
 
-.social-icon {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  object-fit: cover;
+.action-button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: $primary-color;
+  color: white;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: darken($primary-color, 10%);
+  }
 }
