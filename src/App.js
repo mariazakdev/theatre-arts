@@ -23,6 +23,8 @@ import OneTimeUploadRoute from "./components/OneTimeUploadRoute/OneTimeUploadRou
 import PaymentContestPage from "./pages/PaymentContestPage/PaymentContestPage";
 import AdminPage from "./pages/AdminPage/AdminPage";
 import "./App.scss";
+import BanerComponent from "./components/SunKingComponent/SunKingComponent";
+import SunKingPage from "./pages/SunKingPage/SunKingPage";
 console.log("REACT_APP_TEST_URL:", process.env.REACT_APP_URL);
 const URL = process.env.REACT_APP_BACKEND_URL;
 console.log(URL);
@@ -35,15 +37,12 @@ function App() {
           <div className="App">
             <Header />
             <Routes>
-            <Route path="/admin" element={<AdminPage />} />
-
+              <Route path="/admin" element={<AdminPage />} />
               {/* Common Routes for All */}
               <Route path="/" element={<HomePage />} />
-
               {/* Contestants only  */}
               <Route path="/contestant/signup" element={<SignUpPage />} />
               <Route path="contestant/login" element={<LoginPage />} />
-
               {/* One time contestants only */}
               <Route
                 path="/contestant/enter"
@@ -59,11 +58,10 @@ function App() {
                 path="/contestant/upload"
                 element={
                   <PrivateRoute>
-                  <OneTimeUploadRoute>
-                    <VideoUploadPage backendURL={URL} />
-                  </OneTimeUploadRoute>
+                    <OneTimeUploadRoute>
+                      <VideoUploadPage backendURL={URL} />
+                    </OneTimeUploadRoute>
                   </PrivateRoute>
-
                 }
               />
               {/* One contestant */}
@@ -75,11 +73,10 @@ function App() {
                   </PrivateRoute>
                 }
               />
-        <Route path="/contestant/payment-success" element={<PaymentContestPage />} />
-
-
-
-
+              <Route
+                path="/contestant/payment-success"
+                element={<PaymentContestPage />}
+              />
               {/* All visitors to site */}
               <Route path="/signup" element={<SignUpVoterPage />} />
               <Route path="/login" element={<LoginVoterPage />} />
@@ -94,6 +91,12 @@ function App() {
                 element={<ContestantDetailPage />}
               />
               <Route path="/payment-success" element={<PaymentSuccess />} />
+                <Route path="/sun-king" element={<SunKingPage/>} />
+
+
+
+
+
               {/* Routes for Contestants */}{" "}
               <Route
                 path="/contestant/update-profile"

@@ -18,7 +18,7 @@ function Header() {
   return (
     <header className={`header ${isNavOpen ? 'nav-open' : ''}`}>
       <div className='header--top'>
-        <img src={Logo} alt="logo" className='header-logo'></img>
+        {/* <img src={Logo} alt="logo" className='header-logo'></img> */}
         <div className='header-title'>
           <h1>Canadian Broadway Theatre</h1>
           <h2>Monologue Competition</h2>

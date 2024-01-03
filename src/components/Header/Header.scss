@@ -1,20 +1,28 @@
 @import "../../styles/variables";
 @import "../../styles/mixins";
 @import "../../styles/colors";
-.header {
 
-  background-image: url("https://media.istockphoto.com/id/168531310/photo/two-rows-of-egyptian-hieroglyphics.jpg?s=2048x2048&w=is&k=20&c=UrlaCTjiWYs9yCIj8TRRF4HWOtcIpxJmCocfxxhEffk=");
-  color: #242222;
+.header {
+  position: relative; // Ensure positioning context for pseudo-element
   text-align: center;
-  border-radius: 15px;
   height: auto;
-  color: $sixth-color;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 30%; // Adjust the width for the grey background
+    height: 100%;
+    background-color: $primaryBackground;
+    z-index: -1; // Place it behind the content
+  }
+
   &--top {
     padding: 1rem;
     @include flex(center, center, row);
 
     &__menu-icon {
-      display: none; // Hide on larger screens
       cursor: pointer;
       font-weight: 600;
       @include tablet {
@@ -124,6 +132,100 @@
 //       display: inline;
 //       transition: transform 0.3s ease;
 //       transform: translateY(0%);
+//     }
+//   }
+// }
+// @import "../../styles/variables";
+// @import "../../styles/mixins";
+// @import "../../styles/colors";
+
+// .header {
+//   // Parallax background image
+//   background-image: url("https://media.istockphoto.com/id/168531310/photo/two-rows-of-egyptian-hieroglyphics.jpg?s=2048x2048&w=is&k=20&c=UrlaCTjiWYs9yCIj8TRRF4HWOtcIpxJmCocfxxhEffk=");
+//   background-position: center;
+//   background-size: cover;
+//   text-align: center;
+//   width:100%;
+//   height: 20vh;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+//   color: white; // Text color
+
+//   &--top {
+//     padding: 1rem;
+//     @include flex(center, center, row);
+
+//     &__menu-icon {
+//       display: none; // Hide on larger screens
+//       cursor: pointer;
+//       font-weight: 600;
+//       font-size: 1.5rem;
+//       @include tablet {
+//         display: block;
+//       }
+
+//       &:hover {
+//         color: $color5; // Change color on hover
+//       }
+//     }
+
+//     @include tablet {
+//       padding: 1.5rem;
+//     }
+
+//     @include desktop {
+//       padding: 2rem;
+//     }
+//   }
+
+//   &-title {
+//     padding: 2rem;
+//     font-family:Georgia, 'Times New Roman', Times, serif; // Use a stylish font
+//     h1 {
+//       margin: 0;
+//       font-size: 3rem;
+//     }
+//     h2 {
+//       margin-top: 0;
+//       font-size: 2rem;
+//     }
+//   }
+
+//   &-nav {
+//     position: fixed;
+//     top: 0;
+//     left: 0;
+//     width: 100%;
+//     height: 100%;
+//     background-color: rgba(0, 0, 0, 0.7); // Semi-transparent background
+//     transform: translateY(-100%);
+//     display: none;
+//     transition: transform 0.3s ease;
+
+//     &.nav-open {
+//       display: block;
+//       transition: transform 0.3s ease;
+//       transform: translateY(0%);
+//     }
+
+//     @include tablet {
+//       display: flex;
+//       flex-direction: column;
+//       align-items: center;
+//       justify-content: center;
+
+//       a {
+//         font-size: 2rem;
+//         color: white;
+//         margin: 1rem 0;
+//         text-decoration: none;
+
+//         &:hover {
+//           color: $color5; 
+//         }
+//       }
 //     }
 //   }
 // }

@@ -2,7 +2,7 @@ import React from 'react';
 import "./Body.scss";
 import Featured from '../Featured/Featured';
 import Information from '../Information/Information';
-import BanerComponent from '../BanerComponent/BanerComponent';
+import BanerComponent from '../SunKingComponent/SunKingComponent';
 import SponsorComponent from "../SponsorComponent/SponsorComponent"
 import FeaturedGallery from '../FeaturedGallery/FeaturedGallery';
 
