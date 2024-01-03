@@ -81,7 +81,6 @@ export default function VotingPage() {
         </div>
       </div>
 
-      <CharityIntro />
     </section>
   );
 }

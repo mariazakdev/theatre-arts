@@ -37,7 +37,7 @@ function ActorsPage() {
                             <h2 className="card-title">{video.name}</h2>
                             <img src={video.url_photo} alt={video.name} className="card-image"/>
                             <p className="card-description">{video.description}</p>
-                            <p className="card-votes">Votes: {video.votes}</p>
+                            {/* <p className="card-votes">Votes: {video.votes}</p> */}
                         </div>
 
                     </div> 

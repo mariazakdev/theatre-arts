@@ -1,6 +1,13 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+@import "../../styles/colors";
+
+
 .video-list-container {
     padding: 20px;
     font-family: Arial, sans-serif;
+    background-color: $primaryBackground;
+
 
     h1 {
         font-size: 24px;
@@ -16,7 +23,6 @@
             padding: 10px;
             margin-bottom: 10px;
             border-radius: 5px;
-
             h2 {
                 font-size: 20px;
             }
@@ -47,6 +53,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+   
     // gap: 20px;
     
     img{
@@ -60,7 +67,30 @@
     overflow: hidden;
     width: 300px;
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    margin-bottom: 20px;cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    cursor: pointer;
+    background-color: white;
+    display: flex;
+    flex-direction: column; 
+    height: 20rem;// Make the card container a column flex container
+
+    &-description {
+        flex: 1; // This will make the description container fill the remaining space
+            padding: 1rem;
+            background-color: $secondaryBackground;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 0; height: 6rem;
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        p {
+            font-size: 1rem;
+            margin-bottom: 0;
+           
+        }
+    }
 }
 

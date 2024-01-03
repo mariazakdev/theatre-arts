@@ -1,11 +1,30 @@
-import React from 'react';
+// Header.js
+import React, { useState } from 'react';
+import Logo from "../../assets/icons/drama.png";
+import Nav from '../Nav/Nav';
 import "./Footer.scss";
 
 function Footer() {
+  const [isNavOpen, setIsNavOpen] = useState(false);
+
+  const toggleNav = () => {
+    setIsNavOpen(!isNavOpen);
+  };
+
+  const closeNav = () => {
+    setIsNavOpen(false);
+  };
+
   return (
-    <footer>
-      <p>© 2023 Tim's Site. All rights reserved.</p>
-    </footer>
+    <header className={`footer ${isNavOpen ? 'nav-open' : ''}`}>
+      <div className='footer--top'>
+        {/* <img src={Logo} alt="logo" className='header-logo'></img> */}
+        <div className='footer-title'>
+        <p>All rights reserved</p>
+        </div>
+   
+      </div>
+    </header>
   );
 }
 

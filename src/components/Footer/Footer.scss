@@ -1,22 +1,81 @@
 @import "../../styles/variables";
-@import "../../styles/mixins" ;
-@import "../../styles/colors" ;
+@import "../../styles/mixins";
+@import "../../styles/colors";
 
+.footer {
+  position: relative; // Ensure positioning context for pseudo-element
+  text-align: center;
+  height: 10rem;
 
-footer {
-    background-color: $primaryBackground;
-    color: #aaa;
-    padding: 1rem;
-    text-align: center;
+  &::before {
+    content: "";
     position: absolute;
-    bottom: 0;
-    width: 100%;
-  
-    @include tablet {
-      padding: 1.2rem;
+    top: 0;
+    left: 80%; // Adjust the left value to position it on the right side
+    width: 20%; // Adjust the width for the grey background
+    height: 100%;
+    background-color: $secondaryBackground;
+    z-index: -1; // Place it behind the content
+  }
+
+  &--top {
+    padding: 1rem;
+    @include flex(center, center, row);
+
+    &__menu-icon {
+      cursor: pointer;
+      font-weight: 600;
+      @include tablet {
+        display: block;
+      }
     }
-  
-    @include desktop {
+
+    @include tablet {
       padding: 1.5rem;
     }
+
+    @include desktop {
+      padding: 2rem;
+    }
   }
+
+  &-logo {
+    max-width: 100%;
+    height: auto;
+  }
+
+  &-title {
+    padding: 0 1rem;
+    h1 {
+      margin: 0;
+    }
+    h2 {
+      margin-top: 0;
+    }
+  }
+
+  &-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: $fifth-color;
+    transform: translateY(-100%);
+    display: none;
+    transition: transform 0.3s ease;
+
+    &.nav-open {
+      display: block;
+      transition: transform 0.3s ease;
+      transform: translateY(0%);
+    }
+
+    @include tablet {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
