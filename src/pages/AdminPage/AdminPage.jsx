@@ -9,7 +9,7 @@ function ActorsPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get('http://localhost:8000/upload')
+        axios.get('http://localhost:8000/contestants')
             .then(response => {
                 setVideoData(response.data); 
             })

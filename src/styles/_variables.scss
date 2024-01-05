@@ -19,3 +19,10 @@ $primary-hover: darken($primary-color, 10%);
 $font-weight-normal: 500;
 $font-size-normal: 16px;
 $spacing-unit: 10px;
+
+@font-face {
+    font-family: 'DancingScript';
+    src: url('../assets/fonts/DancingScipt/DancingScript-SemiBold.ttf') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+  }

@@ -42,7 +42,7 @@ export default function VotingPage() {
     if (votes) {
       try {
         const response = await axios.post(
-          `http://localhost:8000/upload/vote/${actorId}`,
+          `http://localhost:8000/contestants/vote/${actorId}`,
           { votes }
         );
         if (response.status === 200) {

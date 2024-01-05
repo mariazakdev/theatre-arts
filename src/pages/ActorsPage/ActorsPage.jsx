@@ -8,7 +8,7 @@ function ActorsPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get('http://localhost:8000/upload')
+        axios.get('http://localhost:8000/contestants')
             .then(response => {
                 setVideoData(response.data); 
             })
@@ -16,6 +16,15 @@ function ActorsPage() {
                 console.error('There was an error fetching the video data:', error);
             });
     }, []);
+
+    const shuffleArray = (array) => {
+        const shuffledArray = [...array];
+        for (let i = shuffledArray.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+        }
+        return shuffledArray;
+    };
 
     const handleCardClick = (video) => {
         navigate(`/actors/vote/${video.id}`, { state: { actor: video } });
@@ -27,7 +36,7 @@ function ActorsPage() {
             <div className="cards-container">
 
                 
-                {videoData.map(video => (
+                {shuffleArray(videoData).map(video => (
                     <div 
                         key={video.user_id} 
                         className="card"

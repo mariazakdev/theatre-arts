@@ -5,18 +5,19 @@
 .footer {
   position: relative; // Ensure positioning context for pseudo-element
   text-align: center;
-  height: 10rem;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 80%; // Adjust the left value to position it on the right side
-    width: 20%; // Adjust the width for the grey background
-    height: 100%;
-    background-color: $secondaryBackground;
-    z-index: -1; // Place it behind the content
-  }
+  height: 8rem;
+overflow: hidden;
+  // &::before {
+  //   content: "";
+  //   position: absolute;
+  //   top: 0;
+  //   left: 58%; // Adjust the left value to position it on the right side
+  //   width: 43%; // Adjust the width for the grey background
+    
+  //   height: 100%;
+  //   background-color: $secondaryBackground;
+  //   z-index: -1; // Place it behind the content
+  // }
 
   &--top {
     padding: 1rem;

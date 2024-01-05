@@ -7,7 +7,7 @@ const ContestantStanding = () => {
 
   useEffect(() => {
     // Fetch contestants from your API
-    axios.get('http://localhost:8000/upload')
+    axios.get('http://localhost:8000/contestants')
       .then(response => {
         setContestants(response.data);
       })

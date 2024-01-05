@@ -17,7 +17,7 @@ function UserProfile() {
     const fetchActorData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/upload/${actorId}`
+          `http://localhost:8000/contestants/${actorId}`
         );
         setLocalActorData(response.data);
       } catch (error) {
@@ -41,7 +41,7 @@ function UserProfile() {
   return (
     <section className="user-profile">
       {actor && (
-        <>
+        <><h2>Vote here</h2>
           <div className="video-container">
             {videoSrc && (
               <iframe

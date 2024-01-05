@@ -1,0 +1,10 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+@import "../../styles/colors";
+
+.form-background{
+    padding-top: 2rem;
+    background-color: $primaryBackground;
+    height: 80vh;
+ 
+}

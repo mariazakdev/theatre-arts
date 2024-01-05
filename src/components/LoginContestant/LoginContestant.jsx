@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { NavLink, useNavigate } from "react-router-dom";
-import "../../styles/forms.scss";
+import "./LoginContestant.scss";
 
 function LoginContestant() {
   const { login } = useAuth(); 
@@ -20,7 +20,6 @@ function LoginContestant() {
                 navigate("/contestant/enter");
                 console.log(user);
             } else {
-                // Handle the case where user is undefined
                 console.error("User is undefined");
             }
         } catch (error) {

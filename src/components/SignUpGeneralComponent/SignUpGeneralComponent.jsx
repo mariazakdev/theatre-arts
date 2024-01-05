@@ -100,7 +100,7 @@ const onSubmit = async (e) => {
   return (
     <main>
       <section>
-        <div>
+      <div className="form-background">
           <div className="form-container">
             {flashMessage && <p className="flash-message">{flashMessage}</p>}
 

@@ -5,9 +5,9 @@ import UploadForm from '../../components/UploadForm/UploadForm';
 function VideoUploadPage({backendURL}) {
   
   return (
-<>
-<UploadForm backendURL={backendURL}/>
-</>
+    <div className="form-background-upload">
+    <UploadForm backendURL={backendURL}/>
+</div>
   );
 }
 

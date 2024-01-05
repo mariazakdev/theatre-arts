@@ -6,7 +6,6 @@ import '../../styles/forms.scss';
 
 const SignUpVoterPage = () => {
 return(<>
-<h1>hi</h1>
 <SignUpGeneralComponent/>
 </>
   
