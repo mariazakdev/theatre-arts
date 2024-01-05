@@ -41,7 +41,7 @@ function UserProfile() {
   return (
     <section className="user-profile">
       {actor && (
-        <><h2>Vote here</h2>
+        <>
           <div className="video-container">
             {videoSrc && (
               <iframe

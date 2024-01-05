@@ -70,7 +70,7 @@ export default function Dashboard() {
               title="Contestant Video"
               width="320"
               height="240"
-              src={contestants.url_video}
+              src={contestants.url_video.replace("watch?v=", "embed/")}
               allowFullScreen
               className="dashboard__contestant-video"
             ></iframe>
@@ -85,9 +85,9 @@ export default function Dashboard() {
           <EditDashboard contestantId={contestants.id} toggleEditing={toggleEditing} />
         )}
 
-<button onClick={toggleEditing} className="dashboard__edit-button">
-  {isEditing ? 'Cancel Edit' : 'Edit'}
-</button>
+        <button onClick={toggleEditing} className="dashboard__edit-button">
+          {isEditing ? 'Cancel Edit' : 'Edit'}
+        </button>
 
         {error && <p className="dashboard__error">{error}</p>}
       </div>

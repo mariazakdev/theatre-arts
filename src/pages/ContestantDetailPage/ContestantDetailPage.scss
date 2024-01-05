@@ -1,0 +1,11 @@
+@use "../../styles/mixins" as *;
+@use "../../styles/colors" as *;
+
+
+.contestant-detail-page {
+@include flex(center, center, column);
+    background-color: $primaryBackground; 
+    width: 80%; 
+    margin: 0 auto; 
+    padding: 2rem; 
+  }
