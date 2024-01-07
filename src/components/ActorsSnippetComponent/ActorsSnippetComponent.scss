@@ -3,92 +3,6 @@
 @import "../../styles/colors";
 
 
-// .video-list-container-snippet {
-//   @include flex(center, flex-end, column);
-//   padding-top: 3rem;
-//   width: 100%;
-//   font-family: Arial, sans-serif;
-//   background-color: $primaryBackground;
-//   border: 2px solid green;
-//   padding: 0 1rem;
-
-//   ul {
-//     list-style-type: none;
-//     padding: 0;  
-
-//   }
-
-//   &__cards-container {
-//     @include flex(center, center, row);
-//     overflow: hidden;
-//     min-width: 80%;
-//     height: 21rem;
-    
-//     @include mobile {
-//       @include flex(center, center, column);
-//       width: 100%;
-//       height: auto;
-//     }
-
-//   }
-// }
-
-// .card-snippet { // List of photos
-//   @include flex(center, center, column);
-//   border: 1px solid #ddd;
-//   width: 60%;
-//   overflow: hidden;
-//   text-align: center;
-//   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-//   margin-bottom: 20px;
-//   background-color: white;
-//   height: 20rem; 
-// border: 3px solid red;
-// @include tablet{
-// border: 3px solid blue;
-// }
-// @include mobile{
-//   border: 3px solid green;
-
-// }
-
-//   &__content { // Photo
-//     flex: 1;
-//     display: flex;
-//     flex-direction: column;
-//     margin-bottom: 0;
-//     width: 100%;
-
-//     img {
-//       width: 100%;
-//       height: 100%;
-//       object-fit: cover;
-   
-//     }
-
-//     h2 {
-//       font-size: 1.5rem;
-//       margin-bottom: 0.5rem;
-//     }
-
-//     p {
-//       font-size: 1rem;
-//       margin-bottom: 0;
-//     }
-//   }
-
-//   @include desktop {
-//     width: 50%; 
-//   }
-
-//   @include tablet {
-//     width: 80%; 
-//     height: auto; 
-//   }
-
-
-// }
-
 
 .video-list-container-snippet {
   @include flex(center, center, column);
@@ -131,12 +45,11 @@
   background-color: white;
   height: 20rem;
 
-  @include tablet {
-  }
+ 
 
   @include mobile {
     width: 100%;
-    height: auto;
+    height: 10rem;
 
     &__content {
       img {
@@ -158,6 +71,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      
     }
 
     h2 {
@@ -177,6 +91,6 @@
 
   @include tablet {
     width: 80%;
-    height: auto;
+    height: 16rem ;
   }
 }
