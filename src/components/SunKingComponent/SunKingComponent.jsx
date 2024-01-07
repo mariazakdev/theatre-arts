@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./SunKingComponent.scss";
-import img from "../../assets/images/sunking.jpg";
+import img from "../../assets/images/fotor-2024010481259.png";
 
 function BanerComponent() {
   useEffect(() => {

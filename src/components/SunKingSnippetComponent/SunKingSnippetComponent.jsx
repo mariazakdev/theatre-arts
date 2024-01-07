@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./SunKingSnippetComponent.scss";
-import img from "../../assets/images/sunking.jpg";
+import img from "../../assets/images/fotor-2024010481259.png";
 
 function SunKingSnippetComponent() {
 

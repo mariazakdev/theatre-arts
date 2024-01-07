@@ -1,11 +1,12 @@
 // Update Nav.js
 import React, { useState, useEffect } from 'react';
+import CloseBtn from '../../assets/icons/icone-x-grise.png';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import "./Nav.scss";
 
-function Nav() {
+function Nav({ isMobileMenuOpen, onClose }) {
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
   const [userData, setUserData] = useState({});
@@ -38,8 +39,11 @@ function Nav() {
   };
 
   return (
-    <nav className="nav">
+    <nav className={`nav ${isMobileMenuOpen ? 'mobile-menu-open' : ''}`}>
+         
+ 
       <ul>
+        <li>  <img src={CloseBtn} alt="close" className="close-btn" onClick={onClose} /></li>
         {currentUser ? (
           <>
             {userData && userData.is_contestant === 1 && (
