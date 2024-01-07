@@ -110,7 +110,12 @@
   &--top {
     padding: 1rem;
     @include flex(space-between, center, row); 
-
+  @include desktop {
+      display: flex;
+      align-items: center; // Align items vertically in the center
+      justify-content: space-between; // Add space between logo, title, and navigation
+      padding: 2rem;
+    }
     h1 {
       @include tablet {
         font-size: 1.3rem;
@@ -214,9 +219,11 @@
     .header--top {
       .header-menu {
         .menu-icon {
-          display: none; // Hide the menu icon in desktop
+          display: none; 
         }
       }
     }
   }
 }
+
+
