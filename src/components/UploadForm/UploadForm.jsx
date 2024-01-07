@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { auth } from "../../firebase";
 import ReactPlayer from "react-player";
+import './UploadForm.scss';
 
 import { useAuth } from "../../contexts/AuthContext";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";

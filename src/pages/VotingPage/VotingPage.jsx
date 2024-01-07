@@ -5,7 +5,6 @@ import { useAuth } from "../../contexts/AuthContext"; // Import the auth context
 import VotingButtons from "../../components/VotingComponent/VotingButtons";
 import SingleVote from "../../components/VotingComponent/SingleVote";
 import "./VotingPage.scss";
-import CharityIntro from "../../components/Charity/CharityIntro";
 import UserProfile from "../../components/UserProfile/UserProfile";
 
 export default function VotingPage() {
@@ -23,7 +22,7 @@ export default function VotingPage() {
   useEffect(() => {
     const fetchActor = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/upload/${actorId}`);
+        const response = await fetch(`http://localhost:8000/contestants/${actorId}`);
         const data = await response.json();
         setActorData(data);
       } catch (error) {

@@ -1,32 +1,23 @@
-// Header.js
 import React, { useState } from 'react';
-import Logo from "../../assets/icons/drama.png";
 import Nav from '../Nav/Nav';
+import Logo from '../../assets/images/fotor-2024010481259.png';
 import "./Header.scss";
+import { Link } from 'react-router-dom';
 
 function Header() {
-  const [isNavOpen, setIsNavOpen] = useState(false);
-
-  const toggleNav = () => {
-    setIsNavOpen(!isNavOpen);
-  };
-
-  const closeNav = () => {
-    setIsNavOpen(false);
-  };
 
   return (
-    <header className={`header ${isNavOpen ? 'nav-open' : ''}`}>
+    <header className='header'>
       <div className='header--top'>
-        {/* <img src={Logo} alt="logo" className='header-logo'></img> */}
-        <div className='header-title'>
+        <Link to='/'>
+        <img src={Logo} alt="logo" className='header-logo'></img>
+        </Link>
+        {/* <div className='header-title'> */}
           <h1>Canadian Broadway Theatre</h1>
-        </div>
-        <div className='header--top__menu-icon' onClick={toggleNav}>
-          {isNavOpen ? '✕' : '☰'}
-        </div>
-        <div className={`header-nav ${isNavOpen ? 'nav-open' : ''}`}>
-          <Nav closeNav={closeNav} />
+        {/* </div> */}
+       
+        <div >
+          <Nav  />
         </div>
       </div>
     </header>

@@ -54,7 +54,7 @@ function EditDashboard({ contestantId, toggleEditing }) {
   };
 
   return (
-    <section>
+    <section className='edit'>
         <div className="edit-dashboard">
           <form className="edit-dashboard__form" onSubmit={handleFormSubmit}>
             <label className="edit-dashboard__form__label" htmlFor="description">

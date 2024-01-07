@@ -3,28 +3,18 @@
 @import "../../styles/colors";
 
 .header {
+  background-color: $forthBackground;
   position: relative;
   height: auto;
   overflow: hidden;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-
-  // background-color: $secondaryBackground;
-
-  // &::before {
-  //   content: "";
-  //   position: absolute;
-  //   top: 0;
-  //   left: 0;
-  //   width: 30%; // Adjust the width for the grey background
-  //   height: 100%;
-  //   background-color: $primaryBackground;
-  //   z-index: -1; // Place it behind the content
-  // }
 
   &--top {
     padding: 1rem;
-    @include flex(space-between, flex-start, row); 
-
+    @include flex(space-between, center, row); 
+    img{
+      width: 5rem;
+      height: 5rem;
+    }
     &__menu-icon {
       cursor: pointer;
       font-weight: 600;
@@ -78,19 +68,6 @@
   }
 
   &-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: $fifth-color;
-    transform: translateY(-100%);
-    display: none;
-    transition: transform 0.3s ease;
-  
-    &.nav-open {
-      display: block;
-      transform: translateY(0%);
-    }
+
   }
 }

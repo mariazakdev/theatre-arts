@@ -4,12 +4,14 @@
 
 .nav {
   @include flex(center, center, row);
-  // background-color: rgb(202, 166, 148);
   margin: 0;
   padding: 0;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  // box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   list-style-type: none;
   transition: max-height 0.3s ease;
+  &-logout{
+    cursor: pointer;
+  }
 ul{
   margin: 0;
   padding: 0;
@@ -28,7 +30,7 @@ li {
     list-style: none;
 
     a {
-      color: aliceblue;
+      color: rgb(0, 0, 0);
       text-decoration: none;
       display: block;
     }
