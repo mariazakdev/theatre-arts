@@ -78,11 +78,8 @@ const SignUpContestant = () => {
         <div className="form-container">
           {flashMessage && <p className="flash-message">{flashMessage}</p>}
 
-          <h1>Sign Up to Participate</h1>
-          <h3>
-            You are helping your friend win, but also supporting children with
-            disabilities
-          </h3>
+          <h2>Sign Up</h2>
+        
           <form onSubmit={onSubmit}>
             {errorMessage && <p className="error-message">{errorMessage}</p>}
 

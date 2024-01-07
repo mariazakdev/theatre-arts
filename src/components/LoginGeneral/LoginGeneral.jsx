@@ -74,7 +74,7 @@ function LoginGeneral() {
     <main>
       <section>
         <div className="form-container">
-          <h1>Log In all voters</h1>
+          <h2>Log In</h2>
 
           <form>
             <div className="input-group">

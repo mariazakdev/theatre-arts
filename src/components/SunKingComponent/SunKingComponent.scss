@@ -9,26 +9,44 @@
   background-color: $primaryBackground;
   margin: 0;
   @include flex(center, flex-start, row);
- 
+  @include mobile {
+    @include flex(center, center, column);
+    
+
+  }
 
   &-text {
     @include flex(center, flex-start, column);
     width: 60%;
     // height: 50rem;
-    height: 70vh;
+    height: auto;
     background-color: $secondaryBackground;
     padding: 1rem 5rem;
+    @include mobile {
+      @include flex(center, center, column);
+
+      width: 100%;
+      height: auto;
+      padding: 1rem 2rem;
+      
+  
+    }
   }
 
   &-image { 
     width:40%;
     height: 50rem;
-    height: 70vh;
+    height: auto;
     padding: 2rem;
     padding-right: 2.5rem;
     position: relative; 
     z-index: 1; 
-
+    @include mobile {
+      width: 100%; 
+      height: auto;
+      padding: 0; 
+      text-align: center; 
+    }
     img {
       width: 30rem;
       border-radius: 100%;
@@ -36,17 +54,38 @@
       opacity: 0;
       animation: fadeInAndSlide 2s forwards;
       position: absolute;
-      top: 15%; 
+      margin-top: 100px;
+      top: 30%; 
       left: -40px; 
       z-index: 2; 
+      @include mobile {
+        width: 12rem; 
+        height: 12rem;
+        margin: 0;
+        position: static;
+      }
+  
+      @include tablet {
+        width: 20rem;       
+        height: 20rem;
+
+           }
     }
+
   }
 
   h2 {
     color: rgb(0, 0, 0);
     font-size: 2rem;
-    padding: 0;
+    padding-top: 3rem;
     margin: 0;
+    @include mobile {
+      font-size: 1rem;
+    }
+
+    @include tablet {
+      font-size: 1.5rem;
+    }
   }
 
   h1 {
@@ -54,6 +93,13 @@
     font-size: 3rem;
     padding: 0;
 
+    @include mobile {
+      font-size: 1.5rem;
+    }
+
+    @include tablet {
+      font-size: 2rem;
+    }
   }
 
   p {
@@ -65,7 +111,7 @@
     }
 
     @include tablet {
-      font-size: 1.2rem;
+      font-size: 1rem;
     }
 
     @include desktop {
