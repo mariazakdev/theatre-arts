@@ -145,7 +145,7 @@ function UploadForm({ backendURL }) {
       firebaseId: currentUser ? currentUser.uid : null,
     };
     try {
-      const response = await fetch(`${backendURL}/upload`, {
+      const response = await fetch(`${backendURL}/contestants`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

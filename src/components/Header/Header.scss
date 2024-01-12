@@ -2,110 +2,14 @@
 @import "../../styles/mixins";
 @import "../../styles/colors";
 
-// .header {
-//   background-color: $forthBackground;
-//   position: relative;
-//   height: auto;
-//   overflow: hidden;
 
-//   &--top {
-//     padding: 1rem;
-//     @include flex(space-between, center, row); 
-//     h1{
-//       @include tablet {
-//         font-size: 1.3rem;
-//         text-align: center;
-//       }
-//       @include mobile{
-//         font-size: 1rem;
-//         text-align: center;
-//       }
-//     }
-//     img{
-//       width: 5rem;
-//       height: 5rem;
-//     }
-//     &__menu-icon {
-//       display: none;
-//       cursor: pointer;
-//       width: 6rem;
-//       font-weight: 600;
-     
-//     }
-
-//     @include tablet {
-//       padding: 1.5rem;
-//       text-align: left;
-//     }
-
-//     @include desktop {
-//       padding: 2rem;
-//     }
-//   }
-
-//   @include tablet {
-//     &--top {
-//       padding: 1.5rem;
-//     }
-//   }
-
-//   @include desktop {
-//     &--top {
-//       padding: 2rem;
-//     }
-//   }
-
-//   &-logo {
-//     max-width: 100%;
-//     height: auto;
-//   }
-
-//   &-title {
-//     padding: 0 1rem;
-//     z-index: 1;
-
- 
-
-
-//   }
-// // Mobile Menu
-//   &.mobile-menu-open {
-//     .header--top {
-//       .header-menu {
-//         .nav {
-//           display: block;
-//         }
-//       }
-//     }
-//   }
-
-//   @include mobile {
-//     .header--top {
-//       .header-menu {
-//         .nav {
-//           display: none;
-//         }
-
-//         .menu-icon {
-//           display: block;
-//          width: 40px;
-//          height: 40px;
-//           color: white;
-//           border: none;
-//           padding: 0.5rem;
-//           cursor: pointer;
-//           font-size: 1rem;
-//         }
-//       }
-//     }
-//   }
-// }
 
 .header {
   background-color: $forthBackground;
   position: relative;
   height: auto;
   overflow: hidden;
+  padding-bottom: 0;
 
   &--top {
     padding: 1rem;
@@ -114,7 +18,7 @@
       display: flex;
       align-items: center; // Align items vertically in the center
       justify-content: space-between; // Add space between logo, title, and navigation
-      padding: 2rem;
+      padding: 0 2rem;
     }
     h1 {
       @include tablet {
