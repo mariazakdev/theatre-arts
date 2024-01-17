@@ -8,6 +8,7 @@ function EnterCompetitionPage({backendURL}) {
     <div className="form-background">
 
 <EnterCompetitionComponent backendURL={backendURL}/>
+
 </div>
   );
 }

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { auth } from "../../firebase";
+import UploadFormRules from "./UploadFormRules";
 import ReactPlayer from "react-player";
 import './UploadForm.scss';
-
 import { useAuth } from "../../contexts/AuthContext";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { useNavigate } from "react-router-dom";
@@ -29,13 +29,14 @@ function UploadForm({ backendURL }) {
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [videoPreviewUrl, setVideoPreviewUrl] = useState(null);
-
+  const [isAgreed, setIsAgreed] = useState(false); // Agree to the rules
   const [formData, setFormData] = useState({
     photoUrl: "",
     videoUrl: "",
     description: "",
     name: "",
   });
+  const [isFormValid, setIsFormValid] = useState(false);
 
   useEffect(() => {
     if (!currentUser) {
@@ -124,26 +125,36 @@ function UploadForm({ backendURL }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (uploadStatus !== "ready") {
       alert("Please confirm the photo before submitting.");
       return;
     }
+
+    // Upload the image to S3
     const photoUrl = await uploadToS3(imageFile);
     if (!photoUrl) {
       alert("Failed to upload the image to S3");
       return;
     }
-    
     // Validate required fields
-    if (!formData.name || !formData.description || !formData.videoUrl || !imageFile || uploadStatus !== "ready") {
+    if (
+      !formData.name ||
+      !formData.description ||
+      !formData.videoUrl ||
+      !imageFile ||
+      uploadStatus !== "ready"
+    ) {
       alert("Please fill in all the required fields and confirm the photo before submitting.");
       return;
-  }
+    }
+    // Submit the form
     const payload = {
       ...formData,
       photoUrl,
       firebaseId: currentUser ? currentUser.uid : null,
     };
+
     try {
       const response = await fetch(`${backendURL}/contestants`, {
         method: "POST",
@@ -169,91 +180,113 @@ function UploadForm({ backendURL }) {
       [name]: value,
     }));
   };
+
   const handleVideoChange = (e) => {
     const videoUrl = e.target.value;
     setFormData((prevState) => ({
-        ...prevState,
-        videoUrl: videoUrl,
+      ...prevState,
+      videoUrl: videoUrl,
     }));
     setVideoPreviewUrl(videoUrl);
-};
+  };
+
+  // Agree to the rules
+  const handleAgreeChange = () => {
+    setIsAgreed(!isAgreed);
+  };
+
+  useEffect(() => {
+    const isFormValid =
+      formData.name &&
+      formData.description &&
+      formData.videoUrl &&
+      imageFile &&
+      uploadStatus === "ready";
+    setIsFormValid(isFormValid);
+  }, [formData, imageFile, uploadStatus]);
 
   return (
     <div className="form-background-upload">
-    <div className="form-container">
-      <h2 className="form-container__title">Upload to Enter Contest</h2>
-      <form className="form-container__form" onSubmit={handleSubmit}>
-        {uploadStatus === "uploading" && <p>Uploading...</p>}
-        {uploadStatus === "success" && <p>Upload Successful!</p>}
-        {uploadStatus === "failed" && <p>Upload Failed. Please try again.</p>}
-        {showConfirmationMessage && (
-          <p className="flash-message">Photo Confirmed!</p>
-        )}
-
-
-
-
-        <div className="input-group">
-          <label>Upload Photo:</label>
-          <input type="file" accept="image/*" onChange={handlePhotoChange} />
-          {imagePreview && (
-            <div>
-              <img
-                src={imagePreview}
-                alt="Selected Preview"
-                style={{ maxWidth: "100%", maxHeight: "300px" }}
-              />
-              <button type="button" onClick={handleConfirmPhoto}>
-                Confirm Photo
-              </button>
-            </div>
+      <div className="form-container">
+        <h2 className="form-container__title">Upload to Enter Contest</h2>
+        <form className="form-container__form" onSubmit={handleSubmit}>
+          {uploadStatus === "uploading" && <p>Uploading...</p>}
+          {uploadStatus === "success" && <p>Upload Successful!</p>}
+          {uploadStatus === "failed" && <p>Upload Failed. Please try again.</p>}
+          {showConfirmationMessage && (
+            <p className="flash-message">Photo Confirmed!</p>
           )}
-        </div>
 
-        <div className="input-group">
-                <label>Video URL:</label>
-                <input
-                    className="form-container__input"
-                    type="text"
-                    name="videoUrl"
-                    placeholder="Video URL"
-                    value={formData.videoUrl}
-                    onChange={handleVideoChange}
+          <div className="input-group">
+            <label>Upload Photo:</label>
+            <input type="file" accept="image/*" onChange={handlePhotoChange} />
+            {imagePreview && (
+              <div>
+                <img
+                  src={imagePreview}
+                  alt="Selected Preview"
+                  style={{ maxWidth: "100%", maxHeight: "300px" }}
                 />
-                {videoPreviewUrl && (
-                    <div>
-                        <ReactPlayer url={videoPreviewUrl} controls width="100%" height="300px" />
-                        <p>Video Preview</p>
-                    </div>
-                )}
-            </div>
+                <button type="button" onClick={handleConfirmPhoto}>
+                  Confirm Photo
+                </button>
+              </div>
+            )}
+          </div>
 
+          <div className="input-group">
+            <label>Video URL:</label>
+            <input
+              className="form-container__input"
+              type="text"
+              name="videoUrl"
+              placeholder="Video URL"
+              value={formData.videoUrl}
+              onChange={handleVideoChange}
+            />
+            {videoPreviewUrl && (
+              <div>
+                <ReactPlayer
+                  url={videoPreviewUrl}
+                  controls
+                  width="100%"
+                  height="300px"
+                />
+                <p>Video Preview</p>
+              </div>
+            )}
+          </div>
 
+          <div className="input-group">
+            <textarea
+              className="form-container__input"
+              name="description"
+              placeholder="Description"
+              value={formData.description}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="input-group">
+            <input
+              className="form-container__input"
+              type="text"
+              name="name"
+              placeholder="Name"
+              value={formData.name}
+              onChange={handleInputChange}
+            />
+          </div>
+          <UploadFormRules onAgree={handleAgreeChange} isAgreed={isAgreed} />
 
-        <div className="input-group">
-          <textarea
-            className="form-container__input"
-            name="description"
-            placeholder="Description"
-            value={formData.description}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="input-group">
-          <input
-            className="form-container__input"
-            type="text"
-            name="name"
-            placeholder="Name"
-            value={formData.name}
-            onChange={handleInputChange}
-          />
-        </div>
-        <button className="form-container__submit-button" type="submit">
-          Submit
-        </button>
-      </form>
-    </div>
+          <button
+            className="form-container__submit-button"
+            type="submit"
+            disabled={!isFormValid}
+          >
+            Submit
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

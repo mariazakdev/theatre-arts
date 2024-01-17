@@ -204,8 +204,11 @@ resize: none;      }
     padding: 1rem;
     animation: flash 3s;
   }
+
+
+.form-container__submit-button:disabled {
+    background-color: gray;
+    color: black;
+    cursor: not-allowed;
+  }
   
-//   @keyframes flash {
-//     0%, 100% { opacity: 0; }
-//     50% { opacity: 1; }
-//   }
