@@ -32,6 +32,15 @@
       height: auto;
     }
   }
+    // New styles for the "See More" button
+    .card-button {
+      margin-left: auto; // Push the button to the right
+      margin-right: 1rem; // Add some right margin for desktop/tablet views
+  
+      @include mobile {
+        margin: 1rem auto; // Center the button in mobile views
+      }
+    }
 }
 
 .card-snippet { // List of photos
