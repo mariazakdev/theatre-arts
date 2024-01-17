@@ -36,7 +36,16 @@ const SignUpContestant = () => {
       setErrorMessage("Passwords do not match.");
       return;
     }
-
+    if (!email || !password || !confirmPassword) {
+      setErrorMessage("Please fill in all the required fields.");
+      return;
+    }
+  
+    if (password !== confirmPassword) {
+      setErrorMessage("Passwords do not match.");
+      return;
+    }
+    
     try {
       // Check if the user already exists
       const userExists = await checkIfUserExists(email);

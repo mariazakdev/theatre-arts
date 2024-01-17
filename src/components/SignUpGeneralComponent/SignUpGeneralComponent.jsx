@@ -24,23 +24,31 @@ const SignUpComponent = () => {
       const response = await axios.get(
         `http://localhost:8000/users/check-user?email=${email}`
       );
-      return response.data.exists; // Adjust according to your API response
+      return response.data.exists; 
     } catch (error) {
       console.error("Error checking user existence:", error);
-      return false; // Assuming non-existence if there's an error
+      return false;
     }
   };
 
-// ... (existing code)
-
 const onSubmit = async (e) => {
   e.preventDefault();
+
+
+  if (password !== confirmPassword) {
+     setErrorMessage("Passwords do not match.");
+    return;
+  }
+  if (!email || !password || !confirmPassword) {
+    setErrorMessage("Please fill in all the required fields.");
+    return;
+  }
 
   if (password !== confirmPassword) {
     setErrorMessage("Passwords do not match.");
     return;
   }
-
+  
   try {
     // Check if the user already exists
     const userExists = await checkIfUserExists(email);
@@ -105,9 +113,9 @@ const onSubmit = async (e) => {
             {flashMessage && <p className="flash-message">{flashMessage}</p>}
 
             <h2>Sign Up</h2>
-            
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
+
             <form onSubmit={onSubmit}>
-              {errorMessage && <p className="error-message">{errorMessage}</p>}
 
               <div className="input-group">
                 <label htmlFor="email-address">Email address</label>
@@ -124,7 +132,7 @@ const onSubmit = async (e) => {
               <div className="input-group">
                 <label htmlFor="password">Password</label>
                 <input
-                  type={showPassword ? "text" : "password"} // Use the state to toggle between text and password type
+                  type={showPassword ? "text" : "password"} 
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}

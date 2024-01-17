@@ -10,10 +10,15 @@ function LoginGeneral() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [flashMessage, setFlashMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const onLogin = async (e) => {
     e.preventDefault();
-
+    if (!email || !password) {
+      setErrorMessage('Please enter email and password');
+      return;
+  }
     try {
       const userCredential = await login(email, password);
 
@@ -75,6 +80,8 @@ function LoginGeneral() {
       <section>
         <div className="form-container">
           <h2>Log In</h2>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+          {flashMessage && <p className="flash-message">{flashMessage}</p>}
 
           <form>
             <div className="input-group">
@@ -94,7 +101,7 @@ function LoginGeneral() {
               <input
                 id="password"
                 name="password"
-                type={showPassword ? "text" : "password"} // Use the state to toggle between text and password type
+                type={showPassword ? "text" : "password"} 
                 required
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
