@@ -4,7 +4,6 @@ import PrivateContestantRoute from "./components/PrivateRoute/PrivateContestantR
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import { AuthProvider } from "./contexts/AuthContext";
 import OneTimeUploadRoute from "./components/OneTimeUploadRoute/OneTimeUploadRoute";
-
 import Header from "./components/Header/Header";
 import HomePage from "./pages/HomePage/HomePage";
 import Footer from "./components/Footer/Footer";
@@ -12,7 +11,6 @@ import VideoUploadPage from "./pages/VideoUploadPage/VideoUploadPage";
 import ActorsPage from "./pages/ActorsPage/ActorsPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import SignUpPage from "./pages/SignUpPage/SignUpPage";
-import UpdateProfilePage from "./pages/UpdateProfilePage/UpdateProfilePage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage/ForgotPasswordPage";
 import VotingPage from "./pages/VotingPage/VotingPage";
 import StripeWrapper from "./components/StripeWrapper/StripeWrapper";
@@ -25,14 +23,9 @@ import SignUpVoterPage from "./pages/SignUpVoterPage/SignUpVoterPage";
 import PaymentContestPage from "./pages/PaymentContestPage/PaymentContestPage";
 import AdminPage from "./pages/AdminPage/AdminPage";
 import SunKingPage from "./pages/SunKingPage/SunKingPage";
-
-
 import "./App.scss";
 
-
-console.log("REACT_APP_TEST_URL:", process.env.REACT_APP_URL);
 const URL = process.env.REACT_APP_BACKEND_URL;
-console.log(URL);
 
 function App() {
   return (
@@ -70,15 +63,15 @@ function App() {
                 }
               />
               {/* One contestant */}
-             {/* Private route for contestant dashboard */}
-             <Route
-                                path="/contestant/dashboard"
-                                element={
-                                    <PrivateContestantRoute>
-                                        <DashBoardPage backendURL={URL} />
-                                     </PrivateContestantRoute>
-                                }
-                            />
+              {/* Private route for contestant dashboard */}
+              <Route
+                path="/contestant/dashboard"
+                element={
+                  <PrivateContestantRoute>
+                    <DashBoardPage backendURL={URL} />
+                  </PrivateContestantRoute>
+                }
+              />
               <Route
                 path="/contestant/payment-success"
                 element={<PaymentContestPage />}
@@ -97,9 +90,8 @@ function App() {
                 element={<ContestantDetailPage />}
               />
               <Route path="/payment-success" element={<PaymentSuccess />} />
-                <Route path="/sun-king" element={<SunKingPage/>} />
+              <Route path="/sun-king" element={<SunKingPage />} />
 
-            
               {/* Catch-all */}
               <Route path="*" element={<div>404 Not Found</div>} />
             </Routes>
