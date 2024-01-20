@@ -6,11 +6,11 @@ import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import "../../styles/forms.scss";
 
+const URL = process.env.REACT_APP_BACKEND_URL;
 const SignUpComponent = () => {
   const navigate = useNavigate();
   const location = useLocation(); 
   const { signup } = useAuth();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -22,7 +22,7 @@ const SignUpComponent = () => {
   const checkIfUserExists = async (email) => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/users/check-user?email=${email}`
+        `${URL}/users/check-user?email=${email}`
       );
       return response.data.exists; 
     } catch (error) {
@@ -66,7 +66,7 @@ const onSubmit = async (e) => {
       const user = userCredential.user;
 
       // Backend API call
-      await axios.post("http://localhost:8000/users", {
+      await axios.post(`${URL}/users`, {
         email: user.email,
         firebaseAuthId: user.uid,
         isContestant: false,

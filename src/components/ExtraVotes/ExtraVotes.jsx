@@ -4,7 +4,6 @@ import PaymentButton from '../PaymentButton/PaymentButton';
 function ExtraVotes() {
   const handlePaymentSuccess = (details, data) => {
     console.log("Payment Successful!", details, data);
-    // Here, you might want to update the user's vote count in your database.
   }
 
   return (

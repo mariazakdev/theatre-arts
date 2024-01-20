@@ -1,7 +1,4 @@
-// Header.js
 import React, { useState } from 'react';
-import Logo from "../../assets/icons/drama.png";
-import Nav from '../Nav/Nav';
 import "./Footer.scss";
 
 function Footer() {

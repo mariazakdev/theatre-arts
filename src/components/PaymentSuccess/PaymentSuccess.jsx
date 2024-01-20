@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+const URL = process.env.REACT_APP_BACKEND_URL;
 function PaymentSuccess() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ function PaymentSuccess() {
     const updateVotes = async (actorId, votes) => {
       try {
         const response = await axios.post(
-          `http://localhost:8000/contestants/vote/${actorId}`,
+          `${URL}/contestants/vote/${actorId}`,
           { votes: votes }
         );
 

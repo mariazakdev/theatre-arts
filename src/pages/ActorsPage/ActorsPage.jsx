@@ -3,12 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './ActorsPage.scss';
 
+const URL = process.env.REACT_APP_BACKEND_URL;
 function ActorsPage() {
     const [videoData, setVideoData] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get('http://localhost:8000/contestants')
+        axios.get(`${URL}/contestants`)
             .then(response => {
                 setVideoData(response.data); 
             })
@@ -46,7 +47,6 @@ function ActorsPage() {
                             <h2 className="card-title">{video.name}</h2>
                             <img src={video.url_photo} alt={video.name} className="card-image"/>
                             <p className="card-description">{video.description}</p>
-                            {/* <p className="card-votes">Votes: {video.votes}</p> */}
                         </div>
 
                     </div> 

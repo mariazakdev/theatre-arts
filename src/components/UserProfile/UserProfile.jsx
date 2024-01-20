@@ -3,6 +3,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import "./UserProfile.scss";
 
+const URL = process.env.REACT_APP_BACKEND_URL;
 function UserProfile() {
   const { actorId } = useParams();
   const [localActorData, setLocalActorData] = useState(null);
@@ -17,7 +18,7 @@ function UserProfile() {
     const fetchActorData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/contestants/${actorId}`
+          `${URL}/contestants/${actorId}`
         );
         setLocalActorData(response.data);
       } catch (error) {

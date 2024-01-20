@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
 
-export default function PrivateContestantRoute({ children }) {
-  console.log("Component rendering");
 
+const URL = process.env.REACT_APP_BACKEND_URL;
+export default function PrivateContestantRoute({ children }) {
   const { currentUser } = useAuth();
   const [userData, setUserData] = useState({});
   const [error, setError] = useState("");
@@ -15,7 +15,7 @@ export default function PrivateContestantRoute({ children }) {
       try {
         if (currentUser) {
           const response = await axios.get(
-            `http://localhost:8000/users/${currentUser.uid}`
+            `${URL}/users/${currentUser.uid}`
           );
           const data = response.data;
           console.log("User Data:", data);
@@ -33,11 +33,6 @@ export default function PrivateContestantRoute({ children }) {
   console.log("currentUser in private:", currentUser);
   console.log("user in private:", userData);
 
-//   return userData  ? (
-//     <Outlet>{children}</Outlet>
-//   ) : (
-//     <Navigate to="/" replace />
-//   );
   return userData  ? 
     children
    : 

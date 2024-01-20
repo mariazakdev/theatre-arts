@@ -1,6 +1,5 @@
 import ActorsSnippetComponent from "../../components/ActorsSnippetComponent/ActorsSnippetComponent";
 import SunKingSnippetComponent from "../../components/SunKingSnippetComponent/SunKingSnippetComponent";
-import { Link } from "react-router-dom";
 
 import "./HomePage.scss";
 

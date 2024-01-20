@@ -8,7 +8,6 @@ import {
 } from "@stripe/react-stripe-js";
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
-
 import { useAuth } from "../../contexts/AuthContext";
 import { doc, updateDoc, getDoc, setDoc } from 'firebase/firestore';
 import { db } from "../../firebase";

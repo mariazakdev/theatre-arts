@@ -4,12 +4,14 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './ActorsSnippetComponent.scss';
 
+const URL = process.env.REACT_APP_BACKEND_URL;
+
 function ActorsSnippetComponent() {
   const [videoData, setVideoData] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:8000/contestants')
+    axios.get(`${URL}/contestants`)
       .then(response => {
         setVideoData(response.data);
       })

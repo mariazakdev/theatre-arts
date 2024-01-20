@@ -1,4 +1,3 @@
-import React from 'react'
 import SunKingComponent from '../../components/SunKingComponent/SunKingComponent';
 
 

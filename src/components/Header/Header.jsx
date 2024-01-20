@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import Nav from '../Nav/Nav';
 import Logo from '../../assets/images/fotor-2024010481259.png';
 import OpenBtn from '../../assets/icons/hamburger.png';
-import CloseBtn from '../../assets/icons/icone-x-grise.png';
 import Overlay from '../Overlay/Overlay'; 
 import './Header.scss';
 import { Link } from 'react-router-dom';

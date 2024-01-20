@@ -9,7 +9,6 @@ function LoginContestant() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
-    const [flashMessage, setFlashMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const onLogin = async (e) => {
         e.preventDefault();

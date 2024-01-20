@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const URL = process.env.REACT_APP_BACKEND_URL;
+
 const ContestantStanding = () => {
   const [contestants, setContestants] = useState([]);
   const [updateCount, setUpdateCount] = useState(0);
 
   useEffect(() => {
     // Fetch contestants from your API
-    axios.get('http://localhost:8000/contestants')
+    axios.get(`${URL}/contestants`)
       .then(response => {
         setContestants(response.data);
       })

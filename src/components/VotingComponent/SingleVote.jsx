@@ -4,6 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 import "./VotingButtons.scss";
 
+const URL = process.env.REACT_APP_BACKEND_URL;
 export default function SingleVote({ actorId, onVoteSuccess,currentUser }) {
   const { user } = useAuth();
   const location = useLocation();
@@ -25,7 +26,7 @@ export default function SingleVote({ actorId, onVoteSuccess,currentUser }) {
     }
     try {
       const response = await axios.post(
-        `http://localhost:8000/contestants/vote/${actorId}`,
+        `${URL}/contestants/vote/${actorId}`,
         { votes: 1 }
       );
 

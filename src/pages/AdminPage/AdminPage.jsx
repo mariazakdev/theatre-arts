@@ -4,12 +4,13 @@ import axios from 'axios';
 import ContestantStanding from '../../components/ContestantStanding/ContestantStanding';
 import './AdminPage.scss';
 
+const URL = process.env.REACT_APP_BACKEND_URL;
 function ActorsPage() {
     const [videoData, setVideoData] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get('http://localhost:8000/contestants')
+        axios.get(`${URL}/contestants`)
             .then(response => {
                 setVideoData(response.data); 
             })

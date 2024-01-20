@@ -3,6 +3,8 @@ import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";import axios from "axios";
 import "../../styles/forms.scss";
 
+const URL = process.env.REACT_APP_BACKEND_URL;
+
 function LoginGeneral() {
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -34,7 +36,7 @@ function LoginGeneral() {
         console.log("Data being sent to backend:", requestData);
 
         const response = await axios.post(
-          "http://localhost:8000/users/login",
+          `${URL}/users/login`,
           requestData
         );
 

@@ -4,10 +4,10 @@ import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 import '../../styles/forms.scss';
 
+const URL = process.env.REACT_APP_BACKEND_URL;
 const SignUpContestant = () => {
   const navigate = useNavigate();
   const { signup } = useAuth();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -19,7 +19,7 @@ const SignUpContestant = () => {
   const checkIfUserExists = async (email) => {
     try {
       const response = await axios.get(
-        `http://localhost:8000/users/check-user?email=${email}`
+        `${URL}/users/check-user?email=${email}`
       );
       return response.data.exists; // Adjust according to your API response
     } catch (error) {
@@ -55,7 +55,7 @@ const SignUpContestant = () => {
         const userCredential = await signup(email, password);
         const user = userCredential.user;
 
-        await axios.post("http://localhost:8000/users", {
+        await axios.post(`${URL}/users`, {
           email: user.email,
           firebaseAuthId: user.uid,
           isContestant: true,

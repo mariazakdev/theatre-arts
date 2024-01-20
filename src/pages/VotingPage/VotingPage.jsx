@@ -7,6 +7,7 @@ import SingleVote from "../../components/VotingComponent/SingleVote";
 import "./VotingPage.scss";
 import UserProfile from "../../components/UserProfile/UserProfile";
 
+const URL = process.env.REACT_APP_BACKEND_URL;
 export default function VotingPage() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -22,7 +23,7 @@ export default function VotingPage() {
   useEffect(() => {
     const fetchActor = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/contestants/${actorId}`);
+        const response = await fetch(`${URL}/contestants/${actorId}`);
         const data = await response.json();
         setActorData(data);
       } catch (error) {
@@ -41,7 +42,7 @@ export default function VotingPage() {
     if (votes) {
       try {
         const response = await axios.post(
-          `http://localhost:8000/contestants/vote/${actorId}`,
+          `${URL}/contestants/vote/${actorId}`,
           { votes }
         );
         if (response.status === 200) {
