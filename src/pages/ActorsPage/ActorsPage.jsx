@@ -9,7 +9,9 @@ function ActorsPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`${URL}/contestants`)
+        // axios.get(`${URL}/contestants`)
+        axios.get(`https://theatre-arts-backend-production.up.railway.app/contestants`)
+
             .then(response => {
                 setVideoData(response.data); 
             })
