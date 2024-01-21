@@ -20,12 +20,14 @@
       @include flex(center, center, column);
       width: 80%;
       height: auto;
+      margin-bottom: 0;
     }
 
     @include mobile {
       @include flex(stretch, center, column);
       width: 100%;
       height: auto;
+      margin-bottom: 0;
     }
     & > * {
       margin-bottom: 1rem;
@@ -58,6 +60,12 @@
 
   &-bottom {
     width: 80%;
-    margin-bottom:1rem; ;
+    margin-bottom:1rem; 
+    @include tablet {
+      width: 80%;
+    }
+    @include mobile {
+      width: 100%;
+    }
   }
 }
