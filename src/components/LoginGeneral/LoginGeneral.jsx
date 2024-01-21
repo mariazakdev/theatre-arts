@@ -81,7 +81,7 @@ function LoginGeneral() {
           {errorMessage && <p className="error-message">{errorMessage}</p>}
           {flashMessage && <p className="flash-message">{flashMessage}</p>}
 
-          <form>
+          <form  onClick={onLogin}>
             <div className="input-group">
               <label htmlFor="email-address">Email address</label>
               <input
@@ -112,7 +112,7 @@ function LoginGeneral() {
               </span>
             </div>
             <div>
-              <button onClick={onLogin}>Login</button>
+              <button>Login</button>
             </div>
             <p className="login-redirect">
               <NavLink to="/forgot-password">Forgot Password?</NavLink>

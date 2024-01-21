@@ -1,5 +1,5 @@
 import React from "react";
-import { HashRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PrivateContestantRoute from "./components/PrivateRoute/PrivateContestantRoute";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -26,12 +26,13 @@ import SunKingPage from "./pages/SunKingPage/SunKingPage";
 import "./App.scss";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
+const PUBLIC_URL = process.env.REACT_APP_PUBLIC_BACKEND_URL;
 
 function App() {
   return (
     <StripeWrapper>
       <AuthProvider>
-        <Router basename="/">
+        <Router basename={PUBLIC_URL}>
           <div className="App">
             <Header />
             <Routes>

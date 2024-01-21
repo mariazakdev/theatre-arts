@@ -57,7 +57,9 @@ export default function VotingPage() {
   return (
     <section>
       <div className="vote">
+
         <div className="vote-top">
+
           <div className="vote-top-left">
           <UserProfile actorId={actorId} />
           </div>
@@ -70,6 +72,8 @@ export default function VotingPage() {
           />
           </div>
         </div>
+
+        
         <div className="vote-bottom">
           <VotingButtons
             email={email}
