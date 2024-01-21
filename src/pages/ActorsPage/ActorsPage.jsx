@@ -4,6 +4,7 @@ import axios from "axios";
 import "./ActorsPage.scss";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
+console.log(URL);
 function ActorsPage() {
   const [videoData, setVideoData] = useState([]);
   const navigate = useNavigate();
