@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
-import { useAuth } from "../../contexts/AuthContext";import axios from "axios";
+import { useAuth } from "../../contexts/AuthContext";
+import axios from "axios";
 import "../../styles/forms.scss";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
@@ -12,15 +13,15 @@ function LoginGeneral() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [flashMessage, setFlashMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const [flashMessage, setFlashMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const onLogin = async (e) => {
     e.preventDefault();
     if (!email || !password) {
-      setErrorMessage('Please enter email and password');
+      setErrorMessage("Please enter email and password");
       return;
-  }
+    }
     try {
       const userCredential = await login(email, password);
 
@@ -35,10 +36,7 @@ function LoginGeneral() {
         const requestData = { email: userEmail, firebaseId };
         console.log("Data being sent to backend:", requestData);
 
-        const response = await axios.post(
-          `${URL}/users/login`,
-          requestData
-        );
+        const response = await axios.post(`${URL}/users/login`, requestData);
 
         console.log("Response status:", response.status);
         console.log("Response data:", response.data);
@@ -70,10 +68,8 @@ function LoginGeneral() {
       console.log(errorCode, errorMessage);
     }
   };
-  
-  
 
- const togglePasswordVisibility = () => {
+  const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
@@ -103,16 +99,17 @@ function LoginGeneral() {
               <input
                 id="password"
                 name="password"
-                type={showPassword ? "text" : "password"} 
+                type={showPassword ? "text" : "password"}
                 required
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
               />
-               <span 
-                      className="input-group--password-toggle"
-                      onClick={togglePasswordVisibility}>
-                         {showPassword ? "Hide" : "Show"}
-                      </span>
+              <span
+                className="input-group--password-toggle"
+                onClick={togglePasswordVisibility}
+              >
+                {showPassword ? "Hide" : "Show"}
+              </span>
             </div>
             <div>
               <button onClick={onLogin}>Login</button>
