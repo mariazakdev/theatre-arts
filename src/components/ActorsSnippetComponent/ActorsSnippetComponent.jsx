@@ -31,9 +31,11 @@ function ActorsSnippetComponent() {
   };
 
   const shuffledVideos = shuffleArray(videoData).slice(0, 5);
+  const shuffledVideosMobile = shuffleArray(videoData).slice(0, 3);
 
   return (
     <div className="video-list-container-snippet">
+
       <div className="video-list-container-snippet__cards-container">
         {shuffledVideos.map((video) => (
           <div key={video.id} className="card-snippet">
@@ -43,9 +45,24 @@ function ActorsSnippetComponent() {
           </div>
         ))}
       </div>
+
+
+      <div className="video-list-container-snippet__cards-container-mobile">
+        {shuffledVideosMobile.map((video) => (
+          <div key={video.id} className="card-snippet">
+            <div className="card-snippet__content">
+              <img src={video.url_photo} alt={video.name} className="card-image" />
+            </div>
+          </div>
+        ))}
+      </div>
+
+
+      <div className="video-list-container-snippet__button">
       <Link to="/actors">
           <button className="card-button card-button1">See More</button>
         </Link>
+        </div>
     </div>
   );
 }

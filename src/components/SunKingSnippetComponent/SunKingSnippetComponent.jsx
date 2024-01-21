@@ -8,6 +8,8 @@ function SunKingSnippetComponent() {
 
   return (
     <section className="baner-snippet">
+
+
       <div className="baner-snippet-text">
         <div className="titles">
           <h2>BANER PRODUCTIONS PRESENTS</h2>
@@ -25,8 +27,11 @@ function SunKingSnippetComponent() {
         </Link>
         </div>
       </div>
+
+
+      
       <div className="baner-snippet-image">
-        <img src={img} alt="Sun King Image" />
+        <img src={img} alt="Sun King" />
       </div>
      
     </section>

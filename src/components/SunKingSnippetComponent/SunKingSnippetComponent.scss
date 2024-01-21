@@ -8,6 +8,7 @@
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   background-color: $primaryBackground;
   width: 100%;
+
   margin: 0;
   @include flex(center, flex-start, row);
   @include mobile {
@@ -26,7 +27,7 @@
     }
     @include mobile {
       height: auto;
-      @include flex(center, center, column);
+      @include flex(center, flex-start, column);
 
     }
   
@@ -41,21 +42,39 @@
 @include mobile {
   padding: 0;
   padding-top: 1rem;
+  width: 100%;
+  @include flex(center, center, column);
 }
     img {
-      width: 10rem; 
-      border-radius: 100%;
-      height: 10rem; 
-      opacity: 0;
-      animation: fadeInAndSlide 2s forwards;
-      position: absolute;
-      top: 80%; 
-      left: -40px; 
-      z-index: 2; 
+      @include tablet{  width: 10rem; 
+        border-radius: 100%;
+        width: 10rem;
+        height: 10rem; 
+        opacity: 0;
+        animation: fadeInAndSlide 2s forwards;
+        position: absolute;
+        top: 80%; 
+        left: -40px; 
+        z-index: 2; }
+      @include desktop{  width: 10rem; 
+        border-radius: 100%;
+        width: 15rem;
+        height: 15rem; 
+        opacity: 0;
+        animation: fadeInAndSlide 2s forwards;
+        position: absolute;
+        top: 80%; 
+        left: -60px; 
+        z-index: 2; }
       @include mobile{
-        position:relative;
+        padding: 0;
+        padding-top: 1rem;
+        border-radius: 100%;
+        height: 10rem; 
       }
-    }
+
+    }    
+  
     
   }
 

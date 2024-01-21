@@ -19,7 +19,7 @@ function HomePage() {
       </div>
       
       <div className="home-filler home-filler2">
-      <p>The proceed from this contest will be utilized towards children with disabilties ( varying abilities ).</p>
+      <p>The proceed from this contest will be utilized towards children with disabilties.</p>
 
       </div>
       
