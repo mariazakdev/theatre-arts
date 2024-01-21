@@ -58,6 +58,7 @@
     
     img{
         width: 6.25rem;
+        height:10rem ;
     }
 }
 
@@ -73,10 +74,10 @@
     background-color: white;
     display: flex;
     flex-direction: column; 
-    height: 20rem;// Make the card container a column flex container
+    height: 20rem;
 
     &-description {
-        flex: 1; // This will make the description container fill the remaining space
+        flex: 1;
             padding: 1rem;
             background-color: $secondaryBackground;
             display: flex;
