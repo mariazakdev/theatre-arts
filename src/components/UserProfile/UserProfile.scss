@@ -79,6 +79,11 @@ padding-top: 1rem;
 .user-description {
   width: 100%;
   color: black;
+  margin-right: 1rem;
+  @include mobile {
+    margin: 0;
+    padding: 0;
+  }
 }
 
 .social-icons {
