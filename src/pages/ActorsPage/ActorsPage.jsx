@@ -9,11 +9,9 @@ function ActorsPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // axios.get(`${URL}/contestants`)
-        axios.get(`https://theatre-arts-backend-production.up.railway.app/contestants`)
-
+        axios.get(`${URL}/contestants`)
             .then(response => {
-                setVideoData(response.data); 
+                setVideoData(response.data); console.log(response.data);
             })
             .catch(error => {
                 console.error('There was an error fetching the video data:', error);
