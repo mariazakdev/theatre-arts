@@ -1,22 +1,43 @@
 @import "../../styles/variables";
-@import "../../styles/mixins" ;
-@import "../../styles/colors" ;
+@import "../../styles/mixins";
+@import "../../styles/colors";
 
-.button-wrap{
-@include flex(center, center, column);
-padding: 1rem;
-border-radius: 10px;
-background-color: $secondaryBackground;
-color: aliceblue;
-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+.button-wrap {
+  @include flex(center, center, column);
+  padding: 1rem;
+  border-radius: 10px;
+  width: 100%;
+  background-color: $secondaryBackground;
+  color: rgb(23, 35, 46);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  @include tablet {
+    @include flex(center, center, column);
+  }
+  &__free-button {
+    @include flex(center, center, column);
+    width: 100%;
+    background-color: $secondaryBackground;
+    height: 40rem; // height matches voting page parent
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
 
-height: 100%;
+    @include tablet {
+      height: auto;
+    }
+    @include mobile {
+      @include flex(center, center, column);
+      width: 100%;
+      height: auto;
+      padding: 0 1rem;
+    
+    }
+  }
+  // Paid buttons
+  &__button-container {
+    @include flex(center, center, row);
+    flex-wrap: wrap;
+    margin: 1rem;
 
-&__button-container{
-@include flex(space-between, center, row);
-flex-wrap: wrap;
-margin: 1rem;
-}
-
+  }
 }

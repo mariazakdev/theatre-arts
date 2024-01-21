@@ -8,6 +8,7 @@
   overflow: hidden;
   background-color: $secondaryBackground;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+padding-top: 1rem;
 }
 
 .user-profile__title {
@@ -15,11 +16,10 @@
   color: #2c3e50;
   margin-bottom: 15px;
   font-weight: 500;
-  
 }
 
 .video-container {
-  width: 100%;
+  width: 100% ;
   overflow: hidden;
   border-radius: 8px 8px 0 0;  
 
@@ -32,11 +32,11 @@
   height: 40vh;
   margin-bottom: -5px;
   border: none;
-  // border-radius: 4px;
-
-  @media (max-width: 767px) {
-    width: 100%;
-  }
+  
+@include mobile {
+  height: 20vh;
+ 
+}
 }
 
 .user-info {
@@ -44,14 +44,23 @@
   width: 100%;
   border-radius: 0 0 8px 8px;
   overflow: hidden;
-  padding: 1rem;  height: 20vh;
-
+  padding: 1rem;  
+  height: 20vh;
+@include mobile {
+  height: auto;
+  @include flex(center, center, column);
+  padding: 1rem;
 
 }
-
+}
 .user-details {
   flex: 1;
   padding-left: 1rem;
+  @include mobile {
+    padding-top: 0;
+    margin-top: 0rem;
+    @include flex(center, center, column);
+  }
 }
 
 .user-headshot {
@@ -59,6 +68,12 @@
   height: auto;
   object-fit: cover;
   margin-right: 20px;
+  @include mobile {
+    width: 50px;
+    height: 80px;
+    padding: 0%;
+    margin: 0;
+  }
 }
 
 .user-description {

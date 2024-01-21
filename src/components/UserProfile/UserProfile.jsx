@@ -42,7 +42,7 @@ function UserProfile() {
   return (
     <section className="user-profile">
       {actor && (
-        <>
+        <div className="user-profile__wrapper">
           <div className="video-container">
             {videoSrc && (
               <iframe
@@ -66,7 +66,7 @@ function UserProfile() {
               />
             </div>
           </div>
-        </>
+        </div>
       )}
     </section>
   );

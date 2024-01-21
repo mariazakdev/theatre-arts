@@ -43,9 +43,9 @@ export default function SingleVote({ actorId, onVoteSuccess,currentUser }) {
 
 
   return (
-    <div className="button-wrap">
+    <div className="button-wrap__free">
                  {flashMessage && <p className="flash-message">{flashMessage}</p>}
-
+<div className="button-wrap__free-button">
       <h2>Your Vote</h2>
       <p>{voted ? "You have voted!" : "Click the button to vote"}</p>
       <button
@@ -56,6 +56,7 @@ export default function SingleVote({ actorId, onVoteSuccess,currentUser }) {
         {" "}
         Vote
       </button>
+      </div>
     </div>
   );
 }

@@ -6,40 +6,58 @@
   background-color: $primaryBackground;
   @include flex(center, center, column);
   overflow: hidden;
-  border-radius: 8px;
-  margin-top: 1rem;
-
+  padding-top: 1rem;
+  
+  @include tablet {
+    width: 100%;
+  }
   &-top {
-    @include flex(center, space-between, column);
-    margin-top: 1rem;
+    @include flex(center, stretch, row);
+    width:80%;
+    height: 40rem;
     margin-bottom: 1rem;
-    width: 80%;
+    @include tablet {
+      @include flex(center, center, column);
+      width: 80%;
+      height: auto;
+    }
 
-    // Adjust spacing for better responsiveness
+    @include mobile {
+      @include flex(stretch, center, column);
+      width: 100%;
+      height: auto;
+    }
     & > * {
       margin-bottom: 1rem;
-      
     }
     &-left {
       width: 70%;
       margin-right: 1rem;
+     
+
+      @include tablet {
+        width: 100%;
+        margin-right: 0;
+      }
+      @include mobile {
+        width: 100%;
+        margin-right: 0
+      }
     }
     &-right {
+      @include flex(stretch, stretch, column);
       width: 30%;
+      @include tablet {
+        width: 100%;
+      }
+      @include mobile {
+        width: 100%;
+      }
     }
   }
 
   &-bottom {
     width: 80%;
-  }
-  
-  @media (min-width: 768px) {
-    // For larger screens, arrange components side by side
-    &-top {
-      @include flex(center, stretch, row);
-      & > * {
-        margin-bottom: 0;
-      }
-    }
+    margin-bottom:1rem; ;
   }
 }

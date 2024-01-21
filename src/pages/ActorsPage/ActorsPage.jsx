@@ -40,7 +40,9 @@ function ActorsPage() {
   return (
     <div className="video-list-container">
       <h1>Users and their Videos</h1>
+
       <div className="cards-container">
+
         {shuffleArray(videoData).map((video) => (
           <div
             key={video.user_id}
@@ -48,6 +50,7 @@ function ActorsPage() {
             onClick={() => handleCardClick(video)}
           >
             <div className="card-content">
+              
               <h2 className="card-title">{video.name}</h2>
               <img
                 src={video.url_photo}
