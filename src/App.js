@@ -1,5 +1,5 @@
 import React from "react";
-import { HashRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import PrivateContestantRoute from "./components/PrivateRoute/PrivateContestantRoute";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
@@ -41,7 +41,7 @@ function App() {
               <Route path="/" element={<HomePage />} />
               {/* Contestants only  */}
               <Route path="/contestant/signup" element={<SignUpPage />} />
-              <Route path="contestant/login" element={<LoginPage />} />
+              <Route path="/contestant/login" element={<LoginPage />} />
               {/* One time contestants only */}
               <Route
                 path="/contestant/enter"
@@ -81,7 +81,7 @@ function App() {
               <Route path="/signup" element={<SignUpVoterPage />} />
               <Route path="/login" element={<LoginVoterPage />} />
               <Route
-                path="contestant/forgot-password"
+                path="/contestant/forgot-password"
                 element={<ForgotPasswordPage />}
               />
               <Route path="/actors" element={<ActorsPage />} />

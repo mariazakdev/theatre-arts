@@ -6,7 +6,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import "./Nav.scss";
 
-
 function Nav({ isMobileMenuOpen, onClose }) {
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
