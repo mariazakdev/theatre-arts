@@ -1,10 +1,10 @@
-// Update Nav.js
 import React, { useState, useEffect } from "react";
 import CloseBtn from "../../assets/icons/icone-x-grise.png";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import "./Nav.scss";
+
 const URL = process.env.REACT_APP_BACKEND_URL;
 
 function Nav({ isMobileMenuOpen, onClose }) {
