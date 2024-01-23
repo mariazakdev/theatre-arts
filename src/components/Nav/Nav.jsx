@@ -5,6 +5,7 @@ import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import "./Nav.scss";
+const URL = process.env.REACT_APP_BACKEND_URL;
 
 function Nav({ isMobileMenuOpen, onClose }) {
   const { currentUser, logout } = useAuth();
@@ -17,7 +18,7 @@ function Nav({ isMobileMenuOpen, onClose }) {
       try {
         if (currentUser) {
           const response = await axios.get(
-            `http://localhost:8000/users/${currentUser.uid}`
+            `${URL}/users/${currentUser.uid}`
           );
           const data = response.data;
           setUserData(data.user);
