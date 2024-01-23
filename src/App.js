@@ -1,6 +1,5 @@
 import React from "react";
-import { HashRouter as Router, Route, Routes } from "react-router-dom";
-
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import PrivateContestantRoute from "./components/PrivateRoute/PrivateContestantRoute";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -30,78 +29,77 @@ const URL = process.env.REACT_APP_BACKEND_URL;
 
 function App() {
   return (
-    <StripeWrapper>
-      <AuthProvider>
-        <Router basename="/">
-          <div className="App">
-            <Header />
-            <Routes>
-              <Route path="/admin" element={<AdminPage />} />
-              {/* Common Routes for All */}
-              <Route path="/" element={<HomePage />} />
-              {/* Contestants only  */}
-              <Route path="/contestant/signup" element={<SignUpPage />} />
-              <Route path="/contestant/login" element={<LoginPage />} />
-              {/* One time contestants only */}
-              <Route
-                path="/contestant/enter"
-                element={
-                  <PrivateRoute>
-                    <OneTimeUploadRoute>
-                      <EnterCompetitionPage backendURL={URL} />
-                    </OneTimeUploadRoute>
-                  </PrivateRoute>
-                }
-              />
-              <Route
-                path="/contestant/upload"
-                element={
-                  <PrivateRoute>
-                    <OneTimeUploadRoute>
-                      <VideoUploadPage backendURL={URL} />
-                    </OneTimeUploadRoute>
-                  </PrivateRoute>
-                }
-              />
-              {/* One contestant */}
-              {/* Private route for contestant dashboard */}
-              <Route
-                path="/contestant/dashboard"
-                element={
-                  <PrivateContestantRoute>
-                    <DashBoardPage backendURL={URL} />
-                  </PrivateContestantRoute>
-                }
-              />
-              <Route
-                path="/contestant/payment-success"
-                element={<PaymentContestPage />}
-              />
-              {/* All visitors to site */}
-              <Route path="/signup" element={<SignUpVoterPage />} />
-              <Route path="/login" element={<LoginVoterPage />} />
-              <Route
-                path="/contestant/forgot-password"
-                element={<ForgotPasswordPage />}
-              />
-              <Route path="/actors" element={<ActorsPage />} />
-              <Route path="/actors/vote/:actorId" element={<VotingPage />} />
-              <Route
-                path="/actors/:actorId"
-                element={<ContestantDetailPage />}
-              />
-              <Route path="/payment-success" element={<PaymentSuccess />} />
-              <Route path="/sun-king" element={<SunKingPage />} />
+    <AuthProvider>
+      <Router>
+        <div className="App">
+          <Header />
+          <Routes>
+            <Route exact path="/admin" element={<AdminPage />} />
+            {/* Common Routes for All */}
+            <Route exact path="/" element={<HomePage />} />
+            {/* Contestants only  */}
+            <Route exact path="/contestant/signup" element={<SignUpPage />} />
+            <Route exact path="/contestant/login" element={<LoginPage />} />
+            {/* One time contestants only */}
+            <Route
+              exact path="/contestant/enter"
+              element={
+                <PrivateRoute>
+                  <OneTimeUploadRoute>
+                    <EnterCompetitionPage backendURL={URL} />
+                  </OneTimeUploadRoute>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              exact path="/contestant/upload"
+              element={
+                <PrivateRoute>
+                  <OneTimeUploadRoute>
+                    <VideoUploadPage backendURL={URL} />
+                  </OneTimeUploadRoute>
+                </PrivateRoute>
+              }
+            />
+            {/* One contestant */}
+            {/* Private route for contestant dashboard */}
+            <Route
+              exact path="/contestant/dashboard"
+              element={
+                <PrivateContestantRoute>
+                  <DashBoardPage backendURL={URL} />
+                </PrivateContestantRoute>
+              }
+            />
+            <Route
+              exact path="/contestant/payment-success"
+              element={<PaymentContestPage />}
+            />
+            {/* All visitors to site */}
+            <Route exact path="/signup" element={<SignUpVoterPage />} />
+            <Route exact path="/login" element={<LoginVoterPage />} />
+            <Route
+              exact path="/contestant/forgot-password"
+              element={<ForgotPasswordPage />}
+            />
+            <Route exact path="/actors" element={<ActorsPage />} />
+            <Route exact path="/actors/vote/:actorId" element={<VotingPage />} />
+            <Route
+              exact path="/actors/:actorId"
+              element={<ContestantDetailPage />}
+            />
+            <Route exact path="/payment-success" element={<PaymentSuccess />} />
+            <Route exact path="/sun-king" element={<SunKingPage />} />
 
-              {/* Catch-all */}
-              <Route path="*" element={<div>404 Not Found</div>} />
-            </Routes>
-          </div>
-          <Footer />
-        </Router>
-      </AuthProvider>
-    </StripeWrapper>
+            {/* Catch-all */}
+            <Route path="*" element={<div>404 Not Found</div>} />
+          </Routes>
+        </div>
+        <Footer />
+      </Router>
+    </AuthProvider>
   );
 }
+    
 
 export default App;

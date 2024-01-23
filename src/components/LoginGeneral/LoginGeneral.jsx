@@ -81,7 +81,7 @@ function LoginGeneral() {
           {errorMessage && <p className="error-message">{errorMessage}</p>}
           {flashMessage && <p className="flash-message">{flashMessage}</p>}
 
-          <form  onClick={onLogin}>
+          <form  onSubmit={onLogin}>
             <div className="input-group">
               <label htmlFor="email-address">Email address</label>
               <input

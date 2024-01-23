@@ -10,7 +10,12 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
   padding-bottom: 3rem;
-
+iframe{
+  @include mobile{
+    width: 100%;
+    height: auto ;
+  }
+}
   &__content {
     color: white;
     width: 80%;
