@@ -53,6 +53,14 @@
     padding: 1rem;
     margin: 0;
     height: 100%; 
+    @include tablet{
+      @include flex(center, center, column);
+      height: auto; 
+    }
+    @include mobile{
+      @include flex(center, center, column);
+      height: auto; 
+    }
   }
 
   li {
