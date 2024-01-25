@@ -115,7 +115,7 @@ export default function Dashboard({URL}) {
         </button>
 
         {isEditing && (
-          <EditDashboard contestantId={contestants.id} toggleEditing={toggleEditing} updateContestantData={updateContestantData} />
+          <EditDashboard URL={URL} contestantId={contestants.id} toggleEditing={toggleEditing} updateContestantData={updateContestantData} />
         )}
         <button onClick={toggleEditing} className="dashboard__edit-button">
           {isEditing ? 'Cancel Edit' : 'Edit'}
