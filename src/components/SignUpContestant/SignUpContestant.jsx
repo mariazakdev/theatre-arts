@@ -4,8 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 import '../../styles/forms.scss';
 
-const URL = process.env.REACT_APP_BACKEND_URL;
-const SignUpContestant = () => {
+const SignUpContestant = ({URL} ) => {
   const navigate = useNavigate();
   const { signup } = useAuth();
   const [email, setEmail] = useState("");
@@ -15,20 +14,19 @@ const SignUpContestant = () => {
   const [flashMessage, setFlashMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-
+  // If user exists, not need to sign up, redirect to login page.
   const checkIfUserExists = async (email) => {
     try {
       const response = await axios.get(
         `${URL}/users/check-user?email=${email}`
       );
-      return response.data.exists; // Adjust according to your API response
+      return response.data.exists; 
     } catch (error) {
       console.error("Error checking user existence:", error);
-      return false; // Assuming non-existence if there's an error
+      return false; 
     }
   };
 
- 
   const onSubmit = async (e) => {
     e.preventDefault();
 

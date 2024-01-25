@@ -4,8 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 import "./VotingButtons.scss";
 
-const URL = process.env.REACT_APP_BACKEND_URL;
-export default function SingleVote({ actorId, onVoteSuccess, currentUser }) {
+export default function SingleVote({ URL, actorId, onVoteSuccess, currentUser }) {
   const { user } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();

@@ -1,7 +1,7 @@
 import React from "react";
 import BanerComponent from "../../components/SunKingComponent/SunKingComponent";
 
-function BanerPage() {
+function BanerPage({URL, CLIENT_URL}) {
   return (
     <div>
       <BanerComponent />

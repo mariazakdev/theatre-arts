@@ -4,8 +4,7 @@ import axios from "axios";
 import ContestantStanding from "../../components/ContestantStanding/ContestantStanding";
 import "./AdminPage.scss";
 
-const URL = process.env.REACT_APP_BACKEND_URL;
-function ActorsPage() {
+function AdminPage({ URL, CLIENT_URL}) {
   const [videoData, setVideoData] = useState([]);
   const navigate = useNavigate();
 
@@ -27,7 +26,7 @@ function ActorsPage() {
   return (
     <div className="admin-list-container">
       <h1>Users and their Videos</h1>
-      <ContestantStanding />
+      <ContestantStanding URL={URL} />
       <div className="admin-cards-container">
         {videoData.map((video) => (
           <div
@@ -53,4 +52,4 @@ function ActorsPage() {
   );
 }
 
-export default ActorsPage;
+export default AdminPage;

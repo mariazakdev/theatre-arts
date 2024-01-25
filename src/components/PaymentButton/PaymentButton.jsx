@@ -4,7 +4,7 @@ import { useStripe } from "@stripe/react-stripe-js";
 import { useAuth } from "../../contexts/AuthContext";
 import "./PaymentButton.scss";
 
-function PaymentButton({ text, amount, priceId, actorId, currentUser }) {
+function PaymentButton({ CLIENT_URL, text, amount, priceId, actorId, currentUser }) {
   const stripe = useStripe();
   const { user } = useAuth();
   const location = useLocation();
@@ -29,8 +29,8 @@ function PaymentButton({ text, amount, priceId, actorId, currentUser }) {
     const result = await stripe.redirectToCheckout({
       lineItems: [{ price: priceId, quantity: 1 }],
       mode: "payment",
-      successUrl: `http://localhost:3000/payment-success?actorId=${actorId}&votes=${amount}`,
-      cancelUrl: "http://localhost:3000/cancel",
+      successUrl: `${CLIENT_URL}/payment-success?actorId=${actorId}&votes=${amount}`,
+      cancelUrl: `${CLIENT_URL}/cancel`,
     });
 
     if (result.error) {

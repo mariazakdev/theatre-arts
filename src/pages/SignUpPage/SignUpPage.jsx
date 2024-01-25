@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import '../../styles/forms.scss';
 import SignUpContestant from "../../components/SignUpContestant/SignUpContestant";
 
-const SignUpPage = () => {
+const SignUpPage = ({URL} ) => {
 return(
-  <SignUpContestant/>
+  <SignUpContestant URL={URL}/>
 )
 
 };

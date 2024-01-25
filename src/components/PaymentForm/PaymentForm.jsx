@@ -7,18 +7,20 @@ import {
   CardCvcElement,
 } from "@stripe/react-stripe-js";
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
-import { doc, updateDoc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, updateDoc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import "./PaymentForm.scss";
 
-const PaymentForm = ({ backendURL }) => {
+// PaymentForm to enter the competition. 
+// Directs you to upload page. 
+// The only way to upload page.
+const PaymentForm = ({ URL, CLIENT_URL }) => {
   const stripe = useStripe();
   const elements = useElements();
   const { currentUser } = useAuth();
   const navigate = useNavigate();
-
   const [cardholderName, setCardholderName] = useState("");
 
   useEffect(() => {
@@ -60,7 +62,7 @@ const PaymentForm = ({ backendURL }) => {
       }
 
       // Fetch the PaymentIntent client secret from your server
-      const response = await axios.post(`${backendURL}/payment`, {
+      const response = await axios.post(`${URL}/payment`, {
         amount: 250,
         currency: "cad",
         paymentMethodId: paymentMethod.id,
@@ -73,7 +75,7 @@ const PaymentForm = ({ backendURL }) => {
         clientSecret,
         {
           payment_method: paymentMethod.id,
-          return_url: "http://localhost:3000/contestant/payment-success",
+          return_url: `${CLIENT_URL}/contestant/payment-success`,
         }
       );
 
@@ -99,11 +101,9 @@ const PaymentForm = ({ backendURL }) => {
           await setDoc(userDocRef, {
             hasPaid: true,
           });
-    
-
         }
-      navigate("/contestant/upload"); 
-          console.log("After navigating to upload");
+        navigate("/contestant/upload");
+        console.log("After navigating to upload");
       } else {
         console.log("PaymentIntent status:", paymentIntent.status);
       }

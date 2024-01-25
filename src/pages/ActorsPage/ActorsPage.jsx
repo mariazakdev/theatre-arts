@@ -3,8 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./ActorsPage.scss";
 
-const URL = process.env.REACT_APP_BACKEND_URL;
-function ActorsPage() {
+function ActorsPage( {URL}) {
   const [videoData, setVideoData] = useState([]);
   const navigate = useNavigate();
 

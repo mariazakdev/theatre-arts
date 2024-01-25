@@ -5,8 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import EditDashboard from '../../components/EditDashBoard/EditDashBoard';
 import './DashBoardPage.scss';
 
-const URL = process.env.REACT_APP_BACKEND_URL;
-export default function Dashboard() {
+export default function Dashboard({URL}) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true); 
   const [contestants, setContestants] = useState([]);

@@ -5,9 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import "./Nav.scss";
 
-const URL = process.env.REACT_APP_BACKEND_URL;
 
-function Nav({ isMobileMenuOpen, onClose }) {
+function Nav({ isMobileMenuOpen, onClose, URL}) {
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);

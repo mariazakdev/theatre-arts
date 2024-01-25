@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const PaymentContestPage = () => {
+// In between payment page from payment to upload page.
+const PaymentContestantPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,4 +23,4 @@ const PaymentContestPage = () => {
   );
 };
 
-export default PaymentContestPage;
+export default PaymentContestantPage;

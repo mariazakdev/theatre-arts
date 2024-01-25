@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import './ActorsSnippetComponent.scss';
+import './BannerActors.scss';
 
-const URL = process.env.REACT_APP_BACKEND_URL;
-
-function ActorsSnippetComponent() {
+function BannerActors( {URL}) {
   const [videoData, setVideoData] = useState([]);
-  const navigate = useNavigate();
-
   useEffect(() => {
     axios.get(`${URL}/contestants`)
       .then(response => {
@@ -67,5 +62,5 @@ function ActorsSnippetComponent() {
   );
 }
 
-export default ActorsSnippetComponent;
+export default BannerActors;
 

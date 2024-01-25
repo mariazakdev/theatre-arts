@@ -2,11 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './EditDashBoard.scss';
 
-const URL = process.env.REACT_APP_BACKEND_URL;
-
-
-
-function EditDashboard({ contestantId, toggleEditing,  updateContestantData }) {
+function EditDashboard({ URL, contestantId, toggleEditing,  updateContestantData }) {
 
   const [updateError, setUpdateError] = useState(null);
   const [updateSuccess, setUpdateSuccess] = useState(false);

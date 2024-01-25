@@ -7,11 +7,9 @@ import SingleVote from "../../components/VotingComponent/SingleVote";
 import "./VotingPage.scss";
 import UserProfile from "../../components/UserProfile/UserProfile";
 
-const URL = process.env.REACT_APP_BACKEND_URL;
-export default function VotingPage() {
+export default function VotingPage({URL, CLIENT_URL}) {
   const navigate = useNavigate();
   const location = useLocation();
-
   const { actorId } = useParams();
   const { currentUser } = useAuth(); // Use the auth context to get the current user
   const [actorData, setActorData] = useState(null);
@@ -19,6 +17,7 @@ export default function VotingPage() {
   const [stripeToken, setStripeToken] = useState(null);
   const [amount, setAmount] = useState(null);
   console.log(currentUser);
+
 
   useEffect(() => {
     const fetchActor = async () => {
@@ -57,25 +56,24 @@ export default function VotingPage() {
   return (
     <section>
       <div className="vote">
-
         <div className="vote-top">
-
           <div className="vote-top-left">
-          <UserProfile actorId={actorId} />
+            <UserProfile actorId={actorId} URL={URL} />
           </div>
           <div className="vote-top-right">
-          <SingleVote
-            actorId={actorId}
-            onVoteSuccess={handleVoteSuccess}
-            navigate={navigate}
-            currentUser={currentUser}
-          />
+            <SingleVote
+              URL={URL}
+              actorId={actorId}
+              onVoteSuccess={handleVoteSuccess}
+              navigate={navigate}
+              currentUser={currentUser}
+            />
           </div>
         </div>
 
-        
         <div className="vote-bottom">
           <VotingButtons
+            CLIENT_URL={CLIENT_URL}
             email={email}
             stripeToken={stripeToken}
             actorId={actorId}
@@ -84,7 +82,6 @@ export default function VotingPage() {
           />
         </div>
       </div>
-
     </section>
   );
 }

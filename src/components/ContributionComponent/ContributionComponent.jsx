@@ -2,7 +2,7 @@ import React from 'react';
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import './ContributionComponent.scss';
 
-function ContributionComponent() {
+function ContributionComponent({CLIENT_URL}) {
     const stripe = useStripe();
     const elements = useElements();
 
@@ -25,8 +25,8 @@ function ContributionComponent() {
                 quantity: 1
             }],
             mode: "payment",
-            successUrl: "http://localhost:3000/success",
-            cancelUrl: "http://localhost:3000/cancel",
+            successUrl: `${CLIENT_URL}/success`,
+            cancelUrl: `${CLIENT_URL}/cancel`,
         });
 
         if (result.error) {

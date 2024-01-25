@@ -16,38 +16,39 @@ import VotingPage from "./pages/VotingPage/VotingPage";
 import StripeWrapper from "./components/StripeWrapper/StripeWrapper";
 import DashBoardPage from "./pages/DashBoardPage/DashBoardPage";
 import ContestantDetailPage from "./pages/ContestantDetailPage/ContestantDetailPage";
-import EnterCompetitionPage from "./pages/EnterCompetitionPage/EnterCompetitionPage";
+import PaymentCompetitionPage from "./pages/PaymentCompetitionPage/PaymentCompetitionPage";
 import PaymentSuccess from "./components/PaymentSuccess/PaymentSuccess";
 import LoginVoterPage from "./pages/LoginVoterPage/LoginVoterPage";
 import SignUpVoterPage from "./pages/SignUpVoterPage/SignUpVoterPage";
-import PaymentContestPage from "./pages/PaymentContestPage/PaymentContestPage";
+import PaymentContestPage from "./pages/PaymentContestPage/PaymentContestantPage";
 import AdminPage from "./pages/AdminPage/AdminPage";
 import SunKingPage from "./pages/SunKingPage/SunKingPage";
 import "./App.scss";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
-
+const CLIENT_URL = process.env.REACT_APP_URL;
 function App() {
   return (
     <AuthProvider>
+      <StripeWrapper>
       <Router>
         <div className="App">
-          <Header />
+          <Header URL={URL}/>
           <Routes>
-            <Route exact path="/admin" element={<AdminPage />} />
+            <Route exact path="/admin" element={<AdminPage URL={URL} CLIENT_URL={CLIENT_URL}/>} />
             {/* Common Routes for All */}
-            <Route exact path="/" element={<HomePage />} />
+            <Route exact path="/" element={<HomePage URL={URL} />} />
             {/* Contestants only  */}
-            <Route exact path="/contestant/signup" element={<SignUpPage />} />
-            <Route exact path="/contestant/login" element={<LoginPage />} />
+            <Route exact path="/contestant/signup" element={<SignUpPage URL={URL} CLIENT_URL={CLIENT_URL}  />} />
+            <Route exact path="/contestant/login" element={<LoginPage URL={URL} CLIENT_URL={CLIENT_URL}/>} />
             {/* One time contestants only */}
             <Route
               exact path="/contestant/enter"
               element={
                 <PrivateRoute>
-                  <OneTimeUploadRoute>
-                    <EnterCompetitionPage backendURL={URL} />
-                  </OneTimeUploadRoute>
+                  <OneTimeUploadRoute URL={URL} CLIENT_URL={CLIENT_URL} >
+                    <PaymentCompetitionPage URL={URL} CLIENT_URL={CLIENT_URL} />
+                  </OneTimeUploadRoute >
                 </PrivateRoute>
               }
             />
@@ -56,7 +57,7 @@ function App() {
               element={
                 <PrivateRoute>
                   <OneTimeUploadRoute>
-                    <VideoUploadPage backendURL={URL} />
+                    <VideoUploadPage URL={URL} CLIENT_URL={CLIENT_URL}/>
                   </OneTimeUploadRoute>
                 </PrivateRoute>
               }
@@ -67,7 +68,7 @@ function App() {
               exact path="/contestant/dashboard"
               element={
                 <PrivateContestantRoute>
-                  <DashBoardPage backendURL={URL} />
+                  <DashBoardPage URL={URL} CLIENT_URL={CLIENT_URL} />
                 </PrivateContestantRoute>
               }
             />
@@ -76,20 +77,20 @@ function App() {
               element={<PaymentContestPage />}
             />
             {/* All visitors to site */}
-            <Route exact path="/signup" element={<SignUpVoterPage />} />
-            <Route exact path="/login" element={<LoginVoterPage />} />
+            <Route exact path="/signup" element={<SignUpVoterPage URL={URL} CLIENT_URL={CLIENT_URL}  />} />
+            <Route exact path="/login" element={<LoginVoterPage URL={URL} CLIENT_URL={CLIENT_URL} />} />
             <Route
               exact path="/contestant/forgot-password"
-              element={<ForgotPasswordPage />}
+              element={<ForgotPasswordPage  />}
             />
-            <Route exact path="/actors" element={<ActorsPage />} />
-            <Route exact path="/actors/vote/:actorId" element={<VotingPage />} />
+            <Route exact path="/actors" element={<ActorsPage URL={URL}/>} />
+            <Route exact path="/actors/vote/:actorId" element={<VotingPage URL={URL} CLIENT_URL={CLIENT_URL}/>} />
             <Route
               exact path="/actors/:actorId"
-              element={<ContestantDetailPage />}
+              element={<ContestantDetailPage URL={URL} CLIENT_URL={CLIENT_URL}  />}
             />
-            <Route exact path="/payment-success" element={<PaymentSuccess />} />
-            <Route exact path="/sun-king" element={<SunKingPage />} />
+            <Route exact path="/payment-success" element={<PaymentSuccess URL={URL} CLIENT_URL={CLIENT_URL}/>} />
+            <Route exact path="/sun-king" element={<SunKingPage URL={URL} CLIENT_URL={CLIENT_URL}/>} />
 
             {/* Catch-all */}
             <Route path="*" element={<div>404 Not Found</div>} />
@@ -97,6 +98,7 @@ function App() {
         </div>
         <Footer />
       </Router>
+              </StripeWrapper>
     </AuthProvider>
   );
 }

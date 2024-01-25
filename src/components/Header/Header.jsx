@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 
 
-function Header() {
+function Header({URL}) {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleMobileMenuToggle = () => {
@@ -26,7 +26,7 @@ function Header() {
           <img src={OpenBtn} className='menu-icon' onClick={handleMobileMenuToggle}/>
         
           {isMobileMenuOpen && <Overlay onClose={() => setMobileMenuOpen(false)} />}
-          <Nav isMobileMenuOpen={isMobileMenuOpen} onClose={() => setMobileMenuOpen(false)} /> {/* Pass onClose function to Nav */}
+          <Nav isMobileMenuOpen={isMobileMenuOpen} onClose={() => setMobileMenuOpen(false)} URL={URL}/> {/* Pass onClose function to Nav */}
         </div>
       </div>
     </header>

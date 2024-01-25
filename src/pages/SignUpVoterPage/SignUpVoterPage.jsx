@@ -1,9 +1,9 @@
 import SignUpGeneralComponent from "../../components/SignUpGeneralComponent/SignUpGeneralComponent";
 import '../../styles/forms.scss';
 
-const SignUpVoterPage = () => {
+const SignUpVoterPage = ({ URL} ) => {
 return(<>
-<SignUpGeneralComponent/>
+<SignUpGeneralComponent URL={URL}/>
 </>
   
 )

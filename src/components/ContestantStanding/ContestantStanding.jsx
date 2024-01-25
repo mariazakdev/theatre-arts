@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const URL = process.env.REACT_APP_BACKEND_URL;
-
-const ContestantStanding = () => {
+const ContestantStanding = ({URL}) => {
   const [contestants, setContestants] = useState([]);
   const [updateCount, setUpdateCount] = useState(0);
 

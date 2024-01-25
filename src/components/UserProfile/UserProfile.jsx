@@ -4,10 +4,9 @@ import { useParams } from "react-router-dom";
 import "./UserProfile.scss";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
-function UserProfile() {
+function UserProfile( ) {
   const { actorId } = useParams();
   const [localActorData, setLocalActorData] = useState(null);
-
   useEffect(() => {
     if (!actorId) {
       console.error("No actor ID provided");

@@ -21,7 +21,7 @@ const s3Client = new S3Client({
   },
 });
 
-function UploadForm({ backendURL }) {
+function UploadForm({ URL }) {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
   const [uploadStatus, setUploadStatus] = useState("idle");
@@ -156,7 +156,7 @@ function UploadForm({ backendURL }) {
     };
 
     try {
-      const response = await fetch(`${backendURL}/contestants`, {
+      const response = await fetch(`${URL}/contestants`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -233,7 +233,7 @@ function UploadForm({ backendURL }) {
               </div>
             )}
           </div>
-
+              <p>Photo instructions: Portrait, full body shot. It remains the same and is the purpose of indentification throughout the competition. Unable to change after submission. </p>
           <div className="input-group">
             <label>Video URL:</label>
             <input
@@ -256,7 +256,7 @@ function UploadForm({ backendURL }) {
               </div>
             )}
           </div>
-
+              <p>You may only change the video at the beginning of each round.</p>
           <div className="input-group">
             <textarea
               className="form-container__input"

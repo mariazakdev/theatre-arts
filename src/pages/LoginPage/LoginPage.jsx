@@ -1,13 +1,11 @@
-import LoginComponent from "../../components/LoginContestant/LoginContestant";
+import LoginContestant from "../../components/LoginContestant/LoginContestant";
 import "./LoginPage.scss";
 
-function LoginPage() {
-    return(
-        <div className="form-background">
-  <LoginComponent />
-
-        </div>
-      
-    )
-};
+function LoginPage( {URL}) {
+  return (
+    <div className="form-background">
+      <LoginContestant URL={URL}/>
+    </div>
+  );
+}
 export default LoginPage;

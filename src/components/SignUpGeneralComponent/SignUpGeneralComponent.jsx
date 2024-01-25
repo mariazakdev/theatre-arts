@@ -6,8 +6,8 @@ import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import "../../styles/forms.scss";
 
-const URL = process.env.REACT_APP_BACKEND_URL;
-const SignUpComponent = () => {
+
+const SignUpComponent = ( {URL}) => {
   const navigate = useNavigate();
   const location = useLocation(); 
   const { signup } = useAuth();
@@ -98,7 +98,7 @@ const onSubmit = async (e) => {
   }
 };
 
-// ... (existing code)
+
 
    const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);

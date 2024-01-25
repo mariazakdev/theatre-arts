@@ -1,20 +1,19 @@
 import React, { useState } from "react";
-import {useNavigate, useLocation } from "react-router-dom";
-
+import { useNavigate, useLocation } from "react-router-dom";
 import PaymentButton from "../PaymentButton/PaymentButton";
 import { useAuth } from "../../contexts/AuthContext";
-
 import "./VotingButtons.scss";
 
 export default function VotingButtons({
+  CLIENT_URL,
   email,
   stripeToken,
   actorId,
-  currentUser
+  currentUser,
 }) {
   const { user } = useAuth();
   const location = useLocation();
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const [flashMessage, setFlashMessage] = useState("");
 
   const handleLoginAndNavigate = () => {
@@ -34,7 +33,7 @@ export default function VotingButtons({
 
   return (
     <div className="button-wrap">
-            {flashMessage && <p className="flash-message">{flashMessage}</p>}
+      {flashMessage && <p className="flash-message">{flashMessage}</p>}
 
       <h2>Help this actor achieve their dream faster by contributing</h2>
       <h3>Funds go to charity</h3>
@@ -42,7 +41,8 @@ export default function VotingButtons({
       <div className="button-wrap__button-container">
         {paymentOptions.map(({ amount, priceId }) => (
           <PaymentButton
-            key={amount} 
+            CLIENT_URL={CLIENT_URL}
+            key={amount}
             text="Contribute $"
             amount={amount}
             priceId={priceId}
@@ -51,7 +51,6 @@ export default function VotingButtons({
             actorId={actorId}
             currentUser={currentUser}
             onLoginAndNavigate={handleLoginAndNavigate}
-
           />
         ))}
       </div>

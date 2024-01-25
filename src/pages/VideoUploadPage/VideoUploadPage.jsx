@@ -1,11 +1,11 @@
 import './VideoUploadPage.scss';
 import UploadForm from '../../components/UploadForm/UploadForm';
 
-function VideoUploadPage({backendURL}) {
+function VideoUploadPage({ URL }) {
   
   return (
     <div className="form-background-upload">
-    <UploadForm backendURL={backendURL}/>
+    <UploadForm URL={URL}/>
   
 </div>
   );

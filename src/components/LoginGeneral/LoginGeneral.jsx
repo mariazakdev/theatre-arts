@@ -4,9 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 import "../../styles/forms.scss";
 
-const URL = process.env.REACT_APP_BACKEND_URL;
-
-function LoginGeneral() {
+function LoginGeneral({URL}) {
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -18,10 +16,12 @@ function LoginGeneral() {
 
   const onLogin = async (e) => {
     e.preventDefault();
+    // Validation
     if (!email || !password) {
       setErrorMessage("Please enter email and password");
       return;
     }
+
     try {
       const userCredential = await login(email, password);
 
@@ -58,7 +58,9 @@ function LoginGeneral() {
         } else {
           console.log("User not found on the server side");
         }
-      } else {
+      } 
+      
+      else {
         console.log("No user credentials received");
       }
     } catch (error) {
@@ -129,3 +131,6 @@ function LoginGeneral() {
 }
 
 export default LoginGeneral;
+
+
+
