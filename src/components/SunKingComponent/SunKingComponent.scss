@@ -16,12 +16,15 @@
   }
 
   &-text {
-    @include flex(center, flex-start, column);
+    @include flex(flex-start, flex-start, column);
     width: 60%;
     // height: 50rem;
     height: auto;
     background-color: $secondaryBackground;
     padding: 1rem 5rem;
+    @include tablet{
+      @include flex(flex-start, flex-start, column);
+    }
     @include mobile {
       @include flex(center, center, column);
 
@@ -30,6 +33,9 @@
       padding: 1rem 2rem;
       
   
+    }
+    &-titles{
+      width: 100%;
     }
   }
 

@@ -12,7 +12,7 @@ function BanerComponent() {
   return (
     <section className="baner">
       <div className="baner-text">
-        <div className="titles">
+        <div className="baner-text-titles">
           <h2>BANER PRODUCTIONS PRESENTS</h2>
           <h1>THE SUN KING</h1>
         </div>
