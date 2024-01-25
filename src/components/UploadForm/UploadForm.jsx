@@ -29,7 +29,7 @@ function UploadForm({ URL }) {
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [videoPreviewUrl, setVideoPreviewUrl] = useState(null);
-  const [isAgreed, setIsAgreed] = useState(false); // Agree to the rules
+  const [isAgreed, setIsAgreed] = useState(false); 
   const [formData, setFormData] = useState({
     photoUrl: "",
     videoUrl: "",
@@ -47,8 +47,7 @@ function UploadForm({ URL }) {
   const handlePhotoChange = (e) => {
     if (e.target.files[0]) {
       setImageFile(e.target.files[0]);
-      setImagePreview(URL.createObjectURL(e.target.files[0]));
-    }
+      setImagePreview(window.URL.createObjectURL(e.target.files[0]));    }
   };
 
   const handleConfirmPhoto = () => {

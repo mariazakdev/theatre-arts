@@ -18,7 +18,6 @@ export default function VotingButtons({
 
   const handleLoginAndNavigate = () => {
     setFlashMessage("Log in to contribute");
-    // Set a timeout to navigate after setting the flash message
     setTimeout(() => {
       navigate("/login", { state: { returnPath: location.pathname, actorId } });
     }, 4000);
