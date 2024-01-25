@@ -7,10 +7,13 @@
     background-color: $primaryBackground;
     max-height: auto; 
    padding-bottom: 2rem;
-
+h4{
+    color: black;
+    font-family:'Courier New', Courier, monospace;
+}
    p{
     font-family: 'Montserrat', sans-serif;
     font-size: .6rem;
-    color: lightseagreen;
+    color: rgb(23, 139, 133);
    }
 }

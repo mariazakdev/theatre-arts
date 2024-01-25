@@ -68,7 +68,7 @@ function UploadForm({ URL }) {
 
   const compressImage = (file, callback) => {
     const img = new Image();
-    img.src = URL.createObjectURL(file);
+    img.src = window.URL.createObjectURL(file);
     img.onload = () => {
       const aspectRatio = img.height / img.width;
       if (aspectRatio <= 1) {
@@ -213,7 +213,7 @@ function UploadForm({ URL }) {
           {uploadStatus === "success" && <p>Upload Successful!</p>}
           {uploadStatus === "failed" && <p>Upload Failed. Please try again.</p>}
           {showConfirmationMessage && (
-            <p className="flash-message">Photo Confirmed!</p>
+            <h4 className="flash-message">Photo Confirmed!</h4>
           )}
 
           <div className="input-group">
