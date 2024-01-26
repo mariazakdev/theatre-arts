@@ -85,7 +85,7 @@ const SignUpContestant = ({URL} ) => {
         <div className="form-container">
           {flashMessage && <p className="flash-message">{flashMessage}</p>}
 
-          <h2>Sign Up</h2>
+          <h2>Contestant Sign Up</h2>
         
           <form onSubmit={onSubmit}>
             {errorMessage && <p className="error-message">{errorMessage}</p>}
