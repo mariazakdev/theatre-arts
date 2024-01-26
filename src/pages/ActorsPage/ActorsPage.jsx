@@ -55,6 +55,7 @@ function ActorsPage( {URL}) {
                 className="card-image"
               />
               <p className="card-description">{video.description}</p>
+              <p className="card-description">{video.votes}</p>
             </div>
           </div>
         ))}
