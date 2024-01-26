@@ -17,6 +17,8 @@ import "./PaymentForm.scss";
 // Directs you to upload page. 
 // The only way to upload page.
 const PaymentForm = ({ URL, CLIENT_URL }) => {
+  console.log("PaymentForm URL:", URL);
+  console.log("PaymentForm CLIENT_URL:", CLIENT_URL);
   const stripe = useStripe();
   const elements = useElements();
   const { currentUser } = useAuth();

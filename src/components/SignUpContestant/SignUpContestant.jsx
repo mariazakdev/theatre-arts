@@ -13,7 +13,7 @@ const SignUpContestant = ({URL} ) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [flashMessage, setFlashMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-
+  
   // If user exists, not need to sign up, redirect to login page.
   const checkIfUserExists = async (email) => {
     try {
