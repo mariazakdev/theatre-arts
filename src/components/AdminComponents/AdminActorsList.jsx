@@ -61,11 +61,10 @@ function AdminActorsList() {
       </div>
       {/* List of actors */}
       <div className="admin-actor__card">
-        {videoData.map((video) => (
+      {videoData.map((video) => (
           <div
             key={video.user_id}
             className="admin-card"
-            onClick={() => handleCardClick(video)}
           >
             <div className="admin-actor__card-content">
               <h2 className="card-title">{video.name}</h2>
@@ -99,11 +98,22 @@ function AdminActorsList() {
               <p className="card-votes">Votes: {video.votes}</p>
             </div>
             <button
-              className="delete-button"
-              onClick={() => handleDeleteClick(video.id)}
-            >
-              Delete
-            </button>
+                className="see-more-button"
+                onClick={() => handleCardClick(video)}
+              >
+                See More
+              </button>
+              <button
+                className="delete-button"
+                onClick={() => {
+                  if (window.confirm("Are you sure you want to delete this video?")) {
+                    handleDeleteClick(video.id);
+                    alert("Video deleted successfully!");
+                  }
+                }}
+              >
+                Delete
+              </button>
           </div>
         ))}
       </div>

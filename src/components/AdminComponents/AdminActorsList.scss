@@ -5,10 +5,8 @@
 .admin-actor {
   padding: 20px;
   &__card {
-    // @include flex(space-between, center, row);
     border-radius: 8px;
     overflow: hidden;
-    cursor: pointer;
     transition: box-shadow 0.3s;
     width: 100%;
     &-content {
