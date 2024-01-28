@@ -13,7 +13,12 @@ import { doc, updateDoc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import "./PaymentForm.scss";
 
+// PaymentForm to enter the competition. 
+// Directs you to upload page. 
+// The only way to upload page.
 const PaymentForm = ({ URL, CLIENT_URL }) => {
+  console.log("PaymentForm URL:", URL);
+  console.log("PaymentForm CLIENT_URL:", CLIENT_URL);
   const stripe = useStripe();
   const elements = useElements();
   const { currentUser } = useAuth();
@@ -21,20 +26,10 @@ const PaymentForm = ({ URL, CLIENT_URL }) => {
   const [cardholderName, setCardholderName] = useState("");
 
   useEffect(() => {
-    const checkPaymentStatus = async () => {
-      if (currentUser) {
-        const userDocRef = doc(db, "users", currentUser.uid);
-        const userDoc = await getDoc(userDocRef);
-
-        if (userDoc.exists() && userDoc.data().hasPaid) {
-          // User has already paid, redirect them to the upload page
-          navigate("/contestant/upload");
-        }
-      }
-    };
-
-    checkPaymentStatus();
-  }, [currentUser, navigate]);
+    if (currentUser) {
+      console.log("Current user's Firebase UID:", currentUser.uid);
+    }
+  }, [currentUser]);
 
   const handlePayment = async () => {
     if (!stripe || !elements) {
@@ -64,6 +59,7 @@ const PaymentForm = ({ URL, CLIENT_URL }) => {
 
       if (pmError) {
         console.error("Error creating PaymentMethod:", pmError.message);
+        // Handle error
         return;
       }
 
@@ -87,24 +83,27 @@ const PaymentForm = ({ URL, CLIENT_URL }) => {
 
       if (error) {
         console.error("Error confirming PaymentIntent:", error.message);
+        // Handle error
       } else if (paymentIntent.status === "succeeded") {
         console.log("PaymentIntent confirmed:", paymentIntent.id);
 
-        // Update user's payment status in Firebase
+        //  Firebase
         const userDocRef = doc(db, "users", currentUser.uid);
+
+        // Check if the document exists
         const userDoc = await getDoc(userDocRef);
 
         if (userDoc.exists()) {
+          // Document exists, update it
           await updateDoc(userDocRef, {
             hasPaid: true,
           });
         } else {
+          // Document doesn't exist, create it
           await setDoc(userDocRef, {
             hasPaid: true,
           });
         }
-
-        // Redirect to the upload page
         navigate("/contestant/upload");
         console.log("After navigating to upload");
       } else {

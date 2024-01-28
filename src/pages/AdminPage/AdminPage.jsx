@@ -1,52 +1,40 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import ContestantStanding from "../../components/ContestantStanding/ContestantStanding";
+import AdminActorsList from "../../components/AdminComponents/AdminActorsList";
+import AdminSunKingEdit from "../../components/AdminComponents/AdminSunKingEdit";
 import "./AdminPage.scss";
 
-function AdminPage({ URL, CLIENT_URL}) {
-  const [videoData, setVideoData] = useState([]);
-  const navigate = useNavigate();
+const URL = process.env.REACT_APP_BACKEND_URL;
+function AdminPage() {
+  const [activeTab, setActiveTab] = useState("actors");
 
-  useEffect(() => {
-    axios
-      .get(`${URL}/contestants`)
-      .then((response) => {
-        setVideoData(response.data);
-      })
-      .catch((error) => {
-        console.error("There was an error fetching the video data:", error);
-      });
-  }, []);
-
-  const handleCardClick = (video) => {
-    navigate(`/actors/vote/${video.id}`, { state: { actor: video } });
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
   };
 
   return (
     <div className="admin-list-container">
       <h1>Users and their Videos</h1>
       <ContestantStanding URL={URL} />
+
+      <div className="admin-navigation">
+        <button
+          className={activeTab === "actors" ? "active" : ""}
+          onClick={() => handleTabClick("actors")}
+        >
+          Actors
+        </button>
+        <button
+          className={activeTab === "sunKing" ? "active" : ""}
+          onClick={() => handleTabClick("sunKing")}
+        >
+          Sun King
+        </button>
+      </div>
+
       <div className="admin-cards-container">
-        {videoData.map((video) => (
-          <div
-            key={video.user_id}
-            className="admin-card"
-            onClick={() => handleCardClick(video)}
-          >
-            <div className="admin-card-content">
-              <h2 className="card-title">{video.name}</h2>
-              <img
-                src={video.url_photo}
-                alt={video.name}
-                className="card-image"
-              />
-              <p className="card-description">{video.url_video}</p>
-              <p className="card-description">{video.description}</p>
-              <p className="card-votes">Votes: {video.votes}</p>
-            </div>
-          </div>
-        ))}
+        {activeTab === "actors" ? <AdminActorsList URL={URL} /> : null}
+        {activeTab === "sunKing" ? <AdminSunKingEdit URL={URL} /> : null}
       </div>
     </div>
   );

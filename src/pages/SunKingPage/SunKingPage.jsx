@@ -1,10 +1,10 @@
 import SunKingComponent from '../../components/SunKingComponent/SunKingComponent';
 
 
-function SunKingPage() {
+function SunKingPage({ URL}) {
   return (
     <div>
-      <SunKingComponent />
+      <SunKingComponent URL={URL}/>
     </div>
   )
 }

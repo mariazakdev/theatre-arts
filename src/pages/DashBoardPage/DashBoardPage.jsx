@@ -24,7 +24,7 @@ export default function Dashboard({URL}) {
             setContestants(data.contestant);
           } else {
             setError('No contestant found for this user');
-            navigate('/');
+            navigate('/contestant/enter');
             return; 
           }
         } else {
