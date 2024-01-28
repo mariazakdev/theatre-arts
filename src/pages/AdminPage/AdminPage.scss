@@ -41,7 +41,26 @@
             }
         }
     }
+    button {
+        background-color: #d3d3d3; // Grey button background color
+        color: #333; // Dark grey text color
+        border: none;
+        padding: 10px 20px; // Increase padding for wider buttons
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+
+        &:hover {
+            background-color: #c0c0c0; // Darker grey on hover
+        }
+
+        &.active {
+            background-color: #666; // Dark background color for the active button
+            color: #fff; // White text color for the active button
+        }
+    }
 }
+
 .admin-list-container {
     
     padding: 20px;

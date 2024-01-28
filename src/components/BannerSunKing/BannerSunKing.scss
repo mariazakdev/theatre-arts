@@ -20,7 +20,7 @@
     @include flex(center, flex-start, column);
     width: 70%; 
     background-color: $secondaryBackground;
-    height: 60vh;
+   
     padding: 1rem 2rem; 
     @include tablet {
       height: auto;
@@ -83,6 +83,7 @@
     font-size: 2rem;
     padding: 0;
     margin: 0;
+    margin-top: 1rem;
     @include tablet {
       font-size: 1.5rem;
       padding-top: 1rem;
@@ -97,6 +98,7 @@
     color: rgb(0, 0, 0);
     font-size: 3rem;
     padding: 0;
+    margin:0.5rem 0 ;
     @include tablet {
       font-size:2rem;
     }
@@ -107,8 +109,11 @@
 
   p {
     font-weight: 300;
-    margin: 0;
-
+    margin:1rem 0;
+    max-height: 12em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 1.5rem;
     @include mobile {
       font-size: 1rem;
     }

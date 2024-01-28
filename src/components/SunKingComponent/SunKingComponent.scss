@@ -11,8 +11,6 @@
   @include flex(center, flex-start, row);
   @include mobile {
     @include flex(center, center, column);
-    
-
   }
 
   &-text {
@@ -21,8 +19,8 @@
     // height: 50rem;
     height: auto;
     background-color: $secondaryBackground;
-    padding: 1rem 5rem;
-    @include tablet{
+    padding: 1rem 5rem 4rem 5rem;
+    @include tablet {
       @include flex(flex-start, flex-start, column);
     }
     @include mobile {
@@ -31,27 +29,25 @@
       width: 100%;
       height: auto;
       padding: 1rem 2rem;
-      
-  
     }
-    &-titles{
+    &-titles {
       width: 100%;
     }
   }
 
-  &-image { 
-    width:40%;
+  &-image {
+    width: 40%;
     height: 50rem;
     height: auto;
     padding: 2rem;
     padding-right: 2.5rem;
-    position: relative; 
-    z-index: 1; 
+    position: relative;
+    z-index: 1;
     @include mobile {
-      width: 100%; 
+      width: 100%;
       height: auto;
-      padding: 0; 
-      text-align: center; 
+      padding: 0;
+      text-align: center;
     }
     img {
       width: 30rem;
@@ -61,23 +57,21 @@
       animation: fadeInAndSlide 2s forwards;
       position: absolute;
       margin-top: 100px;
-      top: 30%; 
-      left: -40px; 
-      z-index: 2; 
+      top: 30%;
+      left: -40px;
+      z-index: 2;
       @include mobile {
-        width: 12rem; 
+        width: 12rem;
         height: 12rem;
         margin: 0;
         position: static;
       }
-  
+
       @include tablet {
-        width: 20rem;       
+        width: 20rem;
         height: 20rem;
-
-           }
+      }
     }
-
   }
 
   h2 {

@@ -16,8 +16,8 @@
     @include flex(space-between, center, row); 
   @include desktop {
       display: flex;
-      align-items: center; // Align items vertically in the center
-      justify-content: space-between; // Add space between logo, title, and navigation
+      align-items: center; 
+      justify-content: space-between; 
       padding: 0 2rem;
     }
     h1 {
