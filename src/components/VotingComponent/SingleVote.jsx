@@ -8,9 +8,12 @@ export default function SingleVote({ URL, actorId, onVoteSuccess, currentUser })
   const { user } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
-
+  console.log("currentUser:", currentUser);
   const [voted, setVoted] = useState(false);
   const [flashMessage, setFlashMessage] = useState("");
+  const [voterRestriction, setVoterRestriction] = useState();
+ let userData;
+ let userIdData
 
   const handleVoteClick = async () => {
     console.log("handleVoteClick called from singlevote");
@@ -34,12 +37,46 @@ export default function SingleVote({ URL, actorId, onVoteSuccess, currentUser })
         setVoted(true);
         console.log(response.data.message);
         onVoteSuccess();
+
+        if (currentUser) {
+          // Retrieve user data
+          const userResponse = await axios.get(`${URL}/users/${currentUser.uid}`);
+          userData = userResponse.data; 
+          if (userData.user) {
+            userIdData = userData.user.id;
+          }
+          console.log("userData:", userData);
+        }
+
+        // Use the user's id in the votesData
+        const votesData = {
+          userId: userIdData, 
+          contestantId: actorId,
+          numberOfVotes: 1,
+        };
+
+console.log("Data going to /votes:", votesData);  // Log the data going to /votes
+
+const votesResponse = await axios.post(`${URL}/votes`, votesData);
+
+
+  if (votesResponse.status === 201) {
+    console.log("Votes recorded:", votesResponse.data);
+  }  console.log(response.config.url);
         navigate(`/actors/${actorId}`, {
           state: { returnPath: location.pathname },
         });
       }
     } catch (error) {
       console.error("Error while voting:", error);
+  
+      if (error.response && error.response.status === 400) {
+        // Handle the custom error message
+        const errorMessage = error.response.data.message;
+        console.log("Custom error message:", errorMessage);
+        // Set the error message to your state or display it as needed
+        setFlashMessage(errorMessage);
+      }
     }
   };
 
@@ -48,7 +85,7 @@ export default function SingleVote({ URL, actorId, onVoteSuccess, currentUser })
       {flashMessage && <p className="flash-message">{flashMessage}</p>}
       <div className="button-wrap__free-button">
         <h2>Your Vote</h2>
-        <p>{voted ? "You have voted!" : "Click the button to vote"}</p>
+        <p>{voted ? "The contestant thanks you" : "Click the button to vote"}</p>
         <button
           className="payment-button"
           onClick={() => handleVoteClick()}
