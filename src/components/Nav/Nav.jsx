@@ -11,8 +11,8 @@ function Nav({ isMobileMenuOpen, onClose, URL}) {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState("");
-  console.log("userData:", userData);
-  console.log("is_contestant:", userData?.is_contestant);
+  // console.log("userData:", userData);
+  // console.log("is_contestant:", userData?.is_contestant);
 
   
   useEffect(() => {

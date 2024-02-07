@@ -7,17 +7,20 @@
 // import "./VotingPage.scss";
 // import UserProfile from "../../components/UserProfile/UserProfile";
 
-// export default function VotingPage({URL, CLIENT_URL}) {
+// export default function VotingPage({ URL, CLIENT_URL }) {
 //   const navigate = useNavigate();
 //   const location = useLocation();
 //   const { actorId } = useParams();
-//   const { currentUser } = useAuth(); // Use the auth context to get the current user
+//   const { currentUser } = useAuth();
 //   const [actorData, setActorData] = useState(null);
-//   const [email, setEmail] = useState(null); // Assuming these states are set
+//   const [email, setEmail] = useState(null);
 //   const [stripeToken, setStripeToken] = useState(null);
 //   const [amount, setAmount] = useState(null);
-//   console.log(currentUser);
-
+//   const [voterTimer, setVoterTimer] = useState(null);
+//   console.log("current user voting pg", currentUser);
+//   const [errorMessage, setErrorMessage] = useState(null);
+//   let userData;
+//   let userIdData;
 
 //   useEffect(() => {
 //     const fetchActor = async () => {
@@ -45,10 +48,41 @@
 //           { votes }
 //         );
 //         if (response.status === 200) {
-//           console.log("Votes recorded:", response.data);
+//           console.log("Votes", response.data);
+//           if (currentUser) {
+//             // Retrieve user data
+//             const userResponse = await axios.get(
+//               `${URL}/users/${currentUser.uid}`
+//             );
+//             userData = userResponse.data;
+//             if (userData.user) {
+//               userIdData = userData.user.id;
+//             }
+//             console.log("userData:", userData);
+//           }
+
+//           // Use the user's id in the votesData
+//           const votesData = {
+//             userId: userIdData,
+//             contestantId: actorId,
+//             numberOfVotes: 1,
+//           };
+
+//           console.log("Data going to /votes:", votesData);
+
+//           const votesResponse = await axios.post(`${URL}/votes`, votesData);
+
+//           if (votesResponse.status === 201) {
+//             console.log("Votes recorded: 111111", votesResponse.data);
+//           }
 //         }
 //       } catch (error) {
 //         console.error("Error while voting:", error);
+//         if (error.response && error.response.status === 400) {
+//           // Display error message on the VotingPage
+//           setErrorMessage(error.response.data.message);
+//           setVoterTimer(5000);
+//         }
 //       }
 //     }
 //   };
@@ -56,6 +90,11 @@
 //   return (
 //     <section>
 //       <div className="vote">
+//         {errorMessage && (
+//           <div className="error-message">
+//             <p>{errorMessage}</p>
+//           </div>
+//         )}
 //         <div className="vote-top">
 //           <div className="vote-top-left">
 //             <UserProfile actorId={actorId} URL={URL} />
@@ -67,6 +106,8 @@
 //               onVoteSuccess={handleVoteSuccess}
 //               navigate={navigate}
 //               currentUser={currentUser}
+//               errorMessage={errorMessage}
+//               setErrorMessage={setErrorMessage}
 //             />
 //           </div>
 //         </div>
@@ -79,13 +120,14 @@
 //             actorId={actorId}
 //             location={location}
 //             currentUser={currentUser}
+//             setErrorMessage={setErrorMessage}
 //           />
 //         </div>
 //       </div>
 //     </section>
 //   );
 // }
-   
+
 
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
@@ -93,20 +135,21 @@ import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext"; // Import the auth context
 import VotingButtons from "../../components/VotingComponent/VotingButtons";
 import SingleVote from "../../components/VotingComponent/SingleVote";
-import "./VotingPage.scss";
 import UserProfile from "../../components/UserProfile/UserProfile";
-import { act } from "react-dom/test-utils";
+import "./VotingPage.scss";
 
 export default function VotingPage({URL, CLIENT_URL}) {
   const navigate = useNavigate();
   const location = useLocation();
   const { actorId } = useParams();
-  const { currentUser } = useAuth(); // Use the auth context to get the current user
+  const { currentUser } = useAuth(); 
   const [actorData, setActorData] = useState(null);
-  const [email, setEmail] = useState(null); // Assuming these states are set
+  const [email, setEmail] = useState(null); 
   const [stripeToken, setStripeToken] = useState(null);
   const [amount, setAmount] = useState(null);
+  const [voterTimer, setVoterTimer] = useState(null);
   console.log( "current user voting pg", currentUser);
+  const [errorMessage, setErrorMessage] = useState(null);
 
 
   useEffect(() => {
@@ -130,14 +173,23 @@ export default function VotingPage({URL, CLIENT_URL}) {
 
   const handleVoteSuccess = async (votes) => {
     if (votes) {
+
       try {
         const response = await axios.post(
           `${URL}/contestants/vote/${actorId}`,
           { votes }
         );
-        if (response.status === 200) {
+
+
+          if (response.status === 200) {
           console.log("Votes recorded:", response.data);
-        }
+          }
+
+
+
+
+
+
       } catch (error) {
         console.error("Error while voting:", error);
       }
@@ -148,9 +200,14 @@ export default function VotingPage({URL, CLIENT_URL}) {
   return (
     <section>
       <div className="vote">
+      {errorMessage && (
+        <div className="error-message">
+          <p>{errorMessage}</p>
+        </div>
+      )}
         <div className="vote-top">
           <div className="vote-top-left">
-            <UserProfile actorId={actorId} URL={URL} />
+            <UserProfile actorId={actorId} URL={URL}  />
           </div>
           <div className="vote-top-right">
             <SingleVote
@@ -159,6 +216,8 @@ export default function VotingPage({URL, CLIENT_URL}) {
               onVoteSuccess={handleVoteSuccess}
               navigate={navigate}
               currentUser={currentUser}
+              errorMessage={errorMessage}
+              setErrorMessage={setErrorMessage}
             />
           </div>
         </div>
@@ -166,12 +225,16 @@ export default function VotingPage({URL, CLIENT_URL}) {
         <div className="vote-bottom">
           <VotingButtons
             CLIENT_URL={CLIENT_URL}
+            URL={URL}
             email={email}
             stripeToken={stripeToken}
             actorId={actorId}
             location={location}
             currentUser={currentUser}
+            setErrorMessage={setErrorMessage}
+
           />
+
         </div>
       </div>
     </section>

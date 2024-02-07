@@ -6,7 +6,7 @@ import './ContestantDetailPage.scss';
 export default function ContestantDetailPage( {URL, CLIENT_URL}) {
   return (
     <div className="contestant-detail-page">
-      <MessagePopUp />
+      {/* <MessagePopUp /> */}
       <UserProfile />
     </div>
   )

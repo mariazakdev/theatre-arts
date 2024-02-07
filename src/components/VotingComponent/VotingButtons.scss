@@ -17,10 +17,11 @@
     @include flex(center, center, column);
     width: 100%;
     background-color: $secondaryBackground;
-    height: 40rem; // height matches voting page parent
+    height: 200px; // height matches voting page parent
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-
+height: 31.25rem;
+padding: 0 .5rem;
 
     @include tablet {
       height: auto;

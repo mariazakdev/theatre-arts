@@ -4,24 +4,34 @@ import PaymentButton from "../PaymentButton/PaymentButton";
 import { useAuth } from "../../contexts/AuthContext";
 import "./VotingButtons.scss";
 
+// Voting buttons options
+// Stripe payment processing inside the PaymentButton component
+// Login and navigate to the login page if not logged in (flash message)
+// Prices set here
+
 export default function VotingButtons({
   CLIENT_URL,
+  URL,
   email,
   stripeToken,
   actorId,
   currentUser,
+  setErrorMessage,
 }) {
   const { user } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const [flashMessage, setFlashMessage] = useState("");
 
+  // If not logged in, see flash message and navigate to the login page
   const handleLoginAndNavigate = () => {
     setFlashMessage("Log in to contribute");
     setTimeout(() => {
       navigate("/login", { state: { returnPath: location.pathname, actorId } });
     }, 4000);
   };
+  
+  // Payment options
   const paymentOptions = [
     { amount: 10, priceId: process.env.REACT_APP_ITEM1_PRICE_ID },
     { amount: 25, priceId: process.env.REACT_APP_ITEM2_PRICE_ID },
@@ -29,6 +39,7 @@ export default function VotingButtons({
     { amount: 100, priceId: process.env.REACT_APP_ITEM4_PRICE_ID },
     { amount: 250, priceId: process.env.REACT_APP_ITEM5_PRICE_ID },
   ];
+
 
   return (
     <div className="button-wrap">
@@ -41,6 +52,7 @@ export default function VotingButtons({
         {paymentOptions.map(({ amount, priceId }) => (
           <PaymentButton
             CLIENT_URL={CLIENT_URL}
+            URL={URL}
             key={amount}
             text="Contribute $"
             amount={amount}
@@ -50,6 +62,7 @@ export default function VotingButtons({
             actorId={actorId}
             currentUser={currentUser}
             onLoginAndNavigate={handleLoginAndNavigate}
+            setErrorMessage={setErrorMessage}
           />
         ))}
       </div>
