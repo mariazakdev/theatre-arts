@@ -37,9 +37,9 @@ function ContestantsTopThree() {
                                 <p>{contestant.name}</p>
                                 <p>{contestant.active}</p>
                                 <p>Votes: {contestant.votes}</p>
-                                {group.indexOf(contestant) === 0 && <p>This contestant is currently in first place, help them stay here.</p>}
-                                {group.indexOf(contestant) === 1 && <p>This contestant is currently in second place, help them win.</p>}
-                                {group.indexOf(contestant) === 2 && <p>This contestant is currently in third place, help them win.</p>}
+                                {group.indexOf(contestant) === 0 && <h4>This contestant is currently in first place, help them stay here.</h4>}
+                                {group.indexOf(contestant) === 1 && <h4>This contestant is currently in second place, help them win.</h4>}
+                                {group.indexOf(contestant) === 2 && <h4>This contestant is currently in third place, help them win.</h4>}
                             </li>
                         ))}
                     </ul>
