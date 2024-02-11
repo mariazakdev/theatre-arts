@@ -13,7 +13,7 @@ function ContestantsTopThree() {
                 const grouped = [];
                 for (let i = 0; i < activeContestants.length; i += 4) {
                     const group = activeContestants.slice(i, i + 4);
-                    const topThree = group.sort((a, b) => b.votes - a.votes).slice(0, 3);
+                    const topThree = group.sort((a, b) => b.votes - a.votes).slice(0, 4);
                     grouped.push(topThree);
                 }
                 setGroupedContestants(grouped);
@@ -37,6 +37,9 @@ function ContestantsTopThree() {
                                 <p>{contestant.name}</p>
                                 <p>{contestant.active}</p>
                                 <p>Votes: {contestant.votes}</p>
+                                {group.indexOf(contestant) === 0 && <p>This contestant is currently in first place, help them stay here.</p>}
+                                {group.indexOf(contestant) === 1 && <p>This contestant is currently in second place, help them win.</p>}
+                                {group.indexOf(contestant) === 2 && <p>This contestant is currently in third place, help them win.</p>}
                             </li>
                         ))}
                     </ul>
