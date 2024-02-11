@@ -3,6 +3,7 @@ import ContestantStanding from "../../components/ContestantStanding/ContestantSt
 import AdminActorsList from "../../components/AdminComponents/AdminActorsList";
 import AdminSunKingEdit from "../../components/AdminComponents/AdminSunKingEdit";
 import "./AdminPage.scss";
+import ContestantsTopThree from "../../components/ContestantStanding/ContestantTopThree";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
 function AdminPage() {
@@ -15,6 +16,7 @@ function AdminPage() {
   return (
     <div className="admin-list-container">
       <h1>Users and their Videos</h1>
+      <ContestantsTopThree />
       <ContestantStanding URL={URL} />
 
       <div className="admin-navigation">

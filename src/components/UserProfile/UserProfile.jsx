@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import YouTube from "react-youtube"; //YOU TUBE INSTALLED
 import "./UserProfile.scss";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
 function UserProfile( ) {
   const { actorId } = useParams();
   const [localActorData, setLocalActorData] = useState(null);
+  const [videoPaused, setVideoPaused] = useState(false);
+
   useEffect(() => {
     if (!actorId) {
       console.error("No actor ID provided");
@@ -29,6 +32,24 @@ function UserProfile( ) {
     fetchActorData();
   }, [actorId]);
 
+  useEffect(() => {
+    let timer;
+    if (localActorData && !videoPaused) {
+      timer = setTimeout(() => {
+        setVideoPaused(true);
+      }, 60000); // 60 seconds in milliseconds
+    }
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [localActorData, videoPaused]);
+
+  
+  const handleVideoPause = () => {
+    setVideoPaused(true);
+  };
+
   if (!localActorData) {
     return <div>Loading...</div>;
   }
@@ -49,7 +70,11 @@ function UserProfile( ) {
                 title="YouTube video player"
                 allowFullScreen
                 className="video-frame"
+                id="profileVideo"
+                onPause={handleVideoPause} // Add event handler to pause video
+
               ></iframe>
+              // <YouTube videoId={videoSrc} opts={{}} />
             )}
           </div>
           <div className="user-info">

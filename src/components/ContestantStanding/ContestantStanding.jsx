@@ -28,7 +28,7 @@ const ContestantStanding = ({URL}) => {
     return sortedGroup.slice(0, 3);
   });
 
-  // Flatten the array of top 3 contestants
+  // Flatten the array of top 3 contestantsn
   const topThree = [].concat(...topThreeInEachGroup);
 
   // Display messages based on ranking
