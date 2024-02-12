@@ -10,6 +10,11 @@
 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   height: 31.25rem;
+  &__top-three-announce{
+  padding: 1rem 0;
+  font-size: 1rem;
+  font-weight: 500;
+}
 }
 
 .user-profile__title {
