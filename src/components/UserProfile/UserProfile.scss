@@ -7,16 +7,20 @@
   border-radius: 8px;
   overflow: hidden;
   background-color: $secondaryBackground;
-
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  height: 31.25rem;
-  &__top-three-announce{
-  padding: 1rem 0;
-  font-size: 1rem;
+  height: 38rem;// height matches VotingComponent "button-wrap__free-button"
+  margin-bottom: 1rem;
+&__top-three-announce{
+   h3{
+    margin-top: 1rem;
+    font-size: 1rem;
   font-weight: 500;
-}
+  color: rgb(195, 75, 115);
+ 
+  }
 }
 
+}
 .user-profile__title {
   font-size: 26px;
   color: #2c3e50;

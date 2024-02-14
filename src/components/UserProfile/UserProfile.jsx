@@ -78,7 +78,7 @@ console.log('announce', announce);
 
   return (
     <section className="user-profile">
-                  {announce && <div className="user-profile__top-three-announce">{announce}</div>}
+                  {announce && <div className="user-profile__top-three-announce"><h3>{announce}</h3></div>}
 
       {actor && (
         <div className="user-profile__wrapper">

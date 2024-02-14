@@ -20,8 +20,8 @@
     height: 200px; // height matches voting page parent
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-height: 31.25rem;
-padding: 0 .5rem;
+    height: 38rem; // height matches UserProfile "user-profile"
+    padding: 0 0.5rem;
 
     @include tablet {
       height: auto;
@@ -31,7 +31,6 @@ padding: 0 .5rem;
       width: 100%;
       height: auto;
       padding: 0 1rem;
-    
     }
   }
   // Paid buttons
@@ -39,6 +38,5 @@ padding: 0 .5rem;
     @include flex(center, center, row);
     flex-wrap: wrap;
     margin: 1rem;
-
   }
 }

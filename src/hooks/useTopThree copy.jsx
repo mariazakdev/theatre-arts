@@ -10,16 +10,7 @@ function useTopThree() {
             try {
                 const response = await axios.get('http://localhost:8000/contestants');
                 console.log('Response:', response.data);
-                const currentDate = new Date();
-                const activeContestants = response.data.map(contestant => {
-                    // Reset votes and set inactive if one week has passed since last update
-                    const lastUpdateDate = new Date(contestant.lastUpdated);
-                    const oneWeekAgo = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000);
-                    if (lastUpdateDate < oneWeekAgo) {
-                        return { ...contestant, votes: 0, active: 0 };
-                    }
-                    return contestant;
-                });
+                const activeContestants = response.data.filter(contestant => contestant.active === 1);
                 console.log('Active Contestants:', activeContestants);
                 const grouped = [];
                 const messages = [];

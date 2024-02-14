@@ -36,7 +36,7 @@ function ActorsPage( {URL}) {
 
   return (
     <div className="video-list-container">
-      <h1>Users and their Videos</h1>
+      <h1>Contestants</h1>
 
       <div className="cards-container">
 
@@ -48,7 +48,7 @@ function ActorsPage( {URL}) {
           >
             <div className="card-content">
               
-              <h2 className="card-title">{video.name}</h2>
+              <h2 className="card-title">{video.name}{video.votes}</h2>
               <img
                 src={video.url_photo}
                 alt={video.name}
