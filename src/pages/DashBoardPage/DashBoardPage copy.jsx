@@ -101,8 +101,7 @@ export default function Dashboard({URL}) {
           {contestants.url_video && (
             <iframe
               title="Contestant Video"
-              // width="320"
-              // height="240"
+            
               src={contestants.url_video.replace("watch?v=", "embed/")}
               allowFullScreen
               className="dashboard__contestant-video"
