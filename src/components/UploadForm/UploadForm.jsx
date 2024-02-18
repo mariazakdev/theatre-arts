@@ -255,7 +255,8 @@ function UploadForm({ URL }) {
               </div>
             )}
           </div>
-              <p>You may only change the video at the beginning of each round.</p>
+              <p>You may only change the video at the beginning of each round.</p> 
+              <p>Please note that the video once uploaded will <strong>stop playing at exactly 60 seconds.</strong></p>
           <div className="input-group">
             <textarea
               className="form-container__input"

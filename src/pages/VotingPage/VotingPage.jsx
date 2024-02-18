@@ -79,6 +79,8 @@ export default function VotingPage({URL, CLIENT_URL}) {
             <UserProfile actorId={actorId} URL={URL}  />
           </div>
           <div className="vote-top-right">
+          {actorData && actorData.active ? (
+
             <SingleVote
               URL={URL}
               actorId={actorId}
@@ -88,22 +90,27 @@ export default function VotingPage({URL, CLIENT_URL}) {
               errorMessage={errorMessage}
               setErrorMessage={setErrorMessage}
             />
+            ) : (
+              <p></p>
+            )}
           </div>
         </div>
 
         <div className="vote-bottom">
-          <VotingButtons
-            CLIENT_URL={CLIENT_URL}
-            URL={URL}
-            email={email}
-            stripeToken={stripeToken}
-            actorId={actorId}
-            location={location}
-            currentUser={currentUser}
-            setErrorMessage={setErrorMessage}
-
-          />
-
+          {actorData && actorData.active ? (
+            <VotingButtons
+              CLIENT_URL={CLIENT_URL}
+              URL={URL}
+              email={email}
+              stripeToken={stripeToken}
+              actorId={actorId}
+              location={location}
+              currentUser={currentUser}
+              setErrorMessage={setErrorMessage}
+            />
+          ) : (
+            <p></p>
+          )}
         </div>
       </div>
     </section>
