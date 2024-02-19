@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from 'react';
 import YouTube from "react-youtube";
 import VimeoPlayer from 'react-player/vimeo';
@@ -7,42 +6,21 @@ function VideoPlayer({ videoUrl }) {
   const [videoPlayed, setVideoPlayed] = useState(false);
   const playerRef = useRef(null);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (playerRef.current && playerRef.current.getCurrentTime) {
-        const currentTime = playerRef.current.getCurrentTime();
-        if (currentTime >= 60 && !videoPlayed) {
-          if (playerRef.current.seekTo) {
-            playerRef.current.seekTo(0); // Restart the video
-            playerRef.current.play(); // Resume playing
-          } else if (playerRef.current.pauseVideo) {
-            playerRef.current.pauseVideo();
-          } else if (playerRef.current.pause) {
-            playerRef.current.pause();
-          }
-          setVideoPlayed(true);
-        }
+  const restartVideo = () => {
+    if (playerRef.current) {
+      if (playerRef.current.seekTo) {
+        playerRef.current.seekTo(0); // Restart the video
+        playerRef.current.getInternalPlayer().then(player => player.pause());
       }
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [videoPlayed]);
-
-
+      setVideoPlayed(true);
+    }
+  };
 
   const handleVideoStateChange = (event) => {
-    if (event.data === 1 && !videoPlayed) {
+    if (event === "playing" && !videoPlayed) {
       setTimeout(() => {
-        if (playerRef.current.seekTo) {
-          playerRef.current.seekTo(0); // Restart the video
-          playerRef.current.play(); // Resume playing
-        } else if (playerRef.current.pauseVideo) {
-          playerRef.current.pauseVideo();
-        } else if (playerRef.current.pause) {
-          playerRef.current.pause();
-        }
-        setVideoPlayed(true);
-      }, 60000); // Pause at 60 seconds (1 minute)
+        restartVideo();
+      }, 15000); // Restart after 15 seconds
     }
   };
 
@@ -53,10 +31,11 @@ function VideoPlayer({ videoUrl }) {
           videoId={videoUrl.split('/').pop()}
           opts={{
             playerVars: {
-              autoplay: 0, // Automatically start playing
+              autoplay: 0, 
               controls: 0,
               volume: 100,
               rel: 0,
+              end: 60,
             },
           }}
           onReady={(event) => {
@@ -66,16 +45,18 @@ function VideoPlayer({ videoUrl }) {
           ref={playerRef}
         />
       )}
-      {videoUrl && videoUrl.includes('vimeo') && (
+       {videoUrl && videoUrl.includes('vimeo') && (
         <VimeoPlayer
           url={videoUrl}
           controls={true}
           onPause={() => setVideoPlayed(true)}
           onProgress={(state) => {
-            if (state.playedSeconds >= 60 && !videoPlayed) {
+            if (state.playedSeconds >= 15 && !videoPlayed) {
               setVideoPlayed(true);
+              restartVideo();
             }
           }}
+          ref={playerRef}
         />
       )}
     </>
@@ -83,5 +64,3 @@ function VideoPlayer({ videoUrl }) {
 }
 
 export default VideoPlayer;
-
-  
