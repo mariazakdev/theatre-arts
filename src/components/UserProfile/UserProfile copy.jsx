@@ -32,18 +32,7 @@ function UserProfile( ) {
     fetchActorData();
   }, [actorId]);
 
-  useEffect(() => {
-    let timer;
-    if (localActorData && !videoPaused) {
-      timer = setTimeout(() => {
-        setVideoPaused(true);
-      }, 60000); // 60 seconds in milliseconds
-    }
 
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [localActorData, videoPaused]);
 
   
   const handleVideoPause = () => {
@@ -74,7 +63,6 @@ function UserProfile( ) {
                 onPause={handleVideoPause} // Add event handler to pause video
 
               ></iframe>
-              // <YouTube videoId={videoSrc} opts={{}} />
             )}
           </div>
           <div className="user-info">
