@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import YouTube from "react-youtube";
 import VimeoPlayer from 'react-player/vimeo';
+import { TikTok } from 'react-tiktok'; // Import TikTok component
 
 function VideoPlayer({ videoUrl }) {
   const [videoPlayed, setVideoPlayed] = useState(false);
@@ -45,7 +46,7 @@ function VideoPlayer({ videoUrl }) {
           ref={playerRef}
         />
       )}
-       {videoUrl && videoUrl.includes('vimeo') && (
+      {videoUrl && videoUrl.includes('vimeo') && (
         <VimeoPlayer
           url={videoUrl}
           controls={true}
@@ -58,6 +59,9 @@ function VideoPlayer({ videoUrl }) {
           }}
           ref={playerRef}
         />
+      )}
+      {videoUrl && videoUrl.includes('tiktok') && (
+        <TikTok url={videoUrl} />
       )}
     </>
   );
