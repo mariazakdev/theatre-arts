@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
+import VideoPlayer from '../../components/VideoEmbed/VideoEmbed'; 
 import EditDashboard from '../../components/EditDashBoard/EditDashBoard';
 import './DashBoardPage.scss';
 
@@ -97,16 +98,8 @@ export default function Dashboard({URL}) {
               <p className="dashboard__user-votes">Votes: {contestants.votes}</p>
             </div>
           )}
-
-          {contestants.url_video && (
-            <iframe
-              title="Contestant Video"
-            
-              src={contestants.url_video.replace("watch?v=", "embed/")}
-              allowFullScreen
-              className="dashboard__contestant-video"
-            ></iframe>
-          )}
+ <VideoPlayer videoUrl={contestants.url_video.replace("watch?v=", "embed/")}/>
+   
         </div>
 
         <button onClick={handleLogout} className="dashboard__logout-button">

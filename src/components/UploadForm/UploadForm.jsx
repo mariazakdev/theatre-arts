@@ -7,6 +7,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { useNavigate } from "react-router-dom";
 import "./UploadForm.scss";
+import axios from "axios";
 
 const BUCKET_NAME = process.env.REACT_APP_AWS_BUCKET_NAME;
 const REGION = process.env.REACT_APP_AWS_REGION;
@@ -37,6 +38,27 @@ function UploadForm({ URL }) {
     name: "",
   });
   const [isFormValid, setIsFormValid] = useState(false);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`${URL}/users/${currentUser.uid}`);
+        console.log(response.data.user); // Accessing the user object
+        if (response.data.user.uploadStatus === 1) {
+          navigate("/");
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+  
+    if (currentUser) {
+      fetchUserData();
+    } else {
+      navigate("/login");
+    }
+  }, [currentUser, navigate]);
+  
 
   useEffect(() => {
     if (!currentUser) {
@@ -165,7 +187,20 @@ function UploadForm({ URL }) {
       }
       const result = await response.json();
       console.log("Upload result:", result);
+
+    // Update user's upload status to 1
+    const updateResponse = await fetch(`${URL}/users/${currentUser.uid}/upload-status`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+    });
+    if (!updateResponse.ok) {
+      throw new Error("Failed to update user's upload status");
+    }
+
+
       navigate("/contestant/dashboard");
+
+
     } catch (error) {
       console.error("Error submitting form:", error);
       alert("There was an error submitting the form. Please try again.");

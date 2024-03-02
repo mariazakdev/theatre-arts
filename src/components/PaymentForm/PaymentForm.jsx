@@ -103,7 +103,8 @@ const PaymentForm = ({ URL, CLIENT_URL }) => {
             hasPaid: true,
           });
         }
-
+        await axios.post(`${URL}/users/updateHasPaid/${currentUser.uid}`); 
+console.log(currentUser.uid);
         // Redirect to the upload page
         navigate("/contestant/upload");
         console.log("After navigating to upload");

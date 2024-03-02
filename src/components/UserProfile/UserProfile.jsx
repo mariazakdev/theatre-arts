@@ -2,11 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import useTopThree from "../../hooks/useTopThree";
-import VideoPlayer from "../../components/VideoPlayer/VideoPlayer";
-import YouTube from "react-youtube";
-import PlayIcon from "../../assets/icons/Icons8-Ios7-Media-Controls-Play.512.png";
-import StopIcon from "../../assets/icons/Icons8-Ios7-Media-Controls-Stop.512.png";
-import RestartIcon from "../../assets/icons/Icons8-Ios7-Media-Controls-Repeat.512.png";
+import VideoPlayer from "../VideoEmbed/VideoEmbed";
 import "./UserProfile.scss";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
