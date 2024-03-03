@@ -3,6 +3,7 @@ import ContestantStanding from "../../components/ContestantStanding/ContestantSt
 import AdminActorsList from "../../components/AdminComponents/AdminActorsList";
 import AdminSunKingEdit from "../../components/AdminComponents/AdminSunKingEdit";
 import AdminVotingStandings from "../../components/AdminComponents/AdminVotingStandings";
+import AdminGroupsCounter from "../../components/AdminComponents/AdminGroupsCounter";
 import "./AdminPage.scss";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
@@ -23,8 +24,9 @@ function AdminPage() {
   return (
     <div className="admin-list-container">
       <h1>Users and their Videos</h1>
+       <AdminGroupsCounter URL={URL} /> 
       <ContestantStanding URL={URL} />
-
+     
       <div className="admin-navigation">
         <button
           className={activeTab === "actors" ? "active" : ""}

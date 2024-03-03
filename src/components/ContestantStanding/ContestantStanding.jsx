@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const ContestantStanding = ({URL}) => {
+const ContestantStanding = ({ URL }) => {
   const [contestants, setContestants] = useState([]);
   const [updateCount, setUpdateCount] = useState(0);
+  const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0 });
 
   useEffect(() => {
-    // Fetch contestants from your API
     axios.get(`${URL}/contestants`)
       .then(response => {
         setContestants(response.data);
@@ -16,22 +16,18 @@ const ContestantStanding = ({URL}) => {
       });
   }, [updateCount]);
 
-  // Group contestants into arrays of 10
   const groupedContestants = [];
   for (let i = 0; i < contestants.length; i += 10) {
     groupedContestants.push(contestants.slice(i, i + 10));
   }
 
-  // Get the top 3 contestants in each group
   const topThreeInEachGroup = groupedContestants.map(group => {
     const sortedGroup = [...group].sort((a, b) => b.votes - a.votes);
     return sortedGroup.slice(0, 3);
   });
 
-  // Flatten the array of top 3 contestantsn
   const topThree = [].concat(...topThreeInEachGroup);
 
-  // Display messages based on ranking
   const messages = topThree.map((contestant, index) => {
     switch (index) {
       case 0:
@@ -45,21 +41,55 @@ const ContestantStanding = ({URL}) => {
     }
   });
 
-  // Timer to trigger update every 7 days
   useEffect(() => {
     const timerId = setInterval(() => {
       setUpdateCount(prevCount => prevCount + 1);
-    }, 7 * 24 * 60 * 60 * 1000); // 7 days in milliseconds
+      handleInactiveContestants(); // Check inactive contestants after each update
+    }, 4 * 60 * 60 * 1000); // 4 hours in milliseconds
 
     return () => clearInterval(timerId);
   }, []);
 
-  // Render the messages
+  const handleInactiveContestants = () => {
+    const allContestants = [].concat(...groupedContestants);
+    const inactiveContestants = allContestants.filter(contestant => !topThree.includes(contestant));
+    inactiveContestants.forEach(contestant => {
+      if (contestant.active === 1) {
+        axios.put(`${URL}/contestants/active/${contestant.id}`, { active: 0 })
+          .then(() => {
+            console.log(`Contestant ${contestant.name} deactivated successfully!`);
+          })
+          .catch(error => {
+            console.error(`Error deactivating contestant ${contestant.name}:`, error);
+          });
+      }
+    });
+  };
+
+  // Calculate remaining time in hours and minutes
+  useEffect(() => {
+    const timerDuration = 4 * 60 * 60 * 1000; // 4 hours in milliseconds
+    const currentTime = new Date().getTime();
+    const endTime = currentTime + timerDuration;
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = endTime - now;
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      setTimeLeft({ hours, minutes });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div>
       {messages.map((message, index) => (
         <p key={index}>{message}</p>
       ))}
+      <div>
+        Time left: {timeLeft.hours} hours {timeLeft.minutes} minutes
+      </div>
     </div>
   );
 };
