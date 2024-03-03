@@ -14,22 +14,9 @@ const SignUpContestant = ({URL} ) => {
   const [flashMessage, setFlashMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   
-  // If user exists, not need to sign up, redirect to login page.
-  const checkIfUserExists = async (email) => {
-    try {
-      const response = await axios.get(
-        `${URL}/users/check-user?email=${email}`
-      );
-      return response.data.exists; 
-    } catch (error) {
-      console.error("Error checking user existence:", error);
-      return false; 
-    }
-  };
-
   const onSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (password !== confirmPassword) {
       setErrorMessage("Passwords do not match.");
       return;
@@ -39,41 +26,38 @@ const SignUpContestant = ({URL} ) => {
       return;
     }
   
-    if (password !== confirmPassword) {
-      setErrorMessage("Passwords do not match.");
-      return;
-    }
-    
     try {
-      // Check if the user already exists
-      const userExists = await checkIfUserExists(email);
-
-      if (!userExists) {
-        // Continue with the signup process for new users
-        const userCredential = await signup(email, password);
-        const user = userCredential.user;
-
-        await axios.post(`${URL}/users`, {
-          email: user.email,
-          firebaseAuthId: user.uid,
-          isContestant: true,
-        });
-
-        navigate("/contestant/login");
-      } else {
-        // User already exists, show flash message
-        setFlashMessage("You are already signed up. Please log in.");
-        // Set a timeout to navigate after setting the flash message
+      // Check if user already exists in the backend
+      const response = await axios.get(`${URL}/users/email/${email}`);
+      if (response.data) {
+        // If user exists, show flash message and navigate after a delay
+        setFlashMessage("User with this email already exists.");
         setTimeout(() => {
           navigate("/login");
-        }, 4000);
-        return; // Exit the function to prevent further execution
+        }, 3000); // Change the delay time as per your requirement
+        return;
       }
+  
+      // Continue with the signup process for new users
+      const userCredential = await signup(email, password);
+      const user = userCredential.user;
+  
+      await axios.post(`${URL}/users`, {
+        email: user.email,
+        firebaseAuthId: user.uid,
+        isContestant: true,
+      });
+  
+      navigate("/contestant/login");
     } catch (error) {
       console.error("Error during sign up:", error);
       setErrorMessage(error.message || "Failed to create user");
     }
   };
+  
+
+
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };

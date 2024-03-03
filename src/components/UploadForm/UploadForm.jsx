@@ -39,13 +39,17 @@ function UploadForm({ URL }) {
   });
   const [isFormValid, setIsFormValid] = useState(false);
 
+  // If didn't pay, redirect to payment page, if paid, redirect to home
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const response = await axios.get(`${URL}/users/${currentUser.uid}`);
         console.log(response.data.user); // Accessing the user object
-        if (response.data.user.uploadStatus === 1) {
+        const user = response.data.user;
+        if (user.uploadStatus === 1) {
           navigate("/");
+        } else if (user.hasPaid === 0) {
+          navigate("/contestant/enter");
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -58,6 +62,26 @@ function UploadForm({ URL }) {
       navigate("/login");
     }
   }, [currentUser, navigate]);
+
+  // useEffect(() => {
+  //   const fetchUserData = async () => {
+  //     try {
+  //       const response = await axios.get(`${URL}/users/${currentUser.uid}`);
+  //       console.log(response.data.user); // Accessing the user object
+  //       if (response.data.user.uploadStatus === 1) {
+  //         navigate("/");
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching user data:", error);
+  //     }
+  //   };
+  
+  //   if (currentUser) {
+  //     fetchUserData();
+  //   } else {
+  //     navigate("/login");
+  //   }
+  // }, [currentUser, navigate]);
   
 
   useEffect(() => {
