@@ -18,18 +18,17 @@ const SignUpContestant = ({URL} ) => {
     e.preventDefault();
   
     if (password !== confirmPassword) {
-      setErrorMessage("Passwords do not match.");
+      setFlashMessage("Passwords do not match.");
       return;
     }
     if (!email || !password || !confirmPassword) {
-      setErrorMessage("Please fill in all the required fields.");
+      setFlashMessage("Please fill in all the required fields.");
       return;
     }
-  
     try {
       // Check if user already exists in the backend
       const response = await axios.get(`${URL}/users/email/${email}`);
-      if (response.data) {
+      if (response.data.userExists) {
         // If user exists, show flash message and navigate after a delay
         setFlashMessage("User with this email already exists.");
         setTimeout(() => {
