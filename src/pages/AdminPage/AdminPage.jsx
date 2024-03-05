@@ -6,9 +6,9 @@ import AdminVotingStandings from "../../components/AdminComponents/AdminVotingSt
 import AdminGroupsCounter from "../../components/AdminComponents/AdminGroupsCounter";
 import "./AdminPage.scss";
 
-const URL = process.env.REACT_APP_BACKEND_URL;
+// const URL = process.env.REACT_APP_BACKEND_URL;
 
-function AdminPage() {
+function AdminPage({ URL}) {
   const [activeTab, setActiveTab] = useState("actors");
   const [showVotingStandings, setShowVotingStandings] = useState(false);
 

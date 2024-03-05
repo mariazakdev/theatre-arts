@@ -5,6 +5,8 @@ const ContestantStanding = ({ URL }) => {
   const [contestants, setContestants] = useState([]);
   const [updateCount, setUpdateCount] = useState(0);
   const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0 });
+  const [timeoutOver, setTimeoutOver] = useState(false); // State to track if timeout is over
+  const [startTime, setStartTime] = useState(null); // State to track the start time
 
   useEffect(() => {
     axios.get(`${URL}/contestants`)
@@ -15,6 +17,10 @@ const ContestantStanding = ({ URL }) => {
         console.error('Error fetching contestants:', error);
       });
   }, [updateCount]);
+
+  const startTimer = () => {
+    setStartTime(Date.now()); // Set the start time when the button is clicked
+  };
 
   const groupedContestants = [];
   for (let i = 0; i < contestants.length; i += 10) {
@@ -41,15 +47,6 @@ const ContestantStanding = ({ URL }) => {
     }
   });
 
-  useEffect(() => {
-    const timerId = setInterval(() => {
-      setUpdateCount(prevCount => prevCount + 1);
-      handleInactiveContestants(); // Check inactive contestants after each update
-    }, 4 * 60 * 60 * 1000); // 4 hours in milliseconds
-
-    return () => clearInterval(timerId);
-  }, []);
-
   const handleInactiveContestants = () => {
     const allContestants = [].concat(...groupedContestants);
     const inactiveContestants = allContestants.filter(contestant => !topThree.includes(contestant));
@@ -62,28 +59,50 @@ const ContestantStanding = ({ URL }) => {
           .catch(error => {
             console.error(`Error deactivating contestant ${contestant.name}:`, error);
           });
+        axios.put(`${URL}/contestants/vote/${contestant.id}`, { votes: 0 }) // Reset votes
+          .then(() => {
+            console.log(`Votes reset for contestant ${contestant.name} successfully!`);
+          })
+          .catch(error => {
+            console.error(`Error resetting votes for contestant ${contestant.name}:`, error);
+          });
       }
     });
   };
 
-  // Calculate remaining time in hours and minutes
   useEffect(() => {
-    const timerDuration = 4 * 60 * 60 * 1000; // 4 hours in milliseconds
-    const currentTime = new Date().getTime();
-    const endTime = currentTime + timerDuration;
-    const interval = setInterval(() => {
-      const now = new Date().getTime();
-      const distance = endTime - now;
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      setTimeLeft({ hours, minutes });
-    }, 1000);
+    if (startTime) {
+      const timerId = setTimeout(() => {
+        setTimeoutOver(true); // Set timeout over flag to true after timer ends
+        handleInactiveContestants(); // Handle inactive contestants
+      }, 5 * 60 * 1000); // 5 minutes for testing
 
-    return () => clearInterval(interval);
-  }, []);
+      return () => clearTimeout(timerId); // Clear the timer on component unmount
+    }
+  }, [startTime]);
+
+  useEffect(() => {
+    if (!timeoutOver && startTime) {
+      const timerDuration = 5 * 60 * 1000; // 5 minutes for testing
+
+      const interval = setInterval(() => {
+        const now = Date.now();
+        const distance = timerDuration - (now - startTime);
+        if (distance > 0) {
+          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          setTimeLeft({ hours, minutes });
+        } else {
+          clearInterval(interval);
+        }
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [timeoutOver, startTime]);
 
   return (
     <div>
+      <button onClick={startTimer}>Start Timer</button>
       {messages.map((message, index) => (
         <p key={index}>{message}</p>
       ))}
