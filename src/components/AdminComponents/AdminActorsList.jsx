@@ -83,6 +83,7 @@ function AdminActorsList() {
                 <strong>Video Link: </strong>
                 <a href={video.url_video} target="_blank" rel="noopener noreferrer">{video.url_video}</a>
                 <p>{video.description}</p>
+                <p>{video.active === 1 ? "Active" : "Inactive"}</p>
               </div>
               {video.url_video && (
                 <iframe

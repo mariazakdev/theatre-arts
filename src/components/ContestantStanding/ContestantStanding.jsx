@@ -4,9 +4,9 @@ import axios from 'axios';
 const ContestantStanding = ({ URL }) => {
   const [contestants, setContestants] = useState([]);
   const [updateCount, setUpdateCount] = useState(0);
-  const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0 });
-  const [timeoutOver, setTimeoutOver] = useState(false); // State to track if timeout is over
-  const [startTime, setStartTime] = useState(null); // State to track the start time
+  const [timeLeft, setTimeLeft] = useState({ hours: 0, minutes: 0, seconds: 0 });
+  const [timeoutOver, setTimeoutOver] = useState(false);
+  const [startTime, setStartTime] = useState(null);
 
   useEffect(() => {
     axios.get(`${URL}/contestants`)
@@ -19,7 +19,7 @@ const ContestantStanding = ({ URL }) => {
   }, [updateCount]);
 
   const startTimer = () => {
-    setStartTime(Date.now()); // Set the start time when the button is clicked
+    setStartTime(Date.now());
   };
 
   const groupedContestants = [];
@@ -47,43 +47,84 @@ const ContestantStanding = ({ URL }) => {
     }
   });
 
-  const handleInactiveContestants = () => {
-    const allContestants = [].concat(...groupedContestants);
-    const inactiveContestants = allContestants.filter(contestant => !topThree.includes(contestant));
-    inactiveContestants.forEach(contestant => {
-      if (contestant.active === 1) {
-        axios.put(`${URL}/contestants/active/${contestant.id}`, { active: 0 })
-          .then(() => {
-            console.log(`Contestant ${contestant.name} deactivated successfully!`);
-          })
-          .catch(error => {
-            console.error(`Error deactivating contestant ${contestant.name}:`, error);
-          });
-        axios.put(`${URL}/contestants/vote/${contestant.id}`, { votes: 0 }) // Reset votes
-          .then(() => {
-            console.log(`Votes reset for contestant ${contestant.name} successfully!`);
-          })
-          .catch(error => {
-            console.error(`Error resetting votes for contestant ${contestant.name}:`, error);
-          });
-      }
-    });
-  };
+  // useEffect(() => {
+  //   if (timeoutOver && startTime) {
+  //     const handleInactiveContestants = async () => {
+  //       const allContestants = [].concat(...groupedContestants);
+  //       const inactiveContestants = allContestants.filter(
+  //         contestant => !topThree.includes(contestant)
+  //       );
 
+  //       for (const contestant of inactiveContestants) {
+  //         try {
+  //           await axios.put(`${URL}/contestants/active/${contestant.id}`, { active: 0 });
+  //           console.log(`Contestant ${contestant.name} deactivated successfully!`);
+
+  //           await axios.put(`${URL}/contestants/reset-votes/${contestant.id}`);
+  //           console.log(`Votes reset for contestant ${contestant.name} successfully!`);
+  //         } catch (error) {
+  //           console.error(`Error deactivating or resetting votes for contestant ${contestant.name}:`, error);
+  //         }
+  //       }
+
+  //       const updatedContestants = await axios.get(`${URL}/contestants`);
+  //       setContestants(updatedContestants.data);
+  //     };
+
+  //     handleInactiveContestants();
+  //   }
+  // }, [timeoutOver, startTime]);
+
+
+  useEffect(() => {
+    if (timeoutOver && startTime) {
+      const handleInactiveContestants = async () => {
+        const allContestants = [].concat(...groupedContestants);
+        const inactiveContestants = allContestants.filter(
+          contestant => !topThree.includes(contestant)
+        );
+  
+        for (const contestant of inactiveContestants) {
+          try {
+            await axios.put(`${URL}/contestants/active/${contestant.id}`, { active: 0 });
+            console.log(`Contestant ${contestant.name} deactivated successfully!`);
+
+          } catch (error) {
+            console.error(`Error deactivating or resetting votes for contestant ${contestant.name}:`, error);
+          }
+        }
+  
+        // Reset votes for all contestants
+        try {
+          await Promise.all(allContestants.map(contestant =>
+            axios.put(`${URL}/contestants/reset-votes/${contestant.id}`)
+          ));
+          console.log(`All votes reset successfully!`);
+        } catch (error) {
+          console.error(`Error resetting votes for all contestants:`, error);
+        }
+  
+        const updatedContestants = await axios.get(`${URL}/contestants`);
+        setContestants(updatedContestants.data);
+      };
+  
+      handleInactiveContestants();
+    }
+  }, [timeoutOver, startTime]);
+  
   useEffect(() => {
     if (startTime) {
       const timerId = setTimeout(() => {
-        setTimeoutOver(true); // Set timeout over flag to true after timer ends
-        handleInactiveContestants(); // Handle inactive contestants
-      }, 5 * 60 * 1000); // 5 minutes for testing
+        setTimeoutOver(true);
+      }, 1 * 60 * 1000); // 1 minute for testing
 
-      return () => clearTimeout(timerId); // Clear the timer on component unmount
+      return () => clearTimeout(timerId);
     }
   }, [startTime]);
 
   useEffect(() => {
     if (!timeoutOver && startTime) {
-      const timerDuration = 5 * 60 * 1000; // 5 minutes for testing
+      const timerDuration = 1 * 60 * 1000; // 1 minute for testing
 
       const interval = setInterval(() => {
         const now = Date.now();
@@ -91,7 +132,8 @@ const ContestantStanding = ({ URL }) => {
         if (distance > 0) {
           const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
           const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-          setTimeLeft({ hours, minutes });
+          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+          setTimeLeft({ hours, minutes, seconds });
         } else {
           clearInterval(interval);
         }
@@ -107,7 +149,7 @@ const ContestantStanding = ({ URL }) => {
         <p key={index}>{message}</p>
       ))}
       <div>
-        Time left: {timeLeft.hours} hours {timeLeft.minutes} minutes
+        Time left: {timeLeft.hours} hours {timeLeft.minutes} minutes {timeLeft.seconds} seconds
       </div>
     </div>
   );

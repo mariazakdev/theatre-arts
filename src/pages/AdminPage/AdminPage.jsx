@@ -26,7 +26,6 @@ function AdminPage({ URL}) {
       <h1>Users and their Videos</h1>
        <AdminGroupsCounter URL={URL} /> 
       <ContestantStanding URL={URL} />
-     
       <div className="admin-navigation">
         <button
           className={activeTab === "actors" ? "active" : ""}
