@@ -5,6 +5,7 @@ import AdminSunKingEdit from "../../components/AdminComponents/AdminSunKingEdit"
 import AdminVotingStandings from "../../components/AdminComponents/AdminVotingStandings";
 import AdminGroupsCounter from "../../components/AdminComponents/AdminGroupsCounter";
 import "./AdminPage.scss";
+import ContestantAnnouncement from "../../components/ContestantStanding/ContestantAnnouncements";
 
 // const URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -25,6 +26,7 @@ function AdminPage({ URL}) {
     <div className="admin-list-container">
       <h1>Users and their Videos</h1>
        <AdminGroupsCounter URL={URL} /> 
+       <ContestantAnnouncement />
       <ContestantStanding URL={URL} />
       <div className="admin-navigation">
         <button

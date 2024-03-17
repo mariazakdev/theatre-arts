@@ -59,19 +59,35 @@ function AdminActorsList() {
 
   const handleFilterChange = (filter) => {
     setCurrentFilter(filter);
-    if (filter === "votes") {
-      setVideoData([...videoData].sort((a, b) => b.votes - a.votes));
-    } else if (filter === "alphabetical") {
-      setVideoData([...videoData].sort((a, b) => a.name.localeCompare(b.name)));
+    let filteredData = [...videoData];
+    switch (filter) {
+      case "votes":
+        filteredData.sort((a, b) => b.votes - a.votes);
+        break;
+      case "alphabetical":
+        filteredData.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case "active":
+        filteredData = videoData.filter(video => video.active === 1);
+        break;
+      case "inactive":
+        filteredData = videoData.filter(video => video.active === 0);
+        break;
+      default:
+        break;
     }
+    setVideoData(filteredData);
   };
+  
 
   return (
     <div className="admin-actor">
       <h1>Users and their Videos</h1>
       <div className="filter-buttons">
-        <button onClick={() => handleFilterChange("votes")}>Most Votes</button>
-        <button onClick={() => handleFilterChange("alphabetical")}>Alphabetical Order</button>
+      <button onClick={() => handleFilterChange("votes")}>Most Votes</button>
+  <button onClick={() => handleFilterChange("alphabetical")}>Alphabetical Order</button>
+  <button onClick={() => handleFilterChange("active")}>Active</button>
+  <button onClick={() => handleFilterChange("inactive")}>Inactive</button>
       </div>
       <div className="admin-actor__card">
         {videoData.map((video) => (

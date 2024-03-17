@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+const URL = process.env.REACT_APP_BACKEND_URL;
 
-const ContestantStanding = ({ URL }) => {
+const ContestantAnnouncement = ({ actorId }) => {
   const [contestants, setContestants] = useState([]);
   const [numOfContestants , setNumOfContestants] = useState(0);
   const [updateCount, setUpdateCount] = useState(0);
@@ -11,7 +12,7 @@ const ContestantStanding = ({ URL }) => {
   const [contestEndHandled, setContestEndHandled] = useState(false); 
   const [winnerMessages, setWinnerMessages] = useState([]);
   const [otherMessages, setOtherMessages] = useState([]);
-
+console.log('actorId:', actorId);
   useEffect(() => {
     axios.get(`${URL}/contestants`)
       .then(response => {
@@ -28,8 +29,9 @@ const ContestantStanding = ({ URL }) => {
   const startTimer = () => {
     setStartTime(Date.now());
   };
-
+ 
   useEffect(() => {
+
     if (!contestants.length) return; 
   
     // Assigning contestants to groups of 10
@@ -46,44 +48,35 @@ const ContestantStanding = ({ URL }) => {
   
     const topThree = [].concat(...topThreeInEachGroup);
   
-    const winnerMessages = [];
-    const otherMessages = [];
+ // Find the contestant object that matches the actorId
+ const actorContestant = contestants.find(contestant => contestant.id === actorId);
+ winnerMessages.splice(0, winnerMessages.length);
+
+
+    setWinnerMessages([]);
+    setOtherMessages([]);
   
-    if (contestants.length <= 10) {
-      topThree.forEach((contestant, index) => {
-        switch (index) {
-          case 0:
-            winnerMessages.push(`${contestant.name}, is won! CONGRATULATIONS !`);
-            break;
-          case 1:
-            winnerMessages.push(`${contestant.name}, you are second! Well done!`);
-            break;
-          case 2:
-            winnerMessages.push(`${contestant.name}, you are third! Well done!`);
-            break;
-          default:
-            break;
-        }
-      });
-    } else {
-      // Messages for multiple groups
-      topThree.forEach((contestant, index) => {
-        switch (index) {
-          case 0:
-            otherMessages.push(`${contestant.name}, is in first! Help them stay there!`);
-            break;
-          case 1:
-            otherMessages.push(`${contestant.name}, you are second! Help them get to first!`);
-            break;
-          case 2:
-            otherMessages.push(`${contestant.name}, you are third! Help them get to first!`);
-            break;
-          default:
-            break;
-        }
-      });
-    }
-  
+    // if (contestants.length <= 10) {
+    //   topThree.forEach((contestant, index) => {
+    //     if (index === 0) {
+    //       setWinnerMessages(prevMessages => [...prevMessages, `${contestant.name}, is won! CONGRATULATIONS !`]);
+    //     } else if (index === 1) {
+    //       setWinnerMessages(prevMessages => [...prevMessages, `${contestant.name}, you are second! Well done!`]);
+    //     } else if (index === 2) {
+    //       setWinnerMessages(prevMessages => [...prevMessages, `${contestant.name}, you are third! Well done!`]);
+    //     }
+    //   });
+    // } else {
+    //   topThree.forEach((contestant, index) => {
+    //     if (index === 0) {
+    //       setOtherMessages(prevMessages => [...prevMessages, `${contestant.name}, is in first! Help them stay there!`]);
+    //     } else if (index === 1 || index === 2) {
+    //       setOtherMessages(prevMessages => [...prevMessages, `${contestant.name}, you are ${index === 1 ? 'second' : 'third'}! Help them get to first!`]);
+    //     }
+    //   });
+    // }
+
+
     if (timeoutOver && startTime && !contestEndHandled) {
       const handleEndOfContest = async () => {
         if (!groupedContestants.length) return null;
@@ -133,7 +126,8 @@ const ContestantStanding = ({ URL }) => {
       handleEndOfContest();
     }
   }, [updateCount, timeoutOver, startTime, contestants, contestEndHandled]);
-  
+   
+console.log('contestants at 138:', contestants);
 
   useEffect(() => {
     console.log("Setting up timer...");
@@ -166,32 +160,43 @@ const ContestantStanding = ({ URL }) => {
     }
   }, [timeoutOver, startTime]);
 
-  return (
-    <div>
-      <button onClick={startTimer}>Start Timer</button>
-      {contestants.length > 0 && contestants.map((contestant, index) => (
-        <p key={index}>{contestant.name}</p>
-      ))}
-      {contestants.length <= 10 ? (
-        <div>
-   
 
-{winnerMessages.map((message, index) => (
-        <p key={index}>{message}</p>
-      ))}
-        </div>
-      ) : (
-        <div>
-       {otherMessages.map((message, index) => (
-        <p key={index}>{message}</p>
-      ))}
-        </div>
-      )}
-      <div>
-        Time left: {timeLeft.hours} hours {timeLeft.minutes} minutes {timeLeft.seconds} seconds
-      </div>
+  // useEffect(() => {
+  //   console.log('Contestants:', contestants);
+
+  //   if (contestants.length <= 10) {
+  //     const topContestant = contestants[0]; // Assuming contestants are sorted by rank
+  //     console.log('Top Contestant:', topContestant);
+
+  //     if (topContestant.id === actorId) {
+  //       setWinnerMessages([`${topContestant.name}, is won! CONGRATULATIONS !`]);
+  //     } else {
+  //       setWinnerMessages([]);
+  //     }
+  //   } else {
+  //     const topThreeContestants = contestants.slice(0, 3);
+  //     console.log('Top Three Contestants:', topThreeContestants);
+  //     if (topThreeContestants.some(contestant => contestant.id === actorId)) {
+  //       setOtherMessages([
+  //         `${topThreeContestants[0].name}, is in first! Help them stay there!`,
+  //         `${topThreeContestants[1].name}, you are second! Help them get to first!`,
+  //         `${topThreeContestants[2].name}, you are third! Help them get to first!`
+  //       ]);
+  //     } else {
+  //       setOtherMessages([]);
+  //     }
+  //   }
+  // }, [contestants, actorId]);
+
+  return (
+    
+    <div>
+      
+     <p>{winnerMessages}</p>
     </div>
+ 
+
   );
 };
 
-export default ContestantStanding;
+export default ContestantAnnouncement;

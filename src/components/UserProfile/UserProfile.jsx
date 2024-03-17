@@ -7,7 +7,7 @@ import "./UserProfile.scss";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
 
-function UserProfile() {
+function UserProfilecopy() {
   const { actorId } = useParams();
   const [localActorData, setLocalActorData] = useState(null);
   const [announce, setAnnounce] = useState(null);
@@ -98,4 +98,4 @@ function UserProfile() {
   );
 }
 
-export default UserProfile;
+export default UserProfilecopy;
