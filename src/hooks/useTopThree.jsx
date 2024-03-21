@@ -140,7 +140,7 @@ function useTopThree() {
                 console.log('Response:', response.data);
 
                 const activeContestants = response.data.filter(contestant => contestant.active === 1);
-
+                console.log('Active Contestants:', activeContestants);
                 const grouped = [];
                 const messages = [];
 

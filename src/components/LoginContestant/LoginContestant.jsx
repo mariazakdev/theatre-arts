@@ -11,15 +11,25 @@ function LoginContestant({URL}) {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const onLogin = async (e) => {
     e.preventDefault();
     // Validation
+    setEmailError("");
+    setPasswordError("");
     if (!email || !password) {
       setErrorMessage("Please enter email and password");
       return;
     }
   
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      setErrorMessage("Please enter a valid email address");
+      return;
+    }
+    
     try {
       const userCredential = await login(email, password);
   
@@ -80,6 +90,8 @@ function LoginContestant({URL}) {
                 placeholder="Email address"
                 onChange={(e) => setEmail(e.target.value)}
               />
+                               {emailError && <p className="error-message">{emailError}</p>}
+   
             </div>
 
             <div className="input-group">
@@ -92,12 +104,17 @@ function LoginContestant({URL}) {
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
               />
+                 {passwordError && (
+                <p className="error-message">{passwordError}</p>
+              )}
               <span
                 className="input-group--password-toggle"
                 onClick={togglePasswordVisibility}
               >
+              
                 {showPassword ? "Hide" : "Show"}
               </span>
+
             </div>
             <div>
               <button onClick={onLogin}>Login</button>

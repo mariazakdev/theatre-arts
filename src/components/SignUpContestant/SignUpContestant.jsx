@@ -25,6 +25,12 @@ const SignUpContestant = ({URL} ) => {
       setFlashMessage("Please fill in all the required fields.");
       return;
     }
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      setErrorMessage("Please enter a valid email address");
+      return;
+    }
+    
     try {
       // Check if user already exists in the backend
       const response = await axios.get(`${URL}/users/email/${email}`);

@@ -73,6 +73,12 @@ function AdminActorsList() {
       case "inactive":
         filteredData = videoData.filter(video => video.active === 0);
         break;
+        case "topOrder":
+      filteredData.sort((a, b) => {
+        if (a.active === 1 && b.active === 0) return -1; // Active users first
+        if (a.active === 0 && b.active === 1) return 1; // Inactive users last
+        return 0;
+      });
       default:
         break;
     }
@@ -88,6 +94,8 @@ function AdminActorsList() {
   <button onClick={() => handleFilterChange("alphabetical")}>Alphabetical Order</button>
   <button onClick={() => handleFilterChange("active")}>Active</button>
   <button onClick={() => handleFilterChange("inactive")}>Inactive</button>
+  <button onClick={() => handleFilterChange("topOrder")}>Top Order</button>
+
       </div>
       <div className="admin-actor__card">
         {videoData.map((video) => (

@@ -56,25 +56,6 @@ console.log('actorId:', actorId);
     setWinnerMessages([]);
     setOtherMessages([]);
   
-    // if (contestants.length <= 10) {
-    //   topThree.forEach((contestant, index) => {
-    //     if (index === 0) {
-    //       setWinnerMessages(prevMessages => [...prevMessages, `${contestant.name}, is won! CONGRATULATIONS !`]);
-    //     } else if (index === 1) {
-    //       setWinnerMessages(prevMessages => [...prevMessages, `${contestant.name}, you are second! Well done!`]);
-    //     } else if (index === 2) {
-    //       setWinnerMessages(prevMessages => [...prevMessages, `${contestant.name}, you are third! Well done!`]);
-    //     }
-    //   });
-    // } else {
-    //   topThree.forEach((contestant, index) => {
-    //     if (index === 0) {
-    //       setOtherMessages(prevMessages => [...prevMessages, `${contestant.name}, is in first! Help them stay there!`]);
-    //     } else if (index === 1 || index === 2) {
-    //       setOtherMessages(prevMessages => [...prevMessages, `${contestant.name}, you are ${index === 1 ? 'second' : 'third'}! Help them get to first!`]);
-    //     }
-    //   });
-    // }
 
 
     if (timeoutOver && startTime && !contestEndHandled) {
@@ -160,33 +141,6 @@ console.log('contestants at 138:', contestants);
     }
   }, [timeoutOver, startTime]);
 
-
-  // useEffect(() => {
-  //   console.log('Contestants:', contestants);
-
-  //   if (contestants.length <= 10) {
-  //     const topContestant = contestants[0]; // Assuming contestants are sorted by rank
-  //     console.log('Top Contestant:', topContestant);
-
-  //     if (topContestant.id === actorId) {
-  //       setWinnerMessages([`${topContestant.name}, is won! CONGRATULATIONS !`]);
-  //     } else {
-  //       setWinnerMessages([]);
-  //     }
-  //   } else {
-  //     const topThreeContestants = contestants.slice(0, 3);
-  //     console.log('Top Three Contestants:', topThreeContestants);
-  //     if (topThreeContestants.some(contestant => contestant.id === actorId)) {
-  //       setOtherMessages([
-  //         `${topThreeContestants[0].name}, is in first! Help them stay there!`,
-  //         `${topThreeContestants[1].name}, you are second! Help them get to first!`,
-  //         `${topThreeContestants[2].name}, you are third! Help them get to first!`
-  //       ]);
-  //     } else {
-  //       setOtherMessages([]);
-  //     }
-  //   }
-  // }, [contestants, actorId]);
 
   return (
     

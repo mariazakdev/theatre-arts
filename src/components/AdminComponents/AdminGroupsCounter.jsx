@@ -1,7 +1,6 @@
 // MainComponent.js
 import React, { useState } from 'react';
 import ContestantStanding from '../ContestantStanding/ContestantStanding';
-import TimerStartButton from '../ContestantStanding/ContestantCountDownButton';
 
 const AdminGroupsCounter = ({URL}) => {
   const [timerStarted, setTimerStarted] = useState(false);
@@ -12,7 +11,6 @@ const AdminGroupsCounter = ({URL}) => {
 
   return (
     <div>
-      <TimerStartButton startTimer={startTimer} />
       {timerStarted && <ContestantStanding URL={URL} />}
     </div>
   );

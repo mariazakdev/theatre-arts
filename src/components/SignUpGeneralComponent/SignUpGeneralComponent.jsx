@@ -18,283 +18,7 @@ const SignUpComponent = ( {URL}) => {
   const [flashMessage, setFlashMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  // Define the checkIfUserExists function
 
-
-  // const onSubmit = async (e) => {
-  //   e.preventDefault();
-  
-  //   if (password !== confirmPassword) {
-  //      setErrorMessage("Passwords do not match.");
-  //     return;
-  //   }
-  //   if (!email || !password || !confirmPassword) {
-  //     setErrorMessage("Please fill in all the required fields.");
-  //     return;
-  //   }
-  
-  //   try {
-  //     // Continue with the signup process
-  //     const userCredential = await signup(email, password);
-  
-  //     // Check if the userCredential contains a user object
-  //     if (!userCredential || !userCredential.user) {
-  //       throw new Error("No user credential returned from signup");
-  //     }
-  
-  //     const user = userCredential.user;
-  
-  //     // Backend API call
-  //     await axios.post(`${URL}/users`, {
-  //       email: user.email,
-  //       firebaseAuthId: user.uid,
-  //       isContestant: false,
-  //     });
-  
-  //     // Firestore document creation
-  //     const userDocRef = doc(db, "users", user.uid);
-  //     await setDoc(userDocRef, {
-  //       hasCompletedAction: false,
-  //       hasPaid: false,
-  //       hasUploaded: false,
-  //       isContestant: false,
-  //       email: user.email,
-  //     });
-  
-  //     navigate(-1);
-  //   } catch (error) {
-  //     console.error("Error during sign up:", error);
-  //     setErrorMessage(error.message || "Failed to create user");
-  //   }
-  // };
-  
-  // const onSubmit = async (e) => {
-  //   e.preventDefault();
-  
-  //   if (password !== confirmPassword) {
-  //     setErrorMessage("Passwords do not match.");
-  //     return;
-  //   }
-  //   if (!email || !password || !confirmPassword) {
-  //     setErrorMessage("Please fill in all the required fields.");
-  //     return;
-  //   }
-  
-  //   try {
-  //     // Check if user already exists in the backend
-  //     const response = await axios.get(`${URL}/users/email/${email}`);
-  //     if (response.data) {
-  //       setErrorMessage("User with this email already exists.");
-  //       return;
-  //     }
-  
-  //     // Continue with the signup process
-  //     const userCredential = await signup(email, password);
-  
-  //     // Check if the userCredential contains a user object
-  //     if (!userCredential || !userCredential.user) {
-  //       throw new Error("No user credential returned from signup");
-  //     }
-  
-  //     const user = userCredential.user;
-  
-  //     // Backend API call
-  //     await axios.post(`${URL}/users`, {
-  //       email: user.email,
-  //       firebaseAuthId: user.uid,
-  //       isContestant: false,
-  //     });
-  
-  //     // Firestore document creation
-  //     const userDocRef = doc(db, "users", user.uid);
-  //     await setDoc(userDocRef, {
-  //       hasCompletedAction: false,
-  //       hasPaid: false,
-  //       hasUploaded: false,
-  //       isContestant: false,
-  //       email: user.email,
-  //     });
-  
-  //     navigate(-1);
-  //   } catch (error) {
-  //     console.error("Error during sign up:", error);
-  //     setErrorMessage(error.message || "Failed to create user");
-  //   }
-  // };
-  
-
-//   const onSubmit = async (e) => {
-//   e.preventDefault();
-
-//   if (password !== confirmPassword) {
-//     setErrorMessage("Passwords do not match.");
-//     return;
-//   }
-//   if (!email || !password || !confirmPassword) {
-//     setErrorMessage("Please fill in all the required fields.");
-//     return;
-//   }
-
-//   try {
-//     // Check if user already exists in the backend
-//     const response = await axios.get(`${URL}/users/email/${email}`);
-//     if (response.data) {
-//       // If user exists, navigate to the login page after a delay
-//       setTimeout(() => {
-//         navigate("/login");
-//       }, 3000); // Change the delay time as per your requirement
-//       return;
-//     }
-
-//     // Continue with the signup process
-//     const userCredential = await signup(email, password);
-
-//     // Check if the userCredential contains a user object
-//     if (!userCredential || !userCredential.user) {
-//       throw new Error("No user credential returned from signup");
-//     }
-
-//     const user = userCredential.user;
-
-//     // Backend API call
-//     await axios.post(`${URL}/users`, {
-//       email: user.email,
-//       firebaseAuthId: user.uid,
-//       isContestant: false,
-//     });
-
-//     // Firestore document creation
-//     const userDocRef = doc(db, "users", user.uid);
-//     await setDoc(userDocRef, {
-//       hasCompletedAction: false,
-//       hasPaid: false,
-//       hasUploaded: false,
-//       isContestant: false,
-//       email: user.email,
-//     });
-
-//     navigate(-1);
-//   } catch (error) {
-//     console.error("Error during sign up:", error);
-//     setErrorMessage(error.message || "Failed to create user");
-//   }
-// };
-
-// const onSubmit = async (e) => {
-//   e.preventDefault();
-
-//   if (password !== confirmPassword) {
-//     setFlashMessage("Passwords do not match.");
-//     return;
-//   }
-//   if (!email || !password || !confirmPassword) {
-//     setFlashMessage("Please fill in all the required fields.");
-//     return;
-//   }
-
-//   try {
-//     // Check if user already exists in the backend
-//     const response = await axios.get(`${URL}/users/email/${email}`);
-//     if (response.data) {
-//       // If user exists, show flash message and navigate after a delay
-//       setFlashMessage("User with this email already exists.");
-//       setTimeout(() => {
-//         navigate("/login");
-//       }, 3000); // Change the delay time as per your requirement
-//       return;
-//     }
-
-//     // Continue with the signup process
-//     const userCredential = await signup(email, password);
-
-//     // Check if the userCredential contains a user object
-//     if (!userCredential || !userCredential.user) {
-//       throw new Error("No user credential returned from signup");
-//     }
-
-//     const user = userCredential.user;
-
-//     // Backend API call
-//     await axios.post(`${URL}/users`, {
-//       email: user.email,
-//       firebaseAuthId: user.uid,
-//       isContestant: false,
-//     });
-
-//     // Firestore document creation
-//     const userDocRef = doc(db, "users", user.uid);
-//     await setDoc(userDocRef, {
-//       hasCompletedAction: false,
-//       hasPaid: false,
-//       hasUploaded: false,
-//       isContestant: false,
-//       email: user.email,
-//     });
-
-//     navigate(-1);
-//   } catch (error) {
-//     console.error("Error during sign up:", error);
-//     setFlashMessage(error.message || "Failed to create user");
-//   }
-// };
-
-// const onSubmit = async (e) => {
-//   e.preventDefault();
-
-//   if (password !== confirmPassword) {
-//     setFlashMessage("Passwords do not match.");
-//     return;
-//   }
-//   if (!email || !password || !confirmPassword) {
-//     setFlashMessage("Please fill in all the required fields.");
-//     return;
-//   }
-
-//   try {
-//     // Check if user already exists in the backend
-//     const response = await axios.get(`${URL}/users/email/${email}`);
-//     if (response.data) {
-//       // If user exists, show flash message and navigate after a delay
-//       setFlashMessage("User with this email already exists.");
-//       setTimeout(() => {
-//         navigate("/login");
-//       }, 3000); // Change the delay time as per your requirement
-//       return;
-//     }
-
-//     // Continue with the signup process
-//     const userCredential = await signup(email, password);
-
-//     // Check if the userCredential contains a user object
-//     if (!userCredential || !userCredential.user) {
-//       throw new Error("No user credential returned from signup");
-//     }
-
-//     const user = userCredential.user;
-
-//     // Backend API call
-//     await axios.post(`${URL}/users`, {
-//       email: user.email,
-//       firebaseAuthId: user.uid,
-//       isContestant: false,
-//     });
-
-//     // Firestore document creation
-//     const userDocRef = doc(db, "users", user.uid);
-//     await setDoc(userDocRef, {
-//       hasCompletedAction: false,
-//       hasPaid: false,
-//       hasUploaded: false,
-//       isContestant: false,
-//       email: user.email,
-//     });
-
-//     navigate(-1);
-//   } catch (error) {
-//     console.error("Error during sign up:", error);
-//     setFlashMessage(error.message || "Failed to create user");
-//   }
-// };
 const onSubmit = async (e) => {
   e.preventDefault();
 
@@ -306,18 +30,23 @@ const onSubmit = async (e) => {
     setFlashMessage("Please fill in all the required fields.");
     return;
   }
-
-  try {
-    // Check if user already exists in the backend
-    const response = await axios.get(`${URL}/users/email/${email}`);
-    if (response.data.userExists) {
-      // If user exists, show flash message and navigate after a delay
-      setFlashMessage("User with this email already exists.");
-      setTimeout(() => {
-        navigate("/login");
-      }, 3000); // Change the delay time as per your requirement
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      setErrorMessage("Please enter a valid email address");
       return;
     }
+    
+    try {
+      // Check if user already exists in the backend
+      const response = await axios.get(`${URL}/users/email/${email}`);
+      if (response.data.userExists) {
+        // If user exists, show flash message and navigate after a delay
+        setFlashMessage("User with this email already exists.");
+        setTimeout(() => {
+          navigate("/login");
+        }, 3000); // Change the delay time as per your requirement
+        return;
+      }
 
     // Continue with the signup process
     const userCredential = await signup(email, password);
