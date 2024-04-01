@@ -9,7 +9,7 @@ import ContestantAnnouncement from "../../components/ContestantStanding/Contesta
 
 // const URL = process.env.REACT_APP_BACKEND_URL;
 
-function AdminPage({ URL}) {
+function AdminPage({ URL, API_KEY}) {
   const [activeTab, setActiveTab] = useState("actors");
   const [showVotingStandings, setShowVotingStandings] = useState(false);
 
@@ -25,9 +25,9 @@ function AdminPage({ URL}) {
   return (
     <div className="admin-list-container">
       <h1>Users and their Videos</h1>
-       <AdminGroupsCounter URL={URL} /> 
-       <ContestantAnnouncement />
-      <ContestantStanding URL={URL} />
+       <AdminGroupsCounter URL={URL} API_KEY={API_KEY}/> 
+       <ContestantAnnouncement URL={URL} API_KEY={API_KEY}/>
+      <ContestantStanding URL={URL} API_KEY={API_KEY} />
       <div className="admin-navigation">
         <button
           className={activeTab === "actors" ? "active" : ""}

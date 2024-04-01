@@ -3,13 +3,20 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./ActorsPage.scss";
 
-function ActorsPage( {URL}) {
+function ActorsPage( {URL, API_KEY}) {
   const [videoData, setVideoData] = useState([]);
   const navigate = useNavigate();
-
+console.log("api key", API_KEY)
   useEffect(() => {
+    console.log("API_KEY:", API_KEY);
+
     axios
-      .get(`${URL}/contestants`)
+      .get(`${URL}/contestants`, {
+        headers: {
+          Authorization: API_KEY,
+        },
+      
+      })
       .then((response) => {
         setVideoData(response.data);
       })

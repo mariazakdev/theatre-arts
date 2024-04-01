@@ -3,10 +3,17 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './BannerActors.scss';
 
-function BannerActors( {URL}) {
+function BannerActors( {URL, API_KEY}) {
   const [videoData, setVideoData] = useState([]);
+
+  console.log("api key", API_KEY)
+
   useEffect(() => {
-    axios.get(`${URL}/contestants`)
+    axios.get(`${URL}/contestants`, {
+      headers: {
+        Authorization: `Bearer ${API_KEY}`,
+      },
+    })
       .then(response => {
         setVideoData(response.data);
       })

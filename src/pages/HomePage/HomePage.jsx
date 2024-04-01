@@ -2,7 +2,8 @@ import BannerActors from "../../components/BannerActors/BannerActors";
 import BannerSunKing from "../../components/BannerSunKing/BannerSunKing";
 import "./HomePage.scss";
 
-function HomePage( {URL}) {
+function HomePage( {URL, API_KEY}) {
+  console.log("api key", API_KEY)
   return (
     <div className="home">
       <div className="home-filler home-filler1">
@@ -11,7 +12,7 @@ function HomePage( {URL}) {
     {/* Actors Banner */}
       <div className="home-card home-card1">
         <div className="home-card-actors">
-          <BannerActors URL={URL} />
+          <BannerActors URL={URL} API_KEY={API_KEY}/>
         </div>
       </div>
 
@@ -23,7 +24,7 @@ function HomePage( {URL}) {
       </div>
     {/* Sun King Banner */}
       <div className="home-card home-card2 ">
-        <BannerSunKing />
+        <BannerSunKing API_KEY={API_KEY}/>
       </div>
     </div>
   );

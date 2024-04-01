@@ -27,6 +27,9 @@ import "./App.scss";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
 const CLIENT_URL = process.env.REACT_APP_URL;
+const API_KEY = process.env.REACT_APP_API_KEY;
+console.log("api key", API_KEY)
+
 function App() {
   return (
     <AuthProvider>
@@ -35,9 +38,9 @@ function App() {
         <div className="App">
           <Header URL={URL}/>
           <Routes>
-            <Route exact path="/admin" element={<AdminPage URL={URL} CLIENT_URL={CLIENT_URL}/>} />
+            <Route exact path="/admin" element={<AdminPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY} />} />
             {/* Common Routes for All */}
-            <Route exact path="/" element={<HomePage URL={URL} />} />
+            <Route exact path="/" element={<HomePage URL={URL} API_KEY={API_KEY}/>} />
             {/* Contestants only  */}
             <Route exact path="/contestant/signup" element={<SignUpPage URL={URL} CLIENT_URL={CLIENT_URL}  />} />
             <Route exact path="/contestant/login" element={<LoginPage URL={URL} CLIENT_URL={CLIENT_URL}/>} />
@@ -46,8 +49,8 @@ function App() {
               exact path="/contestant/enter"
               element={
                 <PrivateRoute>
-                  <OneTimeUploadRoute URL={URL} CLIENT_URL={CLIENT_URL} >
-                    <PaymentCompetitionPage URL={URL} CLIENT_URL={CLIENT_URL} />
+                  <OneTimeUploadRoute URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY} >
+                    <PaymentCompetitionPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY} />
                   </OneTimeUploadRoute >
                 </PrivateRoute>
               }
@@ -57,7 +60,7 @@ function App() {
               element={
                 <PrivateRoute>
                   <OneTimeUploadRoute>
-                    <VideoUploadPage URL={URL} CLIENT_URL={CLIENT_URL}/>
+                    <VideoUploadPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY} />
                   </OneTimeUploadRoute>
                 </PrivateRoute>
               }
@@ -68,7 +71,7 @@ function App() {
               exact path="/contestant/dashboard"
               element={
                 <PrivateContestantRoute>
-                  <DashBoardPage URL={URL} CLIENT_URL={CLIENT_URL} />
+                  <DashBoardPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY}  />
                 </PrivateContestantRoute>
               }
             />
@@ -77,20 +80,20 @@ function App() {
               element={<PaymentContestPage />}
             />
             {/* All visitors to site */}
-            <Route exact path="/signup" element={<SignUpVoterPage URL={URL} CLIENT_URL={CLIENT_URL}  />} />
-            <Route exact path="/login" element={<LoginVoterPage URL={URL} CLIENT_URL={CLIENT_URL} />} />
+            <Route exact path="/signup" element={<SignUpVoterPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY}  />} />
+            <Route exact path="/login" element={<LoginVoterPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY} />} />
             <Route
               exact path="/contestant/forgot-password"
               element={<ForgotPasswordPage  />}
             />
-            <Route exact path="/actors" element={<ActorsPage URL={URL}/>} />
-            <Route exact path="/actors/vote/:actorId" element={<VotingPage URL={URL} CLIENT_URL={CLIENT_URL}/>} />
+            <Route exact path="/actors" element={<ActorsPage URL={URL} API_KEY={API_KEY} />} />
+            <Route exact path="/actors/vote/:actorId" element={<VotingPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY} />} />
             <Route
               exact path="/actors/:actorId"
-              element={<ContestantDetailPage URL={URL} CLIENT_URL={CLIENT_URL}  />}
+              element={<ContestantDetailPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY}  />}
             />
-            <Route exact path="/payment-success" element={<PaymentSuccess URL={URL} CLIENT_URL={CLIENT_URL}/>} />
-            <Route exact path="/sun-king" element={<SunKingPage URL={URL} CLIENT_URL={CLIENT_URL}/>} />
+            <Route exact path="/payment-success" element={<PaymentSuccess URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY} />} />
+            <Route exact path="/sun-king" element={<SunKingPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY} />} />
 
             {/* Catch-all */}
             <Route path="*" element={<div>404 Not Found</div>} />
