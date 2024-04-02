@@ -11,7 +11,7 @@ function BannerActors( {URL, API_KEY}) {
   useEffect(() => {
     axios.get(`${URL}/contestants`, {
       headers: {
-        Authorization: `Bearer ${API_KEY}`,
+        Authorization: `${API_KEY}`,
       },
     })
       .then(response => {
