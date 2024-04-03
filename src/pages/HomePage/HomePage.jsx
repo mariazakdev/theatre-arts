@@ -1,5 +1,6 @@
 import BannerActors from "../../components/BannerActors/BannerActors";
 import BannerSunKing from "../../components/BannerSunKing/BannerSunKing";
+import VotingButtons from "../../components/VotingComponent/VotingButtons";
 import "./HomePage.scss";
 
 function HomePage( {URL, API_KEY}) {

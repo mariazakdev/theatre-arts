@@ -2,8 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const URL = process.env.REACT_APP_BACKEND_URL;
-function PaymentSuccess() {
+function PaymentSuccess({ URL, API_KEY}) {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [processed, setProcessed] = useState(false);
@@ -17,12 +16,17 @@ function PaymentSuccess() {
       try {
         const response = await axios.post(
           `${URL}/contestants/vote/${actorId}`,
-          { votes: votes }
+          { votes: votes },
+          {
+            headers: {
+              Authorization: `${API_KEY}`,
+            },
+          }
         );
 
         if (response.status === 200) {
           console.log('Votes recorded:', response.data);
-          navigate(`/actors/${actorId}`);
+          navigate(`/actors/${actorId}`,);
           setProcessed(true);
         }
       } catch (error) {

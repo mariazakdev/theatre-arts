@@ -9,7 +9,14 @@ function AdminVotingStandings() {
     useEffect(() => {
         const fetchContestants = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/contestants');
+                const response = await axios.get('http://localhost:8000/contestants', 
+                {
+                    headers: {
+                      Authorization: `${API_KEY}`,
+                    },
+                  } 
+                
+                );
                 const activeContestants = response.data.filter(contestant => contestant.active === 1);
                 const grouped = [];
                 for (let i = 0; i < activeContestants.length; i += 4) {

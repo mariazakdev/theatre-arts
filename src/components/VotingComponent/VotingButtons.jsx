@@ -17,6 +17,7 @@ export default function VotingButtons({
   actorId,
   currentUser,
   setErrorMessage,
+  API_KEY
 }) {
   const { user } = useAuth();
   const location = useLocation();
@@ -63,6 +64,7 @@ export default function VotingButtons({
             currentUser={currentUser}
             onLoginAndNavigate={handleLoginAndNavigate}
             setErrorMessage={setErrorMessage}
+            API_KEY={API_KEY}
           />
         ))}
       </div>

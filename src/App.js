@@ -42,8 +42,8 @@ function App() {
             {/* Common Routes for All */}
             <Route exact path="/" element={<HomePage URL={URL} API_KEY={API_KEY}/>} />
             {/* Contestants only  */}
-            <Route exact path="/contestant/signup" element={<SignUpPage URL={URL} CLIENT_URL={CLIENT_URL}  />} />
-            <Route exact path="/contestant/login" element={<LoginPage URL={URL} CLIENT_URL={CLIENT_URL}/>} />
+            <Route exact path="/contestant/signup" element={<SignUpPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY}  />} />
+            <Route exact path="/contestant/login" element={<LoginPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY}  />} />
             {/* One time contestants only */}
             <Route
               exact path="/contestant/enter"
@@ -75,6 +75,8 @@ function App() {
                 </PrivateContestantRoute>
               }
             />
+  
+
             <Route
               exact path="/contestant/payment-success"
               element={<PaymentContestPage />}
@@ -86,12 +88,26 @@ function App() {
               exact path="/contestant/forgot-password"
               element={<ForgotPasswordPage  />}
             />
+
+
+
             <Route exact path="/actors" element={<ActorsPage URL={URL} API_KEY={API_KEY} />} />
+
+
+
+
+
             <Route exact path="/actors/vote/:actorId" element={<VotingPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY} />} />
+
+
             <Route
               exact path="/actors/:actorId"
               element={<ContestantDetailPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY}  />}
             />
+
+             {/* START HERE with  */}
+            {/* { headers: { Authorization: `${API_KEY}` } } */}
+
             <Route exact path="/payment-success" element={<PaymentSuccess URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY} />} />
             <Route exact path="/sun-king" element={<SunKingPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY} />} />
 

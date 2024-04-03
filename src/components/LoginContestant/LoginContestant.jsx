@@ -4,7 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { NavLink, useNavigate } from "react-router-dom";
 import "../../styles/forms.scss";
 
-function LoginContestant({URL}) {
+function LoginContestant({URL, API_KEY}) {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -13,6 +13,8 @@ function LoginContestant({URL}) {
   const [errorMessage, setErrorMessage] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+
+console.log("api key", API_KEY)
 
   const onLogin = async (e) => {
     e.preventDefault();
@@ -44,7 +46,9 @@ function LoginContestant({URL}) {
         const requestData = { email: userEmail, firebaseId };
         console.log("Data being sent to backend:", requestData);
   
-        const response = await axios.post(`${URL}/users/login`, requestData);
+        const response = await axios.post(`${URL}/users/login`, requestData, 
+        { headers: { Authorization: `${API_KEY}` } }
+        );
   
         console.log("Response status:", response.status);
         console.log("Response data:", response.data);

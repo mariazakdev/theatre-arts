@@ -1,25 +1,28 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import ContestantStanding from "../ContestantStanding/ContestantStanding";
-import AdminSunKingEdit from "./AdminSunKingEdit";
 import "./AdminActorsList.scss";
 
-const URL = process.env.REACT_APP_BACKEND_URL;
 
-function AdminActorsList() {
+function AdminActorsList({URL, API_KEY}) {
   const [videoData, setVideoData] = useState([]);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [currentFilter, setCurrentFilter] = useState("votes"); 
-
+console.log("api key", API_KEY)
+console.log("url", URL)
   useEffect(() => {
     fetchVideoData();
   }, []);
 
   const fetchVideoData = () => {
     axios
-      .get(`${URL}/contestants`)
+      .get(`${URL}/contestants`, {
+        headers: {
+          Authorization: `${API_KEY}`,
+        },
+      }
+      )
       .then((response) => {
         setVideoData(response.data);
       })
@@ -29,12 +32,26 @@ function AdminActorsList() {
   };
 
   const handleCardClick = (video) => {
-    navigate(`/actors/vote/${video.id}`, { state: { actor: video } });
+    navigate(`/actors/vote/${video.id}`, { state: { actor: video } }, 
+    
+    {
+      headers: {
+        Authorization: `${API_KEY}`,
+      },
+    }
+    );
   };
 
   const handleDeleteClick = (actorId) => {
     axios
-      .delete(`${URL}/contestants/${actorId}`)
+      .delete(`${URL}/contestants/${actorId}`,
+      {
+        headers: {
+          Authorization: `${API_KEY}`,
+        },
+      }
+      
+      )
       .then(() => {
         fetchVideoData();
         alert("Video deleted successfully!");
@@ -47,7 +64,13 @@ function AdminActorsList() {
   const handleToggleActive = (actorId, currentActive) => {
     const newActiveStatus = currentActive === 1 ? 0 : 1;
     axios
-      .put(`${URL}/contestants/active/${actorId}`, { active: newActiveStatus })
+      .put(`${URL}/contestants/active/${actorId}`, { active: newActiveStatus },
+      {
+        headers: {
+          Authorization: `${API_KEY}`,
+        },
+      }
+      )
       .then(() => {
         fetchVideoData();
         alert(`Contestant ${newActiveStatus ? "activated" : "deactivated"} successfully!`);

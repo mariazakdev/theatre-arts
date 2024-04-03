@@ -6,7 +6,7 @@ import VideoPlayer from "../../components/VideoEmbed/VideoEmbed";
 import EditDashboard from "../../components/EditDashBoard/EditDashBoard";
 import "./DashBoardPage.scss";
 
-export default function Dashboard({ URL }) {
+export default function Dashboard({ URL , API_KEY}) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [contestants, setContestants] = useState([]);
@@ -28,8 +28,10 @@ export default function Dashboard({ URL }) {
         return;
       }
 
-      const response = await axios.get(`${URL}/users/${currentUser.uid}`);
-
+      const response = await axios.get(`${URL}/users/${currentUser.uid}`,
+      { headers: 
+        { Authorization: `${API_KEY}` 
+      } });
 
       const data = response.data;
       console.log("Fetched data:", data);
@@ -105,7 +107,9 @@ if (user.uploadStatus === 1 && user.hasPaid === 1) {
   }
   const updateContestantData = async () => {
     try {
-      const response = await axios.get(`${URL}/users/${currentUser.uid}`);
+      const response = await axios.get(`${URL}/users/${currentUser.uid}`, 
+      { headers: { Authorization: `${API_KEY}` } 
+    });
       const data = response.data;
 
       if (data.contestant) {
@@ -160,6 +164,7 @@ if (user.uploadStatus === 1 && user.hasPaid === 1) {
             contestantId={contestants.id}
             toggleEditing={toggleEditing}
             updateContestantData={updateContestantData}
+            API_KEY={API_KEY}
           />
         )}
         <button onClick={toggleEditing} className="dashboard__edit-button">

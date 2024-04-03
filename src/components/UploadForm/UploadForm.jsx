@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { auth } from "../../firebase";
 import UploadFormRules from "./UploadFormRules";
 import ReactPlayer from "react-player";
-import './UploadForm.scss';
+import "./UploadForm.scss";
 import { useAuth } from "../../contexts/AuthContext";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { useNavigate } from "react-router-dom";
@@ -22,7 +22,7 @@ const s3Client = new S3Client({
   },
 });
 
-function UploadForm({ URL }) {
+function UploadForm({ URL, API_KEY }) {
   const navigate = useNavigate();
   const { currentUser } = useAuth();
   const [uploadStatus, setUploadStatus] = useState("idle");
@@ -30,7 +30,7 @@ function UploadForm({ URL }) {
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [videoPreviewUrl, setVideoPreviewUrl] = useState(null);
-  const [isAgreed, setIsAgreed] = useState(false); 
+  const [isAgreed, setIsAgreed] = useState(false);
   const [formData, setFormData] = useState({
     photoUrl: "",
     videoUrl: "",
@@ -43,7 +43,10 @@ function UploadForm({ URL }) {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`${URL}/users/${currentUser.uid}`);
+        const response = await axios.get(`${URL}/users/${currentUser.uid}`, 
+        {
+          headers: { Authorization: `${API_KEY}` },
+        });
         console.log(response.data.user); // Accessing the user object
         const user = response.data.user;
         if (user.uploadStatus === 1) {
@@ -55,34 +58,13 @@ function UploadForm({ URL }) {
         console.error("Error fetching user data:", error);
       }
     };
-  
+
     if (currentUser) {
       fetchUserData();
     } else {
       navigate("/login");
     }
   }, [currentUser, navigate]);
-
-  // useEffect(() => {
-  //   const fetchUserData = async () => {
-  //     try {
-  //       const response = await axios.get(`${URL}/users/${currentUser.uid}`);
-  //       console.log(response.data.user); // Accessing the user object
-  //       if (response.data.user.uploadStatus === 1) {
-  //         navigate("/");
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching user data:", error);
-  //     }
-  //   };
-  
-  //   if (currentUser) {
-  //     fetchUserData();
-  //   } else {
-  //     navigate("/login");
-  //   }
-  // }, [currentUser, navigate]);
-  
 
   useEffect(() => {
     if (!currentUser) {
@@ -93,7 +75,8 @@ function UploadForm({ URL }) {
   const handlePhotoChange = (e) => {
     if (e.target.files[0]) {
       setImageFile(e.target.files[0]);
-      setImagePreview(window.URL.createObjectURL(e.target.files[0]));    }
+      setImagePreview(window.URL.createObjectURL(e.target.files[0]));
+    }
   };
 
   const handleConfirmPhoto = () => {
@@ -190,7 +173,9 @@ function UploadForm({ URL }) {
       !imageFile ||
       uploadStatus !== "ready"
     ) {
-      alert("Please fill in all the required fields and confirm the photo before submitting.");
+      alert(
+        "Please fill in all the required fields and confirm the photo before submitting."
+      );
       return;
     }
     // Submit the form
@@ -201,30 +186,34 @@ function UploadForm({ URL }) {
     };
 
     try {
-      const response = await fetch(`${URL}/contestants`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      const response = await fetch(
+        `${URL}/contestants`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        },
+        { headers: { Authorization: `${API_KEY}` } }
+      );
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
       const result = await response.json();
       console.log("Upload result:", result);
 
-    // Update user's upload status to 1
-    const updateResponse = await fetch(`${URL}/users/${currentUser.uid}/upload-status`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-    });
-    if (!updateResponse.ok) {
-      throw new Error("Failed to update user's upload status");
-    }
-
-
+      // Update user's upload status to 1
+      const updateResponse = await fetch(
+        `${URL}/users/${currentUser.uid}/upload-status`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+        },
+        { headers: { Authorization: `${API_KEY}` } }
+      );
+      if (!updateResponse.ok) {
+        throw new Error("Failed to update user's upload status");
+      }
       navigate("/contestant/dashboard");
-
-
     } catch (error) {
       console.error("Error submitting form:", error);
       alert("There was an error submitting the form. Please try again.");
@@ -291,7 +280,11 @@ function UploadForm({ URL }) {
               </div>
             )}
           </div>
-              <p>Photo instructions: Portrait, full body shot. It remains the same and is the purpose of indentification throughout the competition. Unable to change after submission. </p>
+          <p>
+            Photo instructions: Portrait, full body shot. It remains the same
+            and is the purpose of indentification throughout the competition.
+            Unable to change after submission.{" "}
+          </p>
           <div className="input-group">
             <label>Video URL:</label>
             <input
@@ -314,8 +307,11 @@ function UploadForm({ URL }) {
               </div>
             )}
           </div>
-              <p>You may only change the video at the beginning of each round.</p> 
-              <p>Please note that the video once uploaded will <strong>stop playing at exactly 60 seconds.</strong></p>
+          <p>You may only change the video at the beginning of each round.</p>
+          <p>
+            Please note that the video once uploaded will{" "}
+            <strong>stop playing at exactly 60 seconds.</strong>
+          </p>
           <div className="input-group">
             <textarea
               className="form-container__input"

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import ContestantStanding from '../ContestantStanding/ContestantStanding';
 
-const AdminGroupsCounter = ({URL}) => {
+const AdminGroupsCounter = ({URL , API_KEY}) => {
   const [timerStarted, setTimerStarted] = useState(false);
 
   const startTimer = () => {
@@ -11,7 +11,7 @@ const AdminGroupsCounter = ({URL}) => {
 
   return (
     <div>
-      {timerStarted && <ContestantStanding URL={URL} />}
+      {timerStarted && <ContestantStanding URL={URL} API_KEY={API_KEY}/>}
     </div>
   );
 };

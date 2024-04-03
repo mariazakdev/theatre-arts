@@ -16,6 +16,7 @@ function PaymentButton({
   currentUser,
   onLoginAndNavigate,
   setErrorMessage,
+  API_KEY
 }) {
   const stripe = useStripe();
   const { user } = useAuth();
@@ -49,49 +50,6 @@ function PaymentButton({
     }
   };
 
-  // Function to handle the overall payment process
-  // const handlePayment = async () => {
-  //   console.log("Payment button clicked! paymentbutton");
-
-  //   if (!stripe) {
-  //     console.error("Stripe has not been properly initialized.");
-  //     return;
-  //   }
-
-  //   if (!currentUser) {
-  //     // Log in to vote
-  //     onLoginAndNavigate();
-  //     return;
-  //   }
-  //   if (currentUser) {
-  //     // Retrieve user data
-  //     const userResponse = await axios.get(
-  //       `${URL}/users/${currentUser.uid}`
-  //     );
-  //     userData = userResponse.data;
-  //     if (userData.user) {
-  //       userIdData = userData.user.id;
-  //     }
-  //     console.log("userData:", userData);
-  //   }
-  // // Use the user's id in the votesData
-  // const votesData = {
-  //   userId: userIdData,
-  //   contestantId: actorId,
-  //   numberOfVotes: 1,
-  // };
-
-  // console.log("Data going to /votes:", votesData);
-  // const votesResponse = await axios.post(`${URL}/votes`, votesData);
-
-  //   console.log("Before payment request", amount);
-  //   setVoted(true);
-
-  //   await processStripePayment();
-
-  //   console.log("After payment request", amount);
-  // };
-
   const handlePayment = async () => {
     console.log("Payment button clicked! paymentbutton");
   
@@ -110,7 +68,10 @@ function PaymentButton({
       if (currentUser) {
         // Retrieve user data
         const userResponse = await axios.get(
-          `${URL}/users/${currentUser.uid}`
+          `${URL}/users/${currentUser.uid}`,
+          {
+            headers: { Authorization: `${API_KEY}` },
+          }
         );
         userData = userResponse.data;
         if (userData.user) {
@@ -127,7 +88,11 @@ function PaymentButton({
       };
   
       console.log("Data going to /votes:", votesData);
-      const votesResponse = await axios.post(`${URL}/votes`, votesData);
+      const votesResponse = await axios.post(`${URL}/votes`, votesData,
+        { headers: 
+          { Authorization: `${API_KEY}` } 
+      }
+        );
   
       console.log("Before payment request", amount);
       setVoted(true);

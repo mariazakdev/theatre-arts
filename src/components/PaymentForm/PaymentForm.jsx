@@ -13,7 +13,7 @@ import { doc, updateDoc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import "./PaymentForm.scss";
 
-const PaymentForm = ({ URL, CLIENT_URL }) => {
+const PaymentForm = ({ URL, CLIENT_URL, API_KEY }) => {
   const stripe = useStripe();
   const elements = useElements();
   const { currentUser } = useAuth();
@@ -68,11 +68,15 @@ const PaymentForm = ({ URL, CLIENT_URL }) => {
       }
 
       // Fetch the PaymentIntent client secret from your server
-      const response = await axios.post(`${URL}/payment`, {
-        amount: 250,
-        currency: "cad",
-        paymentMethodId: paymentMethod.id,
-      });
+      const response = await axios.post(
+        `${URL}/payment`,
+        {
+          amount: 250,
+          currency: "cad",
+          paymentMethodId: paymentMethod.id,
+        },
+        { headers: { Authorization: `${API_KEY}` } }
+      );
 
       const clientSecret = response.data.clientSecret;
 
@@ -103,8 +107,11 @@ const PaymentForm = ({ URL, CLIENT_URL }) => {
             hasPaid: true,
           });
         }
-        await axios.post(`${URL}/users/updateHasPaid/${currentUser.uid}`); 
-console.log(currentUser.uid);
+        await axios.post(
+          `${URL}/users/updateHasPaid/${currentUser.uid}`,
+          { headers: { Authorization: `${API_KEY}` } }
+        );
+        console.log(currentUser.uid);
         // Redirect to the upload page
         navigate("/contestant/upload");
         console.log("After navigating to upload");

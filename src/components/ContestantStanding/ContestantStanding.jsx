@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const ContestantStanding = ({ URL }) => {
+const ContestantStanding = ({ URL , API_KEY}) => {
   const [contestants, setContestants] = useState([]);
   const [numOfContestants , setNumOfContestants] = useState(0);
   const [updateCount, setUpdateCount] = useState(0);
@@ -13,7 +13,14 @@ const ContestantStanding = ({ URL }) => {
   const [otherMessages, setOtherMessages] = useState([]);
 
   useEffect(() => {
-    axios.get(`${URL}/contestants`)
+    axios.get(`${URL}/contestants`, 
+    {
+      headers: {
+        Authorization: `${API_KEY}`,
+      },
+    }
+    
+    )
       .then(response => {
         const activeContestants = response.data.filter(contestant => contestant.active === 1);
         setContestants(activeContestants);
@@ -104,7 +111,14 @@ const ContestantStanding = ({ URL }) => {
         if (groupedContestants.length > 1 || groupedContestants[0].length > 10) {
           for (const contestant of inactiveContestants) {
             try {
-              await axios.put(`${URL}/contestants/active/${contestant.id}`, { active: 0 });
+              await axios.put(`${URL}/contestants/active/${contestant.id}`, { active: 0 }, 
+              {
+                headers: {
+                  Authorization: `${API_KEY}`,
+                },
+              }
+              
+              );
               console.log(`Contestant ${contestant.name} deactivated successfully!`);
             } catch (error) {
               console.error(`Error deactivating or resetting votes for contestant ${contestant.name}:`, error);
@@ -114,7 +128,14 @@ const ContestantStanding = ({ URL }) => {
           try {
             await Promise.all(allContestants.map(contestant => {
               if (!topThree.includes(contestant)) {
-                return axios.put(`${URL}/contestants/reset-votes/${contestant.id}`);
+                return axios.put(`${URL}/contestants/reset-votes/${contestant.id}`,
+                
+                {
+                  headers: {
+                    Authorization: `${API_KEY}`,
+                  },
+                }
+                );
               }
               return Promise.resolve();
             }));
@@ -124,7 +145,14 @@ const ContestantStanding = ({ URL }) => {
           }
         }
   
-        const updatedContestants = await axios.get(`${URL}/contestants`);
+        const updatedContestants = await axios.get(`${URL}/contestants`, 
+        {
+          headers: {
+            Authorization: `${API_KEY}`,
+          },
+        }
+        
+        );
         const activeUpdatedContestants = updatedContestants.data.filter(contestant => contestant.active === 1);
         setContestants(activeUpdatedContestants);
         setContestEndHandled(true); // Update contestEndHandled

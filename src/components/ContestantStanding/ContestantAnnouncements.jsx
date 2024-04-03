@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 const URL = process.env.REACT_APP_BACKEND_URL;
 
-const ContestantAnnouncement = ({ actorId }) => {
+const ContestantAnnouncement = ({ actorId, API_KEY }) => {
   const [contestants, setContestants] = useState([]);
   const [numOfContestants , setNumOfContestants] = useState(0);
   const [updateCount, setUpdateCount] = useState(0);
@@ -13,8 +13,18 @@ const ContestantAnnouncement = ({ actorId }) => {
   const [winnerMessages, setWinnerMessages] = useState([]);
   const [otherMessages, setOtherMessages] = useState([]);
 console.log('actorId:', actorId);
+console.log('API_KEY:', API_KEY);
+
   useEffect(() => {
-    axios.get(`${URL}/contestants`)
+    axios.get(`${URL}/contestants`,
+    {
+      headers: {
+        Authorization: `${API_KEY}`,
+      },
+    }
+    
+    
+    )
       .then(response => {
         const activeContestants = response.data.filter(contestant => contestant.active === 1);
         setContestants(activeContestants);
@@ -78,7 +88,13 @@ console.log('actorId:', actorId);
         if (groupedContestants.length > 1 || groupedContestants[0].length > 10) {
           for (const contestant of inactiveContestants) {
             try {
-              await axios.put(`${URL}/contestants/active/${contestant.id}`, { active: 0 });
+              await axios.put(`${URL}/contestants/active/${contestant.id}`, { active: 0 },
+              {
+                headers: {
+                  Authorization: `${API_KEY}`,
+                },
+              }
+              );
               console.log(`Contestant ${contestant.name} deactivated successfully!`);
             } catch (error) {
               console.error(`Error deactivating or resetting votes for contestant ${contestant.name}:`, error);
@@ -88,7 +104,13 @@ console.log('actorId:', actorId);
           try {
             await Promise.all(allContestants.map(contestant => {
               if (!topThree.includes(contestant)) {
-                return axios.put(`${URL}/contestants/reset-votes/${contestant.id}`);
+                return axios.put(`${URL}/contestants/reset-votes/${contestant.id}`,
+                {
+                  headers: {
+                    Authorization: `${API_KEY}`,
+                  },
+                }
+                );
               }
               return Promise.resolve();
             }));
@@ -98,10 +120,17 @@ console.log('actorId:', actorId);
           }
         }
   
-        const updatedContestants = await axios.get(`${URL}/contestants`);
+        const updatedContestants = await axios.get(`${URL}/contestants`,
+        
+        {
+          headers: {
+            Authorization: `${API_KEY}`,
+          },
+        }
+        );
         const activeUpdatedContestants = updatedContestants.data.filter(contestant => contestant.active === 1);
         setContestants(activeUpdatedContestants);
-        setContestEndHandled(true); // Update contestEndHandled
+        setContestEndHandled(true); 
       };
   
       handleEndOfContest();

@@ -1,30 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import axios from "axios";
-import { useAuth } from "../../contexts/AuthContext"; // Import the auth context
+import { useAuth } from "../../contexts/AuthContext"; 
 import VotingButtons from "../../components/VotingComponent/VotingButtons";
 import SingleVote from "../../components/VotingComponent/SingleVote";
 import UserProfile from "../../components/UserProfile/UserProfile";
 import "./VotingPage.scss";
 
-export default function VotingPage({URL, CLIENT_URL}) {
+export default function VotingPage({ URL, CLIENT_URL, API_KEY }) {
   const navigate = useNavigate();
   const location = useLocation();
   const { actorId } = useParams();
-  const { currentUser } = useAuth(); 
+  const { currentUser } = useAuth();
   const [actorData, setActorData] = useState(null);
-  const [email, setEmail] = useState(null); 
+  const [email, setEmail] = useState(null);
   const [stripeToken, setStripeToken] = useState(null);
-  const [amount, setAmount] = useState(null);
-  const [voterTimer, setVoterTimer] = useState(null);
-  console.log( "current user voting pg", currentUser);
-  const [errorMessage, setErrorMessage] = useState(null);
 
+  console.log("current user voting pg", currentUser);
+  const [errorMessage, setErrorMessage] = useState(null);
+  console.log("api key", API_KEY);
 
   useEffect(() => {
     const fetchActor = async () => {
       try {
-        const response = await fetch(`${URL}/contestants/${actorId}`);
+        const response = await fetch(`${URL}/contestants/${actorId}`, {
+          headers: { Authorization: `${API_KEY}` },
+        });
         const data = await response.json();
         setActorData(data);
       } catch (error) {
@@ -37,59 +38,50 @@ export default function VotingPage({URL, CLIENT_URL}) {
     }
   }, [actorId]);
 
-
   console.log("Actor ID:", actorId);
 
   const handleVoteSuccess = async (votes) => {
     if (votes) {
-
       try {
         const response = await axios.post(
           `${URL}/contestants/vote/${actorId}`,
-          { votes }
+          { votes },
+          { headers: { Authorization: `${API_KEY}` } }
         );
 
-
-          if (response.status === 200) {
+        if (response.status === 200) {
           console.log("Votes recorded:", response.data);
-          }
-
-
-
-
-
-
+        }
       } catch (error) {
         console.error("Error while voting:", error);
       }
     }
   };
 
-  
   return (
     <section>
       <div className="vote">
-      {errorMessage && (
-        <div className="error-message">
-          <p>{errorMessage}</p>
-        </div>
-      )}
+        {errorMessage && (
+          <div className="error-message">
+            <p>{errorMessage}</p>
+          </div>
+        )}
         <div className="vote-top">
           <div className="vote-top-left">
-            <UserProfile actorId={actorId} URL={URL}  />
+            <UserProfile actorId={actorId} URL={URL} API_KEY={API_KEY} />
           </div>
           <div className="vote-top-right">
-          {actorData && actorData.active ? (
-
-            <SingleVote
-              URL={URL}
-              actorId={actorId}
-              onVoteSuccess={handleVoteSuccess}
-              navigate={navigate}
-              currentUser={currentUser}
-              errorMessage={errorMessage}
-              setErrorMessage={setErrorMessage}
-            />
+            {actorData && actorData.active ? (
+              <SingleVote
+                URL={URL}
+                actorId={actorId}
+                onVoteSuccess={handleVoteSuccess}
+                navigate={navigate}
+                currentUser={currentUser}
+                errorMessage={errorMessage}
+                setErrorMessage={setErrorMessage}
+                API_KEY={API_KEY}
+              />
             ) : (
               <p></p>
             )}
@@ -107,6 +99,7 @@ export default function VotingPage({URL, CLIENT_URL}) {
               location={location}
               currentUser={currentUser}
               setErrorMessage={setErrorMessage}
+              API_KEY={API_KEY}
             />
           ) : (
             <p></p>
@@ -116,4 +109,3 @@ export default function VotingPage({URL, CLIENT_URL}) {
     </section>
   );
 }
-   

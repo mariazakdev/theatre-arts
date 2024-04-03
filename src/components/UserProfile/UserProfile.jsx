@@ -5,9 +5,8 @@ import useTopThree from "../../hooks/useTopThree";
 import VideoPlayer from "../VideoEmbed/VideoEmbed";
 import "./UserProfile.scss";
 
-const URL = process.env.REACT_APP_BACKEND_URL;
 
-function UserProfilecopy() {
+function UserProfile({ URL, API_KEY}) {
   const { actorId } = useParams();
   const [localActorData, setLocalActorData] = useState(null);
   const [announce, setAnnounce] = useState(null);
@@ -26,7 +25,9 @@ function UserProfilecopy() {
 
     const fetchActorData = async () => {
       try {
-        const response = await axios.get(`${URL}/contestants/${actorId}`);
+        const response = await axios.get(`${URL}/contestants/${actorId}`,
+          { headers: { Authorization: `${API_KEY}` } }
+          );
         setLocalActorData(response.data);
       } catch (error) {
         console.error("Error fetching actor data:", error);
@@ -98,4 +99,4 @@ function UserProfilecopy() {
   );
 }
 
-export default UserProfilecopy;
+export default UserProfile;

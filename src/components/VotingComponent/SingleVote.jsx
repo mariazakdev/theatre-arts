@@ -10,6 +10,7 @@ export default function SingleVote({
   onVoteSuccess,
   currentUser,
   setErrorMessage,
+  API_KEY
 }) {
   const { user } = useAuth();
   const location = useLocation();
@@ -37,7 +38,9 @@ export default function SingleVote({
     try {
       const response = await axios.post(`${URL}/contestants/vote/${actorId}`, {
         votes: 1,
-      });
+      },
+      { headers: { Authorization: `${API_KEY}` } }
+      );
 
       if (response.status === 200) {
         setVoted(true);
@@ -47,7 +50,10 @@ export default function SingleVote({
         if (currentUser) {
           // Retrieve user data
           const userResponse = await axios.get(
-            `${URL}/users/${currentUser.uid}`
+            `${URL}/users/${currentUser.uid}`,
+            {
+              headers: { Authorization: `${API_KEY}` },
+            }
           );
           userData = userResponse.data;
           if (userData.user) {
@@ -65,7 +71,9 @@ export default function SingleVote({
 
         console.log("Data going to /votes:", votesData);
 
-        const votesResponse = await axios.post(`${URL}/votes`, votesData);
+        const votesResponse = await axios.post(`${URL}/votes`, votesData,
+          { headers: { Authorization: `${API_KEY}` } }
+          );
 
         if (votesResponse.status === 201) {
           console.log("Votes recorded: 111111", votesResponse.data);

@@ -4,7 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 import "../../styles/forms.scss";
 
-function LoginGeneral({URL}) {
+function LoginGeneral({URL, API_KEY}) {
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -45,7 +45,9 @@ function LoginGeneral({URL}) {
         const requestData = { email: userEmail, firebaseId };
         console.log("Data being sent to backend:", requestData);
 
-        const response = await axios.post(`${URL}/users/login`, requestData);
+        const response = await axios.post(`${URL}/users/login`, requestData, 
+        { headers: { Authorization: `${API_KEY}` } }
+        );
 
         console.log("Response status:", response.status);
         console.log("Response data:", response.data);

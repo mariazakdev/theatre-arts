@@ -7,7 +7,6 @@ import AdminGroupsCounter from "../../components/AdminComponents/AdminGroupsCoun
 import "./AdminPage.scss";
 import ContestantAnnouncement from "../../components/ContestantStanding/ContestantAnnouncements";
 
-// const URL = process.env.REACT_APP_BACKEND_URL;
 
 function AdminPage({ URL, API_KEY}) {
   const [activeTab, setActiveTab] = useState("actors");
@@ -50,9 +49,9 @@ function AdminPage({ URL, API_KEY}) {
       </div>
 
       <div className="admin-cards-container">
-        {activeTab === "actors" && <AdminActorsList URL={URL} />}
-        {activeTab === "sunKing" && <AdminSunKingEdit URL={URL} />}
-        {showVotingStandings && <AdminVotingStandings />}
+        {activeTab === "actors" && <AdminActorsList URL={URL} API_KEY={API_KEY}/>}
+        {activeTab === "sunKing" && <AdminSunKingEdit URL={URL} API_KEY={API_KEY}/>}
+        {showVotingStandings && <AdminVotingStandings URL={URL} API_KEY={API_KEY}/>}
       </div>
     </div>
   );

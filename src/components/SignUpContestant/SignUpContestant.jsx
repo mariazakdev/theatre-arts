@@ -4,7 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 import '../../styles/forms.scss';
 
-const SignUpContestant = ({URL} ) => {
+const SignUpContestant = ({URL, API_KEY} ) => {
   const navigate = useNavigate();
   const { signup } = useAuth();
   const [email, setEmail] = useState("");
@@ -13,7 +13,9 @@ const SignUpContestant = ({URL} ) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [flashMessage, setFlashMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  
+  console.log("api key", API_KEY)
+
+
   const onSubmit = async (e) => {
     e.preventDefault();
   
@@ -33,7 +35,10 @@ const SignUpContestant = ({URL} ) => {
     
     try {
       // Check if user already exists in the backend
-      const response = await axios.get(`${URL}/users/email/${email}`);
+      const response = await axios.get(`${URL}/users/email/${email}`,
+      { headers: { Authorization: `${API_KEY}` } }
+      
+      );
       if (response.data.userExists) {
         // If user exists, show flash message and navigate after a delay
         setFlashMessage("User with this email already exists.");
@@ -51,7 +56,10 @@ const SignUpContestant = ({URL} ) => {
         email: user.email,
         firebaseAuthId: user.uid,
         isContestant: true,
-      });
+      },
+      { headers: { Authorization: `${API_KEY}` } }
+
+      );
   
       navigate("/contestant/login");
     } catch (error) {
