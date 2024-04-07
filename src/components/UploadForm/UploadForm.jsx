@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { auth } from "../../firebase";
 import UploadFormRules from "./UploadFormRules";
 import ReactPlayer from "react-player";
 import "./UploadForm.scss";

@@ -23,14 +23,16 @@ import SignUpVoterPage from "./pages/SignUpVoterPage/SignUpVoterPage";
 import PaymentContestPage from "./pages/PaymentContestPage/PaymentContestantPage";
 import AdminPage from "./pages/AdminPage/AdminPage";
 import SunKingPage from "./pages/SunKingPage/SunKingPage";
+import useAdminRouteAuthorization from "./hooks/useAdminRouteAuthorization";
 import "./App.scss";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
 const CLIENT_URL = process.env.REACT_APP_URL;
 const API_KEY = process.env.REACT_APP_API_KEY;
-console.log("api key", API_KEY)
 
 function App() {
+
+
   return (
     <AuthProvider>
       <StripeWrapper>
@@ -38,7 +40,14 @@ function App() {
         <div className="App">
           <Header URL={URL}/>
           <Routes>
+
+ {/* Render AdminRoute only if isAdmin is true */}
+ {/* {isAdmin && (
+              <Route exact path="/admin" element={<AdminPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY} />} />
+            )} */}
             <Route exact path="/admin" element={<AdminPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY} />} />
+
+
             {/* Common Routes for All */}
             <Route exact path="/" element={<HomePage URL={URL} API_KEY={API_KEY}/>} />
             {/* Contestants only  */}
