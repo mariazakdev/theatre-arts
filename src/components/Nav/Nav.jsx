@@ -6,7 +6,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import "./Nav.scss";
 
 
-function Nav({ isMobileMenuOpen, onClose, URL}) {
+function Nav({ isMobileMenuOpen, onClose, URL, API_KEY}) {
   const { currentUser, logout } = useAuth();
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
@@ -20,7 +20,9 @@ function Nav({ isMobileMenuOpen, onClose, URL}) {
       try {
         if (currentUser) {
           const response = await axios.get(
-            `${URL}/users/${currentUser.uid}`
+            `${URL}/users/${currentUser.uid}`,
+            { headers: { Authorization: `${API_KEY}` } }
+
           );
           const data = response.data;
           setUserData(data.user);

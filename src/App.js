@@ -38,7 +38,7 @@ function App() {
       <StripeWrapper>
       <Router>
         <div className="App">
-          <Header URL={URL}/>
+          <Header URL={URL} API_KEY={API_KEY}/>
           <Routes>
 
  {/* Render AdminRoute only if isAdmin is true */}
