@@ -19,10 +19,10 @@ const SignUpComponent = ( {URL, API_KEY}) => {
   const [showPassword, setShowPassword] = useState(false);
 
 
+
 const onSubmit = async (e) => {
   e.preventDefault();
-
-  // Validation checks
+// Validation checks
   if (password !== confirmPassword) {
     setFlashMessage("Passwords do not match.");
     return;
@@ -36,27 +36,32 @@ const onSubmit = async (e) => {
     setErrorMessage("Please enter a valid email address");
     return;
   }
-
   try {
- 
-  // Check if user already exists in the backend
-  const response = await axios.get(`${URL}/users/email/${email}`,
-  { headers: { Authorization: `${API_KEY}` } }
+    // Check if user already exists in the backend
+    const response = await axios.get(`${URL}/users/email/${email}`,
+    { headers: { Authorization: `${API_KEY}` } }
   
-  );
-  if (response.data.userExists) {
-    // If user exists, show flash message and navigate after a delay
-    setFlashMessage("User with this email already exists.");
-    setTimeout(() => {
-      navigate("/login");
-    }, 3000); // Change the delay time as per your requirement
-    return;
-  }
+    );
+    if (response.data.userExists) {
+      // If user exists, show flash message and navigate after a delay
+      setFlashMessage("User with this email already exists.");
+      setTimeout(() => {
+        navigate("/login");
+      }, 3000); // Change the delay time as per your requirement
+      return;
+    }
 
 
-    
-// Continue with the signup process for new users
-const userCredential = await signup(email, password);
+    // Continue with the signup process if the user does NOT exist
+    if (!userExists) {
+      // Continue with the signup process for new users
+      const userCredential = await signup(email, password);
+
+      // Check if the userCredential contains a user object
+      if (!userCredential || !userCredential.user) {
+        throw new Error("No user credential returned from signup");
+      }
+
       const user = userCredential.user;
 
       // Backend API call
@@ -68,19 +73,26 @@ const userCredential = await signup(email, password);
       { headers: { Authorization: `${API_KEY}` } }
       );
 
-      // // Firestore document creation
-      // const userDocRef = doc(db, "users", user.uid);
-      // await setDoc(userDocRef, {
-      //   hasCompletedAction: false,
-      //   hasPaid: false,
-      //   hasUploaded: false,
-      //   isContestant: false,
-      //   email: user.email,
-      // });
+      // Firestore document creation
+      const userDocRef = doc(db, "users", user.uid);
+      await setDoc(userDocRef, {
+        hasCompletedAction: false,
+        hasPaid: false,
+        hasUploaded: false,
+        isContestant: false,
+        email: user.email,
+      });
 
    
       navigate(-1);
-
+    } else {
+      // User already exists, show flash message
+      setFlashMessage("You are already signed up. Please log in.");
+    
+      setTimeout(() => {
+        navigate(-1);
+      }, 4000);
+    }
   } catch (error) {
     console.error("Error during sign up:", error);
     setErrorMessage(error.message || "Failed to create user");

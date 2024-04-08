@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './EditDashBoard.scss';
 
-function EditDashboard({ URL, contestantId, toggleEditing,  updateContestantData }) {
+function EditDashboard({ URL, contestantId, toggleEditing,  updateContestantData, API_KEY }) {
 
   const [updateError, setUpdateError] = useState(null);
   const [updateSuccess, setUpdateSuccess] = useState(false);
@@ -15,7 +15,10 @@ function EditDashboard({ URL, contestantId, toggleEditing,  updateContestantData
   useEffect(() => {
     const fetchContestantData = async () => {
       try {
-        const response = await axios.get(`${URL}/contestants/${contestantId}`);
+        const response = await axios.get(`${URL}/contestants/${contestantId}`,
+        { headers: { Authorization: `${API_KEY}` } }
+
+          );
         const contestantData = response.data;
 
         setFormData({
@@ -44,7 +47,8 @@ function EditDashboard({ URL, contestantId, toggleEditing,  updateContestantData
       const response = await axios.post(`${URL}/contestants/${contestantId}`, {
         description: formData.description,
         videoUrl: formData.videoUrl,
-      });
+      },
+      { headers: { Authorization: `${API_KEY}` } });
 
       // When successful, update the state
       console.log('Contestant data updated successfully:', response.data);

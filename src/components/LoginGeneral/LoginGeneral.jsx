@@ -4,7 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 import "../../styles/forms.scss";
 
-function LoginGeneral({URL, API_KEY}) {
+function LoginGeneral({ URL, API_KEY }) {
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -30,7 +30,7 @@ function LoginGeneral({URL, API_KEY}) {
       setErrorMessage("Please enter a valid email address");
       return;
     }
-    
+
     try {
       const userCredential = await login(email, password);
 
@@ -45,9 +45,9 @@ function LoginGeneral({URL, API_KEY}) {
         const requestData = { email: userEmail, firebaseId };
         console.log("Data being sent to backend:", requestData);
 
-        const response = await axios.post(`${URL}/users/login`, requestData, 
-        { headers: { Authorization: `${API_KEY}` } }
-        );
+        const response = await axios.post(`${URL}/users/login`, requestData, {
+          headers: { Authorization: `${API_KEY}` },
+        });
 
         console.log("Response status:", response.status);
         console.log("Response data:", response.data);
@@ -69,9 +69,7 @@ function LoginGeneral({URL, API_KEY}) {
         } else {
           console.log("User not found on the server side");
         }
-      } 
-      
-      else {
+      } else {
         console.log("No user credentials received");
       }
     } catch (error) {
@@ -94,7 +92,7 @@ function LoginGeneral({URL, API_KEY}) {
           {errorMessage && <p className="error-message">{errorMessage}</p>}
           {flashMessage && <p className="flash-message">{flashMessage}</p>}
 
-          <form  onSubmit={onLogin}>
+          <form onSubmit={onLogin}>
             <div className="input-group">
               <label htmlFor="email-address">Email address</label>
               <input
@@ -105,8 +103,7 @@ function LoginGeneral({URL, API_KEY}) {
                 placeholder="Email address"
                 onChange={(e) => setEmail(e.target.value)}
               />
-                            {emailError && <p className="error-message">{emailError}</p>}
-
+              {emailError && <p className="error-message">{emailError}</p>}
             </div>
 
             <div className="input-group">
@@ -119,7 +116,9 @@ function LoginGeneral({URL, API_KEY}) {
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
               />
-              {passwordError && <p className="error-message">{passwordError}</p>}
+              {passwordError && (
+                <p className="error-message">{passwordError}</p>
+              )}
               <span
                 className="input-group--password-toggle"
                 onClick={togglePasswordVisibility}
@@ -145,6 +144,3 @@ function LoginGeneral({URL, API_KEY}) {
 }
 
 export default LoginGeneral;
-
-
-
