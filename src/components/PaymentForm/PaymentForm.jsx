@@ -20,22 +20,6 @@ const PaymentForm = ({ URL, CLIENT_URL, API_KEY }) => {
   const navigate = useNavigate();
   const [cardholderName, setCardholderName] = useState("");
 
-  useEffect(() => {
-    const checkPaymentStatus = async () => {
-      if (currentUser) {
-        const userDocRef = doc(db, "users", currentUser.uid);
-        const userDoc = await getDoc(userDocRef);
-
-        if (userDoc.exists() && userDoc.data().hasPaid) {
-          // User has already paid, redirect them to the upload page
-          navigate("/contestant/upload");
-        }
-      }
-    };
-
-    checkPaymentStatus();
-  }, [currentUser, navigate]);
-
   const handlePayment = async () => {
     if (!stripe || !elements) {
       console.error("Stripe or Elements not loaded");
@@ -51,9 +35,6 @@ const PaymentForm = ({ URL, CLIENT_URL, API_KEY }) => {
       return;
     }
 
-    console.log("Confirming PaymentIntent...");
-    console.log("Before navigating to upload");
-
     try {
       // Create a PaymentMethod using card information
       const { paymentMethod, error: pmError } =
@@ -64,6 +45,19 @@ const PaymentForm = ({ URL, CLIENT_URL, API_KEY }) => {
 
       if (pmError) {
         console.error("Error creating PaymentMethod:", pmError.message);
+        return;
+      }
+
+      // Check user's payment status
+      const userResponse = await axios.get(`${URL}/users/${currentUser.uid}`,
+      
+      { headers: { Authorization: `${API_KEY}` }},
+
+      );
+      const { hasPaid } = userResponse.data;
+
+      if (hasPaid) {
+        navigate("/contestant/upload");
         return;
       }
 
@@ -79,7 +73,6 @@ const PaymentForm = ({ URL, CLIENT_URL, API_KEY }) => {
       );
 
       const clientSecret = response.data.clientSecret;
-
       // Confirm the PaymentIntent on the client side
       const { paymentIntent, error } = await stripe.confirmCardPayment(
         clientSecret,
@@ -92,31 +85,23 @@ const PaymentForm = ({ URL, CLIENT_URL, API_KEY }) => {
       if (error) {
         console.error("Error confirming PaymentIntent:", error.message);
       } else if (paymentIntent.status === "succeeded") {
-        console.log("PaymentIntent confirmed:", paymentIntent.id);
 
-        // Update user's payment status in Firebase
-        const userDocRef = doc(db, "users", currentUser.uid);
-        const userDoc = await getDoc(userDocRef);
+        // Update user's payment status in your backend
+        try {
+          await axios.put(`${URL}/users/updateHasPaid/${currentUser.uid}`, {
+            hasPaid: 1,
+          },
 
-        if (userDoc.exists()) {
-          await updateDoc(userDocRef, {
-            hasPaid: true,
-          });
-        } else {
-          await setDoc(userDocRef, {
-            hasPaid: true,
-          });
+                { headers: { Authorization: `${API_KEY}` }},
+
+          
+          );
+        } catch (updateError) {
+          console.error("Error updating user's hasPaid:", updateError.message);
         }
-        await axios.post(
-          `${URL}/users/updateHasPaid/${currentUser.uid}`,
-          { headers: { Authorization: `${API_KEY}` } }
-        );
-        console.log(currentUser.uid);
-        // Redirect to the upload page
+
         navigate("/contestant/upload");
         console.log("After navigating to upload");
-      } else {
-        console.log("PaymentIntent status:", paymentIntent.status);
       }
     } catch (error) {
       console.error("Error during PaymentIntent confirmation:", error.message);

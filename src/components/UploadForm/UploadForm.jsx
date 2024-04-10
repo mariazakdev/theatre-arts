@@ -46,7 +46,7 @@ function UploadForm({ URL, API_KEY }) {
         {
           headers: { Authorization: `${API_KEY}` },
         });
-        console.log(response.data.user); // Accessing the user object
+        console.log(response.data.user); 
         const user = response.data.user;
         if (user.uploadStatus === 1) {
           navigate("/");
@@ -185,34 +185,24 @@ function UploadForm({ URL, API_KEY }) {
     };
 
     try {
-      const response = await fetch(
-        `${URL}/contestants`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        },
-        { headers: { Authorization: `${API_KEY}` } }
-      );
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const result = await response.json();
-      console.log("Upload result:", result);
-
-      // Update user's upload status to 1
-      const updateResponse = await fetch(
-        `${URL}/users/${currentUser.uid}/upload-status`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-        },
-        { headers: { Authorization: `${API_KEY}` } }
-      );
-      if (!updateResponse.ok) {
-        throw new Error("Failed to update user's upload status");
-      }
-      navigate("/contestant/dashboard");
+      const response = await axios.post(`${URL}/contestants`, payload, {
+        headers: { Authorization: `${API_KEY}` },
+      });
+  
+   
+        // Update user's upload status to 1
+        const updateResponse = await axios.put(
+          `${URL}/users/upload-status/${currentUser.uid}`,
+          { uploadStatus: 1 },
+          { headers: { Authorization: `${API_KEY}` } },
+        );
+  
+        if (updateResponse.status === 200) {
+          navigate("/contestant/dashboard");
+        } else {
+          throw new Error("Failed to update user's upload status");
+        }
+     
     } catch (error) {
       console.error("Error submitting form:", error);
       alert("There was an error submitting the form. Please try again.");

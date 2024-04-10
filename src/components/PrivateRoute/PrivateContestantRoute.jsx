@@ -5,6 +5,8 @@ import { useAuth } from "../../contexts/AuthContext";
 
 
 const URL = process.env.REACT_APP_BACKEND_URL;
+const API_KEY = process.env.REACT_APP_API_KEY;
+
 export default function PrivateContestantRoute({ children }) {
   const { currentUser } = useAuth();
   const [userData, setUserData] = useState({});
@@ -15,7 +17,9 @@ export default function PrivateContestantRoute({ children }) {
       try {
         if (currentUser) {
           const response = await axios.get(
-            `${URL}/users/${currentUser.uid}`
+            `${URL}/users/${currentUser.uid}`, 
+            { headers: { Authorization: `${API_KEY}`, } }
+
           );
           const data = response.data;
           console.log("User Data:", data);
@@ -30,8 +34,7 @@ export default function PrivateContestantRoute({ children }) {
     fetchUserData();
   }, [currentUser]);
 
-  console.log("currentUser in private:", currentUser);
-  console.log("user in private:", userData);
+
 
   return userData  ? 
     children

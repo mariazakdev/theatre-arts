@@ -20,7 +20,7 @@ import PaymentCompetitionPage from "./pages/PaymentCompetitionPage/PaymentCompet
 import PaymentSuccess from "./components/PaymentSuccess/PaymentSuccess";
 import LoginVoterPage from "./pages/LoginVoterPage/LoginVoterPage";
 import SignUpVoterPage from "./pages/SignUpVoterPage/SignUpVoterPage";
-import PaymentContestPage from "./pages/PaymentContestPage/PaymentContestantPage";
+import PaymentContestantPage from "./pages/PaymentContestantPage/PaymentContestantPage";
 import AdminPage from "./pages/AdminPage/AdminPage";
 import SunKingPage from "./pages/SunKingPage/SunKingPage";
 import useAdminRouteAuthorization from "./hooks/useAdminRouteAuthorization";
@@ -88,7 +88,7 @@ function App() {
 
             <Route
               exact path="/contestant/payment-success"
-              element={<PaymentContestPage />}
+              element={<PaymentContestantPage />}
             />
             {/* All visitors to site */}
             <Route exact path="/signup" element={<SignUpVoterPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY}  />} />
@@ -114,8 +114,7 @@ function App() {
               element={<ContestantDetailPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY}  />}
             />
 
-             {/* START HERE with  */}
-            {/* { headers: { Authorization: `${API_KEY}` } } */}
+              
 
             <Route exact path="/payment-success" element={<PaymentSuccess URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY} />} />
             <Route exact path="/sun-king" element={<SunKingPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY} />} />
