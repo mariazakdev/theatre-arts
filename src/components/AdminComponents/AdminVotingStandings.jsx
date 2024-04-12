@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './AdminActorsList.scss';
 
+const API_KEY = process.env.REACT_APP_API_KEY;
+
 function AdminVotingStandings() {
     const [contestants, setContestants] = useState([]);
     const [groupedContestants, setGroupedContestants] = useState([]);
