@@ -129,7 +129,7 @@ function EditDashboard({
             onChange={handleInputChange}
           />
 
-          {contestantData.round === 1 ( // Only show the video URL input and button if round === 1
+          {contestantData.round === 1 && ( // Only show the video URL input and button if round === 1
             <>
               <label
                 className="edit-dashboard__form__label"
