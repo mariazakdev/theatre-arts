@@ -137,10 +137,12 @@ function useTopThree() {
     useEffect(() => {
         const fetchContestants = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/contestants', {
+                const response = await axios.get('http://localhost:8000/contestants', 
+                {
                     headers: { Authorization: `${API_KEY}` },
                 
-                });
+                }
+            );
                 console.log('Response:', response.data);
 
                 const activeContestants = response.data.filter(contestant => contestant.active === 1);

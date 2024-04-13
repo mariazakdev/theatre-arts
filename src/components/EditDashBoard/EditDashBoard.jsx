@@ -92,13 +92,10 @@ function EditDashboard({
         { round: 2 },
         { headers: { Authorization: `${API_KEY}` } }
       );
-      console.log("Video submitted successfully:", response.data);
       setFormData((prevData) => ({
         ...prevData,
         videoUrl: "", // Clear the video URL input
       }));
-
-   
 
       // Update the contestant data
       updateContestantData();
@@ -132,7 +129,7 @@ function EditDashboard({
             onChange={handleInputChange}
           />
 
-          {contestantData.round === 1 && ( // Only show the video URL input and button if round === 1
+          {contestantData.round === 1 ( // Only show the video URL input and button if round === 1
             <>
               <label
                 className="edit-dashboard__form__label"

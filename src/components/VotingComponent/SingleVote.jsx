@@ -15,7 +15,7 @@ export default function SingleVote({
   const { user } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
-  console.log("currentUser:", currentUser);
+
   const [voted, setVoted] = useState(false);
   const [flashMessage, setFlashMessage] = useState("");
   let userData;
@@ -59,7 +59,6 @@ export default function SingleVote({
           if (userData.user) {
             userIdData = userData.user.id;
           }
-          console.log("userData:", userData);
         }
 
         // Use the user's id in the votesData
@@ -69,14 +68,11 @@ export default function SingleVote({
           numberOfVotes: 1,
         };
 
-        console.log("Data going to /votes:", votesData);
-
         const votesResponse = await axios.post(`${URL}/votes`, votesData,
           { headers: { Authorization: `${API_KEY}` } }
           );
 
         if (votesResponse.status === 201) {
-          console.log("Votes recorded: 111111", votesResponse.data);
         }
 
         navigate(`/actors/${actorId}`, {

@@ -16,9 +16,7 @@ export default function VotingPage({ URL, CLIENT_URL, API_KEY }) {
   const [email, setEmail] = useState(null);
   const [stripeToken, setStripeToken] = useState(null);
 
-  console.log("current user voting pg", currentUser);
   const [errorMessage, setErrorMessage] = useState(null);
-  console.log("api key", API_KEY);
 
   useEffect(() => {
     const fetchActor = async () => {
@@ -38,8 +36,6 @@ export default function VotingPage({ URL, CLIENT_URL, API_KEY }) {
     }
   }, [actorId]);
 
-  console.log("Actor ID:", actorId);
-
   const handleVoteSuccess = async (votes) => {
     if (votes) {
       try {
@@ -50,7 +46,6 @@ export default function VotingPage({ URL, CLIENT_URL, API_KEY }) {
         );
 
         if (response.status === 200) {
-          console.log("Votes recorded:", response.data);
         }
       } catch (error) {
         console.error("Error while voting:", error);

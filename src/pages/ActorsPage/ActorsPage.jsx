@@ -6,10 +6,8 @@ import "./ActorsPage.scss";
 function ActorsPage( {URL, API_KEY}) {
   const [videoData, setVideoData] = useState([]);
   const navigate = useNavigate();
-console.log("api key", API_KEY)
+  
   useEffect(() => {
-    console.log("API_KEY:", API_KEY);
-
     axios
       .get(`${URL}/contestants`, {
         headers: {

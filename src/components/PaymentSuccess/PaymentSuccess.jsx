@@ -25,7 +25,6 @@ function PaymentSuccess({ URL, API_KEY}) {
         );
 
         if (response.status === 200) {
-          console.log('Votes recorded:', response.data);
           navigate(`/actors/${actorId}`,);
           setProcessed(true);
         }

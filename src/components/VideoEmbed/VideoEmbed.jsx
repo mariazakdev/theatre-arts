@@ -37,7 +37,6 @@ function VideoEmbed({ videoUrl }) {
       return null; // Return null if video ID couldn't be extracted
     }
   };
-  console.log("Video URL:", videoUrl);
   return (
     <>
       {videoUrl && videoUrl.includes('youtube') && (
