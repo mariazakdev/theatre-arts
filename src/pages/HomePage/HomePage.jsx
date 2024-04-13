@@ -4,7 +4,6 @@ import VotingButtons from "../../components/VotingComponent/VotingButtons";
 import "./HomePage.scss";
 
 function HomePage( {URL, API_KEY}) {
-  console.log("api key", API_KEY)
   return (
     <div className="home">
       <div className="home-filler home-filler1">

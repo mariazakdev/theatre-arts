@@ -19,8 +19,6 @@ export default function Dashboard({ URL , API_KEY}) {
  useEffect(() => {
   const fetchUserDashboard = async () => {
     try {
-      console.log("Fetching user dashboard...");
-
       if (!currentUser) {
         console.log("User not found, redirecting to home");
         setError("User not found");
@@ -34,9 +32,7 @@ export default function Dashboard({ URL , API_KEY}) {
       } });
 
       const data = response.data;
-      console.log("Fetched data:", data);
       const user = data.user;
-      console.log("User data:", user);
 
       if (user.is_contestant === 0) {
         console.log("User is not a contestant, redirecting to home");
@@ -47,7 +43,6 @@ export default function Dashboard({ URL , API_KEY}) {
 
       // Only after upload process
       const contestant = data.contestant;
-      console.log("Contestant data:", contestant);
 
    if (user.is_contestant === 1 && user.hasPaid === 0) {
         console.log("Contestant hasn't paid, redirecting to /contestant/enter");
@@ -62,7 +57,6 @@ export default function Dashboard({ URL , API_KEY}) {
       }
 // Add this condition to prevent redirecting when uploadStatus is 1
 if (user.uploadStatus === 1 && user.hasPaid === 1) {
-  console.log("Contestant has already uploaded, no need to redirect");
   // Set loading to false since the data is already available
   setLoading(false);
 }

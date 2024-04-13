@@ -129,6 +129,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const API_KEY = process.env.REACT_APP_API_KEY;
 function useTopThree() {
     const [groupedContestants, setGroupedContestants] = useState([]);
     const [topThreeMessages, setTopThreeMessages] = useState([]);
@@ -136,7 +137,10 @@ function useTopThree() {
     useEffect(() => {
         const fetchContestants = async () => {
             try {
-                const response = await axios.get('http://localhost:8000/contestants');
+                const response = await axios.get('http://localhost:8000/contestants', {
+                    headers: { Authorization: `${API_KEY}` },
+                
+                });
                 console.log('Response:', response.data);
 
                 const activeContestants = response.data.filter(contestant => contestant.active === 1);

@@ -46,7 +46,6 @@ function UploadForm({ URL, API_KEY }) {
         {
           headers: { Authorization: `${API_KEY}` },
         });
-        console.log(response.data.user); 
         const user = response.data.user;
         if (user.uploadStatus === 1) {
           navigate("/");

@@ -13,7 +13,6 @@ const SignUpContestant = ({URL, API_KEY} ) => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [flashMessage, setFlashMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  console.log("api key", API_KEY)
 
 
   const onSubmit = async (e) => {

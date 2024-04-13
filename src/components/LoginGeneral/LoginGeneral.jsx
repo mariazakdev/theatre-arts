@@ -38,20 +38,16 @@ function LoginGeneral({ URL, API_KEY }) {
         const user = userCredential.user;
         const firebaseId = user.uid;
         const userEmail = user.email;
-        console.log("User firebase ID:", firebaseId);
-        console.log("User email:", userEmail);
+
 
         // Update the login function to include the firebase ID in the request payload
         const requestData = { email: userEmail, firebaseId };
-        console.log("Data being sent to backend:", requestData);
 
         const response = await axios.post(`${URL}/users/login`, requestData, {
           headers: { Authorization: `${API_KEY}` },
         });
 
-        console.log("Response status:", response.status);
-        console.log("Response data:", response.data);
-
+  
         const data = response.data;
 
         if (data.userId) {

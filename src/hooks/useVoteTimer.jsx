@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const API_KEY = process.env.REACT_APP_API_KEY;
+   
 const useVoteTimer = (currentUser, actorId, URL) => {
   const [userIdData, setUserIdData] = useState(null);
   const [votesResponse, setVotesResponse] = useState(null);
@@ -13,7 +15,8 @@ const useVoteTimer = (currentUser, actorId, URL) => {
       try {
         if (currentUser) {
           // Fetch user data
-          userDataResponse = await axios.get(`${URL}/users/${currentUser.uid}`);
+          userDataResponse = await axios.get(`${URL}/users/${currentUser.uid}`,
+            { headers: { Authorization: `${API_KEY}` } });
           const userData = userDataResponse.data;
           // Find the user id
           if (userData.user) {
@@ -29,7 +32,8 @@ const useVoteTimer = (currentUser, actorId, URL) => {
             numberOfVotes: 1,
           };
 
-          votesResponse = await axios.post(`${URL}/votes`, votesData);
+          votesResponse = await axios.post(`${URL}/votes`, votesData,
+            { headers: { Authorization: `${API_KEY}` } });
 
           if (votesResponse.status === 201) {
             console.log('/votes recorded a vote', votesResponse.data);

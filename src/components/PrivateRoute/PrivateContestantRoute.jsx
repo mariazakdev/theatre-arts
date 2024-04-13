@@ -22,7 +22,6 @@ export default function PrivateContestantRoute({ children }) {
 
           );
           const data = response.data;
-          console.log("User Data:", data);
           setUserData(data.contestant);
         }
       } catch (error) {

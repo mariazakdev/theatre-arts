@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
-
 import axios from "axios";
 
-const useAdminRouteAuthorization = (URL, API_KEY) => {
+const API_KEY = process.env.REACT_APP_API_KEY;
+const URL = process.env.REACT_APP_BACKEND_URL;
+
+const useAdminRouteAuthorization = (URL) => {
   const { currentUser } = useAuth();
 
   const [isAdmin, setIsAdmin] = useState(false);

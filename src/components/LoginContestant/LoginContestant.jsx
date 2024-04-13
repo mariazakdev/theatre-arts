@@ -4,7 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { NavLink, useNavigate } from "react-router-dom";
 import "../../styles/forms.scss";
 
-function LoginContestant({URL, API_KEY}) {
+function LoginContestant({ URL, API_KEY }) {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -13,8 +13,6 @@ function LoginContestant({URL, API_KEY}) {
   const [errorMessage, setErrorMessage] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-
-console.log("api key", API_KEY)
 
   const onLogin = async (e) => {
     e.preventDefault();
@@ -25,36 +23,30 @@ console.log("api key", API_KEY)
       setErrorMessage("Please enter email and password");
       return;
     }
-  
+
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(email)) {
       setErrorMessage("Please enter a valid email address");
       return;
     }
-    
+
     try {
       const userCredential = await login(email, password);
-  
+
       if (userCredential) {
         const user = userCredential.user;
         const firebaseId = user.uid;
         const userEmail = user.email;
-        console.log("User firebase ID:", firebaseId);
-        console.log("User email:", userEmail);
-  
+
         // Update the login function to include the firebase ID in the request payload
         const requestData = { email: userEmail, firebaseId };
-        console.log("Data being sent to backend:", requestData);
-  
-        const response = await axios.post(`${URL}/users/login`, requestData, 
-        { headers: { Authorization: `${API_KEY}` } }
-        );
-  
-        console.log("Response status:", response.status);
-        console.log("Response data:", response.data);
-  
+
+        const response = await axios.post(`${URL}/users/login`, requestData, {
+          headers: { Authorization: `${API_KEY}` },
+        });
+
         const data = response.data;
-  
+
         if (data.userId) {
           // Navigate to the desired path
           navigate("/contestant/enter");
@@ -71,7 +63,6 @@ console.log("api key", API_KEY)
       console.log(errorCode, errorMessage);
     }
   };
-
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -94,8 +85,7 @@ console.log("api key", API_KEY)
                 placeholder="Email address"
                 onChange={(e) => setEmail(e.target.value)}
               />
-                               {emailError && <p className="error-message">{emailError}</p>}
-   
+              {emailError && <p className="error-message">{emailError}</p>}
             </div>
 
             <div className="input-group">
@@ -108,17 +98,15 @@ console.log("api key", API_KEY)
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
               />
-                 {passwordError && (
+              {passwordError && (
                 <p className="error-message">{passwordError}</p>
               )}
               <span
                 className="input-group--password-toggle"
                 onClick={togglePasswordVisibility}
               >
-              
                 {showPassword ? "Hide" : "Show"}
               </span>
-
             </div>
             <div>
               <button onClick={onLogin}>Login</button>

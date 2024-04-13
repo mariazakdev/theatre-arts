@@ -6,7 +6,6 @@ import './BannerActors.scss';
 function BannerActors( {URL, API_KEY}) {
   const [videoData, setVideoData] = useState([]);
 
-  console.log("api key", API_KEY)
 
   useEffect(() => {
     axios.get(`${URL}/contestants`, {
