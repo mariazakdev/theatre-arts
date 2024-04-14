@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import ReactPlayer from "react-player";
 import "./EditDashBoard.scss";
+
+// NOTE ABOUT VIDEO. For each round manually adjust round === 1/2/3 etc line 16, 136 
 
 function EditDashboard({
   URL,
@@ -18,10 +19,6 @@ function EditDashboard({
     description: "",
     videoUrl: "",
   });
-  const [videoInputVisible, setVideoInputVisible] = useState(true);
-  const [videoPreviewUrl, setVideoPreviewUrl] = useState(null);
-  const [showVideoConfirmation, setShowVideoConfirmation] = useState(false);
-  const [videoConfirmed, setVideoConfirmed] = useState(false);
 
   useEffect(() => {
     const fetchContestantData = async () => {
@@ -33,8 +30,8 @@ function EditDashboard({
 
         setContestantData(fetchedContestantData);
         setFormData({
-          description: fetchedContestantData.description,
-          videoUrl: fetchedContestantData.url_video,
+          description: contestantData.description,
+          videoUrl: contestantData.url_video,
         });
       } catch (error) {
         console.error("Error fetching contestant data:", error);
@@ -65,7 +62,9 @@ function EditDashboard({
       );
 
       // When successful, update the state
+      console.log("Contestant data updated successfully:", response.data);
       setUpdateSuccess(true);
+
       setTimeout(() => {
         toggleEditing();
         setUpdateSuccess(false);
@@ -87,14 +86,12 @@ function EditDashboard({
         },
         { headers: { Authorization: `${API_KEY}` } }
       );
-      // Update round to 2
+   // Update round to 2
       await axios.put(
         `${URL}/contestants/${contestantId}/update-round`,
         { round: 2 },
         { headers: { Authorization: `${API_KEY}` } }
       );
-
-      setVideoInputVisible(false);
       setFormData((prevData) => ({
         ...prevData,
         videoUrl: "", // Clear the video URL input
@@ -108,23 +105,13 @@ function EditDashboard({
     }
   };
 
-  const handleVideoChange = (e) => {
-    const videoUrl = e.target.value;
-    setFormData((prevData) => ({
-      ...prevData,
-      videoUrl: videoUrl,
-    }));
-    setVideoPreviewUrl(videoUrl);
-    setShowVideoConfirmation(true);
-  };
-
   return (
     <section className="edit">
       <div className="edit-dashboard">
         <h2 className="edit-dashboard__title">Edit Dashboard</h2>
         {updateSuccess && (
           <p className="edit-dashboard__success-flash">
-            Update successful!
+            Update successful! {/* You can customize this message */}
           </p>
         )}
         {updateError && <p className="edit-dashboard__error">{updateError}</p>}
@@ -141,42 +128,38 @@ function EditDashboard({
             value={formData.description}
             onChange={handleInputChange}
           />
-          <button className="edit-dashboard__form__button" type="submit">
+  <button className="edit-dashboard__form__button" type="submit">
             Update Description
           </button>
-        </form>
+          {contestantData.round === 1 && ( // Only show the video URL input and button if round === 1
+            <>
+              <label
+                className="edit-dashboard__form__label"
+                htmlFor="videoUrl"
+              >
+                Video URL:
+              </label>
+              <p>Videos can only be changed once every voting cycle</p>
+              <input
+                className="edit-dashboard__form__input"
+                type="text"
+                id="videoUrl"
+                name="videoUrl"
+                value={formData.videoUrl}
+                onChange={handleInputChange}
+              />
+              <button
+                className="edit-dashboard__form__button"
+                type="button" // Use type="button" for the video submit button
+                onClick={handleVideoSubmit}
+              >
+                Submit Video
+              </button>
+            </>
+          )}
 
-        {/* Video URL - Only show if round === 1 or updated round */}
-        {contestantData.round === 1 && videoInputVisible && (
-          <>
-            <label className="edit-dashboard__form__label" htmlFor="videoUrl">
-              Video URL:
-            </label>
-            <p>Videos can only be changed once every voting cycle</p>
-            <input
-              className="edit-dashboard__form__input"
-              type="text"
-              id="videoUrl"
-              name="videoUrl"
-              value={formData.videoUrl}
-              onChange={handleVideoChange}
-            />
-            <ReactPlayer
-              url={videoPreviewUrl}
-              controls
-              width="100%"
-              height="300px"
-            />
-            <p>Video Preview</p>
-            <button
-              className="edit-dashboard__form__button"
-              type="button"
-              onClick={handleVideoSubmit}
-            >
-              Confirm and Update Video
-            </button>
-          </>
-        )}
+        
+        </form>
       </div>
     </section>
   );
