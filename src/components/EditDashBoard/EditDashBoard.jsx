@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import ReactPlayer from "react-player";
+
 import "./EditDashBoard.scss";
 
 // NOTE ABOUT VIDEO. For each round manually adjust round === 1/2/3 etc line 16, 136 
@@ -148,6 +150,12 @@ function EditDashboard({
                 value={formData.videoUrl}
                 onChange={handleInputChange}
               />
+               {/* Video preview */}
+      {formData.videoUrl && (
+        <div className="edit-dashboard__video-preview">
+          <ReactPlayer url={formData.videoUrl} controls={true} />
+        </div>
+      )}
               <button
                 className="edit-dashboard__form__button"
                 type="button" // Use type="button" for the video submit button
