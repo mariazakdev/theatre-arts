@@ -145,7 +145,9 @@ function EditDashboard({
             value={formData.description}
             onChange={handleInputChange}
           />
-
+<button className="edit-dashboard__form__button" type="submit">
+            Update Description
+          </button>
           {/* Video URL - Only show if round === 1 or updated round */}
           {contestantData.round === 1 && videoInputVisible && (
             <>
@@ -170,15 +172,19 @@ function EditDashboard({
                     height="300px"
                   />
                   <p>Video Preview</p>
+                  <p>After update, you cannot change video till next round. </p>
+
                 </div>
+
               )}
               {showVideoConfirmation && !videoConfirmed && (
+                
                 <button
                   className="edit-dashboard__form__button"
                   type="button"
                   onClick={() => setVideoConfirmed(true)}
                 >
-                  Confirm Video
+                  Confirm and Update
                 </button>
               )}
             </>
@@ -186,9 +192,7 @@ function EditDashboard({
 
 
 
-          <button className="edit-dashboard__form__button" type="submit">
-            Update
-          </button>
+          
         </form>
       </div>
     </section>
