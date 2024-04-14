@@ -4,7 +4,7 @@ import ReactPlayer from "react-player";
 
 import "./EditDashBoard.scss";
 
-// NOTE ABOUT VIDEO. For each round manually adjust round === 1/2/3 etc line 16, 136 
+// NOTE ABOUT VIDEO. For each round manually adjust round === 1/2/3 etc line 16, 136
 
 function EditDashboard({
   URL,
@@ -21,6 +21,7 @@ function EditDashboard({
     description: "",
     videoUrl: "",
   });
+  const [showVideoInput, setShowVideoInput] = useState(true); // State for controlling video input visibility
 
   useEffect(() => {
     const fetchContestantData = async () => {
@@ -88,7 +89,7 @@ function EditDashboard({
         },
         { headers: { Authorization: `${API_KEY}` } }
       );
-   // Update round to 2
+      // Update round to 2
       await axios.put(
         `${URL}/contestants/${contestantId}/update-round`,
         { round: 2 },
@@ -101,6 +102,8 @@ function EditDashboard({
 
       // Update the contestant data
       updateContestantData();
+      // Hide the video input immediately after successful submission
+      setShowVideoInput(false);
     } catch (error) {
       console.error("Error submitting video:", error);
       setUpdateError(error.message);
@@ -130,15 +133,12 @@ function EditDashboard({
             value={formData.description}
             onChange={handleInputChange}
           />
-  <button className="edit-dashboard__form__button" type="submit">
+          <button className="edit-dashboard__form__button" type="submit">
             Update Description
           </button>
-          {contestantData.round === 1 && ( // Only show the video URL input and button if round === 1
+          {contestantData.round === 1 && showVideoInput && ( // Only show the video URL input and button if round === 1
             <>
-              <label
-                className="edit-dashboard__form__label"
-                htmlFor="videoUrl"
-              >
+              <label className="edit-dashboard__form__label" htmlFor="videoUrl">
                 Video URL:
               </label>
               <p>Videos can only be changed once every voting cycle</p>
@@ -150,12 +150,12 @@ function EditDashboard({
                 value={formData.videoUrl}
                 onChange={handleInputChange}
               />
-               {/* Video preview */}
-      {formData.videoUrl && (
-        <div className="edit-dashboard__video-preview">
-          <ReactPlayer url={formData.videoUrl} controls={true} />
-        </div>
-      )}
+              {/* Video preview */}
+              {formData.videoUrl && (
+                <div className="edit-dashboard__video-preview">
+                  <ReactPlayer url={formData.videoUrl} controls={true} />
+                </div>
+              )}
               <button
                 className="edit-dashboard__form__button"
                 type="button" // Use type="button" for the video submit button
@@ -165,8 +165,6 @@ function EditDashboard({
               </button>
             </>
           )}
-
-        
         </form>
       </div>
     </section>
