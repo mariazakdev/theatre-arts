@@ -20,7 +20,9 @@ function EditDashboard({
     videoUrl: "",
   });
   const [videoInputVisible, setVideoInputVisible] = useState(true);
-
+  const [videoPreviewUrl, setVideoPreviewUrl] = useState(null);
+  const [showVideoConfirmation, setShowVideoConfirmation] = useState(false);
+  const [videoConfirmed, setVideoConfirmed] = useState(false);
 
   useEffect(() => {
     const fetchContestantData = async () => {
@@ -64,9 +66,7 @@ function EditDashboard({
       );
 
       // When successful, update the state
-      console.log("Contestant data updated successfully:", response.data);
       setUpdateSuccess(true);
-
       setTimeout(() => {
         toggleEditing();
         setUpdateSuccess(false);
@@ -110,9 +110,19 @@ function EditDashboard({
       setUpdateError(error.message);
     }
   };
+  const handleVideoChange = (e) => {
+    const videoUrl = e.target.value;
+    setFormData((prevData) => ({
+      ...prevData,
+      videoUrl: videoUrl,
+    }));
+    setVideoPreviewUrl(videoUrl); // Set the video preview URL
+    setShowVideoConfirmation(true); // Show the video confirmation message
+  };
 
   return (
     <section className="edit">
+      {/* Description - Can edit at any time.  */}
       <div className="edit-dashboard">
         <h2 className="edit-dashboard__title">Edit Dashboard</h2>
         {updateSuccess && (
@@ -135,12 +145,10 @@ function EditDashboard({
             onChange={handleInputChange}
           />
 
-          {contestantData.round === 1 && videoInputVisible && ( // Only show the video URL input and button if round === 1
+          {/* Video URL - Only show if round === 1 or updated round */}
+          {contestantData.round === 1 && videoInputVisible && (
             <>
-              <label
-                className="edit-dashboard__form__label"
-                htmlFor="videoUrl"
-              >
+              <label className="edit-dashboard__form__label" htmlFor="videoUrl">
                 Video URL:
               </label>
               <p>Videos can only be changed once every voting cycle</p>
@@ -150,17 +158,32 @@ function EditDashboard({
                 id="videoUrl"
                 name="videoUrl"
                 value={formData.videoUrl}
-                onChange={handleInputChange}
+                onChange={handleVideoChange}
               />
-              <button
-                className="edit-dashboard__form__button"
-                type="button" // Use type="button" for the video submit button
-                onClick={handleVideoSubmit}
-              >
-                Submit Video
-              </button>
+              {videoPreviewUrl && (
+                <div>
+                  <ReactPlayer
+                    url={videoPreviewUrl}
+                    controls
+                    width="100%"
+                    height="300px"
+                  />
+                  <p>Video Preview</p>
+                </div>
+              )}
+              {showVideoConfirmation && !videoConfirmed && (
+                <button
+                  className="edit-dashboard__form__button"
+                  type="button"
+                  onClick={() => setVideoConfirmed(true)}
+                >
+                  Confirm Video
+                </button>
+              )}
             </>
           )}
+
+
 
           <button className="edit-dashboard__form__button" type="submit">
             Update
