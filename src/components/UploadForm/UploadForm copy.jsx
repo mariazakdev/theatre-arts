@@ -29,8 +29,6 @@ function UploadForm({ URL, API_KEY }) {
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [videoPreviewUrl, setVideoPreviewUrl] = useState(null);
-  const [showVideoConfirmation, setShowVideoConfirmation] = useState(false);
-  const [videoConfirmed, setVideoConfirmed] = useState(false);
   const [isAgreed, setIsAgreed] = useState(false);
   const [formData, setFormData] = useState({
     photoUrl: "",
@@ -44,7 +42,8 @@ function UploadForm({ URL, API_KEY }) {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`${URL}/users/${currentUser.uid}`, {
+        const response = await axios.get(`${URL}/users/${currentUser.uid}`, 
+        {
           headers: { Authorization: `${API_KEY}` },
         });
         const user = response.data.user;
@@ -157,10 +156,7 @@ function UploadForm({ URL, API_KEY }) {
       alert("Please confirm the photo before submitting.");
       return;
     }
-    if (uploadStatus !== "ready" || !videoConfirmed) {
-      alert("Please confirm the photo and video before submitting.");
-      return;
-    }
+
     // Upload the image to S3
     const photoUrl = await uploadToS3(imageFile);
     if (!photoUrl) {
@@ -191,19 +187,21 @@ function UploadForm({ URL, API_KEY }) {
       const response = await axios.post(`${URL}/contestants`, payload, {
         headers: { Authorization: `${API_KEY}` },
       });
-
-      // Update user's upload status to 1
-      const updateResponse = await axios.put(
-        `${URL}/users/upload-status/${currentUser.uid}`,
-        { uploadStatus: 1 },
-        { headers: { Authorization: `${API_KEY}` } }
-      );
-
-      if (updateResponse.status === 200) {
-        navigate("/contestant/dashboard");
-      } else {
-        throw new Error("Failed to update user's upload status");
-      }
+  
+   
+        // Update user's upload status to 1
+        const updateResponse = await axios.put(
+          `${URL}/users/upload-status/${currentUser.uid}`,
+          { uploadStatus: 1 },
+          { headers: { Authorization: `${API_KEY}` } },
+        );
+  
+        if (updateResponse.status === 200) {
+          navigate("/contestant/dashboard");
+        } else {
+          throw new Error("Failed to update user's upload status");
+        }
+     
     } catch (error) {
       console.error("Error submitting form:", error);
       alert("There was an error submitting the form. Please try again.");
@@ -224,8 +222,7 @@ function UploadForm({ URL, API_KEY }) {
       ...prevState,
       videoUrl: videoUrl,
     }));
-    setVideoPreviewUrl(videoUrl); // Set the video preview URL
-    setShowVideoConfirmation(true); // Show the video confirmation message
+    setVideoPreviewUrl(videoUrl);
   };
 
   // Agree to the rules
@@ -296,14 +293,6 @@ function UploadForm({ URL, API_KEY }) {
                 />
                 <p>Video Preview</p>
               </div>
-            )}
-            {showVideoConfirmation && !videoConfirmed && (
-              <button
-                className="form-container__confirm-button"
-                onClick={() => setVideoConfirmed(true)}
-              >
-                Confirm Video
-              </button>
             )}
           </div>
           <p>You may only change the video at the beginning of each round.</p>
