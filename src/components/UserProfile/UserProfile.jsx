@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import useTopThree from "../../hooks/useTopThree";
 import VideoPlayer from "../VideoEmbed/VideoEmbed";
 import "./UserProfile.scss";
@@ -67,16 +67,20 @@ function UserProfile({ URL, API_KEY}) {
         </div>
       )}
       {announce && (
+        <Link to={`/actors/${actorId}`}>
+
         <div className="user-profile__top-three-announce">
           <h3>{announce}</h3>
         </div>
+        </Link>
       )}
       {actor && (
         <div className="user-profile__wrapper">
           <div className="video-container">
           <VideoPlayer videoUrl={videoSrc} /> 
           </div>
-          <div className="user-info">
+          <Link to={`/actors/${actorId}`}>
+ <div className="user-info">
             <div className="user-details">
               <h2>{actor.name}</h2>
               <p className="user-description">{actor.description}</p>
@@ -90,6 +94,7 @@ function UserProfile({ URL, API_KEY}) {
               />
             </div>
           </div>
+          </Link>
         </div>
       )}
     </section>
