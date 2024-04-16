@@ -10,9 +10,6 @@ function UserProfile({ URL, API_KEY}) {
   const { actorId } = useParams();
   const [localActorData, setLocalActorData] = useState(null);
   const [announce, setAnnounce] = useState(null);
-  const [videoPlayed, setVideoPlayed] = useState(false);
-  const [volume, setVolume] = useState(100);
-  const [elapsedTime, setElapsedTime] = useState(0);
   const playerRef = useRef(null);
   const { groupedContestants, topThreeMessages } = useTopThree(); 
   
