@@ -67,7 +67,7 @@ function UserProfile({ URL, API_KEY}) {
         </div>
       )}
       {announce && (
-        <Link to={`/actors/${actorId}`}>
+        <Link to={`/actors/vote/${actorId}`} className="link-style">
 
         <div className="user-profile__top-three-announce">
           <h3>{announce}</h3>
@@ -79,7 +79,7 @@ function UserProfile({ URL, API_KEY}) {
           <div className="video-container">
           <VideoPlayer videoUrl={videoSrc} /> 
           </div>
-          <Link to={`/actors/${actorId}`}>
+          <Link to={`/actors/vote/${actorId}`} className="link-style">
  <div className="user-info">
             <div className="user-details">
               <h2>{actor.name}</h2>
