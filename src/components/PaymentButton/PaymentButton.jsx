@@ -50,6 +50,8 @@ function PaymentButton({
     }
   };
 
+
+  
   const handlePayment = async () => {
     console.log("Payment button clicked! paymentbutton");
   
@@ -95,10 +97,10 @@ function PaymentButton({
         );
   
       console.log("Before payment request", amount);
-      setVoted(true);
+     
   
       await processStripePayment();
-  
+   setVoted(true);
       console.log("After payment request", amount);
     } catch (error) {
       console.error("Error during payment processing:", error);
