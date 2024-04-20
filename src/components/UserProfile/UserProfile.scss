@@ -140,3 +140,9 @@
   opacity: 0.5; /* or any other styling to indicate disabled state */
   pointer-events: none;
 }
+
+.link-style {
+  text-decoration: none; // Remove underline
+  color: inherit; // Inherit color
+  cursor: pointer; // Set cursor to pointer
+}
