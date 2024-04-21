@@ -11,6 +11,7 @@ function PaymentSuccess({ URL, API_KEY}) {
   useEffect(() => {
     const actorId = searchParams.get('actorId');
     const votes = searchParams.get('votes');
+    const userId = searchParams.get('userIdData');
 
     const updateVotes = async (actorId, votes) => {
       try {
@@ -37,6 +38,30 @@ function PaymentSuccess({ URL, API_KEY}) {
       updateVotes(actorId, votes);
       isMounted.current = false;
     }
+
+    const sendVotes = async (actorId, votes) => {
+      try {
+        const votesData = {
+          userId: userId, // You may need to retrieve this from your authentication context or user data
+          contestantId: actorId,
+          numberOfVotes: 1,
+        };
+        const response = await axios.post(`${URL}/votes-extra`, votesData, {
+          headers: { Authorization: `${API_KEY}` },
+        });
+
+        if (response.status === 200) {
+          setProcessed(true);
+        }
+      } catch (error) {
+        console.error('Error while sending votes:', error);
+      }
+    };
+    if (actorId && votes && !processed) {
+      sendVotes(actorId, votes);
+    }
+
+
   }, [searchParams, navigate, processed]);
 
   return <div>{processed ? 'Vote processed successfully!' : 'Processing your vote...'}</div>;
