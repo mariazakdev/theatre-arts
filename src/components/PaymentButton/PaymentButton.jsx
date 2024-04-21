@@ -88,7 +88,7 @@ function PaymentButton({
         contestantId: actorId,
         numberOfVotes: 1,
       };
-  
+   await processStripePayment();
       console.log("Data going to /votes:", votesData);
       const votesResponse = await axios.post(`${URL}/votes-extra`, votesData,
         { headers: 
@@ -99,7 +99,7 @@ function PaymentButton({
       console.log("Before payment request", amount);
      
   
-      await processStripePayment();
+     
    setVoted(true);
       console.log("After payment request", amount);
     } catch (error) {
