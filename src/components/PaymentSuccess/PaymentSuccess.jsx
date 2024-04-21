@@ -16,9 +16,29 @@ function PaymentSuccess({ URL, API_KEY}) {
     let userIdData;
 
 
+    // const updateVotes = async (actorId, votes) => {
+    //   try {
+    //     const response = await axios.post(
+    //       `${URL}/contestants/vote/${actorId}`,
+    //       { votes: votes },
+    //       {
+    //         headers: {
+    //           Authorization: `${API_KEY}`,
+    //         },
+    //       }
+    //     );
 
+    //     if (response.status === 200) {
+    //       navigate(`/actors/${actorId}`,);
+    //       setProcessed(true);
+    //     }
+    //   } catch (error) {
+    //     console.error('Error while voting:', error);
+    //   }
+    // };
     const updateVotes = async (actorId, votes) => {
       try {
+        // Perform backend update here
         const response = await axios.post(
           `${URL}/contestants/vote/${actorId}`,
           { votes: votes },
@@ -30,45 +50,43 @@ function PaymentSuccess({ URL, API_KEY}) {
         );
 
         if (response.status === 200) {
-          try{
-            const userResponse = await axios.get(
-              `${URL}/users/${currentUser.uid}`,
-              {
-                headers: { Authorization: `${API_KEY}` },
-              }
-            );
-            userData = userResponse.data;
-            if (userData.user) {
-              userIdData = userData.user.id;
+          // Update votes-extra
+          const userResponse = await axios.get(
+            `${URL}/users/${currentUser.uid}`,
+            {
+              headers: { Authorization: `${API_KEY}` },
             }
-            console.log("userData:", userData);
-
-  // Use the user's id in the votesData
-  const votesData = {
-    userId: userIdData,
-    contestantId: actorId,
-    numberOfVotes: 1,
-  };
-  console.log("Data going to /votes:", votesData);
-  const votesResponse = await axios.post(`${URL}/votes-extra`, votesData,
-    { headers: 
-      { Authorization: `${API_KEY}` } 
-  }
-    );
-
-
-          } catch (error) {
-            console.error("Error while retrieving user data:", error);
+          );
+          userData = userResponse.data;
+          if (userData.user) {
+            userIdData = userData.user.id;
           }
+
+          // Use the user's id in the votesData
+          const votesData = {
+            userId: userIdData,
+            contestantId: actorId,
+            numberOfVotes: 1,
+          };
+          console.log('Data going to /votes:', votesData);
+          const votesResponse = await axios.post(
+            `${URL}/votes-extra`,
+            votesData,
+            {
+              headers: {
+                Authorization: `${API_KEY}`,
+              },
+            }
+          );
+
           console.log('Vote processed successfully!');
-          navigate(`/actors/${actorId}`,);
+          navigate(`/actors/${actorId}`);
           setProcessed(true);
         }
       } catch (error) {
-        console.error('Error while voting:', error);
+        console.error('Error while updating votes:', error);
       }
     };
-
     if (isMounted.current && actorId && votes && !processed) {
       updateVotes(actorId, votes);
       isMounted.current = false;
