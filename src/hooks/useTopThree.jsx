@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
-const URL = process.env.REACT_APP_URL;
+const URL = process.env.REACT_APP_BACKEND_URL;
 function useTopThree() {
     const [groupedContestants, setGroupedContestants] = useState([]);
     const [topThreeMessages, setTopThreeMessages] = useState([]);
