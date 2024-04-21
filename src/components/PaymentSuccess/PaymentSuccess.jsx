@@ -1,17 +1,20 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useAuth } from "../../contexts/AuthContext"; 
+
 import axios from 'axios';
 
 function PaymentSuccess({ URL, API_KEY}) {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
+
   const [processed, setProcessed] = useState(false);
   const isMounted = useRef(true);
 
   useEffect(() => {
     const actorId = searchParams.get('actorId');
     const votes = searchParams.get('votes');
-    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     let userData;
     let userIdData;
 
