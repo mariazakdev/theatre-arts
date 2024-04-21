@@ -18,27 +18,6 @@ function PaymentSuccess({ URL, API_KEY}) {
     let userData;
     let userIdData;
 
-
-    // const updateVotes = async (actorId, votes) => {
-    //   try {
-    //     const response = await axios.post(
-    //       `${URL}/contestants/vote/${actorId}`,
-    //       { votes: votes },
-    //       {
-    //         headers: {
-    //           Authorization: `${API_KEY}`,
-    //         },
-    //       }
-    //     );
-
-    //     if (response.status === 200) {
-    //       navigate(`/actors/${actorId}`,);
-    //       setProcessed(true);
-    //     }
-    //   } catch (error) {
-    //     console.error('Error while voting:', error);
-    //   }
-    // };
     const updateVotes = async (actorId, votes) => {
       try {
         // Perform backend update here
