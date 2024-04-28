@@ -13,11 +13,9 @@ function LoginGeneral({ URL, API_KEY }) {
   const [showPassword, setShowPassword] = useState(false);
   const [flashMessage, setFlashMessage] = useState("");
 
-
   const onLogin = async (e) => {
     e.preventDefault();
-   
- 
+
     if (flashMessage) {
       setFlashMessage(""); // Clear the previous flash message
     }
@@ -26,12 +24,11 @@ function LoginGeneral({ URL, API_KEY }) {
       setFlashMessage("Please enter your email address");
       return;
     }
-  
+
     if (!password) {
       setFlashMessage("Please enter your password");
       return;
     }
-
 
     try {
       const userCredential = await login(email, password);
@@ -41,7 +38,6 @@ function LoginGeneral({ URL, API_KEY }) {
         const firebaseId = user.uid;
         const userEmail = user.email;
 
-
         // Update the login function to include the firebase ID in the request payload
         const requestData = { email: userEmail, firebaseId };
 
@@ -49,7 +45,6 @@ function LoginGeneral({ URL, API_KEY }) {
           headers: { Authorization: `${API_KEY}` },
         });
 
-  
         const data = response.data;
 
         if (data.userId) {
@@ -93,14 +88,13 @@ function LoginGeneral({ URL, API_KEY }) {
           <h2>Log In</h2>
           {flashMessage && <p className="flash-message">{flashMessage}</p>}
 
-          <form onSubmit={onLogin}noValidate >
+          <form onSubmit={onLogin} noValidate>
             <div className="input-group">
               <label htmlFor="email-address">Email address</label>
               <input
                 id="email-address"
                 name="email"
                 type="email"
-                
                 placeholder="Email address"
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -112,11 +106,10 @@ function LoginGeneral({ URL, API_KEY }) {
                 id="password"
                 name="password"
                 type={showPassword ? "text" : "password"}
-                
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
               />
-            
+
               <span
                 className="input-group--password-toggle"
                 onClick={togglePasswordVisibility}
