@@ -22,7 +22,15 @@ const SignUpContestant = ({URL, API_KEY} ) => {
       setFlashMessage("Passwords do not match.");
       return;
     }
-    if (!email || !password || !confirmPassword) {
+    if (!email) {
+      setFlashMessage("Please fill in all the required fields.");
+      return;
+    }
+    if (!password ) {
+      setFlashMessage("Please fill in all the required fields.");
+      return;
+    }
+    if ( !confirmPassword) {
       setFlashMessage("Please fill in all the required fields.");
       return;
     }
