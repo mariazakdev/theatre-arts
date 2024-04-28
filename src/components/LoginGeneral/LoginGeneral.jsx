@@ -21,15 +21,18 @@ function LoginGeneral({ URL, API_KEY }) {
     setEmailError("");
     setPasswordError("");
     setErrorMessage(""); // Reset any previous error messages
+    setFlashMessage(""); // Reset any previous flash messages
 
     // Validation
     if (!email) {
       setEmailError("Please enter your email address");
+      setFlashMessage("Please enter your email address");
       return;
     }
   
     if (!password) {
       setPasswordError("Please enter your password");
+      setFlashMessage("Please enter your password");
       return;
     }
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
