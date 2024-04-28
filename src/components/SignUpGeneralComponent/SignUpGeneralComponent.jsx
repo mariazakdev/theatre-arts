@@ -102,7 +102,7 @@ const userCredential = await signup(email, password);
             <h2>Sign Up</h2>
             {errorMessage && <p className="error-message">{errorMessage}</p>}
 
-            <form onSubmit={onSubmit}>
+            <form onSubmit={onSubmit} noValidate >
 
               <div className="input-group">
                 <label htmlFor="email-address">Email address</label>
@@ -111,7 +111,7 @@ const userCredential = await signup(email, password);
                   id="email-address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  required
+                  
                   placeholder="Email address"
                 />
               </div>
@@ -123,7 +123,6 @@ const userCredential = await signup(email, password);
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  required
                   placeholder="Password"
                 />
             <span 
@@ -140,7 +139,7 @@ const userCredential = await signup(email, password);
                   id="confirm-password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  required
+            
                   placeholder="Confirm Password"
                 />
       <span 
