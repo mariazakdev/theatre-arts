@@ -17,7 +17,9 @@ const SignUpContestant = ({URL, API_KEY} ) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-  
+    if (flashMessage) {
+      setFlashMessage(""); // Clear the previous flash message
+    }
     if (password !== confirmPassword) {
       setFlashMessage("Passwords do not match.");
       return;
