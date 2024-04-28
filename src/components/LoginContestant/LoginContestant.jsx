@@ -27,14 +27,11 @@ function LoginContestant({ URL, API_KEY }) {
       setFlashMessage("Please enter your email address");
       return;
     }
-  
+
     if (!password) {
       setFlashMessage("Please enter your password");
       return;
     }
-
-      
-
 
     try {
       const userCredential = await login(email, password);
@@ -85,16 +82,14 @@ function LoginContestant({ URL, API_KEY }) {
       <section>
         <div className="form-container">
           <h2>Contestant Log In</h2>
-          {flashMessage && <p className="flash-message">{flashMessage}</p>} 
-          <form onSubmit={onLogin} noValidate >
-
+          {flashMessage && <p className="flash-message">{flashMessage}</p>}
+          <form onSubmit={onLogin} noValidate>
             <div className="input-group">
               <label htmlFor="email-address">Email address</label>
               <input
                 id="email-address"
                 name="email"
                 type="email"
-                
                 placeholder="Email address"
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -107,7 +102,6 @@ function LoginContestant({ URL, API_KEY }) {
                 id="password"
                 name="password"
                 type={showPassword ? "text" : "password"}
-                
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -122,7 +116,7 @@ function LoginContestant({ URL, API_KEY }) {
               </span>
             </div>
             <div>
-              <button >Login</button>
+              <button>Login</button>
             </div>
             <p className="login-redirect">
               <NavLink to="/forgot-password">Forgot Password?</NavLink>

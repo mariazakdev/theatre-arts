@@ -71,7 +71,6 @@ function LoginGeneral({ URL, API_KEY }) {
       console.error("Error logging in:", error);
       const errorCode = error.code;
       const errorMessage = error.message;
-      setErrorMessage(errorMessage);
       setFlashMessage("Error logging in");
       console.log(errorCode, errorMessage);
     }
