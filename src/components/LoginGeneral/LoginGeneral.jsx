@@ -25,19 +25,17 @@ function LoginGeneral({ URL, API_KEY }) {
 
     // Validation
     if (!email) {
-      setEmailError("Please enter your email address");
       setFlashMessage("Please enter your email address");
       return;
     }
   
     if (!password) {
-      setPasswordError("Please enter your password");
       setFlashMessage("Please enter your password");
       return;
     }
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(email)) {
-      setEmailError("Please enter a valid email address");
+      setFlashMessage("Please enter a valid email address");
       return;
     }
 
@@ -73,9 +71,11 @@ function LoginGeneral({ URL, API_KEY }) {
             navigate(returnPath, { state: { actorId, userId } });
           }
         } else {
+          setFlashMessage("User not found");
           console.log("User not found on the server side");
         }
       } else {
+        setFlashMessage("No user credentials received");
         console.log("No user credentials received");
       }
     } catch (error) {
@@ -83,6 +83,7 @@ function LoginGeneral({ URL, API_KEY }) {
       const errorCode = error.code;
       const errorMessage = error.message;
       setErrorMessage(errorMessage);
+      setFlashMessage("Error logging in");
       console.log(errorCode, errorMessage);
     }
   };
