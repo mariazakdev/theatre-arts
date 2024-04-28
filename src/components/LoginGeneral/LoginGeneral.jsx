@@ -93,7 +93,6 @@ function LoginGeneral({ URL, API_KEY }) {
       <section>
         <div className="form-container">
           <h2>Log In</h2>
-          {errorMessage && <p className="error-message">{errorMessage}</p>}
           {flashMessage && <p className="flash-message">{flashMessage}</p>}
 
           <form onSubmit={onLogin}noValidate >
