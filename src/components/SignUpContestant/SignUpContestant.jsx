@@ -101,7 +101,6 @@ const SignUpContestant = ({URL, API_KEY} ) => {
                 id="email-address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                required
                 placeholder="Email address"
               />
             </div>
@@ -113,7 +112,6 @@ const SignUpContestant = ({URL, API_KEY} ) => {
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                required
                 placeholder="Password"
               />
              <span 
@@ -130,7 +128,7 @@ const SignUpContestant = ({URL, API_KEY} ) => {
                 id="confirm-password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                required
+                
                 placeholder="Confirm Password"
               />
               <span 
