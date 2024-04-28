@@ -18,11 +18,11 @@ function LoginGeneral({ URL, API_KEY }) {
 
   const onLogin = async (e) => {
     e.preventDefault();
-    setEmailError("");
-    setPasswordError("");
-    setErrorMessage(""); // Reset any previous error messages
-    setFlashMessage(""); // Reset any previous flash messages
+   
 
+    if (flashMessage) {
+      setFlashMessage(""); // Clear the previous flash message
+    }
     // Validation
     if (!email) {
       setFlashMessage("Please enter your email address");
@@ -33,11 +33,7 @@ function LoginGeneral({ URL, API_KEY }) {
       setFlashMessage("Please enter your password");
       return;
     }
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) {
-      setFlashMessage("Please enter a valid email address");
-      return;
-    }
+
 
     try {
       const userCredential = await login(email, password);
@@ -100,18 +96,17 @@ function LoginGeneral({ URL, API_KEY }) {
           {errorMessage && <p className="error-message">{errorMessage}</p>}
           {flashMessage && <p className="flash-message">{flashMessage}</p>}
 
-          <form onSubmit={onLogin}>
+          <form onSubmit={onLogin}noValidate >
             <div className="input-group">
               <label htmlFor="email-address">Email address</label>
               <input
                 id="email-address"
                 name="email"
                 type="email"
-                required
+                
                 placeholder="Email address"
                 onChange={(e) => setEmail(e.target.value)}
               />
-              {emailError && <p className="error-message">{emailError}</p>}
             </div>
 
             <div className="input-group">
@@ -120,13 +115,11 @@ function LoginGeneral({ URL, API_KEY }) {
                 id="password"
                 name="password"
                 type={showPassword ? "text" : "password"}
-                required
+                
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
               />
-              {passwordError && (
-                <p className="error-message">{passwordError}</p>
-              )}
+            
               <span
                 className="input-group--password-toggle"
                 onClick={togglePasswordVisibility}
