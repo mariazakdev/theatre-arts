@@ -20,6 +20,8 @@ function LoginGeneral({ URL, API_KEY }) {
     e.preventDefault();
     setEmailError("");
     setPasswordError("");
+    setErrorMessage(""); // Reset any previous error messages
+
     // Validation
     if (!email) {
       setEmailError("Please enter your email address");
@@ -32,7 +34,7 @@ function LoginGeneral({ URL, API_KEY }) {
     }
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(email)) {
-      setErrorMessage("Please enter a valid email address");
+      setEmailError("Please enter a valid email address");
       return;
     }
 
