@@ -13,6 +13,7 @@ function LoginContestant({ URL, API_KEY }) {
   const [errorMessage, setErrorMessage] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [flashMessage, setFlashMessage] = useState("");
 
   const onLogin = async (e) => {
     e.preventDefault();
@@ -20,7 +21,8 @@ function LoginContestant({ URL, API_KEY }) {
     setEmailError("");
     setPasswordError("");
     if (!email || !password) {
-      setErrorMessage("Please enter email and password");
+      // setErrorMessage("Please enter email and password");
+      setFlashMessage("Please enter email and password");
       return;
     }
 
@@ -74,6 +76,7 @@ function LoginContestant({ URL, API_KEY }) {
         <div className="form-container">
           <h2>Contestant Log In</h2>
           {errorMessage && <p className="error-message">{errorMessage}</p>}
+          {flashMessage && <p className="flash-message">{flashMessage}</p>} 
           <form>
             <div className="input-group">
               <label htmlFor="email-address">Email address</label>
