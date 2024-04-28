@@ -21,19 +21,28 @@ const SignUpComponent = ( {URL, API_KEY}) => {
 
 const onSubmit = async (e) => {
   e.preventDefault();
-
-  // Validation checks
+  if (flashMessage) {
+    setFlashMessage(""); // Clear the previous flash message
+  }
   if (password !== confirmPassword) {
     setFlashMessage("Passwords do not match.");
     return;
   }
-  if (!email || !password || !confirmPassword) {
+  if (!email) {
     setFlashMessage("Please fill in all the required fields.");
     return;
   }
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!password ) {
+    setFlashMessage("Please fill in all the required fields.");
+    return;
+  }
+  if ( !confirmPassword) {
+    setFlashMessage("Please fill in all the required fields.");
+    return;
+  }
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   if (!emailPattern.test(email)) {
-    setErrorMessage("Please enter a valid email address");
+    setFlashMessage("Please enter a valid email address");
     return;
   }
 
@@ -68,17 +77,6 @@ const userCredential = await signup(email, password);
       { headers: { Authorization: `${API_KEY}` } }
       );
 
-      // // Firestore document creation
-      // const userDocRef = doc(db, "users", user.uid);
-      // await setDoc(userDocRef, {
-      //   hasCompletedAction: false,
-      //   hasPaid: false,
-      //   hasUploaded: false,
-      //   isContestant: false,
-      //   email: user.email,
-      // });
-
-   
       navigate(-1);
 
   } catch (error) {
