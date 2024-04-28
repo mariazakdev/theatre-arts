@@ -27,7 +27,7 @@ const SignUpContestant = ({URL, API_KEY} ) => {
       return;
     }
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern) {
+    if (!emailPattern.test(email)) {
       setFlashMessage("Please enter a valid email address");
       return;
     }
