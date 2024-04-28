@@ -34,7 +34,7 @@ const SignUpContestant = ({URL, API_KEY} ) => {
       setFlashMessage("Please fill in all the required fields.");
       return;
     }
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailPattern.test(email)) {
       setFlashMessage("Please enter a valid email address");
       return;
@@ -91,7 +91,7 @@ const SignUpContestant = ({URL, API_KEY} ) => {
 
           <h2>Contestant Sign Up</h2>
         
-          <form onSubmit={onSubmit}>
+          <form onSubmit={onSubmit} noValidate >
             {errorMessage && <p className="error-message">{errorMessage}</p>}
 
             <div className="input-group">
