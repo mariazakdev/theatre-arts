@@ -20,16 +20,6 @@ function LoginGeneral({ URL, API_KEY }) {
     e.preventDefault();
     setEmailError("");
     setPasswordError("");
-    // Validation
-    if (!email || !password) {
-      setErrorMessage("Please enter email and password");
-      return;
-    }
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) {
-      setErrorMessage("Please enter a valid email address");
-      return;
-    }
 
     try {
       const userCredential = await login(email, password);
@@ -49,6 +39,16 @@ function LoginGeneral({ URL, API_KEY }) {
 
   
         const data = response.data;
+    // Validation
+    if (!userCredential.email || !userCredential.password) {
+      setErrorMessage("Please enter email and password");
+      return;
+    }
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      setErrorMessage("Please enter a valid email address");
+      return;
+    }
 
         if (data.userId) {
           const userId = data.userId;
