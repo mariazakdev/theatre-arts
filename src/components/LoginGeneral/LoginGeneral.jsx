@@ -12,14 +12,12 @@ function LoginGeneral({ URL, API_KEY }) {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [flashMessage, setFlashMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+
 
   const onLogin = async (e) => {
     e.preventDefault();
    
-
+ 
     if (flashMessage) {
       setFlashMessage(""); // Clear the previous flash message
     }
@@ -68,10 +66,10 @@ function LoginGeneral({ URL, API_KEY }) {
           }
         } else {
           setFlashMessage("User not found");
-          console.log("User not found on the server side");
+          console.log("User not found");
         }
       } else {
-        setFlashMessage("No user credentials received");
+        setFlashMessage("You have entered an invalid email or password");
         console.log("No user credentials received");
       }
     } catch (error) {

@@ -18,19 +18,23 @@ function LoginContestant({ URL, API_KEY }) {
   const onLogin = async (e) => {
     e.preventDefault();
     // Validation
-    setEmailError("");
-    setPasswordError("");
-    if (!email || !password) {
-      // setErrorMessage("Please enter email and password");
-      setFlashMessage("Please enter email and password");
+
+    if (flashMessage) {
+      setFlashMessage(""); // Clear the previous flash message
+    }
+    // Validation
+    if (!email) {
+      setFlashMessage("Please enter your email address");
+      return;
+    }
+  
+    if (!password) {
+      setFlashMessage("Please enter your password");
       return;
     }
 
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailPattern.test(email)) {
-      setErrorMessage("Please enter a valid email address");
-      return;
-    }
+      
+
 
     try {
       const userCredential = await login(email, password);
@@ -53,15 +57,21 @@ function LoginContestant({ URL, API_KEY }) {
           // Navigate to the desired path
           navigate("/contestant/enter");
         } else {
-          console.log("User not found on the server side");
+          setFlashMessage("User not found");
+
+          console.log("User not found ");
         }
       } else {
-        console.log("No user credentials received");
+        setFlashMessage("You have entered an invalid email or password");
+
+        console.log(" ");
       }
     } catch (error) {
       console.error("Error logging in:", error);
       const errorCode = error.code;
       const errorMessage = error.message;
+      setErrorMessage(errorMessage);
+      setFlashMessage("Error logging in");
       console.log(errorCode, errorMessage);
     }
   };
@@ -75,16 +85,16 @@ function LoginContestant({ URL, API_KEY }) {
       <section>
         <div className="form-container">
           <h2>Contestant Log In</h2>
-          {errorMessage && <p className="error-message">{errorMessage}</p>}
           {flashMessage && <p className="flash-message">{flashMessage}</p>} 
-          <form>
+          <form onSubmit={onLogin} noValidate >
+
             <div className="input-group">
               <label htmlFor="email-address">Email address</label>
               <input
                 id="email-address"
                 name="email"
                 type="email"
-                required
+                
                 placeholder="Email address"
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -97,7 +107,7 @@ function LoginContestant({ URL, API_KEY }) {
                 id="password"
                 name="password"
                 type={showPassword ? "text" : "password"}
-                required
+                
                 placeholder="Password"
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -112,7 +122,7 @@ function LoginContestant({ URL, API_KEY }) {
               </span>
             </div>
             <div>
-              <button onClick={onLogin}>Login</button>
+              <button >Login</button>
             </div>
             <p className="login-redirect">
               <NavLink to="/forgot-password">Forgot Password?</NavLink>
