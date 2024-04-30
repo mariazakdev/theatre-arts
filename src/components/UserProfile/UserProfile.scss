@@ -5,21 +5,22 @@
   @include flex(center, center, column);
   width: 100%;
   border-radius: 8px;
-  overflow: hidden;
+  // overflow: hidden;
   background-color: $secondaryBackground;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  height: 42rem;// height matches VotingComponent "button-wrap__free-button"
+  height: 42rem; // height matches VotingComponent "button-wrap__free-button"
   margin-bottom: 1rem;
   padding-top: 1rem;
-&__top-three-announce{
-   h3{
-    margin-top: 1rem;
-    font-size: 1rem;
-  font-weight: 500;
- 
+  &__top-three-announce {
+    h3 {
+      margin-top: 1rem;
+      font-size: 1rem;
+      font-weight: 500;
+    }
   }
-}
-
+  @include mobile {
+   padding: 2rem;
+  }
 }
 .user-profile__title {
   font-size: 26px;
@@ -29,24 +30,22 @@
 }
 
 .video-container {
-  width: 100% ;
+  width: 100%;
   overflow: hidden;
-  border-radius: 8px 8px 0 0;  
-
+  border-radius: 8px 8px 0 0;
 }
 
 .video-frame {
-  // width: 100%; 
+  // width: 100%;
   // max-width: 60rem;
   // height: 40vh;
   margin-bottom: -5px;
   border: none;
-  margin-top: .25rem;
-  
-@include mobile {
-  height: 20vh;
- 
-}
+  margin-top: 0.25rem;
+
+  @include mobile {
+    height: 20vh;
+  }
 }
 
 .user-info {
@@ -55,19 +54,18 @@
   width: 100%;
   border-radius: 0 0 8px 8px;
   overflow: hidden;
-  padding: 1rem;  
-  height: 200px;
-@include mobile {
-  height: auto;
-  @include flex(center, center, column);
   padding: 1rem;
-
-}
+  height: 200px;
+  @include mobile {
+    height: auto;
+    @include flex(center, center, column);
+    padding: 1rem;
+  }
 }
 .user-details {
   padding-right: 1rem;
   margin-left: 1rem;
-  width: 50%;  
+  width: 50%;
   // width: 300px;
   max-width: 400px;
 
@@ -83,7 +81,7 @@
   width: 100px;
   height: auto;
   object-fit: cover;
- 
+
   @include mobile {
     width: 50px;
     height: 80px;
@@ -118,13 +116,13 @@
 .custom-controls {
   @include flex(center, center, row);
   bottom: 10px;
-  background-color:$primaryBackground;
+  background-color: $primaryBackground;
   padding: 10px;
   border-radius: 5px;
 
   img {
-    width: 20px; 
-    height: 20px; 
+    width: 20px;
+    height: 20px;
     margin-right: 10px;
     cursor: pointer;
     transition: filter 0.3s ease;

@@ -41,6 +41,7 @@
     z-index: 1; 
 @include mobile {
   padding: 0;
+  padding-bottom: 1rem;
   padding-top: 1rem;
   width: 100%;
   @include flex(center, center, column);
