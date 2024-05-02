@@ -11,28 +11,46 @@
   height: 42rem; // height matches VotingComponent "button-wrap__free-button"
   margin-bottom: 1rem;
   padding-top: 1rem;
+  @include flex(center, center, column);
   &__top-three-announce {
     h3 {
       margin-top: 1rem;
       font-size: 1rem;
       font-weight: 500;
+      @include mobile {
+        font-size: 0.8rem;
+        padding: 1rem;
+      }
     }
   }
   @include mobile {
-   padding: 2rem;
+   
+   height: 34rem;
   }
 }
-.user-profile__title {
-  font-size: 26px;
-  color: #2c3e50;
-  margin-bottom: 15px;
-  font-weight: 500;
-}
+// .user-profile__title {
+//   font-size: 1.625rem;
+//   color: #2c3e50;
+//   margin-bottom: 15px;
+//   font-weight: 500;
+//   @include mobile {
+//     font-size: 1.3rem;
+//     padding: 1rem;
+//   }
+// }
 
 .video-container {
   width: 100%;
   overflow: hidden;
   border-radius: 8px 8px 0 0;
+ 
+  iframe{
+    width: 100%;
+    @include mobile{
+      width: 100%;
+      height: auto ;
+    }
+  }
 }
 
 .video-frame {
@@ -70,10 +88,15 @@
   max-width: 400px;
 
   @include mobile {
+
+    width: 80%;
     padding-right: 0;
     padding-top: 0;
     margin-top: 0;
     @include flex(center, center, column);
+    h2{
+      font-size: 1.3rem;
+    }
   }
 }
 
