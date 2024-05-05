@@ -56,6 +56,7 @@ function VideoEmbed({ videoUrl }) {
           }}
           onStateChange={handleVideoStateChange}
           ref={playerRef}
+          style={{ width: '1px', minWidth: '100%'}}
         />
       )}
         {videoUrl && videoUrl.includes('vimeo') && (
@@ -70,6 +71,7 @@ function VideoEmbed({ videoUrl }) {
             }
           }}
           ref={playerRef}
+         
         />
       )}
           {videoUrl && videoUrl.includes('tiktok') && (

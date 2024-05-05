@@ -90,8 +90,9 @@ export default function SingleVote({
 
   return (
     <div className="button-wrap__free">
-      {flashMessage && <p className="flash-message">{flashMessage}</p>}
       <div className="button-wrap__free-button">
+      {flashMessage && <p className="flash-message">{flashMessage}</p>}
+
         <h2>Your Vote</h2>
         <p>
           {voted ? "The contestant thanks you" : "Click the button to vote"}

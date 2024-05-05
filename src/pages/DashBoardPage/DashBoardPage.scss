@@ -11,6 +11,7 @@
   width: 100%;
   padding-bottom: 3rem;
 iframe{
+
   @include mobile{
     width: 100%;
     height: auto ;
@@ -19,6 +20,7 @@ iframe{
   &__content {
     color: white;
     width: 80%;
+
   }
 
   &__title {
@@ -49,8 +51,8 @@ iframe{
   }
 
   &__user-data {
-    @include flex(center, space-between, row);
-
+    @include flex( flex-start, center, row);
+width:100% ;
     @media (max-width: 767px) {
       @include flex(center, center, column);
     }
@@ -58,7 +60,7 @@ iframe{
 
   &__user-details {
     @include flex(center, center, column);
-    max-width: 60%;
+    max-width: 30%;
 
     @media (max-width: 767px) {
       max-width: 100%;

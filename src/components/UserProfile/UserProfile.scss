@@ -24,9 +24,9 @@
     }
   }
   @include mobile {
-   
    height: 34rem;
   }
+
 }
 // .user-profile__title {
 //   font-size: 1.625rem;
@@ -40,31 +40,34 @@
 // }
 
 .video-container {
-  width: 100%;
+  width: 600px;
   overflow: hidden;
   border-radius: 8px 8px 0 0;
- 
+
   iframe{
+    position: relative;
     width: 100%;
     @include mobile{
       width: 100%;
       height: auto ;
+      max-width: 470px;
+
     }
   }
 }
 
-.video-frame {
-  // width: 100%;
-  // max-width: 60rem;
-  // height: 40vh;
-  margin-bottom: -5px;
-  border: none;
-  margin-top: 0.25rem;
+// .video-frame {
+//   // width: 100%;
+//   // max-width: 60rem;
+//   // height: 40vh;
+//   margin-bottom: -5px;
+//   border: none;
+//   margin-top: 0.25rem;
 
-  @include mobile {
-    height: 20vh;
-  }
-}
+//   @include mobile {
+//     // height: 20vh;
+//   }
+// }
 
 .user-info {
   @include flex(center, space-between, row);
