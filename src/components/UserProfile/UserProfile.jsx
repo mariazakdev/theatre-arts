@@ -5,14 +5,13 @@ import useTopThree from "../../hooks/useTopThree";
 import VideoPlayer from "../VideoEmbed/VideoEmbed";
 import "./UserProfile.scss";
 
-
-function UserProfile({ URL, API_KEY}) {
+function UserProfile({ URL, API_KEY }) {
   const { actorId } = useParams();
   const [localActorData, setLocalActorData] = useState(null);
   const [announce, setAnnounce] = useState(null);
   const playerRef = useRef(null);
-  const { groupedContestants, topThreeMessages } = useTopThree(); 
-  
+  const { groupedContestants, topThreeMessages } = useTopThree();
+
   // Fetch contestant data
   useEffect(() => {
     if (!actorId) {
@@ -22,9 +21,9 @@ function UserProfile({ URL, API_KEY}) {
 
     const fetchActorData = async () => {
       try {
-        const response = await axios.get(`${URL}/contestants/${actorId}`,
-          { headers: { Authorization: `${API_KEY}` } }
-          );
+        const response = await axios.get(`${URL}/contestants/${actorId}`, {
+          headers: { Authorization: `${API_KEY}` },
+        });
         setLocalActorData(response.data);
       } catch (error) {
         console.error("Error fetching actor data:", error);
@@ -47,7 +46,6 @@ function UserProfile({ URL, API_KEY}) {
     }
   }, [groupedContestants, actorId]);
 
-
   if (!localActorData) {
     return <div>Loading...</div>;
   }
@@ -59,41 +57,42 @@ function UserProfile({ URL, API_KEY}) {
 
   return (
     <section className="user-profile">
+            {/* Announcement of rank */}
       {topThreeMessages && (
-        <div className="top-three-messages">
+        <div className="user-profile__top-three-messages">
           {topThreeMessages.map((message) => (
             <div key={message.id}>{message.text}</div>
           ))}
         </div>
       )}
+      {/* Announcement of rank */}
       {announce && (
         <Link to={`/actors/vote/${actorId}`} className="link-style">
-
-        <div className="user-profile__top-three-announce">
-          <h3>{announce}</h3>
-        </div>
+          <div className="user-profile__top-three-announce">
+            <h3>{announce}</h3>
+          </div>
         </Link>
       )}
       {actor && (
-        <div className="user-profile__wrapper">
+        <div className="user-profile__contestant-wrapper">
           <div className="video-container">
-          <VideoPlayer videoUrl={videoSrc} /> 
+            <VideoPlayer videoUrl={videoSrc} />
           </div>
           <Link to={`/actors/vote/${actorId}`} className="link-style">
- <div className="user-info">
-            <div className="user-details">
-              <h2>{actor.name}</h2>
-              <p className="user-description">{actor.description}</p>
-              <p className="user-votes">Votes: {actor.votes}</p>
+            <div className="user-info">
+              <div className="user-details">
+                <h2>{actor.name}</h2>
+                <p className="user-description">{actor.description}</p>
+                <p className="user-votes">Votes: {actor.votes}</p>
+              </div>
+              <div className="user-image-container">
+                <img
+                  src={actor.url_photo}
+                  alt={actor.name}
+                  className="user-headshot"
+                />
+              </div>
             </div>
-            <div className="user-image-container">
-              <img
-                src={actor.url_photo}
-                alt={actor.name}
-                className="user-headshot"
-              />
-            </div>
-          </div>
           </Link>
         </div>
       )}

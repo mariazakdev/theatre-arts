@@ -10,7 +10,6 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   height: 42rem; // height matches VotingComponent "button-wrap__free-button"
   margin-bottom: 1rem;
-  padding-top: 1rem;
   @include flex(center, center, column);
   &__top-three-announce {
     h3 {
@@ -24,50 +23,44 @@
     }
   }
   @include mobile {
-   height: 34rem;
+   height: 40rem;
   }
 
+  &__contestant-wrapper{
+    width: 100%;
+    height: auto;
+    @include flex(center, center, column);
+    @include mobile {
+      width: 100%;
+
+    }
+  
+  }
 }
-// .user-profile__title {
-//   font-size: 1.625rem;
-//   color: #2c3e50;
-//   margin-bottom: 15px;
-//   font-weight: 500;
-//   @include mobile {
-//     font-size: 1.3rem;
-//     padding: 1rem;
-//   }
-// }
 
 .video-container {
   width: 600px;
   overflow: hidden;
   border-radius: 8px 8px 0 0;
+  @include mobile{
+    width: 100%;
+    height: auto ;
+    // max-width: 470px;
 
+  }
   iframe{
     position: relative;
+    border-radius: 8px;
+
     width: 100%;
     @include mobile{
       width: 100%;
-      height: auto ;
+      height:200px ;
       max-width: 470px;
 
     }
   }
 }
-
-// .video-frame {
-//   // width: 100%;
-//   // max-width: 60rem;
-//   // height: 40vh;
-//   margin-bottom: -5px;
-//   border: none;
-//   margin-top: 0.25rem;
-
-//   @include mobile {
-//     // height: 20vh;
-//   }
-// }
 
 .user-info {
   @include flex(center, space-between, row);
@@ -77,6 +70,9 @@
   overflow: hidden;
   padding: 1rem;
   height: 200px;
+  @include tablet{
+    @include flex(center, center, column);
+    height: auto;}
   @include mobile {
     height: auto;
     @include flex(center, center, column);
@@ -91,7 +87,6 @@
   max-width: 400px;
 
   @include mobile {
-
     width: 80%;
     padding-right: 0;
     padding-top: 0;

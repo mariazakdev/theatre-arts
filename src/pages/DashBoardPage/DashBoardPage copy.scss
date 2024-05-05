@@ -16,6 +16,17 @@
     @include mobile{
        @include flex(center, center, column);
     }
+   
+
+    iframe {
+    
+      @include mobile {
+        width: 250ps;
+        height: 100px;
+        max-width: 470px;
+      }
+    }
+  }
 
   &__title {
     font-size: 26px;
@@ -23,47 +34,6 @@
     margin-bottom: 15px;
     font-weight: 500;
   }
-  &__user-data {
-
-    @include flex(flex-start, space-between, row);
-    width: 100%;
-    @include tablet{
-      @include flex(center, center, column);
-    }
-    @include mobile{
-      @include flex(center, center, column);
-    }
-    &__details{
-      width: 40%;
-      @include flex(center, center, row);
-
-      @include mobile{
-        width: 100%;
-      }
-    }
-    &__vid {
-      width: 60%;
-      height: auto;
-      @include flex(center, center, row);
-
-      @include mobile{
-        width: 100%;
-        margin-bottom: 1rem;
-      }
-    }
-    iframe{
-      position: relative;
-      width: 100%;
-      height: 400px;
-      @include mobile{
-        width: 100%;
-        height: 200px ;
-        max-width: 470px;
-      }
-    }
-  }
-  }
-
 
   &__email-label {
     font-weight: bold;
@@ -85,7 +55,13 @@
     }
   }
 
-
+  &__user-data {
+    @include flex(flex-start, center, row);
+    width: 100%;
+    @media (max-width: 767px) {
+      @include flex(center, center, column);
+    }
+  }
 
   &__user-details {
     @include flex(center, center, column);

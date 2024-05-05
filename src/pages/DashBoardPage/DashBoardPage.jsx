@@ -122,13 +122,13 @@ if (user.uploadStatus === 1 && user.hasPaid === 1) {
     <div className="dashboard">
       <div className="dashboard__content">
 
-        <h2 className="dashboard__title">Dashboard</h2>
+        <h2 className="dashboard__content__title">Dashboard</h2>
         {/* Contestant Data */}
-        <div className="dashboard__user-data">
+        <div className="dashboard__content__user-data">
         
-        <div className="dashboard__user-data-details">
+        <div className="dashboard__content__user-data__details">
           {contestants && (
-            <div key={contestants.id} className="dashboard__user-details">
+            <div key={contestants.id} className="user-data-details__user-details">
               <h3 className="dashboard__user-name">{contestants.name}</h3>
               <p className="dashboard__user-description">
                 {contestants.description}
@@ -144,8 +144,8 @@ if (user.uploadStatus === 1 && user.hasPaid === 1) {
               
             </div>
           )}
-</div>
-<div className="dashboard__user-data-vid">
+        </div>
+        <div className="dashboard__content__user-data__vid">
           
           {contestants && contestants.url_video && (
             <VideoPlayer
@@ -154,8 +154,27 @@ if (user.uploadStatus === 1 && user.hasPaid === 1) {
           )}
 
 
-</div>
         </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         <button onClick={handleLogout} className="dashboard__logout-button">
           Log Out
