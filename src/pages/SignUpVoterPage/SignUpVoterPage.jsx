@@ -1,10 +1,12 @@
 import SignUpGeneralComponent from "../../components/SignUpGeneralComponent/SignUpGeneralComponent";
-import '../../styles/forms.scss';
+import './SignUpVoterPage.scss';
 
 const SignUpVoterPage = ({ URL, API_KEY} ) => {
-return(<>
+return(
+    <div className="form-background">
+
 <SignUpGeneralComponent URL={URL} API_KEY={API_KEY} />
-</>
+</div>
   
 )
 

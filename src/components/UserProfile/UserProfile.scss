@@ -22,6 +22,10 @@
       }
     }
   }
+  @include tablet {
+    height: 50rem;
+   }
+ 
   @include mobile {
    height: 40rem;
   }
@@ -51,8 +55,11 @@
   iframe{
     position: relative;
     border-radius: 8px;
-
     width: 100%;
+@include tablet{
+  width: 100%;
+
+}
     @include mobile{
       width: 100%;
       height:200px ;

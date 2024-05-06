@@ -112,8 +112,9 @@ function EditDashboard({
 
   return (
     <section className="edit">
+              <h2 className="edit-dashboard__title">Edit Dashboard</h2>
+
       <div className="edit-dashboard">
-        <h2 className="edit-dashboard__title">Edit Dashboard</h2>
         {updateSuccess && (
           <p className="edit-dashboard__success-flash">
             Update successful! {/* You can customize this message */}

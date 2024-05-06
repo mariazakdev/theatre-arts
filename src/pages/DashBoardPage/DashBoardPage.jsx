@@ -120,6 +120,7 @@ if (user.uploadStatus === 1 && user.hasPaid === 1) {
 
   return (
     <div className="dashboard">
+      
       <div className="dashboard__content">
 
         <h2 className="dashboard__content__title">Dashboard</h2>

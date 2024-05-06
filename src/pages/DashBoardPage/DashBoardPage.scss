@@ -28,10 +28,10 @@
     @include flex(flex-start, space-between, row);
     width: 100%;
     @include tablet{
-      @include flex(center, center, column);
+      @include flex(center, center, column-reverse);
     }
     @include mobile{
-      @include flex(center, center, column);
+      @include flex(center, center, column-reverse);
     }
     &__details{
       width: 40%;
@@ -45,7 +45,10 @@
       width: 60%;
       height: auto;
       @include flex(center, center, row);
-
+      @include tablet{
+        width: 100%;
+        margin-bottom: 1rem;
+      }
       @include mobile{
         width: 100%;
         margin-bottom: 1rem;

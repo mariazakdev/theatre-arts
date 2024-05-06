@@ -5,7 +5,7 @@ import ForgotPasswordComponent from '../../components/ForgotPasswordComponent/Fo
 export default function ForgotPasswordPage({URL, CLIENT_URL}) {
 
   return (
-    <div >
+    <div className="form-background">
 <ForgotPasswordComponent/>
     </div>
   );

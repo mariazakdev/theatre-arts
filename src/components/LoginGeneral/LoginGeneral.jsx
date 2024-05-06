@@ -120,7 +120,7 @@ function LoginGeneral({ URL, API_KEY }) {
               <button>Login</button>
             </div>
             <p className="login-redirect">
-              <NavLink to="/forgot-password">Forgot Password?</NavLink>
+              <NavLink to="/contestant/forgot-password">Forgot Password?</NavLink>
             </p>
           </form>
 
