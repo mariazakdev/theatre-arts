@@ -7,5 +7,10 @@
     background-color: $primaryBackground;
     height: 80vh;
     padding-bottom: 2rem;
-
+    @include tablet{
+        height: 70vh;
+    }
+    @include mobile{
+        height: 70vh;
+    }
 }
