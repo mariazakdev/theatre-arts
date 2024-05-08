@@ -10,7 +10,9 @@
   background-color: $secondaryBackground;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   height: 42rem; // height matches VotingComponent "button-wrap__free-button"
-  
+  @include tablet {
+    height: 34rem;
+  }
   margin-bottom: 1rem;
   &__top-three-announce {
     h3 {
@@ -25,7 +27,7 @@
   }
 
   @include tablet {
-    height: 50rem;
+    height: auto;
   }
 
   @include mobile {
@@ -42,9 +44,8 @@
   }
 }
 
-.video-container {
+.vote-video-container {
   @include flex(center, center, row);
-  // border: 3px solid blue;
   width: 80%;
   max-width: 500px;
   height: 50vh;
@@ -58,8 +59,9 @@
     height: auto;
   }
   @include tablet {
+    margin-top: 1rem;
     width: 100%;
-    max-width: 350px;
+    max-width: 550px;
     height: auto;
   }
   @include mobile {
@@ -73,12 +75,12 @@
     width: 100%;
     @include desktop-sm {
       width: 100%;
-      height: 400px;
+      height: 300px;
     }
     @include tablet {
       width: auto;
      min-width: 400px;
-      // max-width: 650px;
+      max-width: 650px;
        height: auto;
        min-height: 250px;
        margin: 0 auto; 
@@ -91,7 +93,7 @@
   }
 }
 
-.user-info {
+.vote-user-info {
   @include flex(center, center, row);
   // border: 3px solid blue;
   flex-wrap: wrap;
@@ -100,6 +102,10 @@
   overflow: hidden;
   padding: 1rem;
   height: 200px;
+  @include desktop-sm {
+    width: 100%;
+    max-width: 400px;
+  }
   @include tablet {
     @include flex(center, center, column);
     width: 500px;
@@ -114,7 +120,7 @@
     padding: 1rem;
   }
 }
-.user-details {
+.vote-user-details {
   // padding-right: 1rem;
   // margin-left: 1rem;
   width: 50%;
@@ -123,7 +129,7 @@
   h2 {
     padding: 0%;
   }
-
+ 
   @include mobile {
     width: 80%;
     padding-right: 0;
@@ -136,7 +142,7 @@
   }
 }
 
-.user-headshot {
+.vote-user-headshot {
   width: 100px;
   height: auto;
   object-fit: cover;
@@ -149,11 +155,11 @@
   }
 }
 
-.user-description {
+.vote-user-description {
   width: 100%;
   color: black;
-
   margin-right: 1rem;
+
   @include mobile {
     margin: 0;
     padding: 0;

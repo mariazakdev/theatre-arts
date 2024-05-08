@@ -60,7 +60,7 @@ function VoteProfile({ URL, API_KEY }) {
     <section className="vote-profile">
             {/* Announcement of rank */}
       {topThreeMessages && (
-        <div className="user-profile__top-three-messages">
+        <div className="vote-profile__top-three-messages">
           {topThreeMessages.map((message) => (
             <div key={message.id}>{message.text}</div>
           ))}
@@ -69,28 +69,28 @@ function VoteProfile({ URL, API_KEY }) {
       {/* Announcement of rank */}
       {announce && (
         <Link to={`/actors/vote/${actorId}`} className="link-style">
-          <div className="user-profile__top-three-announce">
+          <div className="vote-profile__top-three-announce">
             <h3>{announce}</h3>
           </div>
         </Link>
       )}
       {actor && (
         <div className="user-profile__contestant-wrapper">
-          <div className=" video-container">
+          <div className=" vote-video-container">
             <VideoPlayer videoUrl={videoSrc} />
           </div>
           <Link to={`/actors/vote/${actorId}`} className="link-style">
-            <div className="user-info">
-              <div className="user-details">
+            <div className="vote-user-info">
+              <div className="vote-user-details">
                 <h2>{actor.name}</h2>
-                <p className="user-description">{actor.description}</p>
-                <p className="user-votes">Votes: {actor.votes}</p>
+                <p className="vote-user-description">{actor.description}</p>
+                <p className="vote-user-votes">Votes: {actor.votes}</p>
               </div>
-              <div className="user-image-container">
+              <div className="vote-user-image-container">
                 <img
                   src={actor.url_photo}
                   alt={actor.name}
-                  className="user-headshot"
+                  className="vote-user-headshot"
                 />
               </div>
             </div>
