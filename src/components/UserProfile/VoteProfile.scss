@@ -1,16 +1,16 @@
 @use "../../styles/mixins" as *;
 @use "../../styles/colors" as *;
 
-.user-profile {
+.vote-profile {
   @include flex(center, center, column);
-  // border: 3px solid blue;
+  // border: 3px solid ;
   width: 100%;
   border-radius: 8px;
   // overflow: hidden;
   background-color: $secondaryBackground;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  height: auto;
-
+  height: 42rem; // height matches VotingComponent "button-wrap__free-button"
+  
   margin-bottom: 1rem;
   &__top-three-announce {
     h3 {
@@ -44,25 +44,28 @@
 
 .video-container {
   @include flex(center, center, row);
+  // border: 3px solid blue;
   width: 80%;
-  max-width: 700px;
+  max-width: 500px;
   height: 50vh;
   height: auto;
   overflow: hidden;
   border-radius: 8px 8px 0 0;
   @include desktop-sm {
     width: 100%;
+    max-width: 400px;
+
     height: auto;
   }
   @include tablet {
     width: 100%;
-    max-width: 400px;
+    max-width: 350px;
     height: auto;
   }
   @include mobile {
     width: 100%;
     height: auto;
-    max-width: 470px;
+   
   }
   iframe {
     // position: relative;
@@ -82,7 +85,7 @@
     }
     @include mobile {
       width: 100%;
-      height: 200px;
+      height: 250px;
       max-width: 470px;
     }
   }

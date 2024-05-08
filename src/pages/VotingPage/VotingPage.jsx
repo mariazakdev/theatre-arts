@@ -4,7 +4,7 @@ import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext"; 
 import VotingButtons from "../../components/VotingComponent/VotingButtons";
 import SingleVote from "../../components/VotingComponent/SingleVote";
-import UserProfile from "../../components/UserProfile/UserProfile";
+import VoteProfile from "../../components/UserProfile/VoteProfile";
 import "./VotingPage.scss";
 
 export default function VotingPage({ URL, CLIENT_URL, API_KEY }) {
@@ -63,7 +63,7 @@ export default function VotingPage({ URL, CLIENT_URL, API_KEY }) {
         )}
         <div className="vote-top">
           <div className="vote-top-left">
-            <UserProfile actorId={actorId} URL={URL} API_KEY={API_KEY} />
+            <VoteProfile actorId={actorId} URL={URL} API_KEY={API_KEY} />
           </div>
           <div className="vote-top-right">
             {actorData && actorData.active ? (

@@ -9,6 +9,12 @@
   background-color: $primaryBackground;
   margin: 0;
   @include flex(center, flex-start, row);
+@include desktop-sm {
+  @include flex(center, center, column);
+}
+  @include tablet {
+    @include flex(center, center, column);
+  }
   @include mobile {
     @include flex(center, center, column);
   }
@@ -20,9 +26,15 @@
     height: auto;
     background-color: $secondaryBackground;
     padding: 1rem 5rem 4rem 5rem;
+    @include desktop-sm {
+      width: 80%;
+      
+    }
     @include tablet {
       @include flex(flex-start, flex-start, column);
+      width: 100%;
     }
+
     @include mobile {
       @include flex(center, flex-start, column);
 
@@ -42,6 +54,7 @@
     padding-right: 2.5rem;
     position: relative;
     z-index: 1;
+
     @include tablet {
       width: 50%;
     }
@@ -68,11 +81,21 @@
         margin: 0;
         position: static;
       }
+@include desktop-sm {
+  margin-top: 10px;
+  left: 0px;
 
+      }
       @include tablet {
-        width: 20rem;
-        height: 20rem;
+       
         top: 0%;
+        left: 0;
+
+      }
+       @include mobile {
+  
+        top: 0%;
+        left: 0;
 
       }
     }

@@ -17,6 +17,11 @@
     @content;
   }
 }
+@mixin desktop-sm {
+  @media (max-width: $breakpoint-desktop-minus1) {
+    @content;
+  }
+}
 
 @mixin flex($justify, $align, $direction) {
   display: flex;

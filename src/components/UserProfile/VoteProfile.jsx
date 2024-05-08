@@ -3,9 +3,10 @@ import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 import useTopThree from "../../hooks/useTopThree";
 import VideoPlayer from "../VideoEmbed/VideoEmbed";
-import "./UserProfile.scss";
+import "./VoteProfile.scss";
 
-function UserProfile({ URL, API_KEY }) {
+
+function VoteProfile({ URL, API_KEY }) {
   const { actorId } = useParams();
   const [localActorData, setLocalActorData] = useState(null);
   const [announce, setAnnounce] = useState(null);
@@ -56,7 +57,7 @@ function UserProfile({ URL, API_KEY }) {
     : "";
 
   return (
-    <section className="user-profile">
+    <section className="vote-profile">
             {/* Announcement of rank */}
       {topThreeMessages && (
         <div className="user-profile__top-three-messages">
@@ -100,4 +101,4 @@ function UserProfile({ URL, API_KEY }) {
   );
 }
 
-export default UserProfile;
+export default VoteProfile;
