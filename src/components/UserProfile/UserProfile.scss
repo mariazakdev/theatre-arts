@@ -93,7 +93,6 @@
 
 .user-info {
   @include flex(center, center, row);
-  // border: 3px solid blue;
   flex-wrap: wrap;
   width: 700px;
   border-radius: 0 0 8px 8px;
@@ -154,6 +153,10 @@
   color: black;
 
   margin-right: 1rem;
+  @include tablet {
+    margin: 0;
+    padding: 0;
+  }
   @include mobile {
     margin: 0;
     padding: 0;

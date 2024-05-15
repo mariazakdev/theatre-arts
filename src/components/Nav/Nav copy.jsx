@@ -55,6 +55,7 @@ function Nav({ isMobileMenuOpen, onClose, URL, API_KEY}) {
             onClick={onClose}
           />
         </li>
+
         {currentUser ? (
           userData?.is_contestant ? (
             <>
