@@ -32,8 +32,8 @@ function PaymentButton({
       const result = await stripe.redirectToCheckout({
         lineItems: [{ price: priceId, quantity: 1 }],
         mode: "payment",
-        successUrl: `${CLIENT_URL}/payment-success?actorId=${actorId}&votes=${amount}`,
-        cancelUrl: `${CLIENT_URL}/cancel`,
+        successUrl: `${CLIENT_URL}/actor/${actorId}`,
+        cancelUrl: `${CLIENT_URL}/actor/vote/${actorId}`,
       });
 
       if (result.error) {
@@ -90,11 +90,11 @@ function PaymentButton({
       };
    await processStripePayment();
       console.log("Data going to /votes:", votesData);
-      // const votesResponse = await axios.post(`${URL}/votes-extra`, votesData,
-      //   { headers: 
-      //     { Authorization: `${API_KEY}` } 
-      // }
-      //   );
+       const votesResponse = await axios.post(`${URL}/votes-extra`, votesData,
+        { headers: 
+          { Authorization: `${API_KEY}` } 
+       }
+         );
   
       console.log("Before payment request", amount);
      

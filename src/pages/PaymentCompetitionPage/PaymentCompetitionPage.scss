@@ -1,77 +1,16 @@
-// @import "../../styles/mixins";
-// @import "../../styles/variables";
+.form-background{
+    padding-top: 2rem;
+    background-color: $primaryBackground;
+    height: auto;
+    min-height: 80vh;
+    padding-bottom: 2rem;
+    @include tablet{
+        height: auto;
+        min-height: 70vh;
+    }
+    @include mobile{
 
-// .video-upload-container {
-//     padding: 3 * $spacing-unit;
-//     max-width: 600px;
-//     margin: 50px auto;
-//     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-//     border-radius: 8px;
-//     background-color: #ffffff;
-
-//     h1 {
-//         text-align: center;
-//         margin-bottom: 4 * $spacing-unit;
-//         color: $primary-color;
-//         font-weight: bold;
-//     }
-  
-//     form {
-//         div {
-//             margin-bottom: 3 * $spacing-unit;
-//         }
-
-//         label {
-//             display: block;
-//             font-weight: $font-weight-normal;
-//             margin-bottom: $spacing-unit;
-//             font-size: 1.1em;
-//             color: #555;
-//         }
-
-//         input[type="text"],
-//         textarea {
-//             width: 100%;
-//             padding: $spacing-unit;
-//             font-size: $font-size-normal;
-//             border: 1px solid $border-color;
-//             border-radius: 5px;
-//             outline: none;
-//             transition: border-color 0.2s, box-shadow 0.2s;
-
-//             &:focus {
-//                 border-color: $primary-color;
-//                 box-shadow: 0 0 8px rgba($primary-color, 0.2);
-//             }
-//         }
-
-//         textarea {
-//             resize: vertical; 
-//             min-height: 100px;
-//         }
-
-//         button {
-//             display: block;
-//             width: 100%;
-//             padding: $spacing-unit;
-//             font-size: $font-size-normal;
-//             background-color: $primary-color;
-//             color: #fff;
-//             border: none;
-//             border-radius: 5px;
-//             cursor: pointer;
-//             transition: background-color 0.3s;
-  
-//             &:hover {
-//                 background-color: $primary-hover;
-//             }
-//         }
-
-//         @include mobile {
-//             button {
-//                 width: auto;
-//                 display: inline-block;
-//             }
-//         }
-//     }
-// }
+        height: auto;
+    min-height: 70vh;
+    }
+}

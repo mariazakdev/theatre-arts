@@ -5,7 +5,8 @@
 .form-background{
     padding-top: 2rem;
     background-color: $primaryBackground;
-    height: 80vh;
+    height: auto;
+    min-height: 80vh;
     padding-bottom: 2rem;
     @include tablet{
         height: 70vh;

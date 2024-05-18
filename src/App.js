@@ -17,6 +17,7 @@ import StripeWrapper from "./components/StripeWrapper/StripeWrapper";
 import DashBoardPage from "./pages/DashBoardPage/DashBoardPage";
 import ContestantDetailPage from "./pages/ContestantDetailPage/ContestantDetailPage";
 import PaymentCompetitionPage from "./pages/PaymentCompetitionPage/PaymentCompetitionPage";
+import VotePaymentSuccessPage from "./pages/VotePaymentSuccess/VotePaymentSuccessPage";
 import PaymentSuccess from "./components/PaymentSuccess/PaymentSuccess";
 import LoginVoterPage from "./pages/LoginVoterPage/LoginVoterPage";
 import SignUpVoterPage from "./pages/SignUpVoterPage/SignUpVoterPage";
@@ -25,6 +26,7 @@ import AdminPage from "./pages/AdminPage/AdminPage";
 import SunKingPage from "./pages/SunKingPage/SunKingPage";
 import useAdminRouteAuthorization from "./hooks/useAdminRouteAuthorization";
 import "./App.scss";
+import VotePaymentSuccessPage from "./pages/VotePaymentSuccess/VotePaymentSuccessPage";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
 const CLIENT_URL = process.env.REACT_APP_URL;
@@ -116,7 +118,8 @@ function App() {
 
               
 
-            <Route exact path="/payment-success" element={<PaymentSuccess URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY} />} />
+            <Route exact path="/vote-payment" element={<VotePaymentSuccessPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY} />} />
+
             <Route exact path="/sun-king" element={<SunKingPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY} />} />
 
             {/* Catch-all */}
