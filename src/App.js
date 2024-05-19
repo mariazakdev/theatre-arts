@@ -26,7 +26,6 @@ import AdminPage from "./pages/AdminPage/AdminPage";
 import SunKingPage from "./pages/SunKingPage/SunKingPage";
 import useAdminRouteAuthorization from "./hooks/useAdminRouteAuthorization";
 import "./App.scss";
-import VotePaymentSuccessPage from "./pages/VotePaymentSuccess/VotePaymentSuccessPage";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
 const CLIENT_URL = process.env.REACT_APP_URL;
