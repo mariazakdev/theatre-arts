@@ -32,8 +32,8 @@ function PaymentButton({
       const result = await stripe.redirectToCheckout({
         lineItems: [{ price: priceId, quantity: 1 }],
         mode: "payment",
-        successUrl: `${CLIENT_URL}/actor/${actorId}`,
-        cancelUrl: `${CLIENT_URL}/actor/vote/${actorId}`,
+        successUrl: `${CLIENT_URL}/actors/${actorId}`,
+        cancelUrl: `${CLIENT_URL}/actors/vote/${actorId}`,
       });
 
       if (result.error) {
