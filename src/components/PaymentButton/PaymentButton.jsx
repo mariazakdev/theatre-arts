@@ -5,6 +5,7 @@ import { useStripe } from "@stripe/react-stripe-js";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
 import "./PaymentButton.scss";
+import PaymentSuccess from "../PaymentSuccess/PaymentSuccess";
 
 function PaymentButton({
   CLIENT_URL,
@@ -33,7 +34,7 @@ function PaymentButton({
         lineItems: [{ price: priceId, quantity: 1 }],
         mode: "payment",
         successUrl: `${CLIENT_URL}/vote-payment?actorId=${actorId}&votes=${amount}`,
-        cancelUrl: `${CLIENT_URL}/actors/vote/${actorId}`,
+        cancelUrl: `${CLIENT_URL}/cancel`,
       });
 
       if (result.error) {
@@ -50,8 +51,6 @@ function PaymentButton({
     }
   };
 
-
-  
   const handlePayment = async () => {
     console.log("Payment button clicked! paymentbutton");
   
@@ -88,19 +87,19 @@ function PaymentButton({
         contestantId: actorId,
         numberOfVotes: 1,
       };
-   await processStripePayment();
+  
       console.log("Data going to /votes:", votesData);
-       const votesResponse = await axios.post(`${URL}/votes-extra`, votesData,
+      const votesResponse = await axios.post(`${URL}/votes/extra`, votesData,
         { headers: 
           { Authorization: `${API_KEY}` } 
-       }
-         );
+      }
+        );
   
       console.log("Before payment request", amount);
-     
+      setVoted(true);
   
-     
-   setVoted(true);
+      await processStripePayment();
+  
       console.log("After payment request", amount);
     } catch (error) {
       console.error("Error during payment processing:", error);
@@ -114,10 +113,13 @@ function PaymentButton({
   };
 
   return (
+    <>
     <button className="payment-button" onClick={handlePayment} disabled={voted}>
       {text}
       {amount}
     </button>
+    <PaymentSuccess setErrorMessage={setErrorMessage}/>
+    </>
   );
 }
 

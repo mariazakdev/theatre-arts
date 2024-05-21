@@ -15,8 +15,8 @@ export default function VotingPage({ URL, CLIENT_URL, API_KEY }) {
   const [actorData, setActorData] = useState(null);
   const [email, setEmail] = useState(null);
   const [stripeToken, setStripeToken] = useState(null);
-
   const [errorMessage, setErrorMessage] = useState(null);
+  const [votedExtra, setVotedExtra] = useState(false);
 
   useEffect(() => {
     const fetchActor = async () => {
@@ -63,7 +63,15 @@ export default function VotingPage({ URL, CLIENT_URL, API_KEY }) {
         )}
         <div className="vote-top">
           <div className="vote-top-left">
-            <VoteProfile actorId={actorId} URL={URL} API_KEY={API_KEY} />
+            <VoteProfile 
+            actorId={actorId} 
+            URL={URL} 
+            API_KEY={API_KEY} 
+            errorMessage={errorMessage}
+            setErrorMessage={setErrorMessage}
+            setVotedExtra={setVotedExtra}
+          
+            />
           </div>
           <div className="vote-top-right">
             {actorData && actorData.active ? (

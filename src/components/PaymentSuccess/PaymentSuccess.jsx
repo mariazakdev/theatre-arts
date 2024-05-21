@@ -1,20 +1,26 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useAuth } from "../../contexts/AuthContext"; 
+
 import axios from 'axios';
 
-function PaymentSuccess({ URL, API_KEY}) {
+function PaymentSuccess({ URL, API_KEY, setErrorMessage}) {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
+
   const [processed, setProcessed] = useState(false);
   const isMounted = useRef(true);
 
   useEffect(() => {
     const actorId = searchParams.get('actorId');
     const votes = searchParams.get('votes');
-    const userId = searchParams.get('userIdData');
+    let userData;
+    let userIdData;
 
     const updateVotes = async (actorId, votes) => {
       try {
+        // Perform backend update here
         const response = await axios.post(
           `${URL}/contestants/vote/${actorId}`,
           { votes: votes },
@@ -26,42 +32,40 @@ function PaymentSuccess({ URL, API_KEY}) {
         );
 
         if (response.status === 200) {
-          navigate(`/actors/${actorId}`,);
+          // Update votes-extra
+          const userResponse = await axios.get(
+            `${URL}/users/${currentUser.uid}`,
+            {
+              headers: { Authorization: `${API_KEY}` },
+            }
+          );
+          userData = userResponse.data;
+          if (userData.user) {
+            userIdData = userData.user.id;
+          }
+
+          // Use the user's id in the votesData
+          const votesData = {
+            userId: userIdData,
+            contestantId: actorId,
+            numberOfVotes: 1,
+          };
+          console.log('Data going to /votes:', votesData);
+   
+
+          console.log('Vote processed successfully!');
+          navigate(`/actors/${actorId}`);
           setProcessed(true);
         }
       } catch (error) {
-        console.error('Error while voting:', error);
+        console.error('Error while updating votes:', error);
+      
       }
     };
-
     if (isMounted.current && actorId && votes && !processed) {
       updateVotes(actorId, votes);
       isMounted.current = false;
     }
-
-    const sendVotes = async (actorId, votes) => {
-      try {
-        const votesData = {
-          userId: userId, // You may need to retrieve this from your authentication context or user data
-          contestantId: actorId,
-          numberOfVotes: 1,
-        };
-        const response = await axios.post(`${URL}/votes/extra`, votesData, {
-          headers: { Authorization: `${API_KEY}` },
-        });
-
-        if (response.status === 200) {
-          setProcessed(true);
-        }
-      } catch (error) {
-        console.error('Error while sending votes:', error);
-      }
-    };
-    if (actorId && votes && !processed) {
-      sendVotes(actorId, votes);
-    }
-
-
   }, [searchParams, navigate, processed]);
 
   return <div>{processed ? 'Vote processed successfully!' : 'Processing your vote...'}</div>;

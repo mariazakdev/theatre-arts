@@ -25,6 +25,7 @@ import PaymentContestantPage from "./pages/PaymentContestantPage/PaymentContesta
 import AdminPage from "./pages/AdminPage/AdminPage";
 import SunKingPage from "./pages/SunKingPage/SunKingPage";
 import useAdminRouteAuthorization from "./hooks/useAdminRouteAuthorization";
+import { ErrorVoteProvider } from "./contexts/PaidVoteContext";
 import "./App.scss";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
@@ -36,6 +37,8 @@ function App() {
 
   return (
     <AuthProvider>
+          <ErrorVoteProvider>
+
       <StripeWrapper>
       <Router>
         <div className="App">
@@ -88,7 +91,7 @@ function App() {
   
 
             <Route
-              exact path="/contestant/payment-success"
+              exact path="/contestant/contestant-payment-success"
               element={<PaymentContestantPage />}
             />
             {/* All visitors to site */}
@@ -128,6 +131,7 @@ function App() {
         <Footer />
       </Router>
               </StripeWrapper>
+          </ErrorVoteProvider>
     </AuthProvider>
   );
 }

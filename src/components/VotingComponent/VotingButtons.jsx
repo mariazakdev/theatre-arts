@@ -17,6 +17,7 @@ export default function VotingButtons({
   actorId,
   currentUser,
   setErrorMessage,
+errorMessage,
   API_KEY
 }) {
   const { user } = useAuth();
@@ -63,8 +64,9 @@ export default function VotingButtons({
             actorId={actorId}
             currentUser={currentUser}
             onLoginAndNavigate={handleLoginAndNavigate}
-            setErrorMessage={setErrorMessage}
             API_KEY={API_KEY}
+            errorMessage={errorMessage}
+            setErrorMessage={setErrorMessage}
           />
         ))}
       </div>
