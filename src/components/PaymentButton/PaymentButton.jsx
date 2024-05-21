@@ -89,7 +89,7 @@ function PaymentButton({
       };
   
       console.log("Data going to /votes:", votesData);
-      const votesResponse = await axios.post(`${URL}/votes/extra`, votesData,
+      const votesResponse = await axios.post(`${URL}/votes-extra`, votesData,
         { headers: 
           { Authorization: `${API_KEY}` } 
       }
