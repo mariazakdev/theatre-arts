@@ -36,17 +36,8 @@ export default function SingleVote({
     }
 
     try {
-      const response = await axios.post(`${URL}/contestants/vote/${actorId}`, {
-        votes: 1,
-      },
-      { headers: { Authorization: `${API_KEY}` } }
-      );
 
-      if (response.status === 200) {
-        setVoted(true);
-        console.log(response.data.message);
-        onVoteSuccess();
-
+   
         if (currentUser) {
           // Retrieve user data
           const userResponse = await axios.get(
@@ -74,11 +65,12 @@ export default function SingleVote({
 
         if (votesResponse.status === 201) {
         }
+       
 
-        navigate(`/actors/${actorId}`, {
+        navigate( `/vote-payment?actorId=${actorId}&votes=${1}`, {
           state: { returnPath: location.pathname },
         });
-      }
+      
     } catch (error) {
       console.error("Error while voting:", error);
 
