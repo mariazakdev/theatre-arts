@@ -26,6 +26,8 @@ import AdminPage from "./pages/AdminPage/AdminPage";
 import SunKingPage from "./pages/SunKingPage/SunKingPage";
 import useAdminRouteAuthorization from "./hooks/useAdminRouteAuthorization";
 import { ErrorVoteProvider } from "./contexts/PaidVoteContext";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage/PrivacyPolicyPage";
+import TermsOfServicePage from "./pages/TermsOfServicePage/TermsOfServicePage";
 import "./App.scss";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
@@ -126,6 +128,9 @@ function App() {
 
             {/* Catch-all */}
             <Route path="*" element={<div>404 Not Found</div>} />
+            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+          <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+          
           </Routes>
         </div>
         <Footer />

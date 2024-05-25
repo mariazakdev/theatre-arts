@@ -83,33 +83,42 @@ const SignUpContestant = ({ URL, API_KEY }) => {
           headers: { Authorization: `${API_KEY}` },
         });
       }
-      // const handleFacebookSignIn = async () => {
-      //   try {
-      //     const result = await signInWithPopup(auth, facebookProvider);
-      //     const user = result.user;
-      //     // Handle Facebook sign-in success
-      //   } catch (error) {
-      //     console.error("Error during Facebook sign in:", error);
-      //     // Handle Facebook sign-in error
-      //   }
-      // };
+ 
     
-      // const handleTwitterSignIn = async () => {
-      //   try {
-      //     const result = await signInWithPopup(auth, twitterProvider);
-      //     const user = result.user;
-      //     // Handle Twitter sign-in success
-      //   } catch (error) {
-      //     console.error("Error during Twitter sign in:", error);
-      //     // Handle Twitter sign-in error
-      //   }
-      // };
+
       navigate("/contestant/dashboard");
     } catch (error) {
       console.error("Error during Google sign in:", error);
       setErrorMessage(error.message || "Failed to sign in with Google");
     }
   };
+
+
+  const handleFacebookSignIn = async () => {
+    try {
+      const result = await signInWithPopup(auth, facebookProvider);
+      const user = result.user;
+  
+      const response = await axios.get(`${URL}/users/email/${user.email}`, {
+        headers: { Authorization: `${API_KEY}` },
+      });
+  
+      if (!response.data.userExists) {
+        await axios.post(`${URL}/users`, {
+          email: user.email,
+          firebaseAuthId: user.uid,
+          isContestant: true,
+        }, {
+          headers: { Authorization: `${API_KEY}` },
+        });
+      }
+      navigate("/contestant/dashboard");
+    } catch (error) {
+      console.error("Error during Facebook sign in:", error);
+      setErrorMessage(error.message || "Failed to sign in with Facebook");
+    }
+  };
+  
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -171,12 +180,10 @@ const SignUpContestant = ({ URL, API_KEY }) => {
             <button onClick={handleGoogleSignIn} className="google-signin-button">
               Sign Up with Google
             </button>
-            {/* <button onClick={handleFacebookSignIn} className="facebook-signin-button">
+            <button onClick={handleFacebookSignIn} className="facebook-signin-button">
               Sign Up with Facebook
             </button>
-            <button onClick={handleTwitterSignIn} className="twitter-signin-button">
-              Sign Up with Twitter
-            </button> */}
+         
             <p className="login-redirect">
               Already have an account?{" "}
               <NavLink to="/contestant/login">Log in</NavLink>
