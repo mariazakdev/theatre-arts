@@ -20,7 +20,6 @@ const storage = getStorage(app);
 const auth = getAuth(app); 
 const googleProvider = new GoogleAuthProvider();
 const facebookProvider = new FacebookAuthProvider();
-const twitterProvider = new TwitterAuthProvider();
 
-export { app, db, auth, googleProvider, facebookProvider, twitterProvider, signInWithPopup };
+export { app, db, auth, googleProvider, facebookProvider, signInWithPopup };
 export default app;
