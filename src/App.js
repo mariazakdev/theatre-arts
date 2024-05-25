@@ -28,6 +28,8 @@ import useAdminRouteAuthorization from "./hooks/useAdminRouteAuthorization";
 import { ErrorVoteProvider } from "./contexts/PaidVoteContext";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage/PrivacyPolicyPage";
 import TermsOfServicePage from "./pages/TermsOfServicePage/TermsOfServicePage";
+import UserDeletionPage from "./pages/UserDeletionPage/UserDeletionPage";
+
 import "./App.scss";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
@@ -130,7 +132,7 @@ function App() {
             <Route path="*" element={<div>404 Not Found</div>} />
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="/terms-of-service" element={<TermsOfServicePage />} />
-          
+          <Route path="/user-deletion" element={<UserDeletionPage URL={URL} API_KEY={API_KEY} />} />
           </Routes>
         </div>
         <Footer />
