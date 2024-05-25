@@ -306,6 +306,9 @@ function UploadForm({ URL, API_KEY }) {
               </button>
             )}
           </div>
+          <p>Please play through the video to make sure you approve of it. You will not be able to change it till next round.</p>
+          <p>Make sure that embeding is allowed.</p>
+          <p>Choose a nice thumbnail in the site where you uploaded the video.</p>
           <p>You may only change the video at the beginning of each round.</p>
           <p>
             Please note that the video once uploaded will{" "}

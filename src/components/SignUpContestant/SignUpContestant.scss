@@ -8,3 +8,22 @@
     height: 80vh;
  
 }
+
+.google-signin-button {
+    background-color: #ed6f0f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .google-signin-button:hover {
+    background-color: #cf4715;
+  }
+  

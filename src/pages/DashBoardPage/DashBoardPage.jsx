@@ -156,6 +156,11 @@ if (user.uploadStatus === 1 && user.hasPaid === 1) {
 
 
         </div>
+        <div className="dashboard__content__user-data__info">
+          This section tracks votes. Say thank you to your supporters!
+          Under construction
+        </div>
+
         </div>
 
 
