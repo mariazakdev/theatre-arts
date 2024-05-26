@@ -39,13 +39,16 @@ function ActorsPage( {URL, API_KEY}) {
     navigate(`/actors/vote/${video.id}`, { state: { actor: video } });
   };
 
+  const activeContestants = videoData.filter((contestant) => contestant.active === 1);
+
+
   return (
     <div className="video-list-container">
       <h1>Contestants</h1>
 
       <div className="cards-container">
 
-        {shuffleArray(videoData).map((video) => (
+        {shuffleArray(activeContestants).map((video) => (
           <div
             key={video.user_id}
             className="card"

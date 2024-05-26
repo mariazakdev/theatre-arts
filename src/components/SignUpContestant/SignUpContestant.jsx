@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
-import { auth, googleProvider, facebookProvider, twitterProvider, signInWithPopup }from "../../firebase";
+import { auth, googleProvider, facebookProvider, signInWithPopup }from "../../firebase";
 import '../../styles/forms.scss';
 import './SignUpContestant.scss';
 
@@ -83,9 +83,6 @@ const SignUpContestant = ({ URL, API_KEY }) => {
           headers: { Authorization: `${API_KEY}` },
         });
       }
- 
-    
-
       navigate("/contestant/dashboard");
     } catch (error) {
       console.error("Error during Google sign in:", error);
@@ -98,7 +95,7 @@ const SignUpContestant = ({ URL, API_KEY }) => {
     try {
       const result = await signInWithPopup(auth, facebookProvider);
       const user = result.user;
-  
+
       const response = await axios.get(`${URL}/users/email/${user.email}`, {
         headers: { Authorization: `${API_KEY}` },
       });
@@ -177,12 +174,12 @@ const SignUpContestant = ({ URL, API_KEY }) => {
               </div>
               <button type="submit">Sign up</button>
             </form>
-            <button onClick={handleGoogleSignIn} className="google-signin-button">
+            {/* <button onClick={handleGoogleSignIn} className="google-signin-button">
               Sign Up with Google
             </button>
             <button onClick={handleFacebookSignIn} className="facebook-signin-button">
               Sign Up with Facebook
-            </button>
+            </button> */}
          
             <p className="login-redirect">
               Already have an account?{" "}

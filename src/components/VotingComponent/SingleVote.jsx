@@ -20,9 +20,9 @@ export default function SingleVote({
   const [flashMessage, setFlashMessage] = useState("");
   let userData;
   let userIdData;
+  let votesTracker;
 
   const handleVoteClick = async () => {
-    console.log("handleVoteClick called from singlevote");
 
     if (!currentUser) {
       setFlashMessage("Log in to vote");
@@ -34,10 +34,10 @@ export default function SingleVote({
       }, 4000);
       return;
     }
-
     try {
+      let userIdData;
+      let userEmail;
 
-   
         if (currentUser) {
           // Retrieve user data
           const userResponse = await axios.get(
@@ -49,6 +49,7 @@ export default function SingleVote({
           userData = userResponse.data;
           if (userData.user) {
             userIdData = userData.user.id;
+            userEmail = userData.user.email;
           }
         }
 
@@ -58,14 +59,30 @@ export default function SingleVote({
           contestantId: actorId,
           numberOfVotes: 1,
         };
-
-        const votesResponse = await axios.post(`${URL}/votes`, votesData,
+        const votesTrackerData = {
+          userId: userIdData,
+          email: userEmail,
+          contestantId: actorId,
+          numberOfVotes: 1,
+        };
+        const votesResponse = await axios.post(`${URL}/votes`, votesTrackerData,
           { headers: { Authorization: `${API_KEY}` } }
           );
 
         if (votesResponse.status === 201) {
         }
        
+  const votesTrackerResponse = await axios.post(`${URL}/votes-tracker`, { 
+    userId: userIdData,
+    contestantId: actorId,
+    numberOfVotes: 1,
+      round: 1, 
+    },  
+    // { headers: { Authorization: `${API_KEY}` } }
+    );
+    if (votesTrackerResponse.status === 201) {
+    }
+    console.log("votes tracker added", votesTrackerResponse);
 
         navigate( `/vote-payment?actorId=${actorId}&votes=${1}`, {
           state: { returnPath: location.pathname },
