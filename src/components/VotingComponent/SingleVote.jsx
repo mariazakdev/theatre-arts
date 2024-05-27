@@ -64,20 +64,18 @@ export default function SingleVote({
           email: userEmail,
           contestantId: actorId,
           numberOfVotes: 1,
+          round:1
         };
-        const votesResponse = await axios.post(`${URL}/votes`, votesTrackerData,
+        const votesResponse = await axios.post(`${URL}/votes`, votesData,
           { headers: { Authorization: `${API_KEY}` } }
           );
 
         if (votesResponse.status === 201) {
         }
        
-  const votesTrackerResponse = await axios.post(`${URL}/votes-tracker`, { 
-    userId: userIdData,
-    contestantId: actorId,
-    numberOfVotes: 1,
-      round: 1, 
-    },  
+  const votesTrackerResponse = await axios.post(`${URL}/votes-tracker`, 
+    votesTrackerData
+    ,  
     // { headers: { Authorization: `${API_KEY}` } }
     );
     if (votesTrackerResponse.status === 201) {
