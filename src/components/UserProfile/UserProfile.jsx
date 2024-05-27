@@ -54,6 +54,16 @@ function UserProfile({ URL, API_KEY }) {
   const videoSrc = actor.url_video
     ? actor.url_video.replace("watch?v=", "embed/")
     : "";
+// Share this url button.
+    const handleShareClick = () => {
+      const shareUrl = window.location.href;
+      navigator.clipboard.writeText(shareUrl).then(() => {
+        alert("Profile URL copied to clipboard!");
+      }).catch(err => {
+        console.error('Failed to copy: ', err);
+      });
+    };
+
 
   return (
     <section className="user-profile">
@@ -94,6 +104,9 @@ function UserProfile({ URL, API_KEY }) {
               </div>
             </div>
           </Link>
+          <button onClick={handleShareClick} className="share-button">
+            Share Profile
+          </button>
         </div>
       )}
     </section>
