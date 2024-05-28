@@ -87,21 +87,35 @@ function PaymentButton({
         contestantId: actorId,
         numberOfVotes: 1,
       };
-  
-      console.log("Data going to /votes:", votesData);
+    const votesTrackerData = {
+      userId: userIdData,
+      email: userData.user.email,
+      contestantId: actorId,
+      numberOfVotes:amount,
+      round: 1
+    };
+    
       const votesResponse = await axios.post(`${URL}/votes-extra`, votesData,
         { headers: 
           { Authorization: `${API_KEY}` } 
       }
+      
         );
-  
-      console.log("Before payment request", amount);
+        if (votesResponse.status === 201) {
+        }
+
+        const votesTrackerResponse = await axios.post(`${URL}/votes-tracker`, votesTrackerData,
+        { headers: 
+          { Authorization: `${API_KEY}` } 
+        }
+      );
+
+      if (votesTrackerResponse.status === 201) {
+      }
       setVoted(true);
   
       await processStripePayment();
-  
-      console.log("After payment request", amount);
-    } catch (error) {
+      } catch (error) {
       console.error("Error during payment processing:", error);
       if (error.response && error.response.status === 400) {
         setErrorMessage(error.response.data.message);

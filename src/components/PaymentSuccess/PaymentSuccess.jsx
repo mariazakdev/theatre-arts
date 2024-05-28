@@ -50,11 +50,7 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage}) {
             contestantId: actorId,
             numberOfVotes: 1,
           };
-          console.log('Data going to /votes:', votesData);
-   
-
-          console.log('Vote processed successfully!');
-          navigate(`/actors/${actorId}`);
+             navigate(`/actors/${actorId}`);
           setProcessed(true);
         }
       } catch (error) {

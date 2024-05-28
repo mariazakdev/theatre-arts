@@ -76,7 +76,7 @@ export default function SingleVote({
   const votesTrackerResponse = await axios.post(`${URL}/votes-tracker`, 
     votesTrackerData
     ,  
-    // { headers: { Authorization: `${API_KEY}` } }
+    { headers: { Authorization: `${API_KEY}` } }
     );
     if (votesTrackerResponse.status === 201) {
     }

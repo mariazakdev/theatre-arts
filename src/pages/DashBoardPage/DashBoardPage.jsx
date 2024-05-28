@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import VideoPlayer from "../../components/VideoEmbed/VideoEmbed";
 import EditDashboard from "../../components/EditDashBoard/EditDashBoard";
 import "./DashBoardPage.scss";
+import DashBoardVoterComponent from "../../components/DashBoardVoterComponent/DashBoardVoterComponent";
 
 export default function Dashboard({ URL , API_KEY}) {
   const [error, setError] = useState("");
@@ -35,23 +36,19 @@ export default function Dashboard({ URL , API_KEY}) {
         const user = data.user;
 
         if (user.is_contestant === 0) {
-          console.log("User is not a contestant, redirecting to home");
           setError("User is not a contestant");
           navigate("/");
           return;
         }
-
         // Only after upload process
         const contestant = data.contestant;
 
         if (user.is_contestant === 1 && user.hasPaid === 0) {
-          console.log("Contestant hasn't paid, redirecting to /contestant/enter");
           navigate("/contestant/enter");
           return;
         }
 
         if (user.uploadStatus === 0 && user.hasPaid === 1) {
-          console.log("Contestant upload status is pending, redirecting to /contestant/upload");
           navigate("/contestant/upload");
           return;
         }
@@ -62,7 +59,6 @@ export default function Dashboard({ URL , API_KEY}) {
         }
 
         if (!contestant) {
-          console.log("No contestant data available yet");
           setLoading(false); // Set loading to false as there is no contestant data yet
           return;
         }
@@ -86,7 +82,6 @@ export default function Dashboard({ URL , API_KEY}) {
           headers: { Authorization: `${API_KEY}` }
         });
         setVotes(response.data);
-        console.log("Votes data: ", response.data);
       } catch (error) {
         console.error("Error fetching votes data: ", error);
         setError("Failed to load votes data");
@@ -166,19 +161,7 @@ export default function Dashboard({ URL , API_KEY}) {
               />
             )}
           </div>
-          <div className="dashboard__content__user-data__info">
-            <h3>Supporters</h3>
-            {votes.length > 0 ? (
-              votes.map((vote) => (
-                <div key={vote.id} className="supporter-info">
-                  <p>Email: {vote.email}</p>
-                  <p>Votes: {vote.votes_count}</p>
-                </div>
-              ))
-            ) : (
-              <p>No supporters yet.</p>
-            )}
-          </div>
+    
         </div>
         <button onClick={handleLogout} className="dashboard__logout-button">
           Log Out
@@ -193,9 +176,12 @@ export default function Dashboard({ URL , API_KEY}) {
             API_KEY={API_KEY}
           />
         )}
-        <button onClick={toggleEditing} className="dashboard__edit-button">
+           <button onClick={toggleEditing} className="dashboard__edit-button">
           {isEditing ? "Cancel Edit" : "Edit"}
         </button>
+        
+        <DashBoardVoterComponent votes={votes} />
+     
 
         {error && <p className="dashboard__error">{error}</p>}
       </div>
