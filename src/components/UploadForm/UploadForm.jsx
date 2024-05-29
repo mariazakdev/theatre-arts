@@ -32,6 +32,8 @@ function UploadForm({ URL, API_KEY }) {
   const [showVideoConfirmation, setShowVideoConfirmation] = useState(false);
   const [videoConfirmed, setVideoConfirmed] = useState(false);
   const [isAgreed, setIsAgreed] = useState(false);
+  const [charCount, setCharCount] = useState(0);
+
   const [formData, setFormData] = useState({
     photoUrl: "",
     videoUrl: "",
@@ -210,14 +212,24 @@ function UploadForm({ URL, API_KEY }) {
     }
   };
 
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    if (name === "description") {
+      if (value.length <= 400) {
+        setFormData((prevState) => ({
+          ...prevState,
+          [name]: value,
+        }));
+        setCharCount(value.length);
+      }
+    } else {
+      setFormData((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }));
+    }
   };
-
   const handleVideoChange = (e) => {
     const videoUrl = e.target.value;
     setFormData((prevState) => ({
@@ -315,14 +327,22 @@ function UploadForm({ URL, API_KEY }) {
             <strong>stop playing at exactly 60 seconds.</strong>
           </p>
           <div className="input-group">
+
+
+            <div className="form-container__char-count">
+              {charCount} / 400 characters
+            </div>
             <textarea
               className="form-container__input"
               name="description"
-              placeholder="Description"
+              placeholder="Tell us about yourself"
               value={formData.description}
               onChange={handleInputChange}
+              maxLength="600"
+
             />
           </div>
+          
           <div className="input-group">
             <input
               className="form-container__input"

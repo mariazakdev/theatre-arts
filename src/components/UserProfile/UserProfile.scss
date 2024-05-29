@@ -6,7 +6,7 @@
   // border: 3px solid blue;
   width: 100%;
   border-radius: 8px;
-  // overflow: hidden;
+  overflow: hidden;
   background-color: $secondaryBackground;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   height: auto;
@@ -151,7 +151,7 @@
 .user-description {
   width: 100%;
   color: black;
-
+  overflow: hidden;
   margin-right: 1rem;
   @include tablet {
     margin: 0;

@@ -16,6 +16,7 @@ function EditDashboard({
   const [updateError, setUpdateError] = useState(null);
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [contestantData, setContestantData] = useState({ round: 1 });
+  const [charCount, setCharCount] = useState(0); // State to track character count
 
   const [formData, setFormData] = useState({
     description: "",
@@ -46,9 +47,20 @@ function EditDashboard({
     }
   }, [contestantId]);
 
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prevData) => ({ ...prevData, [name]: value }));
+  // };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+    if (name === "description") {
+      if (value.length <= 400) {
+        setFormData((prevData) => ({ ...prevData, [name]: value }));
+        setCharCount(value.length); // Update char count
+      }
+    } else {
+      setFormData((prevData) => ({ ...prevData, [name]: value }));
+    }
   };
 
   const handleFormSubmit = async (e) => {
@@ -127,12 +139,17 @@ function EditDashboard({
             Description:
           </label>
           <p>Edit your description.</p>
+          <div className="form-container__char-count">
+              {charCount} / 400 characters
+            </div>
           <textarea
             className="edit-dashboard__form__textarea"
             id="description"
             name="description"
             value={formData.description}
             onChange={handleInputChange}
+            maxLength="600"
+
           />
           <button className="edit-dashboard__form__button" type="submit">
             Update Description
@@ -154,7 +171,13 @@ function EditDashboard({
               {/* Video preview */}
               {formData.videoUrl && (
                 <div className="edit-dashboard__video-preview">
-                  <ReactPlayer url={formData.videoUrl} controls={true} />
+                  <ReactPlayer
+                  url={formData.videoUrl}
+                  controls
+                  width="100%"
+                  height="100%"
+                />
+               
                 </div>
               )}
               <button

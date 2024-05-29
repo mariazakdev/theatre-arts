@@ -17,3 +17,11 @@ h4{
     color: rgb(23, 139, 133);
    }
 }
+.form-container__char-count{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    font-size: .6rem;
+    color: gray;
+    font-family: 'Montserrat', sans-serif;
+}
