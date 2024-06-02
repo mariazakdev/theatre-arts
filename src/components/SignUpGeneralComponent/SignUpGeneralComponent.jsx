@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import { sendEmailVerification, signInWithPopup } from "firebase/auth";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
-import { doc, setDoc } from "firebase/firestore";
-import { db } from "../../firebase";
+import { auth, googleProvider } from "../../firebase";
 import "../../styles/forms.scss";
 
-
-const SignUpComponent = ( {URL, API_KEY}) => {
+const SignUpComponent = ({ URL, API_KEY }) => {
   const navigate = useNavigate();
   const location = useLocation(); 
   const { signup } = useAuth();
@@ -18,92 +17,114 @@ const SignUpComponent = ( {URL, API_KEY}) => {
   const [flashMessage, setFlashMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    setFlashMessage("");
 
-const onSubmit = async (e) => {
-  e.preventDefault();
-  if (flashMessage) {
-    setFlashMessage(""); // Clear the previous flash message
-  }
-  if (password !== confirmPassword) {
-    setFlashMessage("Passwords do not match.");
-    return;
-  }
-  if (!email) {
-    setFlashMessage("Please fill in all the required fields.");
-    return;
-  }
-  if (!password ) {
-    setFlashMessage("Please fill in all the required fields.");
-    return;
-  }
-  if ( !confirmPassword) {
-    setFlashMessage("Please fill in all the required fields.");
-    return;
-  }
-  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  if (!emailPattern.test(email)) {
-    setFlashMessage("Please enter a valid email address");
-    return;
-  }
+    if (password !== confirmPassword) {
+      setFlashMessage("Passwords do not match.");
+      return;
+    }
+    if (!email || !password || !confirmPassword) {
+      setFlashMessage("Please fill in all the required fields.");
+      return;
+    }
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(email)) {
+      setFlashMessage("Please enter a valid email address");
+      return;
+    }
 
-  try {
- 
-  // Check if user already exists in the backend
-  const response = await axios.get(`${URL}/users/email/${email}`,
-  { headers: { Authorization: `${API_KEY}` } }
-  
-  );
-  if (response.data.userExists) {
-    // If user exists, show flash message and navigate after a delay
-    setFlashMessage("User with this email already exists.");
-    setTimeout(() => {
-      navigate("/login");
-    }, 3000); // Change the delay time as per your requirement
-    return;
-  }
+    try {
+      const response = await axios.get(`${URL}/users/email/${email}`, {
+        headers: { Authorization: `${API_KEY}` },
+      });
 
+      if (response.data.userExists) {
+        setFlashMessage("User with this email already exists.");
+        setTimeout(() => {
+          navigate("/login");
+        }, 3000);
+        return;
+      }
 
-    
-// Continue with the signup process for new users
-const userCredential = await signup(email, password);
+      const userCredential = await signup(email, password);
       const user = userCredential.user;
 
-      // Backend API call
-      await axios.post(`${URL}/users`, {
-        email: user.email,
-        firebaseAuthId: user.uid,
-        isContestant: false,
-      },
-      { headers: { Authorization: `${API_KEY}` } }
-      );
+      // Send email verification
+      await sendEmailVerification(user);
+      // Notify the user to check their email
+      setFlashMessage("Verification email sent. Please check your inbox and verify your email.");
 
-      navigate(-1);
+      const intervalId = setInterval(async () => {
+        await user.reload();
+        if (user.emailVerified) {
+          clearInterval(intervalId);
 
-  } catch (error) {
-    console.error("Error during sign up:", error);
-    setErrorMessage(error.message || "Failed to create user");
-  }
-};
+          await axios.post(`${URL}/users`, {
+            email: user.email,
+            firebaseAuthId: user.uid,
+            isContestant: false,
+          }, {
+            headers: { Authorization: `${API_KEY}` },
+          });
 
+          navigate(-1);
+        }
+      }, 3000);
 
-
-   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+    } catch (error) {
+      console.error("Error during sign up:", error);
+      setErrorMessage(error.message || "Failed to create user");
+    }
   };
 
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+
+      const response = await axios.get(`${URL}/users/email/${user.email}`, {
+        headers: { Authorization: `${API_KEY}` },
+      });
+
+      if (!response.data.userExists) {
+        await axios.post(`${URL}/users`, {
+          email: user.email,
+          firebaseAuthId: user.uid,
+          isContestant: false,
+        }, {
+          headers: { Authorization: `${API_KEY}` },
+        });
+      }
+      navigate(-1);
+    } catch (error) {
+      console.error("Error during Google sign in:", error);
+      setErrorMessage(error.message || "Failed to sign in with Google");
+    }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   return (
     <main>
       <section>
-      <div className="form-background">
+        <div className="form-background">
           <div className="form-container">
             {flashMessage && <p className="flash-message">{flashMessage}</p>}
 
             <h2>Sign Up</h2>
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
-
-            <form onSubmit={onSubmit} noValidate >
-
+            <button onClick={handleGoogleSignIn} className="google-signin-button">
+              Sign Up with Google
+            </button>
+            <p className="or-divider">
+              <span>or</span>
+            </p>
+            <p className="form-description">If signing up with your own email, you will need to verify your email.</p>
+            <form onSubmit={onSubmit} noValidate>
+              {errorMessage && <p className="error-message">{errorMessage}</p>}
               <div className="input-group">
                 <label htmlFor="email-address">Email address</label>
                 <input
@@ -111,7 +132,6 @@ const userCredential = await signup(email, password);
                   id="email-address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  
                   placeholder="Email address"
                 />
               </div>
@@ -119,34 +139,35 @@ const userCredential = await signup(email, password);
               <div className="input-group">
                 <label htmlFor="password">Password</label>
                 <input
-                  type={showPassword ? "text" : "password"} 
+                  type={showPassword ? "text" : "password"}
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
                 />
-            <span 
-                      className="input-group--password-toggle"
-                      onClick={togglePasswordVisibility}>
-                         {showPassword ? "Hide" : "Show"}
-                      </span>
+                <span
+                  className="input-group--password-toggle"
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </span>
               </div>
 
               <div className="input-group">
                 <label htmlFor="confirm-password">Confirm Password</label>
                 <input
-                  type={showPassword ? "text" : "password"} 
+                  type={showPassword ? "text" : "password"}
                   id="confirm-password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-            
                   placeholder="Confirm Password"
                 />
-      <span 
-                      className="input-group--password-toggle"
-                      onClick={togglePasswordVisibility}>
-                         {showPassword ? "Hide" : "Show"}
-                      </span>
+                <span
+                  className="input-group--password-toggle"
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </span>
               </div>
 
               <button type="submit">Sign up</button>

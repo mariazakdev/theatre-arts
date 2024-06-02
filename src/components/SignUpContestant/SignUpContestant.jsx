@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { sendEmailVerification} from "firebase/auth";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
-import { auth, googleProvider, facebookProvider, signInWithPopup }from "../../firebase";
+import { auth, googleProvider,  signInWithPopup, signup }from "../../firebase";
 import '../../styles/forms.scss';
 import './SignUpContestant.scss';
 
@@ -50,15 +51,42 @@ const SignUpContestant = ({ URL, API_KEY }) => {
       const userCredential = await signup(email, password);
       const user = userCredential.user;
 
-      await axios.post(`${URL}/users`, {
-        email: user.email,
-        firebaseAuthId: user.uid,
-        isContestant: true,
-      }, {
-        headers: { Authorization: `${API_KEY}` },
-      });
+  // Send email verification
+  await sendEmailVerification(user);
+     // Notify the user to check their email
+     setFlashMessage("Verification email sent. Please check your inbox and verify your email.");
 
-      navigate("/contestant/login");
+
+      const intervalId = setInterval(async () => {
+        await user.reload();
+        if (user.emailVerified) {
+          clearInterval(intervalId);
+
+          await axios.post(`${URL}/users`, {
+            email: user.email,
+            firebaseAuthId: user.uid,
+            isContestant: true,
+          }, {
+            headers: { Authorization: `${API_KEY}` },
+          });
+
+          navigate("/contestant/login");
+        }
+      }, 3000);
+
+
+// temp comment out to test verify
+      // await axios.post(`${URL}/users`, {
+      //   email: user.email,
+      //   firebaseAuthId: user.uid,
+      //   isContestant: true,
+      // }, {
+      //   headers: { Authorization: `${API_KEY}` },
+      // });
+
+      // navigate("/contestant/login");
+
+
     } catch (error) {
       console.error("Error during sign up:", error);
       setErrorMessage(error.message || "Failed to create user");
@@ -83,7 +111,7 @@ const SignUpContestant = ({ URL, API_KEY }) => {
           headers: { Authorization: `${API_KEY}` },
         });
       }
-      navigate("/contestant/dashboard");
+      navigate("/contestant/login");
     } catch (error) {
       console.error("Error during Google sign in:", error);
       setErrorMessage(error.message || "Failed to sign in with Google");
@@ -91,30 +119,6 @@ const SignUpContestant = ({ URL, API_KEY }) => {
   };
 
 
-  const handleFacebookSignIn = async () => {
-    try {
-      const result = await signInWithPopup(auth, facebookProvider);
-      const user = result.user;
-
-      const response = await axios.get(`${URL}/users/email/${user.email}`, {
-        headers: { Authorization: `${API_KEY}` },
-      });
-  
-      if (!response.data.userExists) {
-        await axios.post(`${URL}/users`, {
-          email: user.email,
-          firebaseAuthId: user.uid,
-          isContestant: true,
-        }, {
-          headers: { Authorization: `${API_KEY}` },
-        });
-      }
-      navigate("/contestant/dashboard");
-    } catch (error) {
-      console.error("Error during Facebook sign in:", error);
-      setErrorMessage(error.message || "Failed to sign in with Facebook");
-    }
-  };
   
 
   const togglePasswordVisibility = () => {
@@ -128,6 +132,14 @@ const SignUpContestant = ({ URL, API_KEY }) => {
           <div className="form-container">
             {flashMessage && <p className="flash-message">{flashMessage}</p>}
             <h2>Contestant Sign Up</h2>
+
+            <button onClick={handleGoogleSignIn} className="google-signin-button">
+              Sign Up with Google
+            </button>
+            <p className="or-divider">
+              <span>or</span>
+            </p>
+            <p className="form-description"> If signing up with your own email, you will need to verify your email.</p>
             <form onSubmit={onSubmit} noValidate>
               {errorMessage && <p className="error-message">{errorMessage}</p>}
               <div className="input-group">
@@ -174,12 +186,8 @@ const SignUpContestant = ({ URL, API_KEY }) => {
               </div>
               <button type="submit">Sign up</button>
             </form>
-            {/* <button onClick={handleGoogleSignIn} className="google-signin-button">
-              Sign Up with Google
-            </button>
-            <button onClick={handleFacebookSignIn} className="facebook-signin-button">
-              Sign Up with Facebook
-            </button> */}
+        
+       
          
             <p className="login-redirect">
               Already have an account?{" "}
