@@ -19,9 +19,12 @@ function Header({URL, API_KEY}) {
     <header className={`header ${isMobileMenuOpen ? 'mobile-menu-open' : ''}`}>
       <div className='header--top'>
         <Link to='/'>
-          <img src={Logo} alt="logo" className='header-logo'></img>
+          <div className='header-logo'>           <img src={Logo} alt="logo" className='header-logo__pic'></img> </div>
+
         </Link>
-        <h1>Canadian Broadway Theatre</h1>
+        <div className='header-title'> <h1 className=''>Canadian Broadway Theatre</h1>
+          </div> 
+       
         <div className='header-menu'>
           <img src={OpenBtn} className='menu-icon' onClick={handleMobileMenuToggle}/>
         

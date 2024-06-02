@@ -4,14 +4,15 @@
 
 .header {
   background-color: $forthBackground;
-  position: relative;
-  height: auto;
+  // position: relative;
+  // height: auto;
   overflow: hidden;
   padding-bottom: 0;
 
   &--top {
     padding: 1rem;
     @include flex(space-between, center, row);
+
     @include desktop {
       display: flex;
       align-items: center;
@@ -66,13 +67,18 @@
   }
 
   &-logo {
-    max-width: 100%;
+    width: 200px;
     height: auto;
+
   }
 
   &-title {
+    @include flex(center, center, row);
     padding: 0 1rem;
-    z-index: 1;
+    z-index: 1;      
+    width: 50%;
+
+
   }
  
   // Mobile Menu
