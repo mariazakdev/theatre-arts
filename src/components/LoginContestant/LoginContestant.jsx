@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext";
 import { NavLink, useNavigate } from "react-router-dom";
+import { auth, googleProvider, signInWithPopup } from "../../firebase"; 
 import "../../styles/forms.scss";
 
 function LoginContestant({ URL, API_KEY }) {
@@ -73,6 +74,32 @@ function LoginContestant({ URL, API_KEY }) {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+
+      const response = await axios.get(`${URL}/users/email/${user.email}`, {
+        headers: { Authorization: `${API_KEY}` },
+      });
+
+      if (!response.data.userExists) {
+        await axios.post(`${URL}/users`, {
+          email: user.email,
+          firebaseAuthId: user.uid,
+          isContestant: true,
+        }, {
+          headers: { Authorization: `${API_KEY}` },
+        });
+      }
+
+      navigate("/contestant/enter");
+    } catch (error) {
+      console.error("Error during Google sign in:", error);
+      setErrorMessage(error.message || "Failed to sign in with Google");
+    }
+  };
+
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -122,6 +149,10 @@ function LoginContestant({ URL, API_KEY }) {
               <NavLink to="/contestant/forgot-password">Forgot Password?</NavLink>
             </p>
           </form>
+
+          <button onClick={handleGoogleSignIn} className="google-signin-button">
+            Sign In with Google
+          </button>
 
           <p className="login-redirect">
             No account yet? <NavLink to="/signup">Sign up</NavLink>
