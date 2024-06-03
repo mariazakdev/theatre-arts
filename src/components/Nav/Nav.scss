@@ -4,7 +4,6 @@
 
 .nav {
   width: auto;
-  width: auto;
   background-color: black; 
   @include flex(center, center, row);
   margin-left: 0;
@@ -67,6 +66,7 @@
     margin-bottom: 1rem;
     color: white;
     cursor: pointer;
+    text-align: center; 
     @include desktop {
       color: black; 
       
@@ -87,6 +87,12 @@
   }
 }
 .nav-logout{
-  padding-left: 10px;
+    text-align: center;
+
+  @include desktop {
+      padding-left: 10px;
+
+  }
+
   
 }

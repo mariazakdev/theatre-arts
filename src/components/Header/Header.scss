@@ -12,6 +12,7 @@
   &--top {
     padding: 1rem;
     @include flex(space-between, center, row);
+    // border: 2px blue solid;
 
     @include desktop {
       display: flex;
@@ -37,6 +38,7 @@
       align-items: center;
       // width: 5rem;
       height: auto;
+      // border: 2px red solid;
       
     }
     img {
@@ -69,7 +71,19 @@
   &-logo {
     width: 200px;
     height: auto;
-
+    // border: 2px red solid;
+    @include desktop-sm{
+      width:auto;
+    }
+    @include desktop{
+      width:auto;
+    }
+    @include tablet{
+      width:auto;
+    }
+    @include mobile{
+      width:auto;
+    }
   }
 
   &-title {
@@ -77,6 +91,7 @@
     padding: 0 1rem;
     z-index: 1;      
     width: 50%;
+    // border: 2px red solid;
 
 
   }
