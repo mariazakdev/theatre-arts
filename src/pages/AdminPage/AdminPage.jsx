@@ -8,6 +8,7 @@ import AdminSunKingEdit from "../../components/AdminComponents/AdminSunKingEdit"
 import AdminVotingStandings from "../../components/AdminComponents/AdminVotingStandings";
 import AdminGroupsCounter from "../../components/AdminComponents/AdminGroupsCounter";
 import ContestantAnnouncement from "../../components/ContestantStanding/ContestantAnnouncements";
+import AdminUsersList from "../../components/AdminComponents/AdminUsersList";
 import "./AdminPage.scss";
 
 function AdminPage({ URL, API_KEY}) {
@@ -81,11 +82,18 @@ useEffect(() => {
           Voting Standings
         </button>
       </div>
-
+      <button
+          className={activeTab === "users" ? "active" : ""}
+          onClick={() => handleTabClick("users")}
+        >
+          Users
+        </button>
       <div className="admin-cards-container">
         {activeTab === "actors" && <AdminActorsList URL={URL} API_KEY={API_KEY}/>}
         {activeTab === "sunKing" && <AdminSunKingEdit URL={URL} API_KEY={API_KEY}/>}
         {showVotingStandings && <AdminVotingStandings URL={URL} API_KEY={API_KEY}/>}
+        {activeTab === "users" && <AdminUsersList URL={URL} API_KEY={API_KEY}/>}
+
       </div>
     </div>
   );

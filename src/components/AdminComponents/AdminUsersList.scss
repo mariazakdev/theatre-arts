@@ -1,0 +1,55 @@
+.users-list {
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+  }
+  
+  .users-list h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .users-list ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .users-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .users-list li:last-child {
+    border-bottom: none;
+  }
+  
+  .users-list li button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #ff4c4c;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .users-list li button:hover {
+    background-color: #ff1f1f;
+  }
+  
+  .users-list li button:focus {
+    outline: none;
+  }
+  
+  .loading, .error {
+    text-align: center;
+    font-size: 18px;
+    color: #333;
+  }
+  
