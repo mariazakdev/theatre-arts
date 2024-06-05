@@ -52,7 +52,6 @@ function PaymentButton({
   };
 
   const handlePayment = async () => {
-    console.log("Payment button clicked! paymentbutton");
   
     try {
       if (!stripe) {
@@ -78,7 +77,6 @@ function PaymentButton({
         if (userData.user) {
           userIdData = userData.user.id;
         }
-        console.log("userData:", userData);
       }
   
       // Use the user's id in the votesData

@@ -64,7 +64,7 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage}) {
     }
   }, [searchParams, navigate, processed]);
 
-  return <div>{processed ? 'Vote processed successfully!' : 'Processing your vote...'}</div>;
+  // return <div>{processed ? 'Vote processed successfully!' : 'Processing your vote...'}</div>;
 }
 
 export default PaymentSuccess;

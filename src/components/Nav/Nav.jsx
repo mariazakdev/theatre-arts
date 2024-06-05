@@ -145,7 +145,7 @@ function Nav({ isMobileMenuOpen, onClose, URL, API_KEY }) {
         </li>
         {currentUser ? (
           <>
-            {userData?.is_contestant && (
+            {userData?.is_contestant=== 1 && (
               <li>
                 <a
                   href="/contestant/dashboard"
