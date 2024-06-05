@@ -1,27 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import "./Footer.scss";
 
 function Footer() {
-  const [isNavOpen, setIsNavOpen] = useState(false);
-
-  const toggleNav = () => {
-    setIsNavOpen(!isNavOpen);
-  };
-
-  const closeNav = () => {
-    setIsNavOpen(false);
-  };
-
   return (
-    <header className={`footer ${isNavOpen ? 'nav-open' : ''}`}>
+    <footer className='footer'>
       <div className='footer--top'>
-        {/* <img src={Logo} alt="logo" className='header-logo'></img> */}
+        {/* <img src={Logo} alt="logo" className='footer-logo'></img> */}
         <div className='footer-title'>
-        <p>All rights reserved</p>
+          <p>All rights reserved</p>
         </div>
-   
       </div>
-    </header>
+      <div className='footer--links'>
+        <Link to="/privacy-policy">Privacy Policy</Link>
+        <Link to="/terms-of-service">Terms of Service</Link>
+        <Link to="/remove-user">Remove User</Link>
+      </div>
+    </footer>
   );
 }
 

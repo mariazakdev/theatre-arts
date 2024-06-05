@@ -3,33 +3,14 @@
 @import "../../styles/colors";
 
 .footer {
-  position: relative; // Ensure positioning context for pseudo-element
+  position: relative; 
   text-align: center;
   height: 8rem;
-overflow: hidden;
-  // &::before {
-  //   content: "";
-  //   position: absolute;
-  //   top: 0;
-  //   left: 58%; // Adjust the left value to position it on the right side
-  //   width: 43%; // Adjust the width for the grey background
-    
-  //   height: 100%;
-  //   background-color: $secondaryBackground;
-  //   z-index: -1; // Place it behind the content
-  // }
+  overflow: hidden;
 
   &--top {
     padding: 1rem;
     @include flex(center, center, row);
-
-    &__menu-icon {
-      cursor: pointer;
-      font-weight: 600;
-      @include tablet {
-        display: block;
-      }
-    }
 
     @include tablet {
       padding: 1.5rem;
@@ -40,43 +21,25 @@ overflow: hidden;
     }
   }
 
-  &-logo {
-    max-width: 100%;
-    height: auto;
-  }
-
   &-title {
     padding: 0 1rem;
-    h1 {
+    p {
       margin: 0;
-    }
-    h2 {
-      margin-top: 0;
     }
   }
 
-  &-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: $fifth-color;
-    transform: translateY(-100%);
-    display: none;
-    transition: transform 0.3s ease;
-
-    &.nav-open {
-      display: block;
-      transition: transform 0.3s ease;
-      transform: translateY(0%);
-    }
-
-    @include tablet {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+  &--links {
+    padding: 1rem;
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    a {
+      text-decoration: none;
+      color: white;
+      &:hover {
+        text-decoration: underline;
+      }
     }
   }
 }

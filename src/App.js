@@ -132,7 +132,7 @@ function App() {
             <Route path="*" element={<div>404 Not Found</div>} />
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="/terms-of-service" element={<TermsOfServicePage />} />
-          <Route path="/user-deletion" element={<UserDeletionPage URL={URL} API_KEY={API_KEY} />} />
+          <Route path="/remove-user" element={<UserDeletionPage URL={URL} API_KEY={API_KEY} />} />
           </Routes>
         </div>
         <Footer />

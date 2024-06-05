@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useAuth } from '../../contexts/AuthContext'; 
 import './UserDeletionPage.scss';
 
-const UserDeletionPage = ({ URL, API_KEY }) => {
+const UserDeletionPage = ({ URL }) => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const { currentUser } = useAuth();
 
   const handleDeleteRequest = async (e) => {
     e.preventDefault();
@@ -17,15 +19,19 @@ const UserDeletionPage = ({ URL, API_KEY }) => {
       return;
     }
 
+    if (currentUser && currentUser.email !== email) {
+      setError('The email address does not match the logged-in user.');
+      return;
+    }
+
     try {
-      await axios.post(
-        `${URL}/users/delete-request`,
-        { email },
+      await axios.delete(
+        `${URL}/users/${currentUser.uid}`,
         {
-          headers: { Authorization: `${API_KEY}` },
+          headers: { Authorization: `Bearer ${process.env.REACT_APP_API_KEY}` },
         }
       );
-      setMessage('Your request has been submitted successfully.');
+      setMessage('Your data has been deleted successfully.');
     } catch (error) {
       console.error('Error during data deletion request:', error);
       setError('Failed to submit your request. Please try again later.');
@@ -59,4 +65,4 @@ const UserDeletionPage = ({ URL, API_KEY }) => {
   );
 };
 
-export default UserDeletionPage ;
+export default UserDeletionPage;
