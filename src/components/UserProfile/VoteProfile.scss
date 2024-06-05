@@ -2,20 +2,31 @@
 @use "../../styles/colors" as *;
 
 .vote-profile {
-  @include flex(center, center, column);
+  @include flex(flex-start, center, column);
   // border: 3px solid ;
   width: 100%;
   border-radius: 8px;
   // overflow: hidden;
   background-color: $secondaryBackground;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  height: 60rem; // height matches VotingComponent "button-wrap__free-button"
+  height: 55rem; // height matches VotingComponent "button-wrap__free-button"
   @include tablet {
     height: 34rem;
   }
   margin-bottom: 1rem;
+  &__top-three-messages {
+    color: darkred;
+    margin-top: 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    @include mobile {
+      font-size: 0.8rem;
+      padding: 1rem;
+    }
+  }
   &__top-three-announce {
     h3 {
+      color: #007bff;
       margin-top: 1rem;
       font-size: 1rem;
       font-weight: 500;

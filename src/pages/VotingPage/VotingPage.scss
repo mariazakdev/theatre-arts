@@ -6,7 +6,6 @@
   background-color: $primaryBackground;
   @include flex(center, center, column);
   overflow: hidden;
- 
 
   @include tablet {
     width: 100%;
@@ -14,7 +13,7 @@
   &-top {
     @include flex(center, flex-start, row);
     width: 80%;
-    height: 60rem; // height matches UserProfile "user-profile" AND VotingComponent "button-wrap__free-button"
+    height: 55rem; // height matches UserProfile "user-profile" AND VotingComponent "button-wrap__free-button"
     margin-bottom: 1rem;
 
     @include tablet {

@@ -12,17 +12,29 @@
   height: auto;
 
   margin-bottom: 1rem;
-  &__top-three-announce {
-    h3 {
-      margin-top: 1rem;
-      font-size: 1rem;
-      font-weight: 500;
-      @include mobile {
-        font-size: 0.8rem;
-        padding: 1rem;
-      }
+
+  &__top-three-messages {
+    color: darkred;
+    margin-top: 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    @include mobile {
+      font-size: 0.8rem;
+      padding: 1rem;
     }
   }
+  // &__top-three-announce {
+  //   h3 {
+  //     color: #007bff;
+  //     margin-top: 1rem;
+  //     font-size: 1rem;
+  //     font-weight: 500;
+  //     @include mobile {
+  //       font-size: 0.8rem;
+  //       padding: 1rem;
+  //     }
+  //   }
+  // }
 
   @include tablet {
     height: 50rem;
