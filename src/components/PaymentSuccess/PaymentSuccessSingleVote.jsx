@@ -1,15 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useAuth } from "../../contexts/AuthContext"; 
+
 import axios from 'axios';
 
-function PaymentSuccess({ URL, API_KEY }) {
+function PaymentSuccess({ URL, API_KEY, setErrorMessage}) {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { currentUser } = useAuth();
 
   const [processed, setProcessed] = useState(false);
-  const [error, setError] = useState(null);
   const isMounted = useRef(true);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ function PaymentSuccess({ URL, API_KEY }) {
       try {
         // Perform backend update here
         const response = await axios.post(
-          `${URL}/contestants/vote-extra/${actorId}`,
+          `${URL}/contestants/vote/${actorId}`,
           { votes: votes },
           {
             headers: {
@@ -50,37 +50,21 @@ function PaymentSuccess({ URL, API_KEY }) {
             contestantId: actorId,
             numberOfVotes: 1,
           };
-          console.log('Data going to /votes:', votesData);
-         
-          console.log('Vote processed successfully!');
-          navigate(`/actors/${actorId}`);
+             navigate(`/actors/vote-adjacent/${actorId}`);
           setProcessed(true);
         }
       } catch (error) {
-        if (error.response && error.response.status === 400) {
-          setError(error.response.data.error);
-        } else {
-          setError('An unexpected error occurred.');
-        }
         console.error('Error while updating votes:', error);
+      
       }
     };
-
     if (isMounted.current && actorId && votes && !processed) {
       updateVotes(actorId, votes);
       isMounted.current = false;
     }
-  }, [searchParams, navigate, processed, currentUser.uid, URL, API_KEY]);
+  }, [searchParams, navigate, processed]);
 
-  return (
-    <div>
-      {error ? (
-        <div className="error-message">{error}</div>
-      ) : (
-        <div>{processed ? 'Vote processed successfully!' : 'Processing your vote...'}</div>
-      )}
-    </div>
-  );
+  // return <div>{processed ? 'Vote processed successfully!' : 'Processing your vote...'}</div>;
 }
 
 export default PaymentSuccess;

@@ -84,7 +84,6 @@ function VoteProfile({ URL, API_KEY }) {
               <div className="vote-user-details">
                 <h2>{actor.name}</h2>
                 <p className="vote-user-description">{actor.description}</p>
-                <p className="vote-user-votes">Votes: {actor.votes}</p>
               </div>
               <div className="vote-user-image-container">
                 <img

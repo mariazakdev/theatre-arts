@@ -29,8 +29,10 @@ import { ErrorVoteProvider } from "./contexts/PaidVoteContext";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage/PrivacyPolicyPage";
 import TermsOfServicePage from "./pages/TermsOfServicePage/TermsOfServicePage";
 import UserDeletionPage from "./pages/UserDeletionPage/UserDeletionPage";
+import VotingPage2 from "./pages/VotingPage/VotingPageNoSingleVote";
 
 import "./App.scss";
+import VotePaymentSuccessPage2 from "./pages/VotePaymentSuccess/VotePaymentSuccessPage2";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
 const CLIENT_URL = process.env.REACT_APP_URL;
@@ -115,6 +117,7 @@ function App() {
 
 
             <Route exact path="/actors/vote/:actorId" element={<VotingPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY} />} />
+            <Route exact path="/actors/vote-adjacent/:actorId" element={<VotingPage2 URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY} />} />
 
 
             <Route
@@ -125,6 +128,7 @@ function App() {
               
 
             <Route exact path="/vote-payment" element={<VotePaymentSuccessPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY} />} />
+            <Route exact path="/vote-payment-singlevote" element={<VotePaymentSuccessPage2 URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY} />} />
 
             <Route exact path="/sun-king" element={<SunKingPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY} />} />
 

@@ -82,7 +82,7 @@ export default function SingleVote({
     }
     console.log("votes tracker added", votesTrackerResponse);
 
-        navigate( `/vote-payment?actorId=${actorId}&votes=${1}`, {
+        navigate( `/vote-payment-singlevote?actorId=${actorId}&votes=${1}`, {
           state: { returnPath: location.pathname },
         });
       

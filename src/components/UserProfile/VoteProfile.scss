@@ -9,7 +9,7 @@
   // overflow: hidden;
   background-color: $secondaryBackground;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  height: 55rem; // height matches VotingComponent "button-wrap__free-button"
+  height: 45rem; // height matches VotingComponent "button-wrap__free-button"
   @include tablet {
     height: 34rem;
   }
@@ -105,13 +105,16 @@
 }
 
 .vote-user-info {
-  @include flex(center, center, row);
+  @include flex(center, flex-start, row);
   flex-wrap: wrap;
   width: 700px;
   border-radius: 0 0 8px 8px;
   // overflow: hidden;
   padding: 1rem;
-  height: 200px;
+  // height: 200px; // for 400 words to fit
+  height: 20rem;
+  // overflow:scroll ;
+  // overflow-x: hidden;
   @include desktop-sm {
     width: 100%;
     max-width: 400px;
@@ -159,6 +162,7 @@
   width: 100px;
   height: auto;
   object-fit: cover;
+  margin-top: 1.5rem;
 
   @include mobile {
     width: 50px;
