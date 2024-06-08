@@ -81,26 +81,47 @@ function LoginGeneral({ URL, API_KEY }) {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
+      const firebaseId = user.uid;
+      const userEmail = user.email;
 
-      const response = await axios.get(`${URL}/users/email/${user.email}`, {
+      // Check if the user already exists in your database
+      const response = await axios.get(`${URL}/users/email/${userEmail}`, {
         headers: { Authorization: `${API_KEY}` },
       });
 
       if (!response.data.userExists) {
+        // If user doesn't exist, create a new user
         await axios.post(`${URL}/users`, {
-          email: user.email,
-          firebaseAuthId: user.uid,
+          email: userEmail,
+          firebaseId,
           isContestant: false,
         }, {
           headers: { Authorization: `${API_KEY}` },
         });
       }
 
-      const { state } = location || {};
-      const returnPath = state?.returnPath || "/";
-      const actorId = state?.actorId;
+      const loginResponse = await axios.post(`${URL}/users/login`, { email: userEmail, firebaseId }, {
+        headers: { Authorization: `${API_KEY}` },
+      });
 
-      navigate(returnPath, { state: { actorId } });
+      const data = loginResponse.data;
+
+      if (data.userId) {
+        const userId = data.userId;
+        const { state } = location || {};
+        const returnPath = state?.returnPath || "/";
+        const actorId = state?.actorId;
+
+        if (returnPath === null) {
+          console.log("No return path received");
+          navigate("/");
+        } else {
+          navigate(returnPath, { state: { actorId, userId } });
+        }
+      } else {
+        setFlashMessage("User not found");
+        console.log("User not found");
+      }
     } catch (error) {
       console.error("Error during Google sign in:", error);
       setFlashMessage(error.message || "Failed to sign in with Google");

@@ -6,29 +6,25 @@ const TermsOfService = () => {
     <main className="terms-of-service">
       <section className="container">
         <h1>Terms of Service</h1>
-        <p>Welcome to [Your Company]. These terms and conditions outline the rules and regulations for the use of [Your Company]'s Website, located at [Your Website].</p>
+        <p>Welcome to Canadian Broadway Monologue Contest . These terms and conditions outline the rules and regulations for the use of Canadian Broadway's Website, located at https://canadian-broadway.vercel.app.</p>
         
         <h2>1. Terms</h2>
-        <p>By accessing this website we assume you accept these terms and conditions. Do not continue to use [Your Website] if you do not agree to take all of the terms and conditions stated on this page.</p>
+        <p>By accessing this website we assume you accept these terms and conditions. Do not continue to use https://canadian-broadway.vercel.app if you do not agree to take all of the terms and conditions stated on this page.</p>
         
         <h2>2. Cookies</h2>
-        <p>We employ the use of cookies. By accessing [Your Website], you agreed to use cookies in agreement with the [Your Company]'s Privacy Policy.</p>
+        <p>We do not collect cookies nor anything from your browser. 
+          We not not track your IP. Our voting limits are based on timers and not on your IP.
+          We no not collect any data apart from your email and your voting information. 
+          You email and votes will be shared with then contestant for them to be able to thank you. 
+          Once is round changes, your voting information will be reset. 
+          All your data will be deleted permanantly once the competition is over. 
+          You have an option to opt out from the competition and remove yourself at any time.</p>
         
         <h2>3. License</h2>
-        <p>Unless otherwise stated, [Your Company] and/or its licensors own the intellectual property rights for all material on [Your Website]. All intellectual property rights are reserved. You may access this from [Your Website] for your own personal use subjected to restrictions set in these terms and conditions.</p>
+        <p>Unless otherwise stated, Canadian Broadway and/or its licensors own the intellectual property rights for all material on https://canadian-broadway.vercel.app. 
+          All intellectual property rights are reserved. Canadian Broadway reserves the right to use your uploaded data for promotional purposes within https://canadian-broadway.vercel.app, for future competitions, to show previous winners. 
+          Screenshots of https://canadian-broadway.vercel.app might also be used for promotional purposes of this competion. This data will not be used for any purposes outside Canadian Broadway Monolgue Competion.</p>
         
-        <h2>4. User Comments</h2>
-        <p>Parts of this website offer an opportunity for users to post and exchange opinions and information in certain areas of the website. [Your Company] does not filter, edit, publish or review Comments prior to their presence on the website. Comments do not reflect the views and opinions of [Your Company], its agents and/or affiliates.</p>
-        
-        <h2>5. Hyperlinking to our Content</h2>
-        <p>The following organizations may link to our Website without prior written approval:</p>
-        <ul>
-          <li>Government agencies;</li>
-          <li>Search engines;</li>
-          <li>News organizations;</li>
-          <li>Online directory distributors may link to our Website in the same manner as they hyperlink to the Websites of other listed businesses; and</li>
-          <li>System-wide Accredited Businesses except soliciting non-profit organizations, charity shopping malls, and charity fundraising groups which may not hyperlink to our Web site.</li>
-        </ul>
         
         <h2>Contact Us</h2>
         <p>If you have any questions about our Terms of Service, please contact us at [Your Contact Information].</p>
