@@ -117,7 +117,7 @@
   // overflow-x: hidden;
   @include desktop-sm {
     width: 100%;
-    max-width: 400px;
+    max-width: 550px;
   }
   @include tablet {
     @include flex(center, center, column);

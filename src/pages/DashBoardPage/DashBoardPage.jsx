@@ -43,17 +43,17 @@ export default function Dashboard({ URL , API_KEY}) {
         // Only after upload process
         const contestant = data.contestant;
 
-        if (user.is_contestant === 1 && user.hasPaid === 0) {
+        if (user.is_contestant === 1 && user.hasPaid === 0 && user.uploadStatus === 0) {
           navigate("/contestant/enter");
           return;
         }
 
-        if (user.uploadStatus === 0 && user.hasPaid === 1) {
+        if (user.is_contestant === 1 && user.uploadStatus === 0 && user.hasPaid === 1) {
           navigate("/contestant/upload");
           return;
         }
 
-        if (user.uploadStatus === 1 && user.hasPaid === 1) {
+        if ( user.is_contestant === 1  && user.uploadStatus === 1 && user.hasPaid === 1) {
           // Set loading to false since the data is already available
           setLoading(false);
         }

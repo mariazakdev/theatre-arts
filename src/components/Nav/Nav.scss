@@ -88,11 +88,17 @@
 }
 .nav-logout{
     text-align: center;
-padding-top: .625rem;
   @include desktop {
       padding-left: 10px;
 
   }
+  @include tablet {
+    padding-top: .625rem;
 
-  
+  }
+
+  @include mobile {
+    padding-top: .625rem;
+
+  }
 }

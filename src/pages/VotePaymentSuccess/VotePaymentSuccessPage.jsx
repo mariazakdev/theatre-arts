@@ -1,12 +1,12 @@
-import PaymentSuccess2 from "../../components/PaymentSuccess/PaymentSuccessSingleVote";
+import PaymentSuccess from "../../components/PaymentSuccess/PaymentSuccess";
 
-const VotePaymentSuccessPage2 = ({ URL, API_KEY }) => {
+const VotePaymentSuccessPage = ({ URL, API_KEY }) => {
   return (
     <div className="form-background">
 
-    <PaymentSuccess2 URL={URL} API_KEY={API_KEY} />
+    <PaymentSuccess URL={URL} API_KEY={API_KEY} />
     </div>
   )
 };
 
-export default VotePaymentSuccessPage2;
+export default VotePaymentSuccessPage;

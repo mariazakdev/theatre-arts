@@ -154,7 +154,7 @@ function EditDashboard({
           <button className="edit-dashboard__form__button" type="submit">
             Update Description
           </button>
-          {contestantData.round === 1 && showVideoInput && ( // Only show the video URL input and button if round === 1
+          {contestantData.round === 2 && showVideoInput && ( // Only show the video URL input and button if round === 1
             <>
               <label className="edit-dashboard__form__label" htmlFor="videoUrl">
                 Video URL:

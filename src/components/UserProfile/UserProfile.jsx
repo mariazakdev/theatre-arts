@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import useTopThree from "../../hooks/useTopThree";
 import VideoPlayer from "../VideoEmbed/VideoEmbed";
 import "./UserProfile.scss";
@@ -10,6 +10,7 @@ function UserProfile({ URL, API_KEY }) {
   const [localActorData, setLocalActorData] = useState(null);
   const [announce, setAnnounce] = useState(null);
   const playerRef = useRef(null);
+  const navigate = useNavigate();
   const { groupedContestants, topThreeMessages } = useTopThree();
 
   // Fetch contestant data
@@ -54,6 +55,7 @@ function UserProfile({ URL, API_KEY }) {
   const videoSrc = actor.url_video
     ? actor.url_video.replace("watch?v=", "embed/")
     : "";
+
 // Share this url button.
     const handleShareClick = () => {
       const shareUrl = window.location.href;
@@ -62,6 +64,10 @@ function UserProfile({ URL, API_KEY }) {
       }).catch(err => {
         console.error('Failed to copy: ', err);
       });
+    };
+
+    const handleReturnPageClick = () => {
+      navigate(`/actors/vote/${actorId}`);
     };
 
 
@@ -104,6 +110,9 @@ function UserProfile({ URL, API_KEY }) {
               </div>
             </div>
           </Link>
+          <button onClick={handleReturnPageClick} className="share-button">
+            Back to Voting Page
+          </button>
           <button onClick={handleShareClick} className="share-button">
             Share Profile
           </button>
