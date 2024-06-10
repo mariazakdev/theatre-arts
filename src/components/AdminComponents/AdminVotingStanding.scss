@@ -1,0 +1,32 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+@import "../../styles/colors";
+
+.admin-actor-standing{
+    border: 1px solid black;
+    padding: 1rem;
+    margin-top: 1rem;
+    p{
+padding: 0;
+padding-left: 2rem;
+margin: 0;
+width: 20%;
+    }
+    h2{
+        padding: 0;
+        padding-left: 2rem;
+        margin: 0;
+    }
+    h4{
+        padding: 0;
+        padding-left: 2rem;
+        margin: 0;
+        color: rgb(13, 56, 6);
+        width: 50%;
+    }
+    li{
+        @include flex(center, center, row);
+        width: 80%;
+    }
+  
+}

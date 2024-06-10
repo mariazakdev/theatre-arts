@@ -9,8 +9,7 @@ function AdminActorsList({URL, API_KEY}) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [currentFilter, setCurrentFilter] = useState("votes"); 
-console.log("api key", API_KEY)
-console.log("url", URL)
+
   useEffect(() => {
     fetchVideoData();
   }, []);

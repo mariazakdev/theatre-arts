@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./AdminSunKing.scss";
 
-const URL = process.env.REACT_APP_BACKEND_URL;
 
-function AdminSunKingEdit() {
+function AdminSunKingEdit({ URL}) {
   const [sunKingData, setSunKingData] = useState({
     id: 1,
     title: "",
@@ -12,7 +11,6 @@ function AdminSunKingEdit() {
     content: "",
   });
   const [flashMessage, setFlashMessage] = useState(null);
-  console.log("AdminSunKingEdit URL:", URL);
   useEffect(() => {
     // Fetch Sun King data from the server and update the state
     axios.get(`${URL}/sun-king`).then((response) => { 

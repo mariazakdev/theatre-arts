@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 import './AdminUsersList.scss';
 
 
@@ -46,10 +48,32 @@ function AdminUsersList({URL, API_KEY}) {
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
+  const generatePDF = () => {
+    const input = document.getElementById('pdf-content');
+    if (input) {
+        html2canvas(input)
+            .then((canvas) => {
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF();
+                const imgProps = pdf.getImageProperties(imgData);
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
+                pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+                pdf.save("current_users_list.pdf");
+            })
+            .catch((error) => {
+                console.error('Error generating PDF:', error);
+            });
+    } else {
+        console.error('Error: PDF content element not found.');
+    }
+};
   return (
     <div className='users-list'>
       <h1>Admin Users List</h1>
+      <button onClick={generatePDF}>Save to PDF</button>
+                <div id="pdf-content">
       <ul>
         {users.map(user => (
           <li key={user.id}>
@@ -58,7 +82,7 @@ function AdminUsersList({URL, API_KEY}) {
           </li>
         ))}
       </ul>
-    </div>
+    </div></div>
   );
 }
 

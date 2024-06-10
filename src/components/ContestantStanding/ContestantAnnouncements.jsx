@@ -12,8 +12,7 @@ const ContestantAnnouncement = ({ actorId, API_KEY }) => {
   const [contestEndHandled, setContestEndHandled] = useState(false); 
   const [winnerMessages, setWinnerMessages] = useState([]);
   const [otherMessages, setOtherMessages] = useState([]);
-console.log('actorId:', actorId);
-console.log('API_KEY:', API_KEY);
+
 
   useEffect(() => {
     axios.get(`${URL}/contestants`,
@@ -22,14 +21,11 @@ console.log('API_KEY:', API_KEY);
         Authorization: `${API_KEY}`,
       },
     }
-    
-    
     )
       .then(response => {
         const activeContestants = response.data.filter(contestant => contestant.active === 1);
         setContestants(activeContestants);
         setNumOfContestants(activeContestants.length);
-        console.log('Contestants:', activeContestants);
       })
       .catch(error => {
         console.error('Error fetching contestants:', error);
@@ -114,7 +110,6 @@ console.log('API_KEY:', API_KEY);
               }
               return Promise.resolve();
             }));
-            console.log(`All votes reset successfully!`);
           } catch (error) {
             console.error(`Error resetting votes for all contestants:`, error);
           }
@@ -137,10 +132,8 @@ console.log('API_KEY:', API_KEY);
     }
   }, [updateCount, timeoutOver, startTime, contestants, contestEndHandled]);
    
-console.log('contestants at 138:', contestants);
 
   useEffect(() => {
-    console.log("Setting up timer...");
     if (startTime) {
       const timerId = setTimeout(() => {
         setTimeoutOver(true);

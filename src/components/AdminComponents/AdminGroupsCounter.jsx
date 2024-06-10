@@ -1,6 +1,6 @@
 // MainComponent.js
 import React, { useState } from 'react';
-import ContestantStanding from '../ContestantStanding/ContestantStanding';
+import ContestantGroupsRestart from '../ContestantStanding/ContestantGroupsRestart';
 
 const AdminGroupsCounter = ({URL , API_KEY}) => {
   const [timerStarted, setTimerStarted] = useState(false);
@@ -11,7 +11,7 @@ const AdminGroupsCounter = ({URL , API_KEY}) => {
 
   return (
     <div>
-      {timerStarted && <ContestantStanding URL={URL} API_KEY={API_KEY}/>}
+      {timerStarted && <ContestantGroupsRestart URL={URL} API_KEY={API_KEY}/>}
     </div>
   );
 };

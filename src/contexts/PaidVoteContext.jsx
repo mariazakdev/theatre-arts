@@ -11,7 +11,6 @@ export const useError = () => useContext(PaidVoteContext);
 
 export const ErrorVoteProvider = ({ children }) => {
   const [error, setError] = useState(null);
-console.log(error);
   const clearError = () => setError(null);
 
   return (
