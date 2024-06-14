@@ -8,6 +8,7 @@
 
   &-filler1{
     background-color: $primaryBackground;
+    
 
   }
   &-filler2{
@@ -33,12 +34,13 @@
       height: auto;
     }
 
-    p {
+    h3 {
       font-size: 1rem;
       color: black;
       font-family: 'Lobster', cursive;
       text-align: center;
       font-size: 2rem;
+      font-weight: 500;
 
       @include tablet {
         font-size: 1.5rem;
@@ -51,7 +53,13 @@
       }
     }
   }
-
+  h4{
+    padding: 2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    padding-top: 0;
+    margin: 0;
+  }
   &-card
  {
     @include flex(center, center, column);

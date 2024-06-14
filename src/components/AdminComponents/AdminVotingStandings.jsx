@@ -23,8 +23,8 @@ function AdminVotingStandings({URL, API_KEY}) {
                 );
                 const activeContestants = response.data.filter(contestant => contestant.active === 1);
                 const grouped = [];
-                for (let i = 0; i < activeContestants.length; i += 4) {
-                    const group = activeContestants.slice(i, i + 4);
+                for (let i = 0; i < activeContestants.length; i += 10) {
+                    const group = activeContestants.slice(i, i + 10);
                     const topThree = group.sort((a, b) => b.votes - a.votes).slice(0, 4);
                     grouped.push(topThree);
                 }
