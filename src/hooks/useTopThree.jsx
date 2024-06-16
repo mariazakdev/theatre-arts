@@ -6,6 +6,8 @@ const URL = process.env.REACT_APP_BACKEND_URL;
 function useTopThree() {
     const [groupedContestants, setGroupedContestants] = useState([]);
     const [topThreeMessages, setTopThreeMessages] = useState([]);
+    const [totalContestants, setTotalContestants] = useState(0);
+
 
     useEffect(() => {
         const fetchContestants = async () => {
@@ -18,6 +20,7 @@ function useTopThree() {
             );
 
                 const activeContestants = response.data.filter(contestant => contestant.active === 1);
+                setTotalContestants(activeContestants.length);
                 const grouped = [];
                 const messages = [];
 
@@ -75,7 +78,7 @@ function useTopThree() {
         fetchContestants();
     }, []);
 
-    return { groupedContestants, topThreeMessages };
+    return { groupedContestants, topThreeMessages, totalContestants };
 }
 
 export default useTopThree;

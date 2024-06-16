@@ -1,41 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import useTopThree from '../../hooks/useTopThree';
 import './AdminVotingStanding.scss';
 
-const API_KEY = process.env.REACT_APP_API_KEY;
+function AdminVotingStandings() {
+    const { groupedContestants, topThreeMessages, totalContestants } = useTopThree();
 
-function AdminVotingStandings({URL, API_KEY}) {
-    const [contestants, setContestants] = useState([]);
-    const [groupedContestants, setGroupedContestants] = useState([]);
-
-    useEffect(() => {
-        const fetchContestants = async () => {
-            try {
-                const response = await axios.get(`${URL}/contestants`, 
-                {
-                    headers: {
-                      Authorization: `${API_KEY}`,
-                    },
-                  } 
-                
-                );
-                const activeContestants = response.data.filter(contestant => contestant.active === 1);
-                const grouped = [];
-                for (let i = 0; i < activeContestants.length; i += 10) {
-                    const group = activeContestants.slice(i, i + 10);
-                    const topThree = group.sort((a, b) => b.votes - a.votes).slice(0, 4);
-                    grouped.push(topThree);
-                }
-                setGroupedContestants(grouped);
-            } catch (error) {
-                console.error('Error fetching contestants:', error);
-            }
-        };
-
-        fetchContestants();
-    }, []);
     const generatePDF = () => {
         const input = document.getElementById('pdf-content');
         if (input) {
@@ -59,36 +30,35 @@ function AdminVotingStandings({URL, API_KEY}) {
     };
 
     return (
-<div className="admin-actor-standing">
-                <h1>Contestants Standing in Groups</h1>
-                <p>Total Groups: {groupedContestants.length}</p> {/* Display the number of groups */}
+        <div className="admin-actor-standing">
+            <h1>Contestants Standing in Groups</h1>
+            <p>Total Groups: {groupedContestants.length}</p>
+            <p>Total Contestants: {totalContestants}</p>
 
-                <button onClick={generatePDF}>Save to PDF</button>
-                <div id="pdf-content">
 
-            {groupedContestants.map((group, index) => (
-                <div 
-                className="admin-actor__card" 
-                key={index}>
-                    <h2>Group {index + 1}</h2>
-                    <ul>
-                        {group.map(contestant => (
-                            <div className='admin-actor__card-content' >
-                            <li key={contestant.id}>
-                                <p>{contestant.name}</p>
-                                <p>Votes: {contestant.votes}</p>
-                                <p>Round: {contestant.round}</p>
-                                {group.indexOf(contestant) === 0 && <h4>This contestant is currently in first place.</h4>}
-                                {group.indexOf(contestant) === 1 && <h4>This contestant is currently in second place.</h4>}
-                                {group.indexOf(contestant) === 2 && <h4>This contestant is currently in third place.</h4>}
-                            </li>
-                            </div>
-                        ))}
-                    </ul>
-                </div>
-            ))}
-        </div></div>
+            <button onClick={generatePDF}>Save to PDF</button>
+            <div id="pdf-content">
+                {groupedContestants.map((group, index) => (
+                    <div className="admin-actor__card" key={index}>
+                        <h2>Group {index + 1}</h2>
+                        <ul>
+                            {group.map((contestant, idx) => (
+                                <div className='admin-actor__card-content' key={contestant.id}>
+                                    <li>
+                                        <p>{contestant.name}</p>
+                                        <p>Votes: {contestant.votes}</p>
+                                        <p>Round: {contestant.round}</p>
+                                        <p>{contestant.announce}</p>
+                                    </li>
+                                </div>
+                            ))}
+                        </ul>
+                    </div>
+                ))}
+            </div>
+        </div>
     );
 }
 
 export default AdminVotingStandings;
+
