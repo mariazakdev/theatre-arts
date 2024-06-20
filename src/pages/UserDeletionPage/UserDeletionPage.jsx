@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext'; 
 import './UserDeletionPage.scss';
 
-const UserDeletionPage = ({ URL }) => {
+const UserDeletionPage = ({ URL, API_KEY }) => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
@@ -28,7 +28,7 @@ const UserDeletionPage = ({ URL }) => {
       await axios.delete(
         `${URL}/users/${currentUser.uid}`,
         {
-          headers: { Authorization: `Bearer ${process.env.REACT_APP_API_KEY}` },
+          headers: { Authorization: `${API_KEY}` },
         }
       );
       setMessage('Your data has been deleted successfully.');
