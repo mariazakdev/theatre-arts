@@ -50,7 +50,7 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage}) {
             contestantId: actorId,
             numberOfVotes: 1,
           };
-             navigate(`/actors/${actorId}`);
+             navigate(`/actors/vote/${actorId}`);
           setProcessed(true);
         }
       } catch (error) {

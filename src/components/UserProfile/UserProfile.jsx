@@ -111,7 +111,7 @@ function UserProfile({ URL, API_KEY }) {
             </div>
           </Link>
           <button onClick={handleReturnPageClick} className="share-button">
-            Back to Voting Page
+            Go To Profile
           </button>
           <button onClick={handleShareClick} className="share-button">
             Share Profile

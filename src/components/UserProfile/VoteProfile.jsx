@@ -56,6 +56,8 @@ function VoteProfile({ URL, API_KEY }) {
     ? actor.url_video.replace("watch?v=", "embed/")
     : "";
 
+  
+
   return (
     <section className="vote-profile">
             {/* Announcement of rank */}
@@ -96,6 +98,7 @@ function VoteProfile({ URL, API_KEY }) {
           </Link>
         </div>
       )}
+      
     </section>
   );
 }

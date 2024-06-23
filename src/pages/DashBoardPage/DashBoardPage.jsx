@@ -137,22 +137,28 @@ export default function Dashboard({ URL , API_KEY}) {
         {/* Contestant Data */}
         <div className="dashboard__content__user-data">
           <div className="dashboard__content__user-data__details">
-            {contestants && (
-              <div key={contestants.id} className="user-data-details__user-details">
-                <h3 className="dashboard__user-name">{contestants.name}</h3>
-                <p className="dashboard__user-description">
-                  {contestants.description}
-                </p>
-                <img
-                  src={contestants.url_photo}
-                  alt={contestants.name}
-                  className="dashboard__user-photo"
-                />
-                <p className="dashboard__user-votes">
-                  Votes: {contestants.votes}
-                </p>
-              </div>
-            )}
+
+
+           {contestants && (
+  <div key={contestants.id} className="user-data-details__user-details">
+    {/* Link to user profile */}
+    <Link to={`/actors/vote/${actorId}`} className="link-style">
+    <h3 className="dashboard__user-name">{contestants.name}</h3>
+      <p className="dashboard__user-description">
+        {contestants.description}
+      </p>
+      <img
+        src={contestants.url_photo}
+        alt={contestants.name}
+        className="dashboard__user-photo"
+      />
+      <p className="dashboard__user-votes">
+        Votes: {contestants.votes}
+      </p>
+    </Link>
+  </div>
+)}
+
           </div>
           <div className="dashboard__content__user-data__vid">
             {contestants && contestants.url_video && (
