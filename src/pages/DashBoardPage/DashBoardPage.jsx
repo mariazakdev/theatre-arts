@@ -142,7 +142,8 @@ export default function Dashboard({ URL , API_KEY}) {
            {contestants && (
   <div key={contestants.id} className="user-data-details__user-details">
     {/* Link to user profile */}
-    <Link to={`/actors/vote/${actorId}`} className="link-style">
+    <Link to={`/actors/vote/${contestants.id}`} className="link-style">
+   <button className="link-style__vote-button">Go to profile</button>
     <h3 className="dashboard__user-name">{contestants.name}</h3>
       <p className="dashboard__user-description">
         {contestants.description}
