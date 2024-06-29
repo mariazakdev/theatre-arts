@@ -10,6 +10,10 @@
   @include tablet {
     width: 100%;
   }
+  &-content{
+    @include flex(center, center, column);
+
+  }
   &-top {
     @include flex(center, flex-start, row);
     width: 80%;
@@ -86,4 +90,39 @@
   @include mobile {
     width: 100%;
   }
+}
+
+/* VotingPage.scss */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.loading-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  animation: fadeIn 1s forwards;
+}
+
+.success-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  animation: fadeIn 1s forwards, fadeOut 1s forwards 2s;
 }

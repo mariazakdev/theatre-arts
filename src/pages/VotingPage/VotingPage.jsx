@@ -17,6 +17,8 @@ export default function VotingPage({ URL, CLIENT_URL, API_KEY }) {
   const [stripeToken, setStripeToken] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [votedExtra, setVotedExtra] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [voteSuccess, setVoteSuccess] = useState(false);
 
   useEffect(() => {
     const fetchActor = async () => {
@@ -45,13 +47,79 @@ export default function VotingPage({ URL, CLIENT_URL, API_KEY }) {
           { headers: { Authorization: `${API_KEY}` } }
         );
 
+        // if (response.status === 200) {
+        // }
         if (response.status === 200) {
+          setVoteSuccess(true);
+          setTimeout(() => {
+            setLoading(false);
+            navigate(`/contestants/vote/${actorId}`);
+          }, 3000); // Adjust timing as needed
         }
       } catch (error) {
         console.error("Error while voting:", error);
       }
     }
   };
+
+  // return (
+  //   <section>
+  //     <div className="vote">
+  //       {errorMessage && (
+  //         <div className="error-message">
+  //           <p>{errorMessage}</p>
+  //         </div>
+  //       )}
+  //       <div className="vote-top">
+  //         <div className="vote-top-left">
+  //           <VoteProfile 
+  //           actorId={actorId} 
+  //           URL={URL} 
+  //           API_KEY={API_KEY} 
+  //           errorMessage={errorMessage}
+  //           setErrorMessage={setErrorMessage}
+  //           setVotedExtra={setVotedExtra}
+          
+  //           />
+  //         </div>
+  //         <div className="vote-top-right">
+  //           {actorData && actorData.active ? (
+  //             <SingleVote
+  //               URL={URL}
+  //               actorId={actorId}
+  //               onVoteSuccess={handleVoteSuccess}
+  //               navigate={navigate}
+  //               currentUser={currentUser}
+  //               errorMessage={errorMessage}
+  //               setErrorMessage={setErrorMessage}
+  //               API_KEY={API_KEY}
+  //             />
+  //           ) : (
+  //             <p></p>
+  //           )}
+  //         </div>
+  //       </div>
+
+  //       <div className="vote-bottom">
+  //         {actorData && actorData.active ? (
+  //           <VotingButtons
+  //             CLIENT_URL={CLIENT_URL}
+  //             URL={URL}
+  //             email={email}
+  //             stripeToken={stripeToken}
+  //             actorId={actorId}
+  //             location={location}
+  //             currentUser={currentUser}
+  //             setErrorMessage={setErrorMessage}
+  //             API_KEY={API_KEY}
+  //           />
+  //         ) : (
+  //           <p></p>
+  //         )}
+  //       </div>
+  //     </div>
+  //   </section>
+  // );
 
   return (
     <section>
@@ -61,53 +129,65 @@ export default function VotingPage({ URL, CLIENT_URL, API_KEY }) {
             <p>{errorMessage}</p>
           </div>
         )}
-        <div className="vote-top">
-          <div className="vote-top-left">
-            <VoteProfile 
-            actorId={actorId} 
-            URL={URL} 
-            API_KEY={API_KEY} 
-            errorMessage={errorMessage}
-            setErrorMessage={setErrorMessage}
-            setVotedExtra={setVotedExtra}
-          
-            />
+        {loading ? (
+          <div className="loading-spinner">
+            {/* Add your spinner component or animation here */}
+            <p>Loading...</p>
           </div>
-          <div className="vote-top-right">
-            {actorData && actorData.active ? (
-              <SingleVote
-                URL={URL}
-                actorId={actorId}
-                onVoteSuccess={handleVoteSuccess}
-                navigate={navigate}
-                currentUser={currentUser}
+        ) : (
+          <div className="vote-content">
+            {voteSuccess && (
+              <div className="success-message">
+                <p>Vote successfully cast!</p>
+              </div>
+            )}
+            <div className="vote-top">
+              <div className="vote-top-left">
+                <VoteProfile 
+                actorId={actorId} 
+                URL={URL} 
+                API_KEY={API_KEY} 
                 errorMessage={errorMessage}
                 setErrorMessage={setErrorMessage}
-                API_KEY={API_KEY}
-              />
-            ) : (
-              <p></p>
-            )}
+                setVotedExtra={setVotedExtra}
+                />
+              </div>
+              <div className="vote-top-right">
+                {actorData && actorData.active ? (
+                  <SingleVote
+                    URL={URL}
+                    actorId={actorId}
+                    onVoteSuccess={handleVoteSuccess}
+                    navigate={navigate}
+                    currentUser={currentUser}
+                    errorMessage={errorMessage}
+                    setErrorMessage={setErrorMessage}
+                    API_KEY={API_KEY}
+                  />
+                ) : (
+                  <p></p>
+                )}
+              </div>
+            </div>
+            <div className="vote-bottom">
+              {actorData && actorData.active ? (
+                <VotingButtons
+                  CLIENT_URL={CLIENT_URL}
+                  URL={URL}
+                  email={email}
+                  stripeToken={stripeToken}
+                  actorId={actorId}
+                  location={location}
+                  currentUser={currentUser}
+                  setErrorMessage={setErrorMessage}
+                  API_KEY={API_KEY}
+                />
+              ) : (
+                <p></p>
+              )}
+            </div>
           </div>
-        </div>
-
-        <div className="vote-bottom">
-          {actorData && actorData.active ? (
-            <VotingButtons
-              CLIENT_URL={CLIENT_URL}
-              URL={URL}
-              email={email}
-              stripeToken={stripeToken}
-              actorId={actorId}
-              location={location}
-              currentUser={currentUser}
-              setErrorMessage={setErrorMessage}
-              API_KEY={API_KEY}
-            />
-          ) : (
-            <p></p>
-          )}
-        </div>
+        )}
       </div>
     </section>
   );

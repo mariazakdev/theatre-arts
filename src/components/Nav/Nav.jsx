@@ -252,9 +252,9 @@ function Nav({ isMobileMenuOpen, onClose, URL, API_KEY }) {
             <li onClick={handleLogout} className="nav-logout">
               Logout
             </li>
-            <li onClick={handleShareClick} className="nav-share-profile">
+            {/* <li onClick={handleShareClick} className="nav-share-profile">
               Share Profile
-            </li>
+            </li> */}
           </>
         ) : (
           <li>
@@ -262,7 +262,11 @@ function Nav({ isMobileMenuOpen, onClose, URL, API_KEY }) {
               Login
             </a>
           </li>
+          
         )}
+         <li onClick={handleShareClick} className="nav-share-profile">
+              Share Profile
+            </li>
       </ul>
     </nav>
   );
