@@ -9,7 +9,7 @@ import "./VotingButtons.scss";
 // Login and navigate to the login page if not logged in (flash message)
 // Prices set here
 
-export default function VotingButtons({
+export default function VotingButtonsSpecialTriple({
   CLIENT_URL,
   URL,
   email,
@@ -56,8 +56,8 @@ errorMessage,
       <div className="button-wrap__button-container">
         {paymentOptions.map(({ amount, priceId }) => (
 
-<div key={amount} className="payment-option">
-<p>${amount} = {amount} Votes</p>
+<div key={amount} className="payment-option-triple">
+<p>${amount} = {amount * 3} Votes</p>
 <PaymentButton
   CLIENT_URL={CLIENT_URL}
   URL={URL}

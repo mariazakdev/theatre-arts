@@ -3,6 +3,8 @@ import { useNavigate, useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext"; 
 import VotingButtons from "../../components/VotingComponent/VotingButtons";
+import VotingButtonsSpecial from "../../components/VotingComponent/VotingButtonsSpecial";
+import VotingButtonsSpecialTriple from "../../components/VotingComponent/VotingButtonsSpecialTriple";
 import SingleVote from "../../components/VotingComponent/SingleVote";
 import VoteProfile from "../../components/UserProfile/VoteProfile";
 import "./VotingPage.scss";
@@ -172,6 +174,7 @@ export default function VotingPage({ URL, CLIENT_URL, API_KEY }) {
             <div className="vote-bottom">
               {actorData && actorData.active ? (
                 <VotingButtons
+                  actorName={actorData.name} 
                   CLIENT_URL={CLIENT_URL}
                   URL={URL}
                   email={email}
@@ -182,13 +185,58 @@ export default function VotingPage({ URL, CLIENT_URL, API_KEY }) {
                   setErrorMessage={setErrorMessage}
                   API_KEY={API_KEY}
                 />
+
               ) : (
                 <p></p>
               )}
             </div>
+
+
+            <div className="vote-bottom-double">
+              {actorData && actorData.active ? (
+                <VotingButtonsSpecial
+                  actorName={actorData.name} 
+                  CLIENT_URL={CLIENT_URL}
+                  URL={URL}
+                  email={email}
+                  stripeToken={stripeToken}
+                  actorId={actorId}
+                  location={location}
+                  currentUser={currentUser}
+                  setErrorMessage={setErrorMessage}
+                  API_KEY={API_KEY}
+                />
+                
+              ) : (
+                <p></p>
+              )}
+            </div>
+
+            <div className="vote-bottom-double">
+              {actorData && actorData.active ? (
+                <VotingButtonsSpecialTriple
+                  actorName={actorData.name} 
+                  CLIENT_URL={CLIENT_URL}
+                  URL={URL}
+                  email={email}
+                  stripeToken={stripeToken}
+                  actorId={actorId}
+                  location={location}
+                  currentUser={currentUser}
+                  setErrorMessage={setErrorMessage}
+                  API_KEY={API_KEY}
+                />
+                
+              ) : (
+                <p></p>
+              )}
+            </div>
+
           </div>
         )}
       </div>
+
+
     </section>
   );
 }

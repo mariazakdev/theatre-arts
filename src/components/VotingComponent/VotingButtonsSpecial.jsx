@@ -56,8 +56,8 @@ errorMessage,
       <div className="button-wrap__button-container">
         {paymentOptions.map(({ amount, priceId }) => (
 
-<div key={amount} className="payment-option">
-<p>${amount} = {amount} Votes</p>
+<div key={amount} className="payment-option-double">
+<p>${amount} = {amount * 2} Votes</p>
 <PaymentButton
   CLIENT_URL={CLIENT_URL}
   URL={URL}

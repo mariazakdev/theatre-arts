@@ -40,3 +40,38 @@
     margin: 1rem;
   }
 }
+.payment-option {
+  @include flex(center, center, column);
+  margin: 1rem;
+  text-align: center;
+
+  p {
+    // margin-bottom: 0.5rem; 
+    padding: 0;
+    margin: 0;
+  }
+}
+.payment-option-double {
+  @include flex(center, center, column);
+  margin: 1rem;
+  text-align: center;
+
+  p {
+    // margin-bottom: 0.5rem; 
+    color: red;
+    padding: 0;
+    margin: 0;
+  }
+}
+.payment-option-triple{
+  @include flex(center, center, column);
+  margin: 1rem;
+  text-align: center;
+
+  p {
+    // margin-bottom: 0.5rem; 
+    color: green;
+    padding: 0;
+    margin: 0;
+  }
+}
