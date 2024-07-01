@@ -1,7 +1,8 @@
 import BannerActors from "../../components/BannerActors/BannerActors";
 import BannerSunKing from "../../components/BannerSunKing/BannerSunKing";
 import VotingButtons from "../../components/VotingComponent/VotingButtons";
-import VideoPlayer from "../../components/VideoEmbed/VideoEmbed";
+import ReactPlayer from 'react-player';
+
 import "./HomePage.scss";
 
 function HomePage( {URL, API_KEY}) {
@@ -20,14 +21,17 @@ religion or gender will not influence the judging of individual acts. </h4>
     {/* Actors Banner */}
       <div className="home-card home-card1">
         <div className="home-card-actors">
-          <BannerActors URL={URL} API_KEY={API_KEY}/>
+          {/* <BannerActors URL={URL} API_KEY={API_KEY}/> */}
+          
         </div>
-        <div className="home-promo-video">
-        <VideoPlayer url="https://youtu.be/kAycWPsDe9g" />
-
-        </div>
+       
       </div>
+      <div className="home-promo-video home-filler-video">
+        <ReactPlayer url='https://youtu.be/118hgexak-A' controls={true} />
 
+    
+
+        </div>
       <div className="home-filler home-filler2">
         {/* <h3>
           The proceed from this contest will be utilized towards children with
