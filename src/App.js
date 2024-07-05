@@ -33,6 +33,7 @@ import VotingPage2 from "./pages/VotingPage/VotingPageNoSingleVote";
 
 import "./App.scss";
 import VotePaymentSuccessPage2 from "./pages/VotePaymentSuccess/VotePaymentSuccessPage2";
+import ContactPage from "./pages/ContactPage/ContactPage";
 
 const URL = process.env.REACT_APP_BACKEND_URL;
 const CLIENT_URL = process.env.REACT_APP_URL;
@@ -137,6 +138,7 @@ function App() {
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
           <Route path="/terms-of-service" element={<TermsOfServicePage />} />
           <Route path="/remove-user" element={<UserDeletionPage URL={URL} API_KEY={API_KEY} />} />
+          <Route path="/contact-us" element={<ContactPage />} />
           </Routes>
         </div>
         <Footer />

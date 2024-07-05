@@ -1,9 +1,11 @@
 import BannerActors from "../../components/BannerActors/BannerActors";
 import BannerSunKing from "../../components/BannerSunKing/BannerSunKing";
 import VotingButtons from "../../components/VotingComponent/VotingButtons";
+import ContactITForm from "../../components/Contact/EmailOptionsItSupport";
 import ReactPlayer from 'react-player';
-
 import "./HomePage.scss";
+import EmailOptionsITSupport from "../../components/Contact/EmailOptionsItSupport";
+import EmailOptionsCustomerSupport from "../../components/Contact/EmailOptionsCustomerService";
 
 function HomePage( {URL, API_KEY}) {
   return (
@@ -50,6 +52,7 @@ fall through the crack or be the subject of neglect.)
       <div className="home-card home-card2 ">
         <BannerSunKing API_KEY={API_KEY}/>
       </div>
+ 
     </div>
   );
 }
