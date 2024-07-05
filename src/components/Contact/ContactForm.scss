@@ -1,0 +1,131 @@
+@import "../../styles/variables";
+@import "../../styles/mixins";
+@import "../../styles/colors";
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  max-width: 500px;
+  width: 100%;
+
+  @include mobile {
+    padding: 15px;
+    max-width: 90%;
+  }
+
+  @include tablet {
+    padding: 20px;
+    max-width: 400px;
+  }
+
+  @include desktop {
+    padding: 25px;
+    max-width: 500px;
+  }
+
+  &__title {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+
+    @include mobile {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+  }
+
+  &__subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #555;
+
+    @include mobile {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+  }
+
+  &__warning {
+    font-size: 1rem;
+    color: chocolate;
+    margin-bottom: 20px;
+    font-weight: 500;
+
+    @include mobile {
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+    }
+  }
+
+  &__description {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #666;
+
+    @include mobile {
+      font-size: 0.9rem;
+      margin-bottom: 15px;
+    }
+  }
+
+  &__thank-you-message {
+    text-align: center;
+  }
+
+  &__button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+
+  &__form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+    width: 100%;
+  }
+
+  &__label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+  }
+
+  &__input, &__textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+
+    &:focus {
+      border-color: #007bff;
+      outline: none;
+    }
+  }
+
+  &__textarea {
+    resize: vertical;
+    min-height: 200px;
+    resize: none;
+  }
+
+  &__form {
+    width: 100%;
+  }
+}

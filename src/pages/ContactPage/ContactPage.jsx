@@ -1,12 +1,13 @@
 import React from 'react'
-import EmailOptionsCustomerSupport from '../../components/Contact/EmailOptionsCustomerService'
-import EmailOptionsITSupport from '../../components/Contact/EmailOptionsItSupport'
+import ContactITForm from '../../components/Contact/ContactItForm'
+import ContactSupportForm from '../../components/Contact/ContactSupportForm'
+import './ContactPage.scss'
 
 export default function ContactPage() {
   return (
-    <div>
-      <EmailOptionsCustomerSupport />
-      <EmailOptionsITSupport />
+    <div className='contact-container'>
+      <ContactSupportForm/>
+      <ContactITForm />
     </div>
   )
 }
