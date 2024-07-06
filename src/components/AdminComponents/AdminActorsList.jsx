@@ -22,9 +22,11 @@ function AdminActorsList({ URL, API_KEY }) {
       })
       .then((response) => {
         setVideoData(response.data);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("There was an error fetching the video data:", error);
+        setLoading(false);
       });
   };
 
@@ -41,22 +43,24 @@ function AdminActorsList({ URL, API_KEY }) {
     );
   };
 
-  const handleDeleteClick = (actorId) => {
+  const handleDeleteClick = (contestantId) => {
+    console.log(`Attempting to delete contestant with ID: ${contestantId}`); // Add logging
     axios
-      .delete(`${URL}/contestants/${actorId}`, {
+      .delete(`${URL}/contestants/${contestantId}`, {
         headers: {
           Authorization: `${API_KEY}`,
         },
       })
       .then(() => {
-        fetchVideoData();
-        alert("Video deleted successfully!");
+        setVideoData((prevData) => prevData.filter((video) => video.id !== contestantId));
+        alert("Actor deleted successfully!");
       })
       .catch((error) => {
         console.error("Error deleting contestant:", error);
       });
   };
 
+  
   const handleToggleActive = (actorId, currentActive) => {
     const newActiveStatus = currentActive === 1 ? 0 : 1;
     axios
@@ -70,7 +74,11 @@ function AdminActorsList({ URL, API_KEY }) {
         }
       )
       .then(() => {
-        fetchVideoData();
+        setVideoData((prevData) =>
+          prevData.map((video) =>
+            video.id === actorId ? { ...video, active: newActiveStatus } : video
+          )
+        );
         alert(
           `Contestant ${
             newActiveStatus ? "activated" : "deactivated"
@@ -112,6 +120,10 @@ function AdminActorsList({ URL, API_KEY }) {
     }
     setVideoData(filteredData);
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="admin-actor">

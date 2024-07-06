@@ -6,6 +6,8 @@ import VideoPlayer from "../../components/VideoEmbed/VideoEmbed";
 import EditDashboard from "../../components/EditDashBoard/EditDashBoard";
 import "./DashBoardPage.scss";
 import DashBoardVoterComponent from "../../components/DashBoardVoterComponent/DashBoardVoterComponent";
+import DashboardSeeGroups from "../../components/DashboardSeeGroups/DashaboardSeeGroups";
+
 
 export default function Dashboard({ URL , API_KEY}) {
   const [error, setError] = useState("");
@@ -189,7 +191,7 @@ export default function Dashboard({ URL , API_KEY}) {
         
         <DashBoardVoterComponent votes={votes} />
      
-
+<DashboardSeeGroups URL={URL} API_KEY={API_KEY} />
         {error && <p className="dashboard__error">{error}</p>}
       </div>
     </div>

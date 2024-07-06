@@ -61,4 +61,3 @@ function AdminVotingStandings() {
 }
 
 export default AdminVotingStandings;
-
