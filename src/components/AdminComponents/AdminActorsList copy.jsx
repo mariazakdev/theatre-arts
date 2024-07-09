@@ -10,6 +10,8 @@ function AdminActorsList({ URL, API_KEY }) {
   const [currentFilter, setCurrentFilter] = useState("votes");
   const [newRoundNumber, setNewRoundNumber] = useState('');
   const [newGroupNumber, setNewGroupNumber] = useState('');
+  const [expandedCards, setExpandedCards] = useState([]);
+
 
   useEffect(() => {
     fetchVideoData();
@@ -36,6 +38,7 @@ function AdminActorsList({ URL, API_KEY }) {
     navigate(
       `/actors/vote/${video.id}`,
       { state: { actor: video } },
+
       {
         headers: {
           Authorization: `${API_KEY}`,
@@ -61,6 +64,7 @@ function AdminActorsList({ URL, API_KEY }) {
       });
   };
 
+  
   const handleToggleActive = (actorId, currentActive) => {
     const newActiveStatus = currentActive === 1 ? 0 : 1;
     axios
@@ -121,6 +125,7 @@ function AdminActorsList({ URL, API_KEY }) {
     setVideoData(filteredData);
   };
 
+
   const handleRoundUpdate = () => {
     axios.put(`${URL}/update-round-manually`, { roundNumber: newRoundNumber }, {
       headers: {
@@ -149,10 +154,108 @@ function AdminActorsList({ URL, API_KEY }) {
       });
   };
 
+ const toggleCardExpansion = (id) => {
+    setExpandedCards(prev =>
+      prev.includes(id) ? prev.filter(cardId => cardId !== id) : [...prev, id]
+    );
+  };
+
+
   if (loading) {
     return <div>Loading...</div>;
   }
 
+  // return (
+  //   <div className="admin-actor">
+  //     <h1>Users and their Videos</h1>
+  //     <div className="filter-buttons">
+  //       <button onClick={() => handleFilterChange("votes")}>Most Votes</button>
+  //       <button onClick={() => handleFilterChange("alphabetical")}>
+  //         Alphabetical Order
+  //       </button>
+  //       <button onClick={() => handleFilterChange("active")}>Active</button>
+  //       <button onClick={() => handleFilterChange("inactive")}>Inactive</button>
+  //       <button onClick={() => handleFilterChange("topOrder")}>
+  //         Top Order
+  //       </button>
+  //     </div>
+  //     <div className="admin-actor__card">
+  //       {videoData.map((video) => (
+  //         <div key={video.id} className="admin-card">
+  //           <div className="admin-actor__card-content">
+  //             <h2 className="card-title">{video.name}</h2>
+  //             <img
+  //               src={video.url_photo}
+  //               alt={video.name}
+  //               className="admin-actor__card-image"
+  //             />
+  //             <div className="admin-actor__card-description">
+  //               <strong>Video Link: </strong>
+  //               <a
+  //                 href={video.url_video}
+  //                 target="_blank"
+  //                 rel="noopener noreferrer"
+  //               >
+  //                 {video.url_video}
+  //               </a>
+  //               <p>{video.description}</p>
+  //               <p>{video.active === 1 ? "Active" : "Inactive"}</p>
+  //             </div>
+  //             {video.url_video && (
+  //               <iframe
+  //                 title="Contestant Video"
+  //                 src={video.url_video.replace("watch?v=", "embed/")}
+  //                 allowFullScreen
+  //                 className="admin-card-content__video"
+  //               ></iframe>
+  //             )}
+  //             <p className="card-votes">Votes: {video.votes}</p>
+  //             <p className="card-round">Round: {video.round}</p>
+  //             <p className="card-group">Group: {video.group_number}</p>
+
+  //           </div>
+  //           <button
+  //             className="see-more-button"
+  //             onClick={() => handleCardClick(video)}
+  //           >
+  //             See More
+  //           </button>
+  //           <div className="update-round">
+  //             <input
+  //               type="number"
+  //               value={newRoundNumber}
+  //               onChange={(e) => setNewRoundNumber(e.target.value)}
+  //               placeholder="Enter new round number"
+  //             />
+  //             <button onClick={handleRoundUpdate}>Update Round Number</button>
+  //           </div>
+
+  //           <div className="update-round">
+  //       <input
+  //         type="number"
+  //         value={newRoundNumber}
+  //         onChange={(e) => setNewRoundNumber(e.target.value)}
+  //         placeholder="Enter new round number"
+  //       />
+  //       <button onClick={handleRoundUpdate}>Update Round Number</button>
+  //     </div>
+  //           <button
+  //             className="delete-button"
+  //             onClick={() => handleDeleteClick(video.id)}
+  //           >
+  //             Delete
+  //           </button>
+  //           <button
+  //             className="toggle-active-button"
+  //             onClick={() => handleToggleActive(video.id, video.active)}
+  //           >
+  //             {video.active === 1 ? "Deactivate" : "Activate"}
+  //           </button>
+  //         </div>
+  //       ))}
+  //     </div>
+  //   </div>
+  // );
   return (
     <div className="admin-actor">
       <h1>Users and their Videos</h1>
@@ -199,6 +302,8 @@ function AdminActorsList({ URL, API_KEY }) {
                   className="admin-actor__card-video"
                 ></iframe>
               )}
+            </div>
+            {expandedCards.includes(video.id) && (
               <div className="admin-actor__card-extra">
                 <p className="admin-actor__card-votes">Votes: {video.votes}</p>
                 <p className="admin-actor__card-round">Round: {video.round}</p>
@@ -236,7 +341,13 @@ function AdminActorsList({ URL, API_KEY }) {
                   </button>
                 </div>
               </div>
-            </div>
+            )}
+            <button
+              className="see-more-button"
+              onClick={() => toggleCardExpansion(video.id)}
+            >
+              {expandedCards.includes(video.id) ? "See Less" : "See More"}
+            </button>
           </div>
         ))}
       </div>

@@ -4,87 +4,171 @@
 
 .admin-actor {
   padding: 20px;
+
+  h1 {
+    margin-bottom: 20px;
+  }
+
+  .filter-buttons {
+    margin-bottom: 20px;
+
+    button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-right: 10px;
+      margin-bottom: 10px;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+
+  &__cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
   &__card {
     border-radius: 8px;
     overflow: hidden;
     transition: box-shadow 0.3s;
     width: 100%;
-    &-content {
-      @include flex(space-between, center, row);
+    max-width: 300px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    &-header {
       padding: 15px;
-      // border: #c82333 4px solid;
-      @include tablet{
-        @include flex(space-between, center, column);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
       }
-      @include mobile{
-        @include flex(space-between, center, column);
+
+      h2 {
+        font-size: 18px;
+        margin: 0;
       }
-      video {
+    }
+
+    &-body {
+      padding: 15px;
+      flex: 1;
+
+      .admin-actor__card-description {
+        margin-bottom: 10px;
+
+        a {
+          word-break: break-word;
+        }
+      }
+
+      .admin-actor__card-video {
         width: 100%;
-        height: 100%;
+        max-width: 200px;
+        height: auto;
       }
-      h1 {
-        font-size: 24px;
-        margin-bottom: 20px;
+    }
+
+    &-extra {
+      padding: 15px;
+      border-top: 1px solid #eee;
+
+      &-votes,
+      &-round,
+      &-group {
+        margin: 5px 0;
+      }
+
+      &-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .admin-actor__card-update {
+          display: flex;
+          gap: 10px;
+          margin-bottom: 10px;
+
+          input {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+          }
+
+          button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+
+            &:hover {
+              background-color: #0056b3;
+            }
+          }
+        }
+
+        .delete-button {
+          background-color: #dc3545;
+          color: white;
+          border: none;
+          padding: 8px 12px;
+          border-radius: 5px;
+          cursor: pointer;
+          font-size: 14px;
+
+          &:hover {
+            background-color: #c82333;
+          }
+        }
+
+        .toggle-active-button {
+          background-color: #28a745;
+          color: white;
+          border: none;
+          padding: 8px 12px;
+          border-radius: 5px;
+          cursor: pointer;
+          font-size: 14px;
+
+          &:hover {
+            background-color: #218838;
+          }
+        }
       }
     }
   }
-  &__card:hover {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  }
-  &-title {
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
 
-  &-image {
-    width: 100%;
-    height: auto;
-    border-radius: 5px;
-    margin-bottom: 10px;
-  }
-
-  &-description {
-    margin-bottom: 10px;
-    margin: 1rem;
-    padding: 1rem;
-    border: #c82333 4px solid;
-  }
-p, a{
-  margin-left: 1rem;
-  margin-right: 1rem ;
-}
-.filter-buttons {
-  margin-top: 20px; // Adjust as needed
-  button {
-    background-color: #007bff;
-    color: #fff;
+  .see-more-button {
+    background-color: #6c757d;
+    color: white;
     border: none;
     padding: 8px 12px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 14px;
-    margin-right: 10px;
-    margin-bottom: 1rem;
+    margin: 10px;
 
     &:hover {
-      background-color: #0056b3;
+      background-color: #5a6268;
     }
   }
-}
-}
-
-.delete-button {
-  background-color: #dc3545;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  margin-right: 1rem;
-}
-
-.delete-button:hover {
-  background-color: #c82333;
 }
