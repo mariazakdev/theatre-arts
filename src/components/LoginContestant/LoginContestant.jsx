@@ -155,7 +155,7 @@ function LoginContestant({ URL, API_KEY }) {
           </button>
 
           <p className="login-redirect">
-            No account yet? <NavLink to="/signup">Sign up</NavLink>
+            No account yet? <NavLink to="/contestant/signup">Sign up</NavLink>
           </p>
         </div>
       </section>

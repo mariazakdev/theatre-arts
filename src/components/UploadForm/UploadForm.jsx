@@ -50,10 +50,12 @@ function UploadForm({ URL, API_KEY }) {
           headers: { Authorization: `${API_KEY}` },
         });
         const user = response.data.user;
-        if (user.uploadStatus === 1) {
-          navigate("/");
-        } else if (user.hasPaid === 0) {
+        if (user.uploadStatus === 1 && user.hasPaid === 1) {
+          navigate("/contestant/dashboard");
+        } else if (user.hasPaid === 0 && user.uploadStatus === 0) {
           navigate("/contestant/enter");
+        } else if (user.hasPaid === 1 && user.uploadStatus === 0) {
+          navigate("/contestant/upload");
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -318,6 +320,7 @@ function UploadForm({ URL, API_KEY }) {
               </button>
             )}
           </div>
+          <p>Only <strong>Youtube and Vimeo </strong> accepted.</p>
           <p>Please play through the video to make sure you approve of it. You will not be able to change it till next round.</p>
           <p>Make sure that embeding is allowed.</p>
           <p>Choose a nice thumbnail in the site where you uploaded the video.</p>
@@ -342,7 +345,6 @@ function UploadForm({ URL, API_KEY }) {
 
             />
           </div>
-          
           <div className="input-group">
             <input
               className="form-container__input"

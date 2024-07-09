@@ -1,99 +1,90 @@
-
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 const URL = process.env.REACT_APP_BACKEND_URL;
 
-function useTopThree() {
-    const [groupedContestants, setGroupedContestants] = useState([]);
-    const [topThreeMessages, setTopThreeMessages] = useState([]);
-    const [totalContestants, setTotalContestants] = useState(0);
-    const [remainderContestants, setRemainderContestants] = useState([]);
+function useTopThree(round_number) {
+    const [topThree, setTopThree] = useState([]);
+    const [error, setError] = useState(null);
+    const [groups, setGroups] = useState([]);
 
     useEffect(() => {
-        const fetchContestants = async () => {
+        const fetchTopThree = async () => {
             try {
                 const response = await axios.get(`${URL}/contestants`, {
-                    headers: { Authorization: `${API_KEY}` },
-                });
+                    params: { round: round_number },
+                   headers: { Authorization: `${API_KEY}` },
+});
+                const contestants = response.data;
+                console.log("CONTESTANTS", contestants);
 
-                const activeContestants = response.data.filter(contestant => contestant.active === 1);
-                setTotalContestants(activeContestants.length);
-
-                const rounds = Array.from(new Set(activeContestants.map(contestant => contestant.round)));
-                const grouped = [];
-                const messages = [];
-                const remainder = [];
-
-                rounds.forEach(round => {
-                    const contestantsInRound = activeContestants.filter(contestant => contestant.round === round);
-
-                    contestantsInRound.forEach((contestant, index) => {
-                        contestant.group_number = Math.floor(index / 10) + 1;
-                    });
-
-                    if (contestantsInRound.length <= 10) {
-                        for (let i = 0; i < contestantsInRound.length; i += 10) {
-                            const group = contestantsInRound.slice(i, i + 10);
-                            const topThree = group.sort((a, b) => b.votes - a.votes).slice(0, 3);
-                            const remainderGroup = group.slice(3);
-                            const topThreeWithAnnouncements = topThree.map((contestant, index) => {
-                                switch (index) {
-                                    case 0:
-                                        return { ...contestant, announce: `${contestant.name} has won. Congratulations!` };
-                                    case 1:
-                                        return { ...contestant, announce: `${contestant.name}, is second in final result.` };
-                                    case 2:
-                                        return { ...contestant, announce: `${contestant.name}, is third in final result.` };
-                                    default:
-                                        return { ...contestant, announce: '' };
-                                }
-                            });
-                            grouped.push({ topThree: topThreeWithAnnouncements, remainder: remainderGroup });
-                            messages.push(topThreeWithAnnouncements.map(contestant => contestant.announce));
-                            remainder.push(...remainderGroup);
+                // Sort contestants by votes and map announcements
+                const sortedContestants = contestants.sort((a, b) => b.votes - a.votes);
+                const updatedContestants = sortedContestants.map((contestant, index) => {
+                    let announce = '';
+                    if (contestants.length <= 10) {
+                        switch (index) {
+                            case 0:
+                                announce = `${contestant.name} has won. Congratulations!`;
+                                break;
+                            case 1:
+                                announce = `${contestant.name}, is second in the final result.`;
+                                break;
+                            case 2:
+                                announce = `${contestant.name}, is third in the final result.`;
+                                break;
+                            default:
+                                announce = '';
                         }
                     } else {
-                        for (let i = 0; i < contestantsInRound.length; i += 10) {
-                            const group = contestantsInRound.slice(i, i + 10);
-                            const topThree = group.sort((a, b) => b.votes - a.votes).slice(0, 3);
-                            const remainderGroup = group.slice(3);
-                            const topThreeWithAnnouncements = topThree.map((contestant, index) => {
-                                switch (index) {
-                                    case 0:
-                                        return { ...contestant, announce: `${contestant.name}, is in first! Help them stay there!` };
-                                    case 1:
-                                        return { ...contestant, announce: `${contestant.name}, is currently second! Help them get to first!` };
-                                    case 2:
-                                        return { ...contestant, announce: `${contestant.name}, is currently third! Help them get to first!` };
-                                    default:
-                                        return { ...contestant, announce: '' };
-                                }
-                            });
-                            grouped.push({ topThree: topThreeWithAnnouncements, remainder: remainderGroup });
-                            messages.push(topThreeWithAnnouncements.map(contestant => contestant.announce));
-                            remainder.push(...remainderGroup);
+                        switch (index) {
+                            case 0:
+                                announce = `${contestant.name}, is in first! Help them stay there!`;
+                                break;
+                            case 1:
+                                announce = `${contestant.name}, is currently second! Help them get to first!`;
+                                break;
+                            case 2:
+                                announce = `${contestant.name}, is currently third! Help them get to first!`;
+                                break;
+                            default:
+                                announce = '';
                         }
                     }
+                    return { ...contestant, announce };
                 });
 
-                console.log('Grouped Contestants:', grouped);
-                console.log('Announcements:', messages);
-                console.log('Remainder Contestants:', remainder);
+                setTopThree(updatedContestants);
 
-                setGroupedContestants(grouped);
-                setTopThreeMessages(messages);
-                setRemainderContestants(remainder);
-            } catch (error) {
-                console.error('Error fetching contestants:', error);
+                // Group contestants by group_number
+                const groupedContestants = groupContestantsByGroupNumber(updatedContestants);
+                setGroups(groupedContestants);
+            } catch (err) {
+                setError(err);
             }
         };
 
-        fetchContestants();
-    }, []);
+        fetchTopThree();
+    }, [round_number]);
 
-    return { groupedContestants, topThreeMessages, totalContestants, remainderContestants };
+    const groupContestantsByGroupNumber = (contestants) => {
+        const groupMap = {};
+        contestants.forEach(contestant => {
+            const group = contestant.group_number || 'No Group';
+            if (!groupMap[group]) {
+                groupMap[group] = [];
+            }
+            groupMap[group].push(contestant);
+        });
+        return groupMap;
+    };
+
+    console.log("GROUPS", groups);
+    console.log("TOP THREE", topThree);
+    console.log("ERROR", error);
+
+    return { topThree, error, groups };
 }
 
 export default useTopThree;

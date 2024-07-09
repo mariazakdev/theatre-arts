@@ -56,7 +56,7 @@ function ActorsPage( {URL, API_KEY}) {
           >
             <div className="card-content">
               
-              <h2 className="card-title">{video.name}{video.votes}</h2>
+              <h2 className="card-title">{video.name}</h2>
               <img
                 src={video.url_photo}
                 alt={video.name}

@@ -136,6 +136,7 @@ export default function Dashboard({ URL , API_KEY}) {
     <div className="dashboard">
       <div className="dashboard__content">
         <h2 className="dashboard__content__title">Dashboard</h2>
+ 
         {/* Contestant Data */}
         <div className="dashboard__content__user-data">
           <div className="dashboard__content__user-data__details">

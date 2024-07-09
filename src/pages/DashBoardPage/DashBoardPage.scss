@@ -23,6 +23,7 @@
     margin-bottom: 15px;
     font-weight: 500;
   }
+  // All data - text video photo
   &__user-data {
 
     @include flex(flex-start, space-between, row);
@@ -37,12 +38,18 @@
     @include mobile{
       @include flex(center, center, column-reverse);
     }
+
     &__details{
       width: 40%;
       @include flex(center, center, row);
+@include tablet{
+  width: 100%;
+  @include flex(center, center, column);
 
+}
       @include mobile{
-        width: 100%;
+        width: 100%;  @include flex(center, center, column);
+
       }
     }
     &__vid {
@@ -105,7 +112,6 @@
   }
 
 
-
   &__user-details {
     @include flex(center, center, column);
     max-width: 30%;
@@ -123,12 +129,13 @@
   &__user-description {
     color: #7f8c8d;
     margin-top: 5px;
-  width: 400px;
+  width: 300px;
+  margin-right: 1rem;
 @include desktop-sm{
-  width: 100%;
+  width: 450px;
 }
 @include tablet{
-  width: 100%;
+  width: 400px;
 }
 @include mobile{
   width: 100%;

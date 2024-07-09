@@ -16,10 +16,9 @@ import "./AdminPage.scss";
 
 function AdminPage({ URL, API_KEY }) {
   const [activeTab, setActiveTab] = useState("actors");
-  const [showVotingStandings, setShowVotingStandings] = useState(false);
   const { currentUser } = useAuth();
   const navigate = useNavigate();
-  const { groupedContestants, topThreeMessages, totalContestants,   remainderContestants} = useTopThree(); // Use the custom hook
+  const { groupedContestants, topThreeMessages, totalContestants, remainderContestants } = useTopThree(); // Use the custom hook
 
   useEffect(() => {
     if (!currentUser) {
@@ -51,11 +50,6 @@ function AdminPage({ URL, API_KEY }) {
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
-    if (tab === "votingStandings") {
-      setShowVotingStandings(true);
-    } else {
-      setShowVotingStandings(false);
-    }
   };
 
   return (
@@ -64,7 +58,7 @@ function AdminPage({ URL, API_KEY }) {
       <h2>Update Buttons only for Maria to use</h2>
       {/* Timer button */}
       {/* <AdminGroupsCounter URL={URL} API_KEY={API_KEY}/>  */}
-      <ContestantAnnouncement URL={URL} API_KEY={API_KEY}/>
+      <ContestantAnnouncement URL={URL} API_KEY={API_KEY} />
       <ContestantGroupsRestart URL={URL} API_KEY={API_KEY} />
       <ContestantVotesRestart URL={URL} API_KEY={API_KEY} />
       <ContestantRoundUpdate URL={URL} API_KEY={API_KEY} />
@@ -100,33 +94,13 @@ function AdminPage({ URL, API_KEY }) {
       </div>
 
       <div className="admin-cards-container">
-        {activeTab === "actors" && <AdminActorsList URL={URL} API_KEY={API_KEY}/>}
-        {activeTab === "sunKing" && <AdminSunKingEdit URL={URL} API_KEY={API_KEY}/>}
-        {showVotingStandings && (
-          <>
-
+        {activeTab === "actors" && <AdminActorsList URL={URL} API_KEY={API_KEY} />}
+        {activeTab === "sunKing" && <AdminSunKingEdit URL={URL} API_KEY={API_KEY} />}
+        {activeTab === "votingStandings" && (
+          <AdminVotingStandings />
           
-            
-<div className="top-three-container">
-              <h2>Top Three Contestants Announcements</h2>
-              {groupedContestants.map((group, index) => (
-                <div key={index}>
-                  <h3>Group {index + 1}</h3>
-                  <h4>Top Three</h4>
-                  {group.topThree.map((contestant, idx) => (
-                    <p key={idx}>{contestant.announce}</p>
-                  ))}
-                  <h4>Remainder</h4>
-                  {group.remainder.map((contestant, idx) => (
-                    <p key={idx}>{contestant.name}</p>
-                  ))}
-                </div>
-              ))}
-            </div>
-
-          </>
         )}
-        {activeTab === "users" && <AdminUsersList URL={URL} API_KEY={API_KEY}/>}
+        {activeTab === "users" && <AdminUsersList URL={URL} API_KEY={API_KEY} />}
       </div>
     </div>
   );

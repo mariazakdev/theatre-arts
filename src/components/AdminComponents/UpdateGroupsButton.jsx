@@ -10,16 +10,15 @@ const UpdateGroupsButton = () => {
 
     const [alert, setAlert] = useState(null);
 
-    const handleUpdateGroups = async () => {
+    const handleUpdateRound = async () => {
         try {
-            const response = await axios.put(`${URL}/update-groups`, { groupedContestants }, {
+            const response = await axios.put(`${URL}/contestants/update-round`, { groupedContestants }, {
                 headers: {
-                    'Authorization': `${API_KEY}`,
-                    'Content-Type': 'application/json',
+                    headers: { Authorization: `${API_KEY}` },
+
                 },
             });
-            setAlert({ type: 'success', message: 'Groups updated successfully!' });
-            console.log('Groups updated successfully:', response.data);
+            alert('Round and groups updated successfully');
         } catch (error) {
             setAlert({ type: 'error', message: 'Error updating groups. Please try again.' });
             console.error('Error updating groups:', error);
@@ -28,13 +27,10 @@ const UpdateGroupsButton = () => {
 
     return (
         <div>
-            {alert && (
-                <div className={`alert ${alert.type === 'success' ? 'alert-success' : 'alert-error'}`}>
-                    {alert.message}
-                </div>
-            )}
-            <button onClick={handleUpdateGroups}>Update Groups</button>
-        </div>
+       
+       <button onClick={handleUpdateRound}>
+      Update Round and Groups
+    </button>        </div>
     );
 };
 

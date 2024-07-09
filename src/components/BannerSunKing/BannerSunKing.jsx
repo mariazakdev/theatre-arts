@@ -10,18 +10,25 @@ function BannerSunKing() {
 
   const [sunKingData, setSunKingData] = useState({
     id: 1,
-    title: "",
-    subtitle: "",
-    content: "",
+    title: "Default Title",
+    subtitle: "Default Subtitle",
+    content: "Default Content",
   });
 
-useEffect(() => {
-  // Fetch Sun King data from the server and update the state
-  axios.get(`${URL}/sun-king`).then((response) => {
-    setSunKingData(response.data[0]);
-  });
-}, []);
-
+  useEffect(() => {
+    axios.get(`${URL}/sun-king`)
+      .then((response) => {
+        console.log("Response data:", response.data);
+        if (response.data) {
+          setSunKingData(response.data);
+        } else {
+          console.error("No data found");
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
 
 
   return (

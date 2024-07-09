@@ -20,6 +20,37 @@ const PaymentForm = ({ URL, CLIENT_URL, API_KEY }) => {
   const navigate = useNavigate();
   const [cardholderName, setCardholderName] = useState("");
 
+  // If didn't pay, redirect to payment page, if paid, redirect to home
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`${URL}/users/${currentUser.uid}`, {
+          headers: { Authorization: `${API_KEY}` },
+        });
+        const user = response.data.user;
+        if (user.hasPaid === 1 && user.uploadStatus === 1) {
+          navigate("/contestant/dashboard");
+        } else if (user.hasPaid === 0 && user.uploadStatus === 0  ) { 
+          navigate("/contestant/enter");
+        }
+        
+        else if (user.hasPaid === 1 && user.uploadStatus === 0) {
+          navigate("/contestant/upload");
+        }
+
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    if (currentUser) {
+      fetchUserData();
+    } else {
+      navigate("/login");
+    }
+  }, [currentUser, navigate]);
+
+
   const handlePayment = async () => {
     if (!stripe || !elements) {
       console.error("Stripe or Elements not loaded");
@@ -101,7 +132,6 @@ const PaymentForm = ({ URL, CLIENT_URL, API_KEY }) => {
         }
 
         navigate("/contestant/upload");
-        console.log("After navigating to upload");
       }
     } catch (error) {
       console.error("Error during PaymentIntent confirmation:", error.message);

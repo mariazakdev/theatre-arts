@@ -4,8 +4,6 @@ import VotingButtons from "../../components/VotingComponent/VotingButtons";
 import ContactITForm from "../../components/Contact/EmailOptionsItSupport";
 import ReactPlayer from 'react-player';
 import "./HomePage.scss";
-import EmailOptionsITSupport from "../../components/Contact/EmailOptionsItSupport";
-import EmailOptionsCustomerSupport from "../../components/Contact/EmailOptionsCustomerService";
 
 function HomePage( {URL, API_KEY}) {
   return (
@@ -23,7 +21,7 @@ religion or gender will not influence the judging of individual acts. </h4>
     {/* Actors Banner */}
       <div className="home-card home-card1">
         <div className="home-card-actors">
-          {/* <BannerActors URL={URL} API_KEY={API_KEY}/> */}
+          <BannerActors URL={URL} API_KEY={API_KEY}/>
           
         </div>
        
