@@ -10,9 +10,9 @@ function BannerSunKing() {
 
   const [sunKingData, setSunKingData] = useState({
     id: 1,
-    title: "Default Title",
-    subtitle: "Default Subtitle",
-    content: "Default Content",
+    title: "",
+    subtitle: "",
+    content: "",
   });
 
   useEffect(() => {

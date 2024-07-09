@@ -12,7 +12,7 @@ const UpdateGroupsButton = () => {
 
     const handleUpdateRound = async () => {
         try {
-            const response = await axios.put(`${URL}/contestants/update-round`, { groupedContestants }, {
+            const response = await axios.post(`${URL}/contestants/regroup`, { groupedContestants }, {
                 headers: {
                     headers: { Authorization: `${API_KEY}` },
 
@@ -27,7 +27,6 @@ const UpdateGroupsButton = () => {
 
     return (
         <div>
-       
        <button onClick={handleUpdateRound}>
       Update Round and Groups
     </button>        </div>
