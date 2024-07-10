@@ -30,13 +30,9 @@ religion or gender will not influence the judging of individual acts. </h4>
         <ReactPlayer url='https://youtu.be/118hgexak-A' controls={true} />
 
     
-
         </div>
       <div className="home-filler home-filler2">
-        {/* <h3>
-          The proceed from this contest will be utilized towards children with
-          disabilties.
-        </h3> */}
+    
         <h4>Proceeds from this contest will be utilized to benefit children with Learning Disabilities.
 (It is estimated that in Canada over 4% of children have recognizable learning disabilities 
 whereas the actual numbers could be a lot more as in neighbouring USA it is estimated that 1 out 
