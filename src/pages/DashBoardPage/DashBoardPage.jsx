@@ -8,8 +8,7 @@ import "./DashBoardPage.scss";
 import DashBoardVoterComponent from "../../components/DashBoardVoterComponent/DashBoardVoterComponent";
 import DashboardSeeGroups from "../../components/DashboardSeeGroups/DashaboardSeeGroups";
 
-
-export default function Dashboard({ URL , API_KEY}) {
+export default function Dashboard({ URL, API_KEY }) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [contestants, setContestants] = useState([]);
@@ -29,10 +28,9 @@ export default function Dashboard({ URL , API_KEY}) {
           return;
         }
 
-        const response = await axios.get(`${URL}/users/${currentUser.uid}`,
-        { headers: 
-          { Authorization: `${API_KEY}` 
-        } });
+        const response = await axios.get(`${URL}/users/${currentUser.uid}`, {
+          headers: { Authorization: `${API_KEY}` },
+        });
 
         const data = response.data;
         const user = data.user;
@@ -45,17 +43,29 @@ export default function Dashboard({ URL , API_KEY}) {
         // Only after upload process
         const contestant = data.contestant;
 
-        if (user.is_contestant === 1 && user.hasPaid === 0 && user.uploadStatus === 0) {
+        if (
+          user.is_contestant === 1 &&
+          user.hasPaid === 0 &&
+          user.uploadStatus === 0
+        ) {
           navigate("/contestant/enter");
           return;
         }
 
-        if (user.is_contestant === 1 && user.uploadStatus === 0 && user.hasPaid === 1) {
+        if (
+          user.is_contestant === 1 &&
+          user.uploadStatus === 0 &&
+          user.hasPaid === 1
+        ) {
           navigate("/contestant/upload");
           return;
         }
 
-        if ( user.is_contestant === 1  && user.uploadStatus === 1 && user.hasPaid === 1) {
+        if (
+          user.is_contestant === 1 &&
+          user.uploadStatus === 1 &&
+          user.hasPaid === 1
+        ) {
           // Set loading to false since the data is already available
           setLoading(false);
         }
@@ -80,9 +90,12 @@ export default function Dashboard({ URL , API_KEY}) {
   useEffect(() => {
     const fetchVotes = async () => {
       try {
-        const response = await axios.get(`${URL}/votes-tracker/contestant/${contestants.id}`, {
-          headers: { Authorization: `${API_KEY}` }
-        });
+        const response = await axios.get(
+          `${URL}/votes-tracker/contestant/${contestants.id}`,
+          {
+            headers: { Authorization: `${API_KEY}` },
+          }
+        );
         setVotes(response.data);
       } catch (error) {
         console.error("Error fetching votes data: ", error);
@@ -115,9 +128,9 @@ export default function Dashboard({ URL , API_KEY}) {
 
   const updateContestantData = async () => {
     try {
-      const response = await axios.get(`${URL}/users/${currentUser.uid}`, 
-      { headers: { Authorization: `${API_KEY}` } 
-    });
+      const response = await axios.get(`${URL}/users/${currentUser.uid}`, {
+        headers: { Authorization: `${API_KEY}` },
+      });
       const data = response.data;
 
       if (data.contestant) {
@@ -136,33 +149,38 @@ export default function Dashboard({ URL , API_KEY}) {
     <div className="dashboard">
       <div className="dashboard__content">
         <h2 className="dashboard__content__title">Dashboard</h2>
- 
+
         {/* Contestant Data */}
         <div className="dashboard__content__user-data">
           <div className="dashboard__content__user-data__details">
-
-
-           {contestants && (
-  <div key={contestants.id} className="user-data-details__user-details">
-    {/* Link to user profile */}
-    <Link to={`/actors/vote/${contestants.id}`} className="link-style">
-   <button className="link-style__vote-button">Go to profile</button>
-    <h3 className="dashboard__user-name">{contestants.name}</h3>
-      <p className="dashboard__user-description">
-        {contestants.description}
-      </p>
-      <img
-        src={contestants.url_photo}
-        alt={contestants.name}
-        className="dashboard__user-photo"
-      />
-      <p className="dashboard__user-votes">
-        Votes: {contestants.votes}
-      </p>
-    </Link>
-  </div>
-)}
-
+            {contestants && (
+              <div
+                key={contestants.id}
+                className="user-data-details__user-details"
+              >
+                {/* Link to user profile */}
+                <Link
+                  to={`/actors/vote/${contestants.id}`}
+                  className="link-style"
+                >
+                  <button className="link-style__vote-button">
+                    Go to profile
+                  </button>
+                  <h3 className="dashboard__user-name">{contestants.name}</h3>
+                  <p className="dashboard__user-description">
+                    {contestants.description}
+                  </p>
+                  <img
+                    src={contestants.url_photo}
+                    alt={contestants.name}
+                    className="dashboard__user-photo"
+                  />
+                  <p className="dashboard__user-votes">
+                    Votes: {contestants.votes}
+                  </p>
+                </Link>
+              </div>
+            )}
           </div>
           <div className="dashboard__content__user-data__vid">
             {contestants && contestants.url_video && (
@@ -171,7 +189,6 @@ export default function Dashboard({ URL , API_KEY}) {
               />
             )}
           </div>
-    
         </div>
         <button onClick={handleLogout} className="dashboard__logout-button">
           Log Out
@@ -186,17 +203,17 @@ export default function Dashboard({ URL , API_KEY}) {
             API_KEY={API_KEY}
           />
         )}
-           <button onClick={toggleEditing} className="dashboard__edit-button">
+        <button onClick={toggleEditing} className="dashboard__edit-button">
           {isEditing ? "Cancel Edit" : "Edit"}
         </button>
-        
+
         <DashBoardVoterComponent votes={votes} />
-     
-        <DashboardSeeGroups 
-  URL={process.env.REACT_APP_BACKEND_URL} 
-  API_KEY={process.env.REACT_APP_API_KEY} 
-  contestantId={contestants.id}
-/>
+
+        <DashboardSeeGroups
+          URL={process.env.REACT_APP_BACKEND_URL}
+          API_KEY={process.env.REACT_APP_API_KEY}
+          contestantId={contestants.id}
+        />
         {error && <p className="dashboard__error">{error}</p>}
       </div>
     </div>

@@ -8,9 +8,7 @@ function AdminActorsList({ URL, API_KEY }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [currentFilter, setCurrentFilter] = useState("votes");
-  const [newRoundNumber, setNewRoundNumber] = useState('');
-  const [newGroupNumber, setNewGroupNumber] = useState('');
-
+  
   useEffect(() => {
     fetchVideoData();
   }, []);
@@ -45,7 +43,7 @@ function AdminActorsList({ URL, API_KEY }) {
   };
 
   const handleDeleteClick = (contestantId) => {
-    console.log(`Attempting to delete contestant with ID: ${contestantId}`); // Add logging
+    console.log(`Attempting to delete contestant with ID: ${contestantId}`);
     axios
       .delete(`${URL}/contestants/${contestantId}`, {
         headers: {
@@ -111,42 +109,75 @@ function AdminActorsList({ URL, API_KEY }) {
         break;
       case "topOrder":
         filteredData.sort((a, b) => {
-          if (a.active === 1 && b.active === 0) return -1; // Active users first
-          if (a.active === 0 && b.active === 1) return 1; // Inactive users last
+          if (a.active === 1 && b.active === 0) return -1;
+          if (a.active === 0 && b.active === 1) return 1;
           return 0;
         });
+        break;
       default:
         break;
     }
     setVideoData(filteredData);
   };
 
-  const handleRoundUpdate = () => {
-    axios.put(`${URL}/update-round-manually`, { roundNumber: newRoundNumber }, {
-      headers: {
-        Authorization: `${API_KEY}`,
-      },
-    })
-      .then(response => {
+  // ROUND ADJUSTMENT FUNCTIONS FOR INDIVIDUALS
+  const handleIndividualRoundUpdate = (actorId, newRoundNumber) => {
+    axios
+      .put(
+        `${URL}/contestants/${actorId}/update-round`,
+        { roundNumber: newRoundNumber },
+        {
+          headers: {
+            Authorization: `${API_KEY}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(`Round number for actor with ID ${actorId} updated to ${newRoundNumber}`);
         alert(response.data.message);
+        fetchVideoData(); // Refresh data
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("There was an error updating the round number:", error);
       });
   };
 
-  const handleGroupUpdate = () => {
-    axios.put(`${URL}/update-group-manually`, { groupNumber: newGroupNumber }, {
-      headers: {
-        Authorization: `${API_KEY}`,
-      },
-    })
-      .then(response => {
+  const handleRoundInputChange = (actorId, value) => {
+    setVideoData((prevData) =>
+      prevData.map((video) =>
+        video.id === actorId ? { ...video, newRoundNumber: value } : video
+      )
+    );
+  };
+
+  // GROUP ADJUSTMENT FUNCTIONS FOR INDIVIDUALS
+  const handleIndividualGroupUpdate = (actorId, newGroupNumber) => {
+    axios
+      .put(
+        `${URL}/contestants/${actorId}/update-group`,
+        { groupNumber: newGroupNumber },
+        {
+          headers: {
+            Authorization: `${API_KEY}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(`Group number for actor with ID ${actorId} updated to ${newGroupNumber}`);
         alert(response.data.message);
+        fetchVideoData(); // Refresh data
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("There was an error updating the group number:", error);
       });
+  };
+
+  const handleGroupInputChange = (actorId, value) => {
+    setVideoData((prevData) =>
+      prevData.map((video) =>
+        video.id === actorId ? { ...video, newGroupNumber: value } : video
+      )
+    );
   };
 
   if (loading) {
@@ -203,31 +234,40 @@ function AdminActorsList({ URL, API_KEY }) {
                 <p className="admin-actor__card-votes">Votes: {video.votes}</p>
                 <p className="admin-actor__card-round">Round: {video.round}</p>
                 <p className="admin-actor__card-group">Group: {video.group_number}</p>
+
                 <div className="admin-actor__card-actions">
+
+                  {/* CONTESTANT ROUND */}
                   <div className="admin-actor__card-update">
                     <input
                       type="number"
-                      value={newRoundNumber}
-                      onChange={(e) => setNewRoundNumber(e.target.value)}
+                      value={video.newRoundNumber || ''}
+                      onChange={(e) => handleRoundInputChange(video.id, e.target.value)}
                       placeholder="New round number"
                     />
-                    <button onClick={handleRoundUpdate}>Update Round</button>
+                    <button onClick={() => handleIndividualRoundUpdate(video.id, video.newRoundNumber)}>Update Round</button>
                   </div>
+
+                  {/* CONTESTANT GROUP */}
                   <div className="admin-actor__card-update">
                     <input
                       type="number"
-                      value={newGroupNumber}
-                      onChange={(e) => setNewGroupNumber(e.target.value)}
+                      value={video.newGroupNumber || ''}
+                      onChange={(e) => handleGroupInputChange(video.id, e.target.value)}
                       placeholder="New group number"
                     />
-                    <button onClick={handleGroupUpdate}>Update Group</button>
+                    <button onClick={() => handleIndividualGroupUpdate(video.id, video.newGroupNumber)}>Update Group</button>
                   </div>
+
+                  {/* DELETE CONTESTANT */}
                   <button
                     className="delete-button"
                     onClick={() => handleDeleteClick(video.id)}
                   >
                     Delete
                   </button>
+
+                  {/* ACTIVATE/DEACTIVATE CONTESTANT */}
                   <button
                     className="toggle-active-button"
                     onClick={() => handleToggleActive(video.id, video.active)}
