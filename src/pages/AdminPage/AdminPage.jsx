@@ -13,6 +13,10 @@ import AdminUsersList from "../../components/AdminComponents/AdminUsersList";
 import useTopThree from "../../hooks/useTopThree"; // Import the custom hook
 import UpdateGroupsButton from "../../components/AdminComponents/UpdateGroupsButton";
 import "./AdminPage.scss";
+import AdminDeactivateNonRankButton from "../../components/AdminComponents/AdminDeactivateNonRankButton";
+import AdminRegroupContestantsButton from "../../components/AdminComponents/AdminRegroupContestantsButton";
+import AdminResetVotesButton from "../../components/AdminComponents/AdminResetVotesButton";
+import AdminUpdateRoundButton from "../../components/AdminComponents/AdminUpdateRoundButton";
 
 function AdminPage({ URL, API_KEY }) {
   const [activeTab, setActiveTab] = useState("actors");
@@ -58,11 +62,11 @@ function AdminPage({ URL, API_KEY }) {
       <h2>Update Buttons only for Maria to use</h2>
       {/* Timer button */}
       {/* <AdminGroupsCounter URL={URL} API_KEY={API_KEY}/>  */}
-      <ContestantAnnouncement URL={URL} API_KEY={API_KEY} />
-      <ContestantGroupsRestart URL={URL} API_KEY={API_KEY} />
-      <ContestantVotesRestart URL={URL} API_KEY={API_KEY} />
-      <ContestantRoundUpdate URL={URL} API_KEY={API_KEY} />
-      <UpdateGroupsButton /> {/* Add the button component */}
+      <AdminDeactivateNonRankButton URL={URL} />
+      <AdminResetVotesButton URL={URL} API_KEY={API_KEY} />
+      <AdminRegroupContestantsButton URL={URL} />
+     <AdminUpdateRoundButton URL={URL} />
+     
 
       <div className="admin-navigation">
         <button

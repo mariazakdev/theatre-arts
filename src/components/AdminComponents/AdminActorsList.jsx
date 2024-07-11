@@ -297,6 +297,35 @@ const handleDescriptionInputChange = (actorId, value) => {
   );
 };
 
+const handleIndividualVotesUpdate = (actorId, newVotes) => {
+  axios
+    .put(
+      `${URL}/contestants/${actorId}/update-votes`,
+      { votes: newVotes },
+      {
+        headers: {
+          Authorization: `${API_KEY}`,
+        },
+      }
+    )
+    .then((response) => {
+      console.log(`Votes for actor with ID ${actorId} updated to ${newVotes}`);
+      alert(response.data.message);
+      fetchVideoData(); // Refresh data
+    })
+    .catch((error) => {
+      console.error("There was an error updating the votes:", error);
+    });
+};
+
+const handleVotesInputChange = (actorId, value) => {
+  setVideoData((prevData) =>
+    prevData.map((video) =>
+      video.id === actorId ? { ...video, newVotes: value } : video
+    )
+  );
+};
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -407,6 +436,16 @@ const handleDescriptionInputChange = (actorId, value) => {
                     />
                     <button onClick={() => handleDescriptionUpdate(video.id, video.newDescription)}>Update Description</button>
                   </div>
+                    {/* UPDATE VOTES */}
+                    <div className="admin-actor__card-update">
+                    <input
+                      type="number"
+                      value={video.newVotes || ''}
+                      onChange={(e) => handleVotesInputChange(video.id, e.target.value)}
+                      placeholder="New votes number"
+                    />
+                    <button onClick={() => handleIndividualVotesUpdate(video.id, video.newVotes)}>Update Votes</button>
+                  </div>
 
                   {/* DELETE CONTESTANT */}
                   <button
@@ -429,6 +468,8 @@ const handleDescriptionInputChange = (actorId, value) => {
           </div>
         ))}
       </div>
+ 
+
     </div>
   );
 }
