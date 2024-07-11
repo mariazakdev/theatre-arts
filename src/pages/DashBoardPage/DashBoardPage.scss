@@ -13,6 +13,9 @@
 
   &__content {
     width: 80%;
+    @include desktop-sm{
+      width: auto;
+    }
     @include mobile{
        @include flex(center, center, column);
     }
