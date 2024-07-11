@@ -76,6 +76,8 @@
       width: 100%;
     }
   }
+
+  
 }
 .error-message {
   background-color: $secondaryBackground;
@@ -125,4 +127,15 @@
   align-items: center;
   height: 100vh;
   animation: fadeIn 1s forwards, fadeOut 1s forwards 2s;
+}
+
+
+.update-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  h4{
+    color: white;
+    @include flex(center, center, column);
+  }
 }

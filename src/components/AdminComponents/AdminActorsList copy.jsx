@@ -8,8 +8,6 @@ function AdminActorsList({ URL, API_KEY }) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [currentFilter, setCurrentFilter] = useState("votes");
-  const [newRoundNumber, setNewRoundNumber] = useState('');
-  const [newGroupNumber, setNewGroupNumber] = useState('');
 
   useEffect(() => {
     fetchVideoData();
@@ -32,20 +30,8 @@ function AdminActorsList({ URL, API_KEY }) {
       });
   };
 
-  const handleCardClick = (video) => {
-    navigate(
-      `/actors/vote/${video.id}`,
-      { state: { actor: video } },
-      {
-        headers: {
-          Authorization: `${API_KEY}`,
-        },
-      }
-    );
-  };
-
   const handleDeleteClick = (contestantId) => {
-    console.log(`Attempting to delete contestant with ID: ${contestantId}`); // Add logging
+    console.log(`Attempting to delete contestant with ID: ${contestantId}`);
     axios
       .delete(`${URL}/contestants/${contestantId}`, {
         headers: {
@@ -111,35 +97,40 @@ function AdminActorsList({ URL, API_KEY }) {
         break;
       case "topOrder":
         filteredData.sort((a, b) => {
-          if (a.active === 1 && b.active === 0) return -1; // Active users first
-          if (a.active === 0 && b.active === 1) return 1; // Inactive users last
+          if (a.active === 1 && b.active === 0) return -1;
+          if (a.active === 0 && b.active === 1) return 1;
           return 0;
         });
+        break;
       default:
         break;
     }
     setVideoData(filteredData);
   };
 
-    // ROUND ADJUSTMENT FUNCTIONS FOR INDIVIDUALS
-
+  // ROUND ADJUSTMENT FUNCTIONS FOR INDIVIDUALS
   const handleIndividualRoundUpdate = (actorId, newRoundNumber) => {
-    axios.put(`${URL}/contestants/${actorId}/update-round`, { roundNumber: newRoundNumber }, {
-      headers: {
-        Authorization: `${API_KEY}`,
-      },
-    })
-      .then(response => {
+    axios
+      .put(
+        `${URL}/contestants/${actorId}/update-round`,
+        { roundNumber: newRoundNumber },
+        {
+          headers: {
+            Authorization: `${API_KEY}`,
+          },
+        }
+      )
+      .then((response) => {
         console.log(`Round number for actor with ID ${actorId} updated to ${newRoundNumber}`);
         alert(response.data.message);
         fetchVideoData(); // Refresh data
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("There was an error updating the round number:", error);
       });
   };
 
-const handleRoundInputChange = (actorId, value) => {
+  const handleRoundInputChange = (actorId, value) => {
     setVideoData((prevData) =>
       prevData.map((video) =>
         video.id === actorId ? { ...video, newRoundNumber: value } : video
@@ -149,17 +140,22 @@ const handleRoundInputChange = (actorId, value) => {
 
   // GROUP ADJUSTMENT FUNCTIONS FOR INDIVIDUALS
   const handleIndividualGroupUpdate = (actorId, newGroupNumber) => {
-    axios.put(`${URL}/contestants/${actorId}/update-group`, { groupNumber: newGroupNumber }, {
-      headers: {
-        Authorization: `${API_KEY}`,
-      },
-    })
-      .then(response => {
+    axios
+      .put(
+        `${URL}/contestants/${actorId}/update-group`,
+        { groupNumber: newGroupNumber },
+        {
+          headers: {
+            Authorization: `${API_KEY}`,
+          },
+        }
+      )
+      .then((response) => {
         console.log(`Group number for actor with ID ${actorId} updated to ${newGroupNumber}`);
         alert(response.data.message);
         fetchVideoData(); // Refresh data
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("There was an error updating the group number:", error);
       });
   };
@@ -171,7 +167,95 @@ const handleRoundInputChange = (actorId, value) => {
       )
     );
   };
-  
+
+  // Update functions for photo, video link, and description
+  const handlePhotoUpdate = (actorId, newPhotoUrl) => {
+    axios
+      .put(
+        `${URL}/contestants/${actorId}/update-photo`,
+        { photoUrl: newPhotoUrl },
+        {
+          headers: {
+            Authorization: `${API_KEY}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(`Photo for actor with ID ${actorId} updated to ${newPhotoUrl}`);
+        alert(response.data.message);
+        fetchVideoData(); // Refresh data
+      })
+      .catch((error) => {
+        console.error("There was an error updating the photo:", error);
+      });
+  };
+
+  const handlePhotoInputChange = (actorId, value) => {
+    setVideoData((prevData) =>
+      prevData.map((video) =>
+        video.id === actorId ? { ...video, newPhotoUrl: value } : video
+      )
+    );
+  };
+
+  const handleVideoUpdate = (actorId, newVideoUrl) => {
+    axios
+      .put(
+        `${URL}/contestants/${actorId}/update-video`,
+        { videoUrl: newVideoUrl },
+        {
+          headers: {
+            Authorization: `${API_KEY}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(`Video link for actor with ID ${actorId} updated to ${newVideoUrl}`);
+        alert(response.data.message);
+        fetchVideoData(); // Refresh data
+      })
+      .catch((error) => {
+        console.error("There was an error updating the video link:", error);
+      });
+  };
+
+  const handleVideoInputChange = (actorId, value) => {
+    setVideoData((prevData) =>
+      prevData.map((video) =>
+        video.id === actorId ? { ...video, newVideoUrl: value } : video
+      )
+    );
+  };
+
+  const handleDescriptionUpdate = (actorId, newDescription) => {
+    axios
+      .put(
+        `${URL}/contestants/${actorId}/update-description`,
+        { description: newDescription },
+        {
+          headers: {
+            Authorization: `${API_KEY}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log(`Description for actor with ID ${actorId} updated to ${newDescription}`);
+        alert(response.data.message);
+        fetchVideoData(); // Refresh data
+      })
+      .catch((error) => {
+        console.error("There was an error updating the description:", error);
+      });
+  };
+
+  const handleDescriptionInputChange = (actorId, value) => {
+    setVideoData((prevData) =>
+      prevData.map((video) =>
+        video.id === actorId ? { ...video, newDescription: value } : video
+      )
+    );
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -229,20 +313,19 @@ const handleRoundInputChange = (actorId, value) => {
 
                 <div className="admin-actor__card-actions">
 
-{/* CONTESTANT ROUND */}
-<div className="admin-actor__card-update">
+                  {/* CONTESTANT ROUND */}
+                  <div className="admin-actor__card-update">
                     <input
                       type="number"
-                      value={video.newRoundNumber}
+                      value={video.newRoundNumber || ''}
                       onChange={(e) => handleRoundInputChange(video.id, e.target.value)}
                       placeholder="New round number"
                     />
                     <button onClick={() => handleIndividualRoundUpdate(video.id, video.newRoundNumber)}>Update Round</button>
                   </div>
 
-{/* CONTESTANT ROUND */}
-
-<div className="admin-actor__card-update">
+                  {/* CONTESTANT GROUP */}
+                  <div className="admin-actor__card-update">
                     <input
                       type="number"
                       value={video.newGroupNumber || ''}
@@ -252,15 +335,48 @@ const handleRoundInputChange = (actorId, value) => {
                     <button onClick={() => handleIndividualGroupUpdate(video.id, video.newGroupNumber)}>Update Group</button>
                   </div>
 
-{/* DELETE CONTESTANT AND USER FROM SITE */}
+                  {/* UPDATE PHOTO */}
+                  <div className="admin-actor__card-update">
+                    <input
+                      type="text"
+                      value={video.newPhotoUrl || ''}
+                      onChange={(e) => handlePhotoInputChange(video.id, e.target.value)}
+                      placeholder="New photo URL"
+                    />
+                    <button onClick={() => handlePhotoUpdate(video.id, video.newPhotoUrl)}>Update Photo</button>
+                  </div>
+
+                  {/* UPDATE VIDEO */}
+                  <div className="admin-actor__card-update">
+                    <input
+                      type="text"
+                      value={video.newVideoUrl || ''}
+                      onChange={(e) => handleVideoInputChange(video.id, e.target.value)}
+                      placeholder="New video URL"
+                    />
+                    <button onClick={() => handleVideoUpdate(video.id, video.newVideoUrl)}>Update Video</button>
+                  </div>
+
+                  {/* UPDATE DESCRIPTION */}
+                  <div className="admin-actor__card-update">
+                    <input
+                      type="text"
+                      value={video.newDescription || ''}
+                      onChange={(e) => handleDescriptionInputChange(video.id, e.target.value)}
+                      placeholder="New description"
+                    />
+                    <button onClick={() => handleDescriptionUpdate(video.id, video.newDescription)}>Update Description</button>
+                  </div>
+
+                  {/* DELETE CONTESTANT */}
                   <button
                     className="delete-button"
                     onClick={() => handleDeleteClick(video.id)}
                   >
                     Delete
                   </button>
-                
-{/* ACTIVATE OR DEACTIVATE CONTESTANT, NO USER ACCESS */}
+
+                  {/* ACTIVATE/DEACTIVATE CONTESTANT */}
                   <button
                     className="toggle-active-button"
                     onClick={() => handleToggleActive(video.id, video.active)}

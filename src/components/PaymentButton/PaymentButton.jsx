@@ -126,7 +126,17 @@ function PaymentButton({
 
   return (
     <>
-    <button className="payment-button" onClick={handlePayment} disabled={voted}>
+    <button 
+// Button fully disabled until further notice
+disabled={true}
+className="disabled-button payment-button"
+
+
+    // className="payment-button" 
+    // onClick={handlePayment} 
+    // disabled={voted}
+    
+    >
       {text}
       {amount}
     </button>

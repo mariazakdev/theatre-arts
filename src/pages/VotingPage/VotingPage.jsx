@@ -64,72 +64,19 @@ export default function VotingPage({ URL, CLIENT_URL, API_KEY }) {
     }
   };
 
-  // return (
-  //   <section>
-  //     <div className="vote">
-  //       {errorMessage && (
-  //         <div className="error-message">
-  //           <p>{errorMessage}</p>
-  //         </div>
-  //       )}
-  //       <div className="vote-top">
-  //         <div className="vote-top-left">
-  //           <VoteProfile 
-  //           actorId={actorId} 
-  //           URL={URL} 
-  //           API_KEY={API_KEY} 
-  //           errorMessage={errorMessage}
-  //           setErrorMessage={setErrorMessage}
-  //           setVotedExtra={setVotedExtra}
-          
-  //           />
-  //         </div>
-  //         <div className="vote-top-right">
-  //           {actorData && actorData.active ? (
-  //             <SingleVote
-  //               URL={URL}
-  //               actorId={actorId}
-  //               onVoteSuccess={handleVoteSuccess}
-  //               navigate={navigate}
-  //               currentUser={currentUser}
-  //               errorMessage={errorMessage}
-  //               setErrorMessage={setErrorMessage}
-  //               API_KEY={API_KEY}
-  //             />
-  //           ) : (
-  //             <p></p>
-  //           )}
-  //         </div>
-  //       </div>
-
-  //       <div className="vote-bottom">
-  //         {actorData && actorData.active ? (
-  //           <VotingButtons
-  //             CLIENT_URL={CLIENT_URL}
-  //             URL={URL}
-  //             email={email}
-  //             stripeToken={stripeToken}
-  //             actorId={actorId}
-  //             location={location}
-  //             currentUser={currentUser}
-  //             setErrorMessage={setErrorMessage}
-  //             API_KEY={API_KEY}
-  //           />
-  //         ) : (
-  //           <p></p>
-  //         )}
-  //       </div>
-  //     </div>
-  //   </section>
-  // );
-
   return (
     <section>
+       <div className="update-message">
+            <h4>Voting is currently unavaliable</h4>
+          </div>
       <div className="vote">
         {errorMessage && (
           <div className="error-message">
             <p>{errorMessage}</p>
           </div>
+
+
+         
         )}
         {loading ? (
           <div className="loading-spinner">
@@ -165,6 +112,7 @@ export default function VotingPage({ URL, CLIENT_URL, API_KEY }) {
                     errorMessage={errorMessage}
                     setErrorMessage={setErrorMessage}
                     API_KEY={API_KEY}
+                  
                   />
                 ) : (
                   <p></p>
@@ -184,6 +132,7 @@ export default function VotingPage({ URL, CLIENT_URL, API_KEY }) {
                   currentUser={currentUser}
                   setErrorMessage={setErrorMessage}
                   API_KEY={API_KEY}
+                 
                 />
 
               ) : (
@@ -191,8 +140,9 @@ export default function VotingPage({ URL, CLIENT_URL, API_KEY }) {
               )}
             </div>
 
-
-            <div className="vote-bottom-double">
+{/* VOTING x 2 Days  */}
+{/* Deploy on those days only */}
+            {/* <div className="vote-bottom-double">
               {actorData && actorData.active ? (
                 <VotingButtonsSpecial
                   actorName={actorData.name} 
@@ -210,9 +160,10 @@ export default function VotingPage({ URL, CLIENT_URL, API_KEY }) {
               ) : (
                 <p></p>
               )}
-            </div>
-
-            <div className="vote-bottom-double">
+            </div> */}
+{/* VOTING x 3 Days  */}
+{/* Deploy on those days only */}
+            {/* <div className="vote-bottom-double">
               {actorData && actorData.active ? (
                 <VotingButtonsSpecialTriple
                   actorName={actorData.name} 
@@ -230,7 +181,7 @@ export default function VotingPage({ URL, CLIENT_URL, API_KEY }) {
               ) : (
                 <p></p>
               )}
-            </div>
+            </div> */}
 
           </div>
         )}

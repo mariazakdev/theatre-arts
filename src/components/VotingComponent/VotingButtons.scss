@@ -75,3 +75,8 @@
     margin: 0;
   }
 }
+
+.disabled-button {
+  pointer-events: none;
+  opacity: 0.5;
+}
