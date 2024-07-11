@@ -105,9 +105,10 @@ export default function SingleVote({
           {voted ? "The contestant thanks you" : "Click the button to vote"}
         </p>
         <button
- // Button fully disabled until further notice
- disabled={true}
- className="disabled-button payment-button"
+
+//  Button fully disabled until further notice
+          disabled={true}
+          className="disabled-button payment-button"
 
           // className="payment-button"
           // onClick={() => handleVoteClick()}
