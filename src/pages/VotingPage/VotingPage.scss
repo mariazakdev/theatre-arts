@@ -17,7 +17,7 @@
   &-top {
     @include flex(center, flex-start, row);
     width: 80%;
-    height: 45rem; // height matches UserProfile "user-profile" AND VotingComponent "button-wrap__free-button"
+    height: 46rem; // height matches UserProfile "user-profile" AND VotingComponent "button-wrap__free-button"
     margin-bottom: 1rem;
 
     @include tablet {

@@ -8,7 +8,7 @@
   // overflow: hidden;
   background-color: $secondaryBackground;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  height: 45rem; // height matches VotingComponent "button-wrap__free-button"
+  height: 46rem; // height matches VotingComponent "button-wrap__free-button"
   @include desktop-sm{
     display: block;
   }
@@ -27,6 +27,7 @@
   }
   &__top-three-announce {
     h3 {
+      @include flex(center, center, row);
       margin-top: 1rem;
       font-size: 1rem;
       font-weight: 500;
@@ -61,13 +62,11 @@
   height: auto;
   overflow: hidden;
   border-radius: 8px 8px 0 0;
-  border: 2px blue solid;
 
   @include desktop-sm {
     margin-top: 1rem;
     width: 100%;
     height: auto;
-    border: 2px red solid;
   }
   @include tablet {
     margin-top: 1rem;
