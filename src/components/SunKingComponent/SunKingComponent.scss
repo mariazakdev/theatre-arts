@@ -8,6 +8,7 @@
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   background-color: $primaryBackground;
   margin: 0;
+  height: auto;
   @include flex(center, flex-start, row);
 @include desktop-sm {
   @include flex(center, center, column);
@@ -22,21 +23,28 @@
   &-text {
     @include flex(flex-start, flex-start, column);
     width: 60%;
-    // height: 50rem;
+    min-height: 50rem;
     height: auto;
     background-color: $secondaryBackground;
     padding: 1rem 5rem 4rem 5rem;
+    z-index: 4;
     @include desktop-sm {
       width: 80%;
-      
+      min-height: 50rem;
+      height: auto;
     }
     @include tablet {
       @include flex(flex-start, flex-start, column);
       width: 100%;
+      height: auto;
+      min-height: auto;
+      margin-bottom: 1rem;
+      z-index: 1;
     }
 
     @include mobile {
       @include flex(center, flex-start, column);
+      min-height: auto;
 
       width: 100%;
       height: auto;
@@ -49,14 +57,18 @@
 
   &-image {
     width: 40%;
-    height: 50rem;
+    height: auto;
     padding: 2rem;
     padding-right: 2.5rem;
     position: relative;
-    z-index: 1;
+    z-index: 6;
 
     @include tablet {
-      width: 50%;
+      width: 90%;
+      @include flex(center, center, column);
+      z-index: 1;
+      margin-bottom: 1rem;
+      padding: 0;
     }
     @include mobile {
       width: 100%;
@@ -65,16 +77,22 @@
       text-align: center;
     }
     img {
-      width: 100%;
+      width: 80%;
       border-radius: 100%;
       height: auto;
       opacity: 0;
       animation: fadeInAndSlide 2s forwards;
       position: absolute;
       margin-top: 100px;
-      top: 0%;
+      top: -80px;
       left: -40px;
       z-index: 2;
+      @include tablet {
+        width: 90%;
+        height: auto;
+        margin: 0;
+        position: static;
+      }
       @include mobile {
         width: 12rem;
         height: 12rem;
@@ -142,7 +160,7 @@
     }
 
     @include desktop {
-      font-size: 1.2rem;
+      font-size: 1.5rem;
     }
   }
 
