@@ -125,7 +125,7 @@ function Nav({ isMobileMenuOpen, onClose, URL, API_KEY }) {
               Share Profile
             </li>
             <li>
-          <a href="https://thesunking.canadatheatre.ca" target="_blank" rel="noopener noreferrer" className="nav-sunking">
+          <a href="https://thesunking.canadatheatre.ca" target="_blank" rel="noopener noreferrer" className="nav-sunking nav-share-profile">
            The Sun King
           </a>
         </li>
