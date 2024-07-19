@@ -80,6 +80,8 @@ function Nav({ isMobileMenuOpen, onClose, URL, API_KEY }) {
     });
   };
 
+  
+
   return (
     <nav className={`nav ${isMobileMenuOpen ? "mobile-menu-open" : ""}`}>
       <ul>
@@ -122,6 +124,11 @@ function Nav({ isMobileMenuOpen, onClose, URL, API_KEY }) {
          <li onClick={handleShareClick} className="nav-share-profile">
               Share Profile
             </li>
+            <li>
+          <a href="https://thesunking.canadatheatre.ca" target="_blank" rel="noopener noreferrer" className="nav-sunking">
+           The Sun King
+          </a>
+        </li>
       </ul>
     </nav>
   );
