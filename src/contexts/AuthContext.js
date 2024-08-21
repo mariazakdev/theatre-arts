@@ -24,9 +24,24 @@ export function AuthProvider({ children }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
-    function signup(email, password){
-        return createUserWithEmailAndPassword(auth, email, password).catch(setError);
-    }
+    // function signup(email, password){
+    //     return createUserWithEmailAndPassword(auth, email, password).catch(setError);
+    // }
+
+//Fixing undefined is not an object (evaluating '(await o(s,A)).user')"
+function signup(email, password) {
+    return createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            // Handle successful signup here if needed
+            return userCredential;  // Return the userCredential object
+        })
+        .catch((error) => {
+            setError(error.message);
+            throw error;  // Re-throw the error if necessary
+        });
+}
+
+    
 
     function login(email, password) {
         // Set the session persistence before signing in
@@ -38,6 +53,7 @@ export function AuthProvider({ children }) {
             .catch((error) => {
                 // Handle errors here
                 setError(error.message);
+                throw error;
             });
     }
 const checkIfActionCompleted = async (userId) => {

@@ -40,7 +40,7 @@ const SignUpContestant = ({ URL, API_KEY }) => {
         headers: { Authorization: `${API_KEY}` },
       });
 
-      if (response.data.userExists) {
+      if (response.data && response.data.userExists) {
         setFlashMessage("User with this email already exists.");
         setTimeout(() => {
           navigate("/login");
@@ -49,7 +49,15 @@ const SignUpContestant = ({ URL, API_KEY }) => {
       }
 
       const userCredential = await signup(email, password);
+      if (!userCredential) {
+        throw new Error("User signup failed. Please try again.");
+    }
       const user = userCredential.user;
+
+
+
+
+
 
   // Send email verification
   await sendEmailVerification(user);
@@ -73,18 +81,6 @@ const SignUpContestant = ({ URL, API_KEY }) => {
           navigate("/contestant/login");
         }
       }, 3000);
-
-
-// temp comment out to test verify
-      // await axios.post(`${URL}/users`, {
-      //   email: user.email,
-      //   firebaseAuthId: user.uid,
-      //   isContestant: true,
-      // }, {
-      //   headers: { Authorization: `${API_KEY}` },
-      // });
-
-      // navigate("/contestant/login");
 
 
     } catch (error) {
