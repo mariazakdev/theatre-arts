@@ -74,7 +74,7 @@ const SignUpContestant = ({ URL, API_KEY }) => {
           setFlashMessage("Email verified! Redirecting to login...");
 
           setTimeout(() => {
-            navigate("/contestant/login");
+            navigate("/login");
           }, 2000);
         }
       }, 3000);

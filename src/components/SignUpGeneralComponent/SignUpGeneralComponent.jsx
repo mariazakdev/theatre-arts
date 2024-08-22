@@ -1,21 +1,20 @@
 import React, { useState } from "react";
-import { NavLink, useNavigate, useLocation } from "react-router-dom";
-import { sendEmailVerification, signInWithPopup } from "firebase/auth";
+import { NavLink, useNavigate } from "react-router-dom";
+import { sendEmailVerification} from "firebase/auth";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
-import { auth, googleProvider } from "../../firebase";
-import "../../styles/forms.scss";
+import { auth, googleProvider,  signInWithPopup, signup }from "../../firebase";
+import '../../styles/forms.scss';
 
 const SignUpComponent = ({ URL, API_KEY }) => {
   const navigate = useNavigate();
-  const location = useLocation(); 
   const { signup } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [flashMessage, setFlashMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -40,7 +39,7 @@ const SignUpComponent = ({ URL, API_KEY }) => {
         headers: { Authorization: `${API_KEY}` },
       });
 
-      if (response.data.userExists) {
+      if (response.data && response.data.userExists) {
         setFlashMessage("User with this email already exists.");
         setTimeout(() => {
           navigate("/login");
@@ -49,35 +48,54 @@ const SignUpComponent = ({ URL, API_KEY }) => {
       }
 
       const userCredential = await signup(email, password);
-      const user = userCredential.user;
-
-      // Send email verification
-      await sendEmailVerification(user);
-      // Notify the user to check their email
-      setFlashMessage("Verification email sent. Please check your inbox and verify your email.");
-
-      const intervalId = setInterval(async () => {
-        await user.reload();
-        if (user.emailVerified) {
-          clearInterval(intervalId);
-
-          await axios.post(`${URL}/users`, {
-            email: user.email,
-            firebaseAuthId: user.uid,
-            isContestant: false,
-          }, {
-            headers: { Authorization: `${API_KEY}` },
-          });
-
-          navigate(-1);
-        }
-      }, 3000);
-
-    } catch (error) {
-      console.error("Error during sign up:", error);
-      setErrorMessage(error.message || "Failed to create user");
+      if (!userCredential) {
+        throw new Error("User signup failed. Please try again.");
     }
-  };
+      const user = userCredential.user;
+  // Send email verification
+  await sendEmailVerification(user);
+     // Notify the user to check their email
+     setFlashMessage("Verification email sent. Please check your inbox and verify your email.");
+
+     const intervalId = setInterval(async () => {
+      await user.reload();
+      if (user.emailVerified) {
+        clearInterval(intervalId);
+
+        await axios.post(`${URL}/users`, {
+          email: user.email,
+          firebaseAuthId: user.uid,
+          isContestant: true,
+        }, {
+          headers: { Authorization: `${API_KEY}` },
+        });
+        setFlashMessage("Email verified! Redirecting to login...");
+
+        setTimeout(() => {
+          navigate(-1);
+        }, 2000);
+      }
+    }, 3000);
+
+
+  } catch (error) {
+    console.error("Error during sign up:", error);
+    setErrorMessage(error.message || "Failed to create user");
+  }
+};
+  
+const handleResendVerification = async () => {
+  try {
+    const user = auth.currentUser;
+    if (user && !user.emailVerified) {
+      await sendEmailVerification(user);
+      setFlashMessage("Verification email resent. Please check your inbox.");
+    }
+  } catch (error) {
+    console.error("Error resending verification email:", error);
+    setErrorMessage("Failed to resend verification email.");
+  }
+};
 
   const handleGoogleSignIn = async () => {
     try {
@@ -123,7 +141,6 @@ const SignUpComponent = ({ URL, API_KEY }) => {
               <span>or</span>
             </p>
             <p className="form-description">If signing up with your own email, you will need to verify your email.</p>
-            <p className="form-description"> Create your unique secure password</p>
             <form onSubmit={onSubmit} noValidate>
               {errorMessage && <p className="error-message">{errorMessage}</p>}
               <div className="input-group">
