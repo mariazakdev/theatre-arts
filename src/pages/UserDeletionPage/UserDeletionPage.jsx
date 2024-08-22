@@ -32,8 +32,7 @@ const UserDeletionPage = ({ URL, API_KEY }) => {
     }
 
     try {
- // First, delete the user from Firebase Authentication
- await deleteUser(currentUser);
+
 
       await axios.delete(
         `${URL}/users/${currentUser.uid}`,
@@ -41,6 +40,8 @@ const UserDeletionPage = ({ URL, API_KEY }) => {
           headers: { Authorization: `${API_KEY}` },
         }
       );
+ await deleteUser(currentUser);
+
       setMessage('Your data has been deleted successfully.');
     } catch (error) {
       console.error('Error during data deletion request:', error);
