@@ -137,6 +137,7 @@ function LoginGeneral({ URL, API_KEY }) {
       <section>
         <div className="form-container">
           <h2>Log In</h2>
+          <p className="form-description"> Use same password you created in sign up</p>
           {flashMessage && <p className="flash-message">{flashMessage}</p>}
 
           <form onSubmit={onLogin} noValidate>

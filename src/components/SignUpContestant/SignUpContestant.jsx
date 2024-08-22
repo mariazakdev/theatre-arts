@@ -136,6 +136,8 @@ const SignUpContestant = ({ URL, API_KEY }) => {
               <span>or</span>
             </p>
             <p className="form-description"> If signing up with your own email, you will need to verify your email.</p>
+            <p className="form-description"> Create your unique secure password</p>
+
             <form onSubmit={onSubmit} noValidate>
               {errorMessage && <p className="error-message">{errorMessage}</p>}
               <div className="input-group">
