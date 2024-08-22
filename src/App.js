@@ -105,7 +105,7 @@ function App() {
             <Route exact path="/signup" element={<SignUpVoterPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY}  />} />
             <Route exact path="/login" element={<LoginVoterPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY} />} />
             <Route
-              exact path="/contestant/forgot-password"
+              exact path="/forgot-password"
               element={<ForgotPasswordPage  />}
             />
 

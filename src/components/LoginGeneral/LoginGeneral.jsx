@@ -173,7 +173,7 @@ function LoginGeneral({ URL, API_KEY }) {
               <button>Login</button>
             </div>
             <p className="login-redirect">
-              <NavLink to="/contestant/forgot-password">Forgot Password?</NavLink>
+              <NavLink to="/forgot-password">Forgot Password?</NavLink>
             </p>
           </form>
           <button onClick={handleGoogleSignIn} className="google-signin-button">

@@ -43,6 +43,20 @@ function signup(email, password) {
 
     
 
+    // function login(email, password) {
+    //     // Set the session persistence before signing in
+    //     return setPersistence(auth, browserSessionPersistence)
+    //         .then(() => {
+    //             // Session persistence set, proceed with sign in
+    //             return signInWithEmailAndPassword(auth, email, password);
+    //         })
+    //         .catch((error) => {
+    //             // Handle errors here
+    //             setError(error.message);
+    //             throw error;
+    //         });
+    // }
+
     function login(email, password) {
         // Set the session persistence before signing in
         return setPersistence(auth, browserSessionPersistence)
@@ -52,10 +66,16 @@ function signup(email, password) {
             })
             .catch((error) => {
                 // Handle errors here
-                setError(error.message);
-                throw error;
+                if (error.code === 'auth/invalid-credential') {
+                    setError("Invalid email or password. Please try again.");
+                } else {
+                    setError(error.message);
+                }
+                console.error("Error logging in:", error);
             });
     }
+    
+
 const checkIfActionCompleted = async (userId) => {
     try {
         const userDocRef = doc(db, 'users', userId); // Reference to the user's document in Firestore
@@ -77,10 +97,19 @@ const checkIfActionCompleted = async (userId) => {
         return signOut(auth).catch(setError);
     }
 
+    // function resetPassword(email) {
+    //     return sendPasswordResetEmail(auth, email).catch(setError);
+    // }
     function resetPassword(email) {
-        return sendPasswordResetEmail(auth, email).catch(setError);
+        return sendPasswordResetEmail(auth, email)
+            .then(() => {
+                console.log("Password reset email sent.");
+            })
+            .catch((error) => {
+                console.error("Error sending password reset email:", error);
+                setError(error.message);  // This should be displayed to the user
+            });
     }
-
     function updateEmailFunction(newEmail) {
         if (currentUser) {
             return currentUser.updateEmail(newEmail).catch(setError);

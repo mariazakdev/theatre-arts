@@ -11,12 +11,15 @@ export default function ForgotPasswordComponent() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');  // Clear previous errors
+    setMessage('');  // Clear previous messages
 
     try {
       await resetPassword(email); 
       setMessage('Check your inbox for further instructions.');
     } catch (err) {
       setError('Error resetting password: ' + err.message);
+      console.error("Error resetting password:", err);
     }
   };
 
