@@ -54,17 +54,10 @@ const SignUpContestant = ({ URL, API_KEY }) => {
     }
       const user = userCredential.user;
 
- // Send email verification with a redirect URL
- const actionCodeSettings = {
-  url: 'https://www.canadatheatre.ca/login',  
-  handleCodeInApp: true, // Set to true if you want to handle the email link in the app
-};
-
   // Send email verification
   await sendEmailVerification(user);
      // Notify the user to check their email
      setFlashMessage("Verification email sent. Please check your inbox and verify your email.");
-
 
       const intervalId = setInterval(async () => {
         await user.reload();

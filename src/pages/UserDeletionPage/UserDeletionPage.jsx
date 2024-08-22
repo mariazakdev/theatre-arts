@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext'; 
+import { deleteUser } from "firebase/auth";
 import './UserDeletionPage.scss';
 
 const UserDeletionPage = ({ URL, API_KEY }) => {
@@ -23,8 +24,17 @@ const UserDeletionPage = ({ URL, API_KEY }) => {
       setError('The email address does not match the logged-in user.');
       return;
     }
+    // Confirm before deleting the account
+    const confirmation = window.confirm("Are you sure you want to delete your account? This action cannot be undone.");
+
+    if (!confirmation) {
+      return; // If the user cancels, do nothing
+    }
 
     try {
+ // First, delete the user from Firebase Authentication
+ await deleteUser(currentUser);
+
       await axios.delete(
         `${URL}/users/${currentUser.uid}`,
         {
