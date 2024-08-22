@@ -54,10 +54,11 @@ const SignUpContestant = ({ URL, API_KEY }) => {
     }
       const user = userCredential.user;
 
-
-
-
-
+ // Send email verification with a redirect URL
+ const actionCodeSettings = {
+  url: 'https://www.canadatheatre.ca/login',  
+  handleCodeInApp: true, // Set to true if you want to handle the email link in the app
+};
 
   // Send email verification
   await sendEmailVerification(user);
@@ -77,8 +78,11 @@ const SignUpContestant = ({ URL, API_KEY }) => {
           }, {
             headers: { Authorization: `${API_KEY}` },
           });
+          setFlashMessage("Email verified! Redirecting to login...");
 
-          navigate("/contestant/login");
+          setTimeout(() => {
+            navigate("/contestant/login");
+          }, 2000);
         }
       }, 3000);
 
@@ -86,6 +90,18 @@ const SignUpContestant = ({ URL, API_KEY }) => {
     } catch (error) {
       console.error("Error during sign up:", error);
       setErrorMessage(error.message || "Failed to create user");
+    }
+  };
+  const handleResendVerification = async () => {
+    try {
+      const user = auth.currentUser;
+      if (user && !user.emailVerified) {
+        await sendEmailVerification(user);
+        setFlashMessage("Verification email resent. Please check your inbox.");
+      }
+    } catch (error) {
+      console.error("Error resending verification email:", error);
+      setErrorMessage("Failed to resend verification email.");
     }
   };
 
@@ -150,7 +166,7 @@ const SignUpContestant = ({ URL, API_KEY }) => {
                   placeholder="Email address"
                 />
               </div>
-              <div className="input-group">
+              <div className="input-group">    
                 <label htmlFor="password">Password</label>
                 <input
                   type={showPassword ? "text" : "password"}
