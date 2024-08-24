@@ -195,8 +195,10 @@ resize: none;      }
 }
 
 .error-message {
-    color: red;
-    text-align: center;
+    @include flex(center, center, row);
+    background-color: $color5;
+    padding: 1rem;
+    animation: flash 3s;
 }
 .flash-message {
     @include flex(center, center, row);
@@ -212,3 +214,16 @@ resize: none;      }
     cursor: not-allowed;
   }
   
+.resend-verification{
+    margin-top: 15px;
+    text-align: center;
+    padding-bottom: 1rem;
+    cursor: pointer;
+    a {
+        color: #007bff;
+        text-decoration: none;
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { sendEmailVerification} from "firebase/auth";
+import { sendEmailVerification } from "firebase/auth";
 import { useAuth } from "../../contexts/AuthContext";
 import axios from "axios";
-import { auth, googleProvider,  signInWithPopup, signup }from "../../firebase";
+import { auth, googleProvider, signInWithPopup } from "../../firebase";
 import '../../styles/forms.scss';
 
-const SignUpComponent = ({ URL, API_KEY }) => {
+const SignUpContestant = ({ URL, API_KEY }) => {
   const navigate = useNavigate();
   const { signup } = useAuth();
   const [email, setEmail] = useState("");
@@ -42,60 +42,71 @@ const SignUpComponent = ({ URL, API_KEY }) => {
       if (response.data && response.data.userExists) {
         setFlashMessage("User with this email already exists.");
         setTimeout(() => {
-          navigate("/login");
+          navigate(-1);
         }, 3000);
+        return;
+      }
+
+      // Check if the user already exists in Firebase
+      const existingUser = auth.currentUser;
+      if (existingUser && existingUser.email === email && !existingUser.emailVerified) {
+        await sendEmailVerification(existingUser);
+        setFlashMessage("Verification email resent. Please check your inbox.");
         return;
       }
 
       const userCredential = await signup(email, password);
       if (!userCredential) {
         throw new Error("User signup failed. Please try again.");
-    }
-      const user = userCredential.user;
-  // Send email verification
-  await sendEmailVerification(user);
-     // Notify the user to check their email
-     setFlashMessage("Verification email sent. Please check your inbox and verify your email.");
-
-     const intervalId = setInterval(async () => {
-      await user.reload();
-      if (user.emailVerified) {
-        clearInterval(intervalId);
-
-        await axios.post(`${URL}/users`, {
-          email: user.email,
-          firebaseAuthId: user.uid,
-          isContestant: true,
-        }, {
-          headers: { Authorization: `${API_KEY}` },
-        });
-        setFlashMessage("Email verified! Redirecting to login...");
-
-        setTimeout(() => {
-          navigate(-1);
-        }, 2000);
       }
-    }, 3000);
+      const user = userCredential.user;
 
-
-  } catch (error) {
-    console.error("Error during sign up:", error);
-    setErrorMessage(error.message || "Failed to create user");
-  }
-};
-  
-const handleResendVerification = async () => {
-  try {
-    const user = auth.currentUser;
-    if (user && !user.emailVerified) {
+      // Send email verification
       await sendEmailVerification(user);
-      setFlashMessage("Verification email resent. Please check your inbox.");
+      setFlashMessage("Verification email sent. Please check your inbox and verify your email.");
+
+      const intervalId = setInterval(async () => {
+        await user.reload();
+        if (user.emailVerified) {
+          clearInterval(intervalId);
+
+          await axios.post(`${URL}/users`, {
+            email: user.email,
+            firebaseAuthId: user.uid,
+            isContestant: false,          }, {
+            headers: { Authorization: `${API_KEY}` },
+          });
+          setFlashMessage("Email verified! Redirecting to login...");
+
+          setTimeout(() => {
+            navigate(-1);
+          }, 2000);
+        }
+      }, 3000);
+
+    } catch (error) {
+      console.error("Error during sign up:", error);
+      setErrorMessage(error.message || "Failed to create user");
     }
-  } catch (error) {
-    console.error("Error resending verification email:", error);
-    setErrorMessage("Failed to resend verification email.");
-  }
-};
+  };
+
+  const handleResendVerification = async () => {
+    try {
+      const user = auth.currentUser;
+      if (user && !user.emailVerified) {
+        await sendEmailVerification(user);
+        setFlashMessage("Verification email resent. Please check your inbox.");
+      }
+    } catch (error) {
+      if (error.code === 'auth/too-many-requests') {
+        setErrorMessage("Too many requests. Please wait 15 minutes before trying again.");
+      } else {
+        console.error("Error resending verification email:", error);
+        setErrorMessage("Failed to resend verification email.");
+      }
+    }
+  };
+  
 
   const handleGoogleSignIn = async () => {
     try {
@@ -115,7 +126,7 @@ const handleResendVerification = async () => {
           headers: { Authorization: `${API_KEY}` },
         });
       }
-      navigate(-1);
+      navigate("/login");
     } catch (error) {
       console.error("Error during Google sign in:", error);
       setErrorMessage(error.message || "Failed to sign in with Google");
@@ -132,15 +143,17 @@ const handleResendVerification = async () => {
         <div className="form-background">
           <div className="form-container">
             {flashMessage && <p className="flash-message">{flashMessage}</p>}
+            <h2>Contestant Sign Up</h2>
 
-            <h2>Sign Up</h2>
             <button onClick={handleGoogleSignIn} className="google-signin-button">
               Sign Up with Google
             </button>
             <p className="or-divider">
               <span>or</span>
             </p>
-            <p className="form-description">If signing up with your own email, you will need to verify your email.</p>
+            <p className="form-description"> If signing up with your own email, you will need to verify your email.</p>
+            <p className="form-description"> Create your unique secure password</p>
+
             <form onSubmit={onSubmit} noValidate>
               {errorMessage && <p className="error-message">{errorMessage}</p>}
               <div className="input-group">
@@ -153,8 +166,7 @@ const handleResendVerification = async () => {
                   placeholder="Email address"
                 />
               </div>
-
-              <div className="input-group">
+              <div className="input-group">    
                 <label htmlFor="password">Password</label>
                 <input
                   type={showPassword ? "text" : "password"}
@@ -170,7 +182,6 @@ const handleResendVerification = async () => {
                   {showPassword ? "Hide" : "Show"}
                 </span>
               </div>
-
               <div className="input-group">
                 <label htmlFor="confirm-password">Confirm Password</label>
                 <input
@@ -187,14 +198,14 @@ const handleResendVerification = async () => {
                   {showPassword ? "Hide" : "Show"}
                 </span>
               </div>
-
               <button type="submit">Sign up</button>
             </form>
 
             <p className="login-redirect">
               Already have an account?{" "}
-              <NavLink to="/contestant/login">Log in</NavLink>
+              <NavLink to="/login">Log in</NavLink>
             </p>
+            <p className="resend-verification" onClick={handleResendVerification}> Resend verification email</p>
           </div>
         </div>
       </section>
@@ -202,4 +213,4 @@ const handleResendVerification = async () => {
   );
 };
 
-export default SignUpComponent;
+export default SignUpContestant;

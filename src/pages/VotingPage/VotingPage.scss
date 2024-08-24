@@ -79,20 +79,6 @@
 
   
 }
-.error-message {
-  background-color: $secondaryBackground;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  color: black;
-  font-weight: 600;
-  padding: 1rem;
-  width: 80%;
-  border-radius: 10px;
-  text-align: center;
-  margin-bottom: 1rem;
-  @include mobile {
-    width: 100%;
-  }
-}
 
 /* VotingPage.scss */
 @keyframes fadeIn {
