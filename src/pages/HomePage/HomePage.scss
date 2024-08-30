@@ -61,6 +61,21 @@
     padding-top: 0;
     margin: 0;
   }
+  &-signup-link {
+    text-decoration: none;
+    h4 {
+      color: rgb(14, 96, 140);
+      text-decoration: underline;
+      cursor: pointer;
+      size: 2rem;
+
+      &:hover {
+        color: darken(rgb(49, 169, 233), 10%);
+      }
+    }
+  }
+
+
   &-card
  {
     @include flex(center, center, column);

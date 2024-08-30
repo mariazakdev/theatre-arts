@@ -205,7 +205,10 @@ const SignUpContestant = ({ URL, API_KEY }) => {
               Already have an account?{" "}
               <NavLink to="/login">Log in</NavLink>
             </p>
-            <p className="resend-verification" onClick={handleResendVerification}> Resend verification email</p>
+              <div className="verify">
+            <button className="resend-verification" onClick={handleResendVerification}> Resend verification email</button>
+
+            </div>
           </div>
         </div>
       </section>

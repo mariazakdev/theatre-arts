@@ -220,10 +220,28 @@ resize: none;      }
     padding-bottom: 1rem;
     cursor: pointer;
     a {
-        color: #007bff;
+       
+        
         text-decoration: none;
         &:hover {
             text-decoration: underline;
         }
     }
+}
+button{
+    background-color: #e35c22;
+    color: white;
+    display: flex;
+justify-content: center;
+align-items: center;
+padding: 1rem;
+outline: none;
+}
+.verify{
+width: 100%;
+padding: 10px;
+display: flex;
+justify-content: center;
+align-items: center;
+
 }

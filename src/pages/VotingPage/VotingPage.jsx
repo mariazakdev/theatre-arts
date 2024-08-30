@@ -67,7 +67,7 @@ export default function VotingPage({ URL, CLIENT_URL, API_KEY }) {
   return (
     <section>
        <div className="update-message">
-            <h4>Voting is currently unavaliable</h4>
+            {/* <h4>Voting is currently unavaliable</h4> */}
           </div>
       <div className="vote">
         {errorMessage && (
@@ -80,7 +80,7 @@ export default function VotingPage({ URL, CLIENT_URL, API_KEY }) {
         )}
         {loading ? (
           <div className="loading-spinner">
-            {/* Add your spinner component or animation here */}
+         
             <p>Loading...</p>
           </div>
         ) : (

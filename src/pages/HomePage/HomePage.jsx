@@ -10,6 +10,11 @@ function HomePage( {URL, API_KEY}) {
     <div className="home">
       <div className="home-filler home-filler1">
         <h3>Welcome to the Monologue Contest (CBMC)</h3>
+
+        <a href="https://www.canadatheatre.ca/contestant/signup" className="home-signup-link">
+          <h4>Sign up here to enter!!</h4>
+        </a>
+
         <h4>Open to every individual from all age group, ethnicity and gender.
 This Contest is only in English, with the solid understanding that people from every walk 
 of life and culture may have specific accents or expressions that are either inherent or
