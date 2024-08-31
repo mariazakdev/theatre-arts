@@ -865,141 +865,7 @@ const SignUpContestant = ({ URL, API_KEY }) => {
 
   const MAX_RESEND_ATTEMPTS = 3;
 
-  // const onSubmit = async (e) => {
-  //   e.preventDefault();
-  //   setFlashMessage({ type: "", message: "" });
-  //   setErrorMessage("");
-
-  //   if (password !== confirmPassword) {
-  //     setFlashMessage({ type: "error", message: "Passwords do not match." });
-  //     return;
-  //   }
-  //   if (!email || !password || !confirmPassword) {
-  //     setFlashMessage({ type: "error", message: "Please fill in all the required fields." });
-  //     return;
-  //   }
-  //   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  //   if (!emailPattern.test(email)) {
-  //     setFlashMessage({ type: "error", message: "Please enter a valid email address." });
-  //     return;
-  //   }
-
-  //   try {
-  //     const signInMethods = await fetchSignInMethodsForEmail(auth, email);
-  //     if (signInMethods.length > 0) {
-  //       const user = auth.currentUser;
-  //       if (user && !user.emailVerified) {
-  //         setErrorMessage("Email is already in use. Please verify your email to complete the sign-up process.");
-  //         return;
-  //       } else {
-  //         setErrorMessage("User with this email already exists and is verified.");
-  //         return;
-  //       }
-  //     }
-
-  //     const userCredential = await signup(email, password);
-  //     if (!userCredential) {
-  //       throw new Error("User signup failed. Please try again.");
-  //     }
-  //     const user = userCredential.user;
-
-  //     await sendEmailVerification(user);
-  //     setFlashMessage({ type: "success", message: "Verification email sent. Please check your inbox and verify your email." });
-
-  //     // Start polling for verification status
-  //     setIsPolling(true);
-
-  //   } catch (error)  {
-  //     if (error.response && error.response.status === 409) {
-  //       setErrorMessage("User with this email already exists in the backend. Please log in instead.");
-  //       navigate("/login");
-  //     } else if (error.code === 'auth/email-already-in-use') {
-  //       setErrorMessage("Email is already in use. Please verify your email or log in.");
-  //     } else {
-  //       console.error("Error during sign up:", error);
-  //       setErrorMessage(error.message || "Failed to create user.");
-  //     }
-  //   }
-  // };
-
-//   const onSubmit = async (e) => {
-//     e.preventDefault();
-//     setFlashMessage({ type: "", message: "" });
-//     setErrorMessage("");
-
-//     if (password !== confirmPassword) {
-//         setFlashMessage({ type: "error", message: "Passwords do not match." });
-//         return;
-//     }
-//     if (!email || !password || !confirmPassword) {
-//         setFlashMessage({ type: "error", message: "Please fill in all the required fields." });
-//         return;
-//     }
-
-//     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-//     if (!emailPattern.test(email)) {
-//         setFlashMessage({ type: "error", message: "Please enter a valid email address." });
-//         return;
-//     }
-
-//     try {
-//         const signInMethods = await fetchSignInMethodsForEmail(auth, email);
-
-//         if (signInMethods.length > 0) {
-//             const user = auth.currentUser;
-
-//             // If user exists in Firebase and is not verified
-//             if (user && !user.emailVerified) {
-//                 await sendEmailVerification(user);
-//                 setFlashMessage({ type: "success", message: "Verification email resent. Please check your inbox and verify your email." });
-                
-//                 // Start polling for verification status
-//                 setIsPolling(true);
-//                 return;
-//             } else if (user && user.emailVerified) {
-//                 setErrorMessage("User with this email already exists and is verified. Please log in.");
-//                 return;
-//             }
-//         }
-
-//         // If user doesn't exist in Firebase, proceed with sign-up
-//         const userCredential = await signup(email, password);
-//         if (!userCredential) {
-//             throw new Error("User signup failed. Please try again.");
-//         }
-//         const user = userCredential.user;
-
-//         await sendEmailVerification(user);
-//         setFlashMessage({ type: "success", message: "Verification email sent. Please check your inbox and verify your email." });
-
-//         // Start polling for verification status
-//         setIsPolling(true);
-
-//     } catch (error) {
-//         if (error.response && error.response.status === 409) {
-//             // Treat this as a new signup and send a verification email
-//             const user = auth.currentUser;
-//             if (user && !user.emailVerified) {
-//                 await sendEmailVerification(user);
-//                 setFlashMessage({ type: "success", message: "Verification email resent. Please check your inbox and verify your email." });
-
-//                 // Start polling for verification status
-//                 setIsPolling(true);
-//             } else if (user && user.emailVerified) {
-//                 setErrorMessage("User with this email already exists and is verified. Please log in.");
-//             } else {
-//                 setErrorMessage("User with this email already exists in the backend. Please log in instead.");
-//                 navigate("/login");
-//             }
-//         } else if (error.code === 'auth/email-already-in-use') {
-//             setErrorMessage("Email is already in use. Check your inbox for a verification email and log in.");
-//         } else {
-//             console.error("Error during sign up:", error);
-//             setErrorMessage(error.message || "Failed to create user.");
-//         }
-//     }
-// };
-
+ 
 const onSubmit = async (e) => {
   e.preventDefault();
   setFlashMessage({ type: "", message: "" });
@@ -1094,7 +960,7 @@ const onSubmit = async (e) => {
           headers: { Authorization: `${API_KEY}` },
         });
       }
-      navigate("/login");
+      navigate("/contestant/login");
     } catch (error) {
       console.error("Error during Google sign in:", error);
       setErrorMessage(error.message || "Failed to sign in with Google");
@@ -1128,7 +994,7 @@ const onSubmit = async (e) => {
     } catch (error) {
       if (error.response && error.response.status === 409) {
         setErrorMessage("User with this email already exists in the backend. Please log in instead.");
-        navigate("/login");
+        navigate("/contestant/login");
       }
       else if (error.code === 'auth/too-many-requests') {
         setFlashMessage({ type: "error", message: "Please wait a few minutes before trying again." });
@@ -1168,7 +1034,7 @@ const onSubmit = async (e) => {
 
             // Clear the flash message and redirect
             setFlashMessage({ type: "", message: "" });
-            navigate("contestant/login");
+            navigate("/contestant/login");
           }
         }
       }, 3000);
@@ -1197,7 +1063,7 @@ const onSubmit = async (e) => {
           });
 
           // Redirect to login
-          navigate("/login");
+          navigate("/contestant/login");
         }
       }
     };
