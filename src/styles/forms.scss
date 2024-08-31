@@ -9,6 +9,7 @@
     font-family: Arial, sans-serif;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;  
     padding: 1rem;  
+    height: auto;
     @include mobile {
         width: 90%;  
     }

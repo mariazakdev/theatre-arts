@@ -3,9 +3,10 @@
 @import "../../styles/colors";
 
 .form-background{
-    padding-top: 2rem;
+    // padding-top: 2rem;
     background-color: $primaryBackground;
-    height: 80vh;
+    // height: 80vh;
+    min-height: auto;
     margin-bottom: 1rem;
  
 }
