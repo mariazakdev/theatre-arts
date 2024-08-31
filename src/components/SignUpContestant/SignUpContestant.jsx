@@ -1168,7 +1168,7 @@ const onSubmit = async (e) => {
 
             // Clear the flash message and redirect
             setFlashMessage({ type: "", message: "" });
-            navigate("/login");
+            navigate("contestant/login");
           }
         }
       }, 3000);

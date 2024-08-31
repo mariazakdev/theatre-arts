@@ -15,6 +15,8 @@ function Nav({ isMobileMenuOpen, onClose, URL, API_KEY }) {
     const fetchUserData = async () => {
       try {
         if (currentUser) {
+          console.log("Fetching data for user:", currentUser.uid); // Log the user ID
+
           const response = await axios.get(
             `${URL}/users/${currentUser.uid}`,
             { headers: { Authorization: `${API_KEY}` } }

@@ -1,64 +1,128 @@
+// .data-deletion {
+//     font-family: Arial, sans-serif;
+//     margin: 0;
+//     padding: 20px;
+//     background-color: #f4f4f4;
+  
+//     .container {
+//       max-width: 800px;
+//       margin: auto;
+//       background: #fff;
+//       padding: 20px;
+//       border-radius: 8px;
+//       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  
+//       h1 {
+//         color: #333;
+//       }
+  
+//       p {
+//         line-height: 1.6;
+//       }
+  
+//       .input-group {
+//         margin-bottom: 20px;
+  
+//         label {
+//           display: block;
+//           margin-bottom: 5px;
+//           color: #333;
+//         }
+  
+//         input {
+//           width: 100%;
+//           padding: 10px;
+//           border: 1px solid #ccc;
+//           border-radius: 4px;
+//         }
+//       }
+  
+//       .error-message {
+//         color: #ff0000;
+//         margin-bottom: 10px;
+//       }
+  
+//       .success-message {
+//         color: #008000;
+//         margin-bottom: 10px;
+//       }
+  
+//       button {
+//         padding: 10px 20px;
+//         background-color: #007bff;
+//         color: #fff;
+//         border: none;
+//         border-radius: 4px;
+//         cursor: pointer;
+  
+//         &:hover {
+//           background-color: #0056b3;
+//         }
+//       }
+//     }
+//   }
+  
 .data-deletion {
-    font-family: Arial, sans-serif;
-    margin: 0;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f4f4f4;
+
+  .container {
+    max-width: 800px;
+    margin: auto;
+    background: #fff;
     padding: 20px;
-    background-color: #f4f4f4;
-  
-    .container {
-      max-width: 800px;
-      margin: auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  
-      h1 {
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    h1 {
+      color: #333;
+    }
+
+    p {
+      line-height: 1.6;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+
+      label {
+        display: block;
+        margin-bottom: 5px;
         color: #333;
       }
-  
-      p {
-        line-height: 1.6;
-      }
-  
-      .input-group {
-        margin-bottom: 20px;
-  
-        label {
-          display: block;
-          margin-bottom: 5px;
-          color: #333;
-        }
-  
-        input {
-          width: 100%;
-          padding: 10px;
-          border: 1px solid #ccc;
-          border-radius: 4px;
-        }
-      }
-  
-      .error-message {
-        color: #ff0000;
-        margin-bottom: 10px;
-      }
-  
-      .success-message {
-        color: #008000;
-        margin-bottom: 10px;
-      }
-  
-      button {
-        padding: 10px 20px;
-        background-color: #007bff;
-        color: #fff;
-        border: none;
+
+      input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
         border-radius: 4px;
-        cursor: pointer;
-  
-        &:hover {
-          background-color: #0056b3;
-        }
+      }
+    }
+
+    .error-message {
+      color: #ff0000;
+      margin-bottom: 10px;
+    }
+
+    .success-message {
+      color: #008000;
+      margin-bottom: 20px;
+      font-size: 1.2em;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #0056b3;
       }
     }
   }
-  
+}
