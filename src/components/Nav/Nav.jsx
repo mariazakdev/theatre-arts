@@ -15,7 +15,7 @@ function Nav({ isMobileMenuOpen, onClose, URL, API_KEY }) {
     const fetchUserData = async () => {
       try {
         if (currentUser) {
-          console.log("Fetching data for user:", currentUser.uid); // Log the user ID
+          // console.log("Fetching data for user:", currentUser.uid); // Log the user ID
 
           const response = await axios.get(
             `${URL}/users/${currentUser.uid}`,
@@ -48,7 +48,7 @@ function Nav({ isMobileMenuOpen, onClose, URL, API_KEY }) {
     if (userData?.is_contestant === 1 && userData.hasPaid === 0 && userData.uploadStatus === 0) {
       return (
         <li>
-          <a href="/contestant/upload" onClick={() => handleLinkClick("/contestant/upload")}>
+          <a href="/contestant/enter" onClick={() => handleLinkClick("/contestant/upload")}>
             Enter Contest
           </a>
         </li>
@@ -82,7 +82,7 @@ function Nav({ isMobileMenuOpen, onClose, URL, API_KEY }) {
     });
   };
 
-  
+  // console.log("userData", userData);
 
   return (
     <nav className={`nav ${isMobileMenuOpen ? "mobile-menu-open" : ""}`}>
