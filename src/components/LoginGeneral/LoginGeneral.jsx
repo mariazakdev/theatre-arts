@@ -54,6 +54,13 @@ function LoginGeneral({ URL, API_KEY }) {
           const returnPath = state?.returnPath || "/";
           const actorId = state?.actorId;
 
+          if (response.status === 404) {
+            setFlashMessage("User not found. Please sign up.");
+            navigate("/signup");
+            return;
+          }
+
+
           if (returnPath === null) {
             console.log("No return path received");
             navigate("/");
@@ -68,12 +75,20 @@ function LoginGeneral({ URL, API_KEY }) {
         setFlashMessage("You have entered an invalid email or password");
         console.log("No user credentials received");
       }
-    } catch (error) {
+    } 
+    catch (error) {
       console.error("Error logging in:", error);
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      setFlashMessage("Error logging in");
-      console.log(errorCode, errorMessage);
+  
+      if (error.response && error.response.status === 404) {
+        setFlashMessage("User not found. Please sign up.");
+  
+        // Add a timer before navigating to the sign-up page
+        setTimeout(() => {
+          navigate("/signup");
+        }, 3000); // 3 seconds delay
+      } else {
+        setFlashMessage("Error logging in. Please try again.");
+      }
     }
   };
 

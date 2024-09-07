@@ -862,12 +862,15 @@ const SignUpContestant = ({ URL, API_KEY }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [resendAttempts, setResendAttempts] = useState(0);
   const [isPolling, setIsPolling] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const MAX_RESEND_ATTEMPTS = 3;
 
  
 const onSubmit = async (e) => {
   e.preventDefault();
+  setIsSubmitting(true); // Disable button
+
   setFlashMessage({ type: "", message: "" });
   setErrorMessage("");
 
@@ -1130,7 +1133,7 @@ const onSubmit = async (e) => {
                   {showPassword ? "Hide" : "Show"}
                 </span>
               </div>
-              <button type="submit">Sign up</button>
+              <button type="submit" disabled={isSubmitting} >Sign up</button>
             </form>
             <p className="login-redirect">
               Already have an account? <NavLink to="/login">Log in</NavLink>

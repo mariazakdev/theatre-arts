@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { sendEmailVerification, fetchSignInMethodsForEmail } from "firebase/auth";
 import { useAuth } from "../../contexts/AuthContext";
@@ -12,182 +12,93 @@ const SignUpContestant = ({ URL, API_KEY }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [flashMessage, setFlashMessage] = useState("");
+  const [flashMessage, setFlashMessage] = useState({ type: "", message: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [resendAttempts, setResendAttempts] = useState(0);
+  const [isPolling, setIsPolling] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // const onSubmit = async (e) => {
-  //   e.preventDefault();
-  //   setFlashMessage("");
+  const MAX_RESEND_ATTEMPTS = 3;
 
-  //   if (password !== confirmPassword) {
-  //     setFlashMessage("Passwords do not match.");
-  //     return;
-  //   }
-  //   if (!email || !password || !confirmPassword) {
-  //     setFlashMessage("Please fill in all the required fields.");
-  //     return;
-  //   }
-  //   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  //   if (!emailPattern.test(email)) {
-  //     setFlashMessage("Please enter a valid email address");
-  //     return;
-  //   }
+ 
+const onSubmit = async (e) => {
+  e.preventDefault();
+  setIsSubmitting(true); // Disable button
+  setFlashMessage({ type: "", message: "" });
+  setErrorMessage("");
 
-  //   try {
-  //     const response = await axios.get(`${URL}/users/email/${email}`, {
-  //       headers: { Authorization: `${API_KEY}` },
-  //     });
+  if (password !== confirmPassword) {
+      setFlashMessage({ type: "error", message: "Passwords do not match." });
+      return;
+  }
+  if (!email || !password || !confirmPassword) {
+      setFlashMessage({ type: "error", message: "Please fill in all the required fields." });
+      return;
+  }
 
-  //     if (response.data && response.data.userExists) {
-  //       setFlashMessage("User with this email already exists.");
-  //       setTimeout(() => {
-  //         navigate(-1);
-  //       }, 3000);
-  //       return;
-  //     }
+  const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  if (!emailPattern.test(email)) {
+      setFlashMessage({ type: "error", message: "Please enter a valid email address." });
+      return;
+  }
 
-  //     // Check if the user already exists in Firebase
-  //     const existingUser = auth.currentUser;
-  //     if (existingUser && existingUser.email === email && !existingUser.emailVerified) {
-  //       await sendEmailVerification(existingUser);
-  //       setFlashMessage("Verification email resent. Please check your inbox.");
-  //       return;
-  //     }
+  try {
+      const signInMethods = await fetchSignInMethodsForEmail(auth, email);
 
-  //     const userCredential = await signup(email, password);
-  //     if (!userCredential) {
-  //       throw new Error("User signup failed. Please try again.");
-  //     }
-  //     const user = userCredential.user;
+      if (signInMethods.length > 0) {
+          const user = auth.currentUser;
 
-  //     // Send email verification
-  //     await sendEmailVerification(user);
-  //     setFlashMessage("Verification email sent. Please check your inbox and verify your email.");
+          if (user && !user.emailVerified) {
+              // User exists and email is not verified, resend verification email
+              await sendEmailVerification(user);
+              setFlashMessage({ type: "success", message: "Verification email resent. Please check your inbox and verify your email." });
 
-  //     const intervalId = setInterval(async () => {
-  //       await user.reload();
-  //       if (user.emailVerified) {
-  //         clearInterval(intervalId);
+              // Start polling for verification status
+              setIsPolling(true);
+              return;
+          } else if (user && user.emailVerified) {
+              setErrorMessage("User with this email already exists and is verified. Please log in.");
+              return;
+          }
+      }
 
-  //         await axios.post(`${URL}/users`, {
-  //           email: user.email,
-  //           firebaseAuthId: user.uid,
-  //           isContestant: false,          }, {
-  //           headers: { Authorization: `${API_KEY}` },
-  //         });
-  //         setFlashMessage("Email verified! Redirecting to login...");
+      // If the user doesn't exist in Firebase, proceed with sign-up
+      const userCredential = await signup(email, password);
+      if (!userCredential) {
+          throw new Error("User signup failed. Please try again.");
+      }
+      const user = userCredential.user;
 
-  //         setTimeout(() => {
-  //           navigate(-1);
-  //         }, 2000);
-  //       }
-  //     }, 3000);
+      await sendEmailVerification(user);
+      setFlashMessage({ type: "success", message: "Verification email sent. Please check your inbox and verify your email." });
 
-  //   } catch (error) {
-  //     console.error("Error during sign up:", error);
-  //     setErrorMessage(error.message || "Failed to create user");
-  //   }
-  // };
+      // Start polling for verification status
+      setIsPolling(true);
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    setFlashMessage("");
-    setErrorMessage("");
-
-    if (password !== confirmPassword) {
-        setFlashMessage("Passwords do not match.");
-        return;
-    }
-    if (!email || !password || !confirmPassword) {
-        setFlashMessage("Please fill in all the required fields.");
-        return;
-    }
-    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!emailPattern.test(email)) {
-        setFlashMessage("Please enter a valid email address");
-        return;
-    }
-
-    try {
-        // Check if the user already exists in Firebase
-        const signInMethods = await fetchSignInMethodsForEmail(auth, email); // Use fetchSignInMethodsForEmail with auth instance
-        if (signInMethods.length > 0) {
-            const user = auth.currentUser;
-
-            if (user && !user.emailVerified) {
-                setErrorMessage("Email is already in use. Please verify your email to complete the sign-up process.");
-                return;
-            } else {
-                setErrorMessage("User with this email already exists and is verified.");
-                return;
-            }
-        }
-
-        const userCredential = await signup(email, password);
-        if (!userCredential) {
-            throw new Error("User signup failed. Please try again.");
-        }
-        const user = userCredential.user;
-
-        // Send email verification
-        await sendEmailVerification(user);
-        setFlashMessage("Verification email sent. Please check your inbox and verify your email.");
-
-        const intervalId = setInterval(async () => {
-            await user.reload();
-            if (user.emailVerified) {
-                clearInterval(intervalId);
-
-                await axios.post(`${URL}/users`, {
-                    email: user.email,
-                    firebaseAuthId: user.uid,
-                    isContestant: false,
-                }, {
-                    headers: { Authorization: `${API_KEY}` },
-                });
-                setFlashMessage("Email verified! Redirecting to login...");
-
-                setTimeout(() => {
-                    navigate(-1);
-                }, 2000);
-            }
-        }, 3000);
-
-    } catch (error) {
-        if (error.code === 'auth/email-already-in-use') {
-            setErrorMessage("Email is already in use. Please verify your email or log in.");
-        } else {
-            console.error("Error during sign up:", error);
-            setErrorMessage(error.message || "Failed to create user");
-        }
-    }
+  } catch (error) {
+      if (error.code === 'auth/email-already-in-use') {
+          // If the email is already in use, check if the user exists and is not verified
+          const signInMethods = await fetchSignInMethodsForEmail(auth, email);
+          const user = auth.currentUser;
+          if (user && !user.emailVerified) {
+              await sendEmailVerification(user);
+              setFlashMessage({ type: "success", message: "Verification email resent. Please check your inbox and verify your email." });
+              setIsPolling(true);
+          } else if (user && user.emailVerified) {
+              setErrorMessage("User with this email already exists and is verified. Please log in.");
+          } else {
+              setErrorMessage("Email is already in use. Check your inbox for a verification email and log in.");
+          }
+          
+      } else {
+          console.error("Error during sign up:", error);
+          setErrorMessage(error.message || "Failed to create user.");
+      }
+  }
 };
 
 
-
-
-
-
-
-
-  const handleResendVerification = async () => {
-    try {
-      const user = auth.currentUser;
-      if (user && !user.emailVerified) {
-        await sendEmailVerification(user);
-        setFlashMessage("Verification email resent. Please check your inbox.");
-      }
-    } catch (error) {
-      if (error.code === 'auth/too-many-requests') {
-        setErrorMessage("Too many requests. Please wait 15 minutes before trying again.");
-      } else {
-        console.error("Error resending verification email:", error);
-        setErrorMessage("Failed to resend verification email.");
-      }
-    }
-  };
-  
 
   const handleGoogleSignIn = async () => {
     try {
@@ -207,12 +118,207 @@ const SignUpContestant = ({ URL, API_KEY }) => {
           headers: { Authorization: `${API_KEY}` },
         });
       }
-      navigate("/login");
+      navigate(-1);
     } catch (error) {
       console.error("Error during Google sign in:", error);
       setErrorMessage(error.message || "Failed to sign in with Google");
     }
   };
+
+
+  // const handleResendVerification = async () => {
+  //   try {
+  //     let user = auth.currentUser;
+
+  //     if (!user) {
+  //       setErrorMessage("No user is currently signed in. Please log in again.");
+  //       return;
+  //     }
+
+  //     if (!user.emailVerified) {
+  //       if (resendAttempts >= MAX_RESEND_ATTEMPTS) {
+  //         setFlashMessage({ type: "error", message: "You've reached the maximum number of resend attempts. Please wait a few minutes before trying again." });
+  //         return;
+  //       }
+
+  //       await sendEmailVerification(user);
+  //       setFlashMessage({ type: "success", message: "Verification email resent. Please check your inbox." });
+  //       setResendAttempts(resendAttempts + 1);
+
+  //       // Start polling for verification status
+  //       setIsPolling(true);
+  //     } else {
+  //       setFlashMessage({ type: "info", message: "Your email is already verified." });
+  //     }
+  //   } catch (error) {
+  //     if (error.response && error.response.status === 409) {
+  //       setErrorMessage("User with this email already exists in the backend. Please log in instead.");
+  //       navigate("/login");
+  //     }
+  //     else if (error.code === 'auth/too-many-requests') {
+  //       setFlashMessage({ type: "error", message: "Please wait a few minutes before trying again." });
+  //     } else if (error.code === 'auth/user-token-expired' || error.code === 'auth/requires-recent-login') {
+  //       setErrorMessage("Your session has expired. Please log in again.");
+  //       navigate("/login");
+  //     } else {
+  //       console.error("Error resending verification email:", error);
+  //       setErrorMessage("Failed to resend verification email.");
+  //     }
+  //   }
+  // };
+
+  // Poll for verification status every 3 seconds when isPolling is true
+  
+  // const handleResendVerification = async () => {
+  //   try {
+  //     let user = auth.currentUser;
+  
+  //     // Check if the user is signed in
+  //     if (!user) {
+  //       setErrorMessage("No user is currently signed in. Please log in again.");
+  //       return;
+  //     }
+  
+  //     // Check if the user's email is not verified
+  //     if (!user.emailVerified) {
+  //       // Prevent too many resend attempts
+  //       if (resendAttempts >= MAX_RESEND_ATTEMPTS) {
+  //         setFlashMessage({ type: "error", message: "You've reached the maximum number of resend attempts. Please wait a few minutes before trying again." });
+  //         return;
+  //       }
+  
+  //       // Resend the verification email
+  //       await sendEmailVerification(user);
+  //       setFlashMessage({ type: "success", message: "Verification email resent. Please check your inbox." });
+  //       setResendAttempts(resendAttempts + 1);
+  
+  //       // Start polling for verification status
+  //       setIsPolling(true);
+  //     } else {
+  //       setFlashMessage({ type: "info", message: "Your email is already verified." });
+  //     }
+  //   } catch (error) {
+  //     console.error("Error resending verification email:", error); // Improved logging for debugging
+  
+  //     // Catch and handle specific Firebase error codes
+  //     if (error.code === 'auth/too-many-requests') {
+  //       setFlashMessage({ type: "error", message: "Too many requests. Please wait a few minutes before trying again." });
+  //     } else if (error.code === 'auth/user-token-expired' || error.code === 'auth/requires-recent-login') {
+  //       setFlashMessage("Your session has expired. Please log in again.");
+  //       navigate("/login");
+  //     } else {
+  //       // Handle unexpected errors
+  //       setErrorMessage("Failed to resend verification email.");
+  //     }
+  //   }
+  // };
+  
+  const handleResendVerification = async () => {
+    try {
+      let user = auth.currentUser;
+  
+      // Check if the user is signed in
+      if (!user) {
+        setFlashMessage({ type: "error", message: "No user is currently signed in. Please log in again." });
+        return;
+      }
+  
+      // Check if the user's email is not verified
+      if (!user.emailVerified) {
+        // Prevent too many resend attempts
+        if (resendAttempts >= MAX_RESEND_ATTEMPTS) {
+          setFlashMessage({ type: "error", message: "You've reached the maximum number of resend attempts. Please wait a few minutes before trying again." });
+          return;
+        }
+  
+        // Resend the verification email
+        await sendEmailVerification(user);
+        setFlashMessage({ type: "success", message: "Verification email resent. Please check your inbox." });
+        setResendAttempts(resendAttempts + 1);
+  
+        // Start polling for verification status
+        setIsPolling(true);
+      } else {
+        setFlashMessage({ type: "info", message: "Your email is already verified." });
+      }
+    } catch (error) {
+      console.error("Error resending verification email:", error);
+  
+      // Handle specific Firebase errors
+      if (error.code === 'auth/too-many-requests') {
+        setFlashMessage({ type: "error", message: "Too many requests. Please wait a few minutes before trying again." });
+      } else if (error.code === 'auth/user-token-expired' || error.code === 'auth/requires-recent-login') {
+        setFlashMessage({ type: "error", message: "Your session has expired. Please log in again." });
+        navigate("/login");
+      } else {
+        setFlashMessage({ type: "error", message: "Failed to resend verification email." });
+      }
+    }
+  };
+  
+  
+  
+  
+  useEffect(() => {
+    let intervalId;
+    if (isPolling) {
+      intervalId = setInterval(async () => {
+        const user = auth.currentUser;
+        // console.log("Checking verification status...", user); // Debug log
+        if (user) {
+          await user.reload(); // Refresh user data
+          // console.log("User reloaded. Email verified:", user.emailVerified); // Debug log
+          if (user.emailVerified) {
+            clearInterval(intervalId);
+            setIsPolling(false); // Stop polling
+
+            // Add the user to the backend database
+            console.log("Adding user to backend and redirecting..."); // Debug log
+            await axios.post(`${URL}/users`, {
+              email: user.email,
+              firebaseAuthId: user.uid,
+              isContestant: true,
+            }, {
+              headers: { Authorization: `${API_KEY}` },
+            });
+
+            // Clear the flash message and redirect
+            setFlashMessage({ type: "", message: "" });
+            navigate("/login");
+          }
+        }
+      }, 3000);
+    }
+
+    // Cleanup the interval when the component is unmounted or polling stops
+    return () => clearInterval(intervalId);
+  }, [isPolling, URL, API_KEY, navigate]);
+
+  // Check if user is verified on page load
+  useEffect(() => {
+    const checkVerificationOnLoad = async () => {
+      const user = auth.currentUser;
+      // console.log("Checking verification on load...", user); // Debug log
+      if (user) {
+        await user.reload();
+        if (user.emailVerified) {
+          // Add the user to the backend database
+          console.log("User verified on load, adding to backend and redirecting..."); // Debug log
+          await axios.post(`${URL}/users`, {
+            email: user.email,
+            firebaseAuthId: user.uid,
+            isContestant: true,
+          }, {
+            headers: { Authorization: `${API_KEY}` },
+          });
+
+          // Redirect to login
+          navigate("/login");
+        }
+      }
+    };
+    checkVerificationOnLoad();
+  }, [URL, API_KEY, navigate]);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -223,19 +329,20 @@ const SignUpContestant = ({ URL, API_KEY }) => {
       <section>
         <div className="form-background">
           <div className="form-container">
-            {flashMessage && <p className="flash-message">{flashMessage}</p>}
             <h2>Contestant Sign Up</h2>
-
             <button onClick={handleGoogleSignIn} className="google-signin-button">
               Sign Up with Google
             </button>
             <p className="or-divider">
               <span>or</span>
             </p>
-            <p className="form-description"> If signing up with your own email, you will need to verify your email.</p>
-            <p className="form-description"> Create your unique secure password</p>
-
+            <p className="form-description">If signing up with your own email, you will need to verify your email.</p>
             <form onSubmit={onSubmit} noValidate>
+              {flashMessage.message && (
+                <p className={`flash-message ${flashMessage.type}`}>
+                  {flashMessage.message}
+                </p>
+              )}
               {errorMessage && <p className="error-message">{errorMessage}</p>}
               <div className="input-group">
                 <label htmlFor="email-address">Email address</label>
@@ -247,7 +354,7 @@ const SignUpContestant = ({ URL, API_KEY }) => {
                   placeholder="Email address"
                 />
               </div>
-              <div className="input-group">    
+              <div className="input-group">
                 <label htmlFor="password">Password</label>
                 <input
                   type={showPassword ? "text" : "password"}
@@ -256,10 +363,7 @@ const SignUpContestant = ({ URL, API_KEY }) => {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
                 />
-                <span
-                  className="input-group--password-toggle"
-                  onClick={togglePasswordVisibility}
-                >
+                <span className="input-group--password-toggle" onClick={togglePasswordVisibility}>
                   {showPassword ? "Hide" : "Show"}
                 </span>
               </div>
@@ -272,24 +376,20 @@ const SignUpContestant = ({ URL, API_KEY }) => {
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Confirm Password"
                 />
-                <span
-                  className="input-group--password-toggle"
-                  onClick={togglePasswordVisibility}
-                >
+                <span className="input-group--password-toggle" onClick={togglePasswordVisibility}>
                   {showPassword ? "Hide" : "Show"}
                 </span>
               </div>
-              <button type="submit">Sign up</button>
+              <button disabled={isSubmitting} type="submit">Sign up</button>
             </form>
-
             <p className="login-redirect">
-              Already have an account?{" "}
-              <NavLink to="/login">Log in</NavLink>
+              Already have an account? <NavLink to="/login">Log in</NavLink>
             </p>
-              <div className="verify">
-            <button className="resend-verification" onClick={handleResendVerification}> Resend verification email</button>
-
-            </div>
+            {/* <div className="verify">
+              <button className="resend-verification" onClick={handleResendVerification}>
+                Resend verification email
+              </button>
+            </div> */}
           </div>
         </div>
       </section>

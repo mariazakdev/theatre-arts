@@ -20,9 +20,9 @@ export default function SingleVote({
   const [flashMessage, setFlashMessage] = useState("");
   let userData;
   let userIdData;
+  let votesTracker;
 
   const handleVoteClick = async () => {
-    console.log("handleVoteClick called from singlevote");
 
     if (!currentUser) {
       setFlashMessage("Log in to vote");
@@ -34,18 +34,9 @@ export default function SingleVote({
       }, 4000);
       return;
     }
-
     try {
-      const response = await axios.post(`${URL}/contestants/vote/${actorId}`, {
-        votes: 1,
-      },
-      { headers: { Authorization: `${API_KEY}` } }
-      );
-
-      if (response.status === 200) {
-        setVoted(true);
-        console.log(response.data.message);
-        onVoteSuccess();
+      let userIdData;
+      let userEmail;
 
         if (currentUser) {
           // Retrieve user data
@@ -56,8 +47,22 @@ export default function SingleVote({
             }
           );
           userData = userResponse.data;
+
+              // Check if user exists in the database
+              if (!userData.user) {
+                setFlashMessage("Sign up to vote");
+                // Redirect to sign up if user doesn't exist
+                setTimeout(() => {
+                  navigate("/signup", {
+                    state: { returnPath: location.pathname, actorId },
+                  });
+                }, 4000);
+                return;
+              }
+              
           if (userData.user) {
             userIdData = userData.user.id;
+            userEmail = userData.user.email;
           }
         }
 
@@ -67,18 +72,33 @@ export default function SingleVote({
           contestantId: actorId,
           numberOfVotes: 1,
         };
-
+        const votesTrackerData = {
+          userId: userIdData,
+          email: userEmail,
+          contestantId: actorId,
+          numberOfVotes: 1,
+          round:1
+        };
         const votesResponse = await axios.post(`${URL}/votes`, votesData,
           { headers: { Authorization: `${API_KEY}` } }
           );
 
         if (votesResponse.status === 201) {
         }
+       
+  const votesTrackerResponse = await axios.post(`${URL}/votes-tracker`, 
+    votesTrackerData
+    ,  
+    { headers: { Authorization: `${API_KEY}` } }
+    );
+    if (votesTrackerResponse.status === 201) {
+    }
+    console.log("votes tracker added", votesTrackerResponse);
 
-        navigate(`/actors/${actorId}`, {
+        navigate( `/vote-payment-singlevote?actorId=${actorId}&votes=${1}`, {
           state: { returnPath: location.pathname },
         });
-      }
+      
     } catch (error) {
       console.error("Error while voting:", error);
 
@@ -98,9 +118,15 @@ export default function SingleVote({
           {voted ? "The contestant thanks you" : "Click the button to vote"}
         </p>
         <button
+
+// //  Button fully disabled until further notice
+//           disabled={true}
+//           className="disabled-button payment-button"
+
           className="payment-button"
           onClick={() => handleVoteClick()}
           disabled={voted}
+          
         >
           {" "}
           Vote
