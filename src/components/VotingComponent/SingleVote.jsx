@@ -77,10 +77,16 @@ export default function SingleVote({
         headers: { Authorization: `${API_KEY}` },
       });
 
-      navigate(`/vote-payment-singlevote?actorId=${actorId}&votes=${1}`, {
-        state: { returnPath: location.pathname },
-      });
+ // Show success message
+ setVoted(true); // Disable the button after voting
+ setFlashMessage("Vote successfully cast. Thank you for voting!");
+ setTimeout(() => {
+  navigate(`/vote-payment-singlevote?actorId=${actorId}&votes=${1}`, {
+    state: { returnPath: location.pathname, actorId },
+  });
+}, 4000);
 
+  
     } catch (error) {
       console.error("Error while voting:", error);
 
