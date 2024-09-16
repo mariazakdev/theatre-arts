@@ -79,12 +79,12 @@ export default function SingleVote({
 
  // Show success message
  setVoted(true); // Disable the button after voting
- setFlashMessage("Vote successfully cast. Thank you for voting!");
+ setFlashMessage('Thank you for your contribution and for helping this contestant win.');
  setTimeout(() => {
   navigate(`/vote-payment-singlevote?actorId=${actorId}&votes=${1}`, {
     state: { returnPath: location.pathname, actorId },
   });
-}, 4000);
+}, 5000);
 
   
     } catch (error) {

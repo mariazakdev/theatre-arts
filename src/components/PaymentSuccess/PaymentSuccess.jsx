@@ -10,6 +10,7 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage}) {
   const { currentUser } = useAuth();
 
   const [processed, setProcessed] = useState(false);
+  const [flashMessage, setFlashMessage] = useState("");
   const isMounted = useRef(true);
 
   useEffect(() => {
@@ -50,9 +51,15 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage}) {
             contestantId: actorId,
             numberOfVotes: 1,
           };
-             navigate(`/actors/vote/${actorId}`);
-          setProcessed(true);
-        }
+    // Set a success message
+    setFlashMessage('Thank you for your contribution and for helping helping this contestant win!');
+    setProcessed(true);
+
+    // Delay the redirect for 3 seconds to show the success message
+    setTimeout(() => {
+      navigate(`/actors/vote/${actorId}`);
+    }, 5000);
+  }        
       } catch (error) {
         console.error('Error while updating votes:', error);
       
@@ -64,7 +71,17 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage}) {
     }
   }, [searchParams, navigate, processed]);
 
-  // return <div>{processed ? 'Vote processed successfully!' : 'Processing your vote...'}</div>;
+  return (
+    <div className="payment-success">
+      {processed ? (
+        <p className="flash-message">{flashMessage}</p>
+      ) : (
+        <p className="processing-message">Processing your vote...</p>
+      )}
+    </div>
+  );
+
+
 }
 
 export default PaymentSuccess;
