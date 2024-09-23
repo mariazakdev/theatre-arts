@@ -86,6 +86,7 @@ export default function SingleVote({
   });
 }, 5000);
 
+
   
     } catch (error) {
       console.error("Error while voting:", error);
