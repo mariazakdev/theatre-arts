@@ -52,7 +52,7 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage}) {
             numberOfVotes: 1,
           };
     // Set a success message
-    setFlashMessage('Thank you for your contribution and for helping helping this contestant win!');
+    setFlashMessage('Thank you for your contribution and for helping this contestant win!');
     setProcessed(true);
 
     // Delay the redirect for 3 seconds to show the success message
