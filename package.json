@@ -7,15 +7,11 @@
     "@aws-sdk/client-s3": "^3.438.0",
     "@stripe/react-stripe-js": "^2.4.0",
     "@stripe/stripe-js": "^2.1.9",
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^13.5.0",
     "@vimeo/player": "^2.21.0",
     "aws-sdk": "^2.1484.0",
     "axios": "^1.6.0",
     "emailjs": "^4.0.3",
     "emailjs-com": "^3.2.0",
-    "firebase": "^10.4.0",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
     "multer": "^1.4.5-lts.1",
@@ -36,7 +32,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
+    "test:clear": "jest --clearCache",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -55,6 +52,34 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.0",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-react": "^7.25.9",
+    "@firebase/testing": "^0.20.11",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.0.1",
+    "@testing-library/user-event": "^14.5.2",
+    "babel-jest": "^29.7.0",
+    "firebase": "^11.0.2",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^27.5.1",
+    "msw": "^2.6.6",
+    "react-test-renderer": "^18.3.1"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "moduleNameMapper": {
+      "\\.(css|scss)$": "identity-obj-proxy"
+    },
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(axios)/)"
     ]
   }
 }

@@ -2,247 +2,244 @@
 @import "./colors";
 
 .form-container {
-    width: 90%;  
-    max-width: 320px;  
-    margin: 50px auto;
-    background-color: #fff;
-    font-family: Arial, sans-serif;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;  
-    padding: 1rem;  
-    height: auto;
-    @include mobile {
-        width: 90%;  
+  width: 90%;
+  max-width: 320px;
+  margin: 50px auto;
+  background-color: #fff;
+  font-family: Arial, sans-serif;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  padding: 1rem;
+  height: auto;
+  @include mobile {
+    width: 90%;
+  }
+
+  @include tablet {
+    width: 280px;
+  }
+
+  h1,
+  h2 {
+    font-size: 24px;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  form {
+    padding: 20px;
+
+    .input-group {
+      margin-bottom: 15px;
+      position: relative;
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+        &::placeholder {
+          color: #44484b; 
+          font-size: 12px;
+        }
+      }
+      &--password-toggle {
+        cursor: pointer;
+        position: absolute;
+        top: 70%;
+        right: 10px;
+        transform: translateY(-50%);
+        font-size: 10px;
+        color: #007bff;
+      }
+    }
+    textarea {
+      height: 6.25rem;
+      resize: none;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+  }
+  &__payment-info {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #cedceb;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    button {
+      width: 98%;
+      padding: 10px;
+      font-size: 1em;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      background-color: #007bff;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #0056b3;
+      }
+    }
+    label {
+      display: block;
+      margin-bottom: 15px;
+      font-weight: 500;
+      color: #32325d;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+    input {
+      display: block;
+      width: 90%;
+      padding: 8px;
+      margin-top: 8px;
+      font-size: 1em;
+      line-height: 1.5;
+      color: #32325d;
+      background-color: #fff;
+      border: 1px solid #e5e5e5;
+      border-radius: 5px;
+      transition: border 0.3s;
+
+      &--focus {
+        border-color: #007bff;
+      }
+
+      &::placeholder {
+        color: #aab7c4;
+      }
+    }
+    input[type="file"] {
+      display: none;
+    }
+    .StripeElement {
+      display: block;
+      width: 90%;
+      padding: 10px;
+      margin-top: 8px;
+      font-size: 1em;
+      line-height: 1.5;
+      color: #32325d;
+      background-color: #fff;
+      border: 1px solid #e5e5e5;
+      border-radius: 5px;
+      transition: border 0.3s;
+
+      &--focus {
+        border-color: #007bff;
+      }
+
+      &::placeholder {
+        color: #aab7c4;
+      }
     }
 
-    @include tablet {
-        width: 280px;  
+    &__pay-button {
+      width: 100%;
+      padding: 10px;
+      font-size: 1em;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      background-color: #007bff;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #0056b3;
+      }
     }
-
-    h1, h2 {
-        font-size: 24px;
-        text-align: center;
-        margin-top: 20px;
-    }
-
-    form {
-        padding: 20px;
-
-        .input-group {
-            margin-bottom: 15px;
-            position: relative;
-
-            label {
-                display: block;
-                margin-bottom: 5px;
-            }
-
-            input,
-            textarea {
-                width: 100%;
-                padding: 8px;
-                box-sizing: border-box;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-                font-size: 14px;
-                &::placeholder {
-                    color: #aab7c4; // Placeholder color
-                    font-size: 12px;
-                }
-            }
-            &--password-toggle {
-                cursor: pointer;
-                position: absolute;
-                top: 70%;
-                right: 10px;
-                transform: translateY(-50%);
-                font-size: 10px;
-                color: #007bff;
-            }
-        }
-        textarea {
-height: 6.25rem;
-resize: none;      }
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-
-            &:hover {
-                background-color: #0056b3;
-            }
-        }
-    }
-    &__payment-info {
-        margin-bottom: 20px;
-        padding: 15px;
-        background-color: #cedceb;
-        border-radius: 5px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        button{
-            width: 98%;
-            padding: 10px;
-            font-size: 1em;
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            background-color: #007bff;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        
-            &:hover {
-                background-color: #0056b3;
-            }
-        }
-        label {
-            display: block;
-            margin-bottom: 15px;
-            font-weight: 500;
-            color: #32325d;
-
-            &:last-child {
-                margin-bottom: 0;
-            }
-       
-        }
-        input{
-            display: block;
-            width: 90%;
-            padding: 8px;
-            margin-top: 8px;
-            font-size: 1em;
-            line-height: 1.5;
-            color: #32325d;
-            background-color: #fff;
-            border: 1px solid #e5e5e5;
-            border-radius: 5px;
-            transition: border 0.3s;
-
-            &--focus {
-                border-color: #007bff;
-            }
-            
-            &::placeholder {
-                color: #aab7c4;
-            }   
-
-        
-        }
-        input[type="file"] {
-            display: none;  
-        }
-        .StripeElement {
-            display: block;
-            width: 90%;
-            padding: 10px;
-            margin-top: 8px;
-            font-size: 1em;
-            line-height: 1.5;
-            color: #32325d;
-            background-color: #fff;
-            border: 1px solid #e5e5e5;
-            border-radius: 5px;
-            transition: border 0.3s;
-
-            &--focus {
-                border-color: #007bff;
-            }
-            
-            &::placeholder {
-                color: #aab7c4;
-            }
-        }
-
-        &__pay-button {
-            width: 100%;
-            padding: 10px;
-            font-size: 1em;
-            border: none;
-            border-radius: 5px;
-            color: #fff;
-            background-color: #007bff;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        
-            &:hover {
-                background-color: #0056b3;
-            }
-        }
-    }
+  }
 }
 
-.login-redirect, .success-message, .error-message {
-    margin-top: 15px;
-    text-align: center;
-    padding-bottom: 1rem;
+.login-redirect,
+.success-message,
+.error-message {
+  margin-top: 15px;
+  text-align: center;
+  padding-bottom: 1rem;
 
-    a {
-        color: #007bff;
-        text-decoration: none;
-        &:hover {
-            text-decoration: underline;
-        }
+  a {
+    color: #007bff;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
     }
+  }
 }
 
 .success-message {
-    color: green;
-    text-align: center;
+  color: green;
+  text-align: center;
 }
 
 .error-message {
-    @include flex(center, center, row);
-    background-color: $color5;
-    padding: 1rem;
-    animation: flash 3s;
+  @include flex(center, center, row);
+  background-color: $color5;
+  padding: 1rem;
+  animation: flash 3s;
 }
 .flash-message {
-    @include flex(center, center, row);
-    background-color: $color5;
-    padding: 1rem;
-    animation: flash 3s;
-  }
-
+  @include flex(center, center, row);
+  background-color: $color5;
+  padding: 1rem;
+  animation: flash 3s;
+}
 
 .form-container__submit-button:disabled {
-    background-color: gray;
-    color: black;
-    cursor: not-allowed;
-  }
-  
-.resend-verification{
-    margin-top: 15px;
-    text-align: center;
-    padding-bottom: 1rem;
-    cursor: pointer;
-    a {
-       
-        
-        text-decoration: none;
-        &:hover {
-            text-decoration: underline;
-        }
-    }
+  background-color: gray;
+  color: black;
+  cursor: not-allowed;
 }
-button{
-    background-color: #e35c22;
-    color: white;
-    display: flex;
-justify-content: center;
-align-items: center;
-padding: 1rem;
-outline: none;
-}
-.verify{
-width: 100%;
-padding: 10px;
-display: flex;
-justify-content: center;
-align-items: center;
 
+.resend-verification {
+  margin-top: 15px;
+  text-align: center;
+  padding-bottom: 1rem;
+  cursor: pointer;
+  a {
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+button {
+  background-color: #e35c22;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  outline: none;
+}
+.verify {
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
