@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import PrivateContestantRoute from "./components/PrivateRoute/PrivateContestantRoute";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
@@ -30,6 +30,7 @@ import PrivacyPolicyPage from "./pages/PrivacyPolicyPage/PrivacyPolicyPage";
 import TermsOfServicePage from "./pages/TermsOfServicePage/TermsOfServicePage";
 import UserDeletionPage from "./pages/UserDeletionPage/UserDeletionPage";
 import VotingPage2 from "./pages/VotingPage/VotingPageNoSingleVote";
+import { detectInAppBrowser, isMobile } from './utils/detectInAppBrowser';
 
 import "./App.scss";
 import VotePaymentSuccessPage2 from "./pages/VotePaymentSuccess/VotePaymentSuccessPage2";
@@ -40,7 +41,21 @@ const CLIENT_URL = process.env.REACT_APP_URL;
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 function App() {
+// For mini browsers like Facebook, Instagram, Twitter, etc.Google auth.
+useEffect(() => {
+  const detectedBrowser = detectInAppBrowser();
 
+  if (detectedBrowser) {
+    const isOnMobile = isMobile();
+    alert(
+      `You're using the ${detectedBrowser} in-app browser. ${
+        isOnMobile
+          ? "Please open this link in your default mobile browser for a better experience."
+          : "Please open this link in a secure desktop browser."
+      }`
+    );
+  }
+}, []);
 
   return (
     <AuthProvider>
