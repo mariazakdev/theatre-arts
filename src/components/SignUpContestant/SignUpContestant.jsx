@@ -23,83 +23,170 @@ const SignUpContestant = ({ URL, API_KEY }) => {
   const MAX_RESEND_ATTEMPTS = 3;
 
  
+// const onSubmit = async (e) => {
+//   e.preventDefault();
+//   setIsSubmitting(true); // Disable button
+
+//   setFlashMessage({ type: "", message: "" });
+//   setErrorMessage("");
+
+//   if (password !== confirmPassword) {
+//       setFlashMessage({ type: "error", message: "Passwords do not match." });
+//       return;
+//   }
+//   if (!email || !password || !confirmPassword) {
+//       setFlashMessage({ type: "error", message: "Please fill in all the required fields." });
+//       return;
+//   }
+
+//   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+//   if (!emailPattern.test(email)) {
+//       setFlashMessage({ type: "error", message: "Please enter a valid email address." });
+//       return;
+//   }
+
+//   try {
+//       const signInMethods = await fetchSignInMethodsForEmail(auth, email);
+
+//       if (signInMethods.length > 0) {
+//           const user = auth.currentUser;
+
+//           if (user && !user.emailVerified) {
+//               // User exists and email is not verified, resend verification email
+//               await sendEmailVerification(user);
+//               setFlashMessage({ type: "success", message: "Verification email resent. Please check your inbox and verify your email." });
+
+//               // Start polling for verification status
+//               setIsPolling(true);
+//               return;
+//           } else if (user && user.emailVerified) {
+//               setErrorMessage("User with this email already exists and is verified. Please log in.");
+//               return;
+//           }
+//       }
+
+//       // If the user doesn't exist in Firebase, proceed with sign-up
+//       const userCredential = await signup(email, password);
+//       if (!userCredential) {
+//           throw new Error("User signup failed. Please try again.");
+//       }
+//       const user = userCredential.user;
+
+//       await sendEmailVerification(user);
+//       setFlashMessage({ type: "success", message: "Verification email sent. Please check your inbox and verify your email." });
+
+//       // Start polling for verification status
+//       setIsPolling(true);
+
+//   } catch (error) {
+//       if (error.code === 'auth/email-already-in-use') {
+//           // If the email is already in use, check if the user exists and is not verified
+//           const signInMethods = await fetchSignInMethodsForEmail(auth, email);
+//           const user = auth.currentUser;
+//           if (user && !user.emailVerified) {
+//               await sendEmailVerification(user);
+//               setFlashMessage({ type: "success", message: "Verification email resent. Please check your inbox and verify your email." });
+//               setIsPolling(true);
+//           } else if (user && user.emailVerified) {
+//               setErrorMessage("User with this email already exists and is verified. Please log in.");
+//           } else {
+//               setErrorMessage("Email is already in use. Check your inbox for a verification email and log in.");
+//           }
+//       } else {
+//           console.error("Error during sign up:", error);
+//           setErrorMessage(error.message || "Failed to create user.");
+//       }
+//   }
+// };
+
 const onSubmit = async (e) => {
   e.preventDefault();
   setIsSubmitting(true); // Disable button
 
+  // Clear previous flash and error messages
   setFlashMessage({ type: "", message: "" });
   setErrorMessage("");
 
+  // Validation checks
   if (password !== confirmPassword) {
-      setFlashMessage({ type: "error", message: "Passwords do not match." });
-      return;
+    setFlashMessage({ type: "error", message: "Passwords do not match." });
+    setIsSubmitting(false); // Re-enable the button
+    return;
   }
+
   if (!email || !password || !confirmPassword) {
-      setFlashMessage({ type: "error", message: "Please fill in all the required fields." });
-      return;
+    setFlashMessage({ type: "error", message: "Please fill in all the required fields." });
+    setIsSubmitting(false); // Re-enable the button
+    return;
   }
 
   const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   if (!emailPattern.test(email)) {
-      setFlashMessage({ type: "error", message: "Please enter a valid email address." });
-      return;
+    setFlashMessage({ type: "error", message: "Please enter a valid email address." });
+    setIsSubmitting(false); // Re-enable the button
+    return;
   }
 
   try {
-      const signInMethods = await fetchSignInMethodsForEmail(auth, email);
+    const signInMethods = await fetchSignInMethodsForEmail(auth, email);
 
-      if (signInMethods.length > 0) {
-          const user = auth.currentUser;
+    if (signInMethods.length > 0) {
+      const user = auth.currentUser;
 
-          if (user && !user.emailVerified) {
-              // User exists and email is not verified, resend verification email
-              await sendEmailVerification(user);
-              setFlashMessage({ type: "success", message: "Verification email resent. Please check your inbox and verify your email." });
+      if (user && !user.emailVerified) {
+        // Resend verification email if the user exists but is not verified
+        await sendEmailVerification(user);
+        setFlashMessage({ type: "success", message: "Verification email resent. Please check your inbox and verify your email." });
 
-              // Start polling for verification status
-              setIsPolling(true);
-              return;
-          } else if (user && user.emailVerified) {
-              setErrorMessage("User with this email already exists and is verified. Please log in.");
-              return;
-          }
+        // Start polling for verification status
+        setIsPolling(true);
+        setIsSubmitting(false); // Re-enable the button
+        return;
+      } else if (user && user.emailVerified) {
+        setErrorMessage("User with this email already exists and is verified. Please log in.");
+        setIsSubmitting(false); // Re-enable the button
+        return;
       }
+    }
 
-      // If the user doesn't exist in Firebase, proceed with sign-up
-      const userCredential = await signup(email, password);
-      if (!userCredential) {
-          throw new Error("User signup failed. Please try again.");
-      }
-      const user = userCredential.user;
+    // Proceed with sign-up if the user does not exist
+    const userCredential = await signup(email, password);
+    if (!userCredential) {
+      throw new Error("User signup failed. Please try again.");
+    }
 
-      await sendEmailVerification(user);
-      setFlashMessage({ type: "success", message: "Verification email sent. Please check your inbox and verify your email." });
+    const user = userCredential.user;
 
-      // Start polling for verification status
-      setIsPolling(true);
+    // Send verification email
+    await sendEmailVerification(user);
+    setFlashMessage({ type: "success", message: "Verification email sent. Please check your inbox and verify your email." });
 
+    // Start polling for verification status
+    setIsPolling(true);
   } catch (error) {
-      if (error.code === 'auth/email-already-in-use') {
-          // If the email is already in use, check if the user exists and is not verified
-          const signInMethods = await fetchSignInMethodsForEmail(auth, email);
-          const user = auth.currentUser;
-          if (user && !user.emailVerified) {
-              await sendEmailVerification(user);
-              setFlashMessage({ type: "success", message: "Verification email resent. Please check your inbox and verify your email." });
-              setIsPolling(true);
-          } else if (user && user.emailVerified) {
-              setErrorMessage("User with this email already exists and is verified. Please log in.");
-          } else {
-              setErrorMessage("Email is already in use. Check your inbox for a verification email and log in.");
-          }
+    console.error("Error during sign up:", error);
+
+    if (error.code === 'auth/email-already-in-use') {
+      const signInMethods = await fetchSignInMethodsForEmail(auth, email);
+      const user = auth.currentUser;
+
+      if (user && !user.emailVerified) {
+        await sendEmailVerification(user);
+        setFlashMessage({ type: "success", message: "Verification email resent. Please check your inbox and verify your email." });
+        setIsPolling(true);
+      } else if (user && user.emailVerified) {
+        setErrorMessage("User with this email already exists and is verified. Please log in.");
       } else {
-          console.error("Error during sign up:", error);
-          setErrorMessage(error.message || "Failed to create user.");
+        setErrorMessage("Email is already in use. Check your inbox for a verification email and log in.");
       }
+    } else {
+      setErrorMessage(error.message || "Failed to create user.");
+    }
+  } finally {
+    setIsSubmitting(false); // Re-enable the button in all cases
   }
 };
 
- 
 
   const handleGoogleSignIn = async () => {
     try {
@@ -269,12 +356,7 @@ const onSubmit = async (e) => {
                   type={showPassword ? "text" : "password"}
                   id="password"
                   value={password}
-                  onChange={(e) => {
-                    setPassword(e.target.value); // Update password state
-                    setFlashMessage({ type: "", message: "" }); // Clear flash message
-                    setErrorMessage(""); // Clear error message
-                  }}
-
+                  onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
                 />
                 <span className="input-group--password-toggle" onClick={togglePasswordVisibility}>
@@ -287,14 +369,7 @@ const onSubmit = async (e) => {
                   type={showPassword ? "text" : "password"}
                   id="confirm-password"
                   value={confirmPassword}
-                
-
-                  onChange={(e) => {
-                    setConfirmPassword(e.target.value); // Update password state
-                    setFlashMessage({ type: "", message: "" }); // Clear flash message
-                    setErrorMessage(""); // Clear error message
-                  }}
-
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Confirm Password"
                 />
                 <span className="input-group--password-toggle" onClick={togglePasswordVisibility}>
