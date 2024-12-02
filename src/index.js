@@ -12,39 +12,28 @@ function handleInAppBrowserDetection() {
 
   if (detectedBrowser) {
     const isOnMobile = isMobile();
-
-    alert(
-      `You're using the ${detectedBrowser} in-app browser. ${
-        isOnMobile
-          ? "Please open this link in your default mobile browser for a better experience."
-          : "Please open this link in a secure desktop browser."
-      }`
-    );
-
-    // Optionally, create a button to open in the default browser
     const currentUrl = window.location.href;
-    const openInBrowserButton = document.createElement("button");
-    openInBrowserButton.textContent = "Open in Browser";
-    openInBrowserButton.style = `
-      position: fixed;
-      bottom: 10px;
-      right: 10px;
-      z-index: 1000;
-      padding: 10px;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-    `;
-    openInBrowserButton.onclick = () => {
-      window.location.href = `googlechrome://navigate?url=${currentUrl}`;
-    };
-    document.body.appendChild(openInBrowserButton);
+
+    // Redirect users based on their environment
+    if (isOnMobile) {
+      // Redirect to a fallback universal intent for mobile devices
+      window.location.href = `intent://${currentUrl.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.android.chrome;end`;
+    } else {
+      // For desktop, prompt the user to open in a default browser
+      window.location.href = currentUrl; // Attempt direct redirection for desktop
+    }
+
+    // Optional: Fallback for in-app browsers that block redirection
+    setTimeout(() => {
+      alert(
+        `You're using the ${detectedBrowser} in-app browser. Please open this link in your default browser for the best experience.`
+      );
+    }, 3000);
   }
 }
-window.onload = handleInAppBrowserDetection;
 
+// Run the redirection logic when the app loads
+window.onload = handleInAppBrowserDetection;
 
 
 

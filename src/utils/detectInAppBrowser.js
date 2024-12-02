@@ -1,5 +1,3 @@
-// utils/detectInAppBrowser.js
-
 export function detectInAppBrowser() {
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
   
@@ -16,19 +14,15 @@ export function detectInAppBrowser() {
     for (const browser of inAppBrowsers) {
       for (const pattern of browser.patterns) {
         if (userAgent.includes(pattern)) {
-          return browser.name; // Return the detected browser name
+          return browser.name;
         }
       }
     }
   
-    return false; // Return false if no in-app browser is detected
+    return false;
   }
   
   export function isMobile() {
     return /Mobi|Android/i.test(navigator.userAgent);
-  }
-  
-  export function isDesktop() {
-    return !isMobile();
   }
   
