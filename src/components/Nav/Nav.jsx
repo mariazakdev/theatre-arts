@@ -31,7 +31,7 @@ function Nav({ isMobileMenuOpen, onClose, URL, API_KEY }) {
     };
 
     fetchUserData();
-  }, [currentUser, URL, API_KEY, userData]);
+  }, [currentUser, URL, API_KEY]);
 
   const handleLinkClick = (path) => {
     navigate(path);
