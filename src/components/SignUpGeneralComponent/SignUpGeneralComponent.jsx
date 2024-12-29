@@ -52,7 +52,7 @@ const onSubmit = async (e) => {
           if (user && !user.emailVerified) {
               // User exists and email is not verified, resend verification email
               await sendEmailVerification(user);
-              setFlashMessage({ type: "success", message: "Verification email resent. Please check your inbox and verify your email." });
+              setFlashMessage({ type: "success", message: "Verification email resent. Please check your inbox and verify your email. Check your spam." });
 
               // Start polling for verification status
               setIsPolling(true);
@@ -71,7 +71,7 @@ const onSubmit = async (e) => {
       const user = userCredential.user;
 
       await sendEmailVerification(user);
-      setFlashMessage({ type: "success", message: "Verification email sent. Please check your inbox and verify your email." });
+      setFlashMessage({ type: "success", message: "Verification email sent. Please check your inbox and verify your email. Check your spam." });
 
       // Start polling for verification status
       setIsPolling(true);
