@@ -101,6 +101,13 @@ const handleDeleteRequest = async (e) => {
   setMessage('');
   setError('');
 
+
+  if (!currentUser) {
+    console.error('Error: User not logged in.');
+    setError('You must be logged in to delete your account. Please log in and try again.');
+    return;
+  }
+  
   if (!email) {
     setError('Please enter your email address.');
     return;
