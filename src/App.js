@@ -63,7 +63,7 @@ function App() {
             <Route exact path="/" element={<HomePage URL={URL} API_KEY={API_KEY}/>} />
             {/* Contestants only  */}
             <Route exact path="/contestant/signup" element={<SignUpPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY}  />} />
-            {/* <Route exact path="/contestant/login" element={<LoginPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY}  />} /> */}
+            <Route exact path="/contestant/login" element={<LoginPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY}  />} />
             {/* One time contestants only */}
             <Route
               exact path="/contestant/enter"

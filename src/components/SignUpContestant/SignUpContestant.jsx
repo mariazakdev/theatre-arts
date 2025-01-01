@@ -28,9 +28,7 @@ const SignUpContestant = ({ URL, API_KEY }) => {
 const onSubmit = async (e) => {
   e.preventDefault();
   setIsSubmitting(true); // Disable button
-
-  // Clear previous flash and error messages
-  setFlashMessage({ type: "", message: "" });
+  setFlashMessage({ type: "", message: "" });  // Clear previous flash and error messages
   setErrorMessage("");
 
   // Validation checks
@@ -90,7 +88,11 @@ const onSubmit = async (e) => {
     // Start polling for verification status
     setIsPolling(true);
   } catch (error) {
-    console.error("Error during sign up:", error);
+    console.error("Error during sign-up process:", {
+      message: error.message,
+      code: error.code,
+      fullError: error,
+    });
 
     if (error.code === 'auth/email-already-in-use') {
       const signInMethods = await fetchSignInMethodsForEmail(auth, email);
@@ -103,7 +105,7 @@ const onSubmit = async (e) => {
       } else if (user && user.emailVerified) {
         setErrorMessage("User with this email already exists and is verified. Please log in.");
       } else {
-        setErrorMessage("Email is already in use. Check your inbox for a verification email and log in.");
+        setErrorMessage("Email is already in use. Please try logging in, or see if sign up incomplete : check your inbox for a verification email or resend verify.");
       }
     } else {
       setErrorMessage(error.message || "Failed to create user.");
@@ -114,71 +116,90 @@ const onSubmit = async (e) => {
 };
 
 
-  const handleGoogleSignIn = async () => {
-    try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const user = result.user;
+const handleGoogleSignIn = async () => {
+  try {
+    const result = await signInWithPopup(auth, googleProvider);
+    const user = result.user;
 
-      const response = await axios.get(`${URL}/users/email/${user.email}`, {
+    const response = await axios.get(`${URL}/users/email/${user.email}`, {
+      headers: { Authorization: `${API_KEY}` },
+    });
+
+    if (!response.data.userExists) {
+      await axios.post(`${URL}/users`, {
+        email: user.email,
+        firebaseAuthId: user.uid,
+        isContestant: true,
+      }, {
         headers: { Authorization: `${API_KEY}` },
       });
-
-      if (!response.data.userExists) {
-        await axios.post(`${URL}/users`, {
-          email: user.email,
-          firebaseAuthId: user.uid,
-          isContestant: true,
-        }, {
-          headers: { Authorization: `${API_KEY}` },
-        });
-      }
-      navigate("/contestant/login");
-    } catch (error) {
-      console.error("Error during Google sign in:", error);
-      setErrorMessage(error.message || "Failed to sign in with Google");
     }
-  };
-
-  const handleResendVerification = async () => {
-    try {
-      let user = auth.currentUser;
-
-      if (!user) {
-        setErrorMessage("No user is currently signed in. Please log in again.");
-        return;
-      }
-
-      if (!user.emailVerified) {
-        if (resendAttempts >= MAX_RESEND_ATTEMPTS) {
-          setFlashMessage({ type: "error", message: "You've reached the maximum number of resend attempts. Please wait a few minutes before trying again." });
-          return;
-        }
-
-        await sendEmailVerification(user);
-        setFlashMessage({ type: "success", message: "Verification email resent. Please check your inbox." });
-        setResendAttempts(resendAttempts + 1);
-
-        // Start polling for verification status
-        setIsPolling(true);
-      } else {
-        setFlashMessage({ type: "info", message: "Your email is already verified." });
-      }
-    } catch (error) {
-      if (error.response && error.response.status === 409) {
-        setErrorMessage("User with this email already exists in the backend. Please log in instead.");
-        navigate("/contestant/login");
-      }
-      else if (error.code === 'auth/too-many-requests') {
-        setFlashMessage({ type: "error", message: "Please wait a few minutes before trying again." });
-      } else if (error.code === 'auth/user-token-expired' || error.code === 'auth/requires-recent-login') {
-        setErrorMessage("Your session has expired. Please log in again.");
-        navigate("/login");
-      } else {
-        console.error("Error resending verification email:", error);
-        setErrorMessage("Failed to resend verification email.");
-      }
+    navigate("/contestant/login");
+  } catch (error) {
+    if (error.code === "auth/popup-closed-by-user") {
+      console.error("Google sign-in failed: The user closed the sign-in popup before completing the sign-in process.");
+      setErrorMessage("Sign-in process was interrupted. Please try again.");
+    } else if (error.code === "auth/cancelled-popup-request") {
+      console.error("Google sign-in failed: Multiple popups were opened, causing a conflict.");
+      setErrorMessage("Multiple sign-in attempts detected. Please close other popups and try again.");
+    } else if (error.code === "auth/network-request-failed") {
+      console.error("Google sign-in failed: Network error occurred. Check your connection.");
+      setErrorMessage("Network error. Please check your internet connection and try again.");
+    } else if (error.response) {
+      console.error("Google sign-in failed during backend interaction:", {
+        status: error.response.status,
+        statusText: error.response.statusText,
+        data: error.response.data,
+      });
+      setErrorMessage("Error communicating with the server. Please try again later.");
+    } else {
+      console.error("Unexpected error during Google sign-in:", error);
+      setErrorMessage("An unexpected error occurred during sign-in. Please try again.");
     }
-  };
+  }
+};
+
+
+  // const handleResendVerification = async () => {
+  //   try {
+  //     let user = auth.currentUser;
+
+  //     if (!user) {
+  //       setErrorMessage("No user is currently signed in. Please log in again.");
+  //       return;
+  //     }
+
+  //     if (!user.emailVerified) {
+  //       if (resendAttempts >= MAX_RESEND_ATTEMPTS) {
+  //         setFlashMessage({ type: "error", message: "You've reached the maximum number of resend attempts. Please wait a few minutes before trying again." });
+  //         return;
+  //       }
+
+  //       await sendEmailVerification(user);
+  //       setFlashMessage({ type: "success", message: "Verification email resent. Please check your inbox." });
+  //       setResendAttempts(resendAttempts + 1);
+
+  //       // Start polling for verification status
+  //       setIsPolling(true);
+  //     } else {
+  //       setFlashMessage({ type: "info", message: "Your email is already verified." });
+  //     }
+  //   } catch (error) {
+  //     if (error.response && error.response.status === 409) {
+  //       setErrorMessage("User with this email already exists in the backend. Please log in instead.");
+  //       navigate("/contestant/login");
+  //     }
+  //     else if (error.code === 'auth/too-many-requests') {
+  //       setFlashMessage({ type: "error", message: "Please wait a few minutes before trying again." });
+  //     } else if (error.code === 'auth/user-token-expired' || error.code === 'auth/requires-recent-login') {
+  //       setErrorMessage("Your session has expired. Please log in again.");
+  //       navigate("/login");
+  //     } else {
+  //       console.error("Error resending verification email:", error);
+  //       setErrorMessage("Failed to resend verification email.");
+  //     }
+  //   }
+  // };
 
   // Poll for verification status every 3 seconds when isPolling is true
   useEffect(() => {

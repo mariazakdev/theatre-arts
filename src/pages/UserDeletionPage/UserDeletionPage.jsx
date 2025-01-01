@@ -11,10 +11,6 @@ const UserDeletionPage = ({ URL, API_KEY }) => {
   const [error, setError] = useState('');
   const { currentUser } = useAuth();
 
-  // const handleDeleteRequest = async (e) => {
-  //   e.preventDefault();
-  //   setMessage('');
-  //   setError('');
 
   //   if (!email) {
   //     setError('Please enter your email address.');
