@@ -65,6 +65,7 @@ function AdminPage({ URL, API_KEY }) {
       <AdminDeactivateNonRankButton URL={URL} API_KEY={API_KEY}  />
       <AdminResetVotesButton URL={URL} API_KEY={API_KEY} />
       <AdminRegroupContestantsButton URL={URL} API_KEY={API_KEY} />
+      <AdminUpdateRoundButton URL={URL} API_KEY={API_KEY} /> 
      
 
       <div className="admin-navigation">
