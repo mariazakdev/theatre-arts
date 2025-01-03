@@ -62,10 +62,9 @@ function AdminPage({ URL, API_KEY }) {
       <h2>Update Buttons only for Maria to use</h2>
       {/* Timer button */}
       {/* <AdminGroupsCounter URL={URL} API_KEY={API_KEY}/>  */}
-      <AdminDeactivateNonRankButton URL={URL} />
+      <AdminDeactivateNonRankButton URL={URL} API_KEY={API_KEY}  />
       <AdminResetVotesButton URL={URL} API_KEY={API_KEY} />
-      <AdminRegroupContestantsButton URL={URL} />
-     <AdminUpdateRoundButton URL={URL} />
+      <AdminRegroupContestantsButton URL={URL} API_KEY={API_KEY} />
      
 
       <div className="admin-navigation">
