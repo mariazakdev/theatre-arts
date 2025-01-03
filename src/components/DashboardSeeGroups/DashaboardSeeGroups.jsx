@@ -49,7 +49,7 @@ function DashboardSeeGroups({ URL, API_KEY, contestantId }) {
                             <li key={contestant.id}>
                                 <p>Name: {contestant.name}</p>
                                 <p>Votes: {contestant.votes}</p>
-                                <p>Group: {contestant.group_number}</p>
+                                {/* <p>Group: {contestant.group_number}</p> */}
                             </li>
                         ))}
                     </ul>

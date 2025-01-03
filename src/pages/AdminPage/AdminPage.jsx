@@ -2,21 +2,18 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../../contexts/AuthContext"; 
 import { useNavigate } from "react-router-dom";
-import ContestantGroupsRestart from "../../components/ContestantStanding/ContestantGroupsRestart";
 import AdminActorsList from "../../components/AdminComponents/AdminActorsList";
 import AdminSunKingEdit from "../../components/AdminComponents/AdminSunKingEdit";
 import AdminVotingStandings from "../../components/AdminComponents/AdminVotingStandings";
-import ContestantAnnouncement from "../../components/ContestantStanding/ContestantAnnouncements";
-import ContestantVotesRestart from "../../components/ContestantStanding/ContestantVotesRestart";
-import ContestantRoundUpdate from "../../components/ContestantStanding/ContestantRoundUpdate";
 import AdminUsersList from "../../components/AdminComponents/AdminUsersList";
 import useTopThree from "../../hooks/useTopThree"; // Import the custom hook
-import UpdateGroupsButton from "../../components/AdminComponents/UpdateGroupsButton";
-import "./AdminPage.scss";
 import AdminDeactivateNonRankButton from "../../components/AdminComponents/AdminDeactivateNonRankButton";
 import AdminRegroupContestantsButton from "../../components/AdminComponents/AdminRegroupContestantsButton";
 import AdminResetVotesButton from "../../components/AdminComponents/AdminResetVotesButton";
 import AdminUpdateRoundButton from "../../components/AdminComponents/AdminUpdateRoundButton";
+import AdminResetVotesTrackerButton from "../../components/AdminComponents/AdminResetVotesTrackerButton";
+
+import "./AdminPage.scss";
 
 function AdminPage({ URL, API_KEY }) {
   const [activeTab, setActiveTab] = useState("actors");
@@ -66,7 +63,7 @@ function AdminPage({ URL, API_KEY }) {
       <AdminResetVotesButton URL={URL} API_KEY={API_KEY} />
       <AdminRegroupContestantsButton URL={URL} API_KEY={API_KEY} />
       <AdminUpdateRoundButton URL={URL} API_KEY={API_KEY} /> 
-     
+     <AdminResetVotesTrackerButton URL={URL} API_KEY={API_KEY} />
 
       <div className="admin-navigation">
         <button
