@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import PaymentButton from "../PaymentButton/PaymentButton";
+import PaymentButton from "./PaymentButton";
 import { useAuth } from "../../contexts/AuthContext";
 import "./VotingButtons.scss";
 

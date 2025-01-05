@@ -13,6 +13,7 @@ import { doc, updateDoc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import "./PaymentForm.scss";
 
+// ENTER CONTEST
 const PaymentForm = ({ URL, CLIENT_URL, API_KEY }) => {
   const stripe = useStripe();
   const elements = useElements();
