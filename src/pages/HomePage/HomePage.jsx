@@ -22,7 +22,11 @@ of life and culture may have specific accents or expressions that are either inh
 It is expected that any form of preference or prejudice based on culture, 
 religion or gender will not influence the judging of individual acts. </h4>
       </div>
+      <div className="home-promo-video home-filler-video">
+        <ReactPlayer url='https://youtu.be/118hgexak-A' controls={true} />
 
+    
+        </div>
     {/* Actors Banner */}
       <div className="home-card home-card1">
         <div className="home-card-actors">
@@ -31,11 +35,7 @@ religion or gender will not influence the judging of individual acts. </h4>
         </div>
        
       </div>
-      <div className="home-promo-video home-filler-video">
-        <ReactPlayer url='https://youtu.be/118hgexak-A' controls={true} />
-
     
-        </div>
       <div className="home-filler home-filler2">
     
         <h4>Proceeds from this contest will be utilized to benefit children with Learning Disabilities.

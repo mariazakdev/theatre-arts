@@ -8,8 +8,6 @@
 
   &-filler1{
     background-color: $primaryBackground;
-    
-
   }
   &-filler2{
     background-color: white;
@@ -74,8 +72,6 @@
       }
     }
   }
-
-
   &-card
  {
     @include flex(center, center, column);
@@ -173,32 +169,11 @@
     }
   }
 }
-// .home-promo-video{
-//   // @include flex(center, center, row);
-//   padding: 0%;
-//   margin: 0%;
-// background-color: aliceblue;
-// width: 100%;
-// height: 35rem;
 
-
-// }
-
-
-// iframe{
-//   padding: 0%;
-//   margin: 0%;
-//   width: 48rem;
-//   width: 100%;
-//   height: 100%;
-//   position: relative;
-//   @include mobile {
-//     width: 100%;
-//   }
-// }
+// Video
 .home-promo-video {
 padding: 1rem 0;
-@include flex(center,center,row);  // justify-content: center;
+@include flex(center,center,row);  
   margin: 0;
   background-color: aliceblue;
   width: 80%;
@@ -207,8 +182,12 @@ padding: 1rem 0;
     height: 25rem;
   }
   @include mobile {
-    height: auto;
-    padding: 1rem;
+    @include flex(center,flex-start,row);
+    width: 100%;
+    height: 200px;
+    padding: 0;
+    margin: 0;
+  
   }
 }
 
@@ -216,12 +195,10 @@ iframe {
   padding: 0;
   margin: 0;
   width: 100%;
-  // width: 58rem;
   height: 100%;
-  // height: 35rem;
-  // position: relative;
   @include mobile {
     width: 100%;
     height: auto;
+    aspect-ratio: 16/9;
   }
 }
