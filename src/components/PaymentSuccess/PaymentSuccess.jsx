@@ -13,30 +13,11 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { currentUser } = useAuth();
+  console.log(currentUser);
 
   const [processed, setProcessed] = useState(false);
   const [flashMessage, setFlashMessage] = useState("");
 
-  const sendThankYouEmail = async (voterEmail, actorName, numberOfVotes, actorEmail) => {
-    const emailData = {
-      email: voterEmail, // Match placeholder name in template
-      contestant_name: actorName,
-      vote_count: numberOfVotes,
-      actorEmail,
-    };
-
-    try {
-      await emailjs.send(
-       serviceId,
-        templateId,
-        emailData,
-        userId
-      );
-//     
-    } catch (error) {
-      console.error("Error sending thank-you email:", error.text || error);
-    }
-  };
 
   useEffect(() => {
     const actorId = searchParams.get('actorId');
@@ -74,7 +55,27 @@ console.log(userData, userIdData,voterEmail, actorName );
           } catch {
             setFlashMessage('Your vote was processed, but we could not send a thank-you email.');
           }
-
+          const sendThankYouEmail = async (voterEmail, actorName, numberOfVotes, actorEmail) => {
+            const emailData = {
+              email: voterEmail, // Match placeholder name in template
+              contestant_name: actorName,
+              vote_count: numberOfVotes,
+              actorEmail,
+            };
+        
+            try {
+              await emailjs.send(
+               serviceId,
+                templateId,
+                emailData,
+                userId
+              );
+        //     
+            } catch (error) {
+              console.error("Error sending thank-you email:", error.text || error);
+            }
+          };
+        
           setProcessed(true);
           setTimeout(() => {
             navigate(`/actors/vote/${actorId}`);

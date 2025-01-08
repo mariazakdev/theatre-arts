@@ -2,7 +2,6 @@
 @use "../../styles/colors" as *;
 
 .vote-profile {
-
   width: 100%;
   border-radius: 8px;
   // overflow: hidden;
@@ -98,8 +97,9 @@
       margin-top: 1rem;
     }
     @include mobile {
-      height: 250px;
-      max-width: 100%;
+      height: auto;
+      width: 100%;
+      aspect-ratio: 16/9;
     }
   }
 }
@@ -127,8 +127,8 @@
     height: auto;
   }
   @include mobile {
-    height: auto;
-    width: 300px;
+    height: 400px;
+    width: 400px;
 
     @include flex(center, center, column);
     padding: 1rem;
