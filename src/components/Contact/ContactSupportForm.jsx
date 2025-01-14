@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import emailjs from 'emailjs-com';
 import './ContactForm.scss';
 
-const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_SUPPORT_ID;
-const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_SUPPORT_ID;
+const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID_CUSTOMER_SERVICE;
+const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID_CUSTOMER_SERVICE;
 const userId = process.env.REACT_APP_EMAILJS_USER_ID;
 
 const ContactSupportForm = () => {
