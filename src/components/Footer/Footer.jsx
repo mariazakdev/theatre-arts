@@ -1,8 +1,14 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import "./Footer.scss";
 
 function Footer() {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+
   return (
     <footer className='footer'>
       <div className='footer__top'>
