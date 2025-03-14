@@ -240,7 +240,7 @@ function LoginContestant({ URL, API_KEY }) {
           </form>
 
           <button onClick={handleGoogleSignIn} className="google-signin-button">
-            Sign In with Google
+            Log In with Google
           </button>
 
           <p className="login-redirect">

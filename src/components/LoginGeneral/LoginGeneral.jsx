@@ -251,7 +251,7 @@ function LoginGeneral({ URL, API_KEY }) {
             </p>
           </form>
           <button onClick={handleGoogleSignIn} className="google-signin-button">
-            Sign In with Google
+            Log In with Google
           </button>
           <p className="login-redirect">
             No account yet? <NavLink to="/signup">Sign up</NavLink>
