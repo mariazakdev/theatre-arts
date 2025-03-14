@@ -175,6 +175,7 @@ function PaymentButton({
         if (!stripe) {
             console.error("Stripe has not been properly initialized.");
             return;
+            
         }
 
         if (!currentUser) {
