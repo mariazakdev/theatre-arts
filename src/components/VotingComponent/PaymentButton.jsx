@@ -174,6 +174,7 @@ function PaymentButton({
 
         if (!stripe) {
             console.error("Stripe has not been properly initialized.");
+            setErrorMessage("Stripe is not available. Please try again.");
             return;
             
         }
@@ -219,8 +220,7 @@ function PaymentButton({
         );
 
         if (response.status !== 200) {
-            setErrorMessage("You are not eligible to vote at this time.");
-            return;
+          setErrorMessage("You may vote, but eligibility will be verified after payment.");
         }
 
         // If eligible, proceed with Stripe payment
