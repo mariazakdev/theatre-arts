@@ -145,7 +145,8 @@ const checkIfActionCompleted = async (userId) => {
         updateEmail: updateEmailFunction,
         updatePassword: updatePasswordFunction,
         checkIfActionCompleted,
-        error 
+        error ,
+        loading
     };
 
     return (

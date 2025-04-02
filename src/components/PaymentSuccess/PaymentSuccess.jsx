@@ -6,14 +6,15 @@ import { useAuth } from "../../contexts/AuthContext";
 import emailjs from "emailjs-com";
 import axios from "axios";
 
+const userId = process.env.REACT_APP_EMAILJS_USER_ID;
 const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID_THANK_YOU;
 const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID_THANK_YOU;
-const userId = process.env.REACT_APP_EMAILJS_USER_ID;
+
 
 function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { currentUser } = useAuth();
+  const { currentUser, loading } = useAuth();
   const [processed, setProcessed] = useState(false);
   const [flashMessage, setFlashMessage] = useState("");
 
@@ -41,7 +42,10 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
       setFlashMessage("Invalid payment response. No votes recorded.");
       return;
     }
-
+    if (loading) return;
+    if (loading) {
+      return <p className="processing-message">Authenticating user...</p>;
+    }
     if (!currentUser) {
       console.error("User not found. Authentication might be delayed.");
       return;
