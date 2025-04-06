@@ -49,13 +49,12 @@ function PaymentButton({
         let userData;
         let voterEmail;
         let actorName;
-        let actorId;
 
         if (!stripe) {
             console.error("Stripe has not been properly initialized.");
             setErrorMessage("Stripe is not available. Please try again.");
             return;
-            
+           
         }
 
         if (!currentUser) {
@@ -76,7 +75,6 @@ function PaymentButton({
         userData = userResponse.data;
         voterEmail = userData?.user?.email;
         actorName = userData.contestant?.name || "Your selected contestant";
-        actorId = userData.contestant?.id;
         userIdData = userData.user.id;
         userEmail = userData.user.email;
 
@@ -98,23 +96,40 @@ function PaymentButton({
             { headers: { Authorization: `${API_KEY}` } }
         );
 
+        // if (response.status === 200) {
+        //   setErrorMessage("You may vote, but eligibility will be verified after payment.");
+        // }
+
+        // // If eligible, proceed with Stripe payment
+        // setVoted(true);
+        // await processStripePayment();
         if (response.status === 200) {
-          setErrorMessage("You may vote, but eligibility will be verified after payment.");
+          // User is eligible — continue
+          setVoted(true);
+          await processStripePayment();
+        } else {
+          // Just in case — block voting
+          setErrorMessage("You are not eligible to vote at this time.");
         }
 
-        // If eligible, proceed with Stripe payment
-        setVoted(true);
-        await processStripePayment();
+    // } catch (error) {
+    //     console.error("Error during payment processing:", error);
 
-    } catch (error) {
-        console.error("Error during payment processing:", error);
+    //     if (error.response && error.response.status === 400) {
+    //         setErrorMessage(error.response.data.message);
+    //     }
 
-        if (error.response && error.response.status === 400) {
-            setErrorMessage(error.response.data.message);
-        }
-
-        setVoted(false);
+    //     setVoted(false);
+    // }
+  } catch (error) {
+    console.error("Error during payment processing:", error);
+    if (error.response && error.response.status === 400) {
+      setErrorMessage(error.response.data.message);
+    } else {
+      setErrorMessage("An error occurred. Please try again.");
     }
+    setVoted(false);
+  }
 };
 
 
