@@ -1,5 +1,3 @@
-
-
 import React, { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
@@ -18,12 +16,12 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
   const [processed, setProcessed] = useState(false);
   const [flashMessage, setFlashMessage] = useState("");
 
-  const sendThankYouEmail = async (voterEmail, actorName, numberOfVotes, actorEmail) => {
+  const sendThankYouEmail = async (userEmail, actorName, numberOfVotes, actorEmail) => {
     const emailData = {
-      email: voterEmail,
-      contestant_name: actorName,
+      voter_email: userEmail,
+      actor_name: actorName,
       vote_count: numberOfVotes,
-      actorEmail,
+      actor_email: actorEmail,
     };
 
     try {
