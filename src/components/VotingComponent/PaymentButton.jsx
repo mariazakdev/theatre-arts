@@ -32,7 +32,7 @@ function PaymentButton({
         successUrl: `${CLIENT_URL}/vote-payment?actorId=${actorId}&votes=${amount}`,
         cancelUrl: `${CLIENT_URL}/cancel`,
       });
-
+    
       if (result.error) {
         throw new Error(result.error.message);
       }
