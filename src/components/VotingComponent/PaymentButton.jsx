@@ -78,6 +78,13 @@ function PaymentButton({
         userIdData = userData.user.id;
         userEmail = userData.user.email;
 
+
+if (!userIdData) {
+  setErrorMessage("User ID missing. Please try again or contact support.");
+  console.error("Missing user ID:", userData.user);
+  return;
+}
+
         if (!voterEmail || !actorName) {
             console.error("Invalid email data:", { voterEmail, actorName });
             return;
