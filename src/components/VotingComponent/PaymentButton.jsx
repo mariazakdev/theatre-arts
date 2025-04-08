@@ -6,8 +6,9 @@ import axios from "axios";
 import "./PaymentButton.scss";
 import PaymentSuccess from "../PaymentSuccess/PaymentSuccess";
 
+const CLIENT_URL = process.env.REACT_APP_URL;
+
 function PaymentButton({
-  CLIENT_URL,
   URL,
   text,
   amount,
@@ -29,8 +30,8 @@ function PaymentButton({
       const result = await stripe.redirectToCheckout({
         lineItems: [{ price: priceId, quantity: 1 }],
         mode: "payment",
-        successUrl: `${URL}/vote-payment?actorId=${actorId}&votes=${amount}`,
-        cancelUrl: `${URL}/cancel`,
+        successUrl: `${CLIENT_URL}/vote-payment?actorId=${actorId}&votes=${amount}`,
+        cancelUrl: `${CLIENT_URL}/cancel`,
       });
     
       if (result.error) {
