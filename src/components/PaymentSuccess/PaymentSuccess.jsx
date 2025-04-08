@@ -16,16 +16,16 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
   const [processed, setProcessed] = useState(false);
   const [flashMessage, setFlashMessage] = useState("");
 
-  const sendThankYouEmail = async (userEmail, actorName, numberOfVotes, actorEmail) => {
+  const sendThankYouEmail = async (voterEmail, actorName, numberOfVotes, actorEmail) => {
     const emailData = {
-      voter_email: userEmail,
+      voter_email: voterEmail,
       actor_name: actorName,
       vote_count: numberOfVotes,
       actor_email: actorEmail,
     };
 
     try {
-      await emailjs.send(serviceId, templateId, emailData, userId);
+      await emailjs.send(serviceId, templateId, emailData);
     } catch (error) {
       console.error("Error sending thank-you email:", error.text || error);
     }
