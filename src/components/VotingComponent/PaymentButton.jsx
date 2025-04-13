@@ -62,7 +62,19 @@ function PaymentButton({
             onLoginAndNavigate();
             return;
         }
-
+        if (!currentUser.uid) {
+          console.warn("currentUser is present, but UID is missing. Possibly a delayed login.");
+          setErrorMessage("We’re having trouble verifying your account. Please try refreshing or logging in again.");
+          onLoginAndNavigate();
+          return;
+        }
+    
+        // Optional: Check if email is verified
+        if (!currentUser.emailVerified) {
+          console.warn("User has not verified their email:", currentUser.email);
+          setErrorMessage("Please verify your email before voting.");
+          return;
+        }
         // Fetch user data
         const userResponse = await axios.get(`${URL}/users/${currentUser.uid}`, {
             headers: { Authorization: `${API_KEY}` },
