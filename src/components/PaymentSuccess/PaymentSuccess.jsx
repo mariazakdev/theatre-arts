@@ -8,7 +8,6 @@ const userThankYouId = process.env.REACT_APP_EMAILJS_USER_ID;
 const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID_THANK_YOU;
 const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID_THANK_YOU;
 
-
 function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -16,14 +15,18 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
   const [processed, setProcessed] = useState(false);
   const [flashMessage, setFlashMessage] = useState("");
 
-  const sendThankYouEmail = async (userEmail, actorName, numberOfVotes, actorEmail) => {
+  const sendThankYouEmail = async (userEmail, actorName, actorEmail) => {
     const emailData = {
       voter_email: userEmail,
       actor_name: actorName,
-      vote_count: numberOfVotes,
+      // vote_count: numberOfVotes,
       actor_email: actorEmail,
     };
-
+    console.log("Sending thank-you email with data:", {
+      userEmail,
+      actorName,
+      actorEmail,
+    });
     try {
       await emailjs.send(serviceId, templateId, emailData, userThankYouId);
     } catch (error) {
@@ -94,7 +97,7 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
   });
 
         try {
-          await sendThankYouEmail(userEmail, actorName, votes, actorEmail);
+          await sendThankYouEmail(userEmail, actorName, actorEmail);
           setFlashMessage("Thank you for your contribution and for helping this contestant win!");
         } catch {
           setFlashMessage("Your vote was processed, but we could not send a thank-you email.");
