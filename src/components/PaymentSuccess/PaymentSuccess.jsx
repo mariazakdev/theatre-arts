@@ -4,7 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import emailjs from "emailjs-com";
 import axios from "axios";
 
-const userId = process.env.REACT_APP_EMAILJS_USER_ID;
+const userThankYouId = process.env.REACT_APP_EMAILJS_USER_ID;
 const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID_THANK_YOU;
 const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID_THANK_YOU;
 
@@ -16,16 +16,16 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
   const [processed, setProcessed] = useState(false);
   const [flashMessage, setFlashMessage] = useState("");
 
-  const sendThankYouEmail = async (voterEmail, actorName, numberOfVotes, actorEmail) => {
+  const sendThankYouEmail = async (userEmail, actorName, numberOfVotes, actorEmail) => {
     const emailData = {
-      voter_email: voterEmail,
+      voter_email: userEmail,
       actor_name: actorName,
       vote_count: numberOfVotes,
       actor_email: actorEmail,
     };
 
     try {
-      await emailjs.send(serviceId, templateId, emailData);
+      await emailjs.send(serviceId, templateId, emailData, userThankYouId);
     } catch (error) {
       console.error("Error sending thank-you email:", error.text || error);
     }
@@ -41,9 +41,7 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
       return;
     }
     if (loading) return;
-    if (loading) {
-      return <p className="processing-message">Authenticating user...</p>;
-    }
+
     if (!currentUser) {
       console.error("User not found. Authentication might be delayed.");
       return;
@@ -62,13 +60,13 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
         }
 
         const userData = userResponse.data;
-        const voterEmail = userData?.user?.email;
+        const userEmail = userData?.user?.email;
         const actorName = userData.contestant?.name || "Your selected contestant";
         const actorEmail = userData.contestant?.email;
         const userIdData = userResponse.data.user.id;
 
-        if (!voterEmail || !actorName || !votes) {
-          console.error("Invalid email data:", { voterEmail, actorName, votes });
+        if (!userEmail || !actorName || !votes) {
+          console.error("Invalid email data:", { userEmail, actorName, votes });
           return;
         }
   // Cast the votes after payment is confirmed
@@ -96,7 +94,7 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
   });
 
         try {
-          await sendThankYouEmail(voterEmail, actorName, votes, actorEmail);
+          await sendThankYouEmail(userEmail, actorName, votes, actorEmail);
           setFlashMessage("Thank you for your contribution and for helping this contestant win!");
         } catch {
           setFlashMessage("Your vote was processed, but we could not send a thank-you email.");

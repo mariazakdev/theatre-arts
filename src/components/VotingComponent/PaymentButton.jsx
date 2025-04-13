@@ -74,7 +74,6 @@ function PaymentButton({
         }
 
         userData = userResponse.data;
-        voterEmail = userData?.user?.email;
         actorName = userData.contestant?.name || "Your selected contestant";
         userIdData = userData.user.id;
         userEmail = userData.user.email;
@@ -86,7 +85,7 @@ if (!userIdData) {
   return;
 }
 
-        if (!voterEmail || !actorName) {
+        if (!userEmail || !actorName) {
             console.error("Invalid email data:", { voterEmail, actorName });
             return;
         }
