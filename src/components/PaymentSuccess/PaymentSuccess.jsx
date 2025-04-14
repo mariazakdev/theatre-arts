@@ -82,8 +82,8 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
   const actorUserResponse = await axios.get(`${URL}/users/${actorUserId}`, {
     headers: { Authorization: `${API_KEY}` },
   });
-  const actorEmail = actorUserResponse.data.user.email;
-  
+  const actorEmail = actorUserResponse.email;
+
         if (!userEmail || !actorName || !votes) {
           console.error("Invalid email data:", { userEmail, actorName, votes });
           return;
