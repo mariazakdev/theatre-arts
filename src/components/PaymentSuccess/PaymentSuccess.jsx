@@ -15,6 +15,9 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
   const [processed, setProcessed] = useState(false);
   const [flashMessage, setFlashMessage] = useState("");
 
+
+
+  
   const sendThankYouEmail = async (userEmail, actorName, actorEmail) => {
     const emailData = {
       voter_email: userEmail,
@@ -38,9 +41,9 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
     const actorId = searchParams.get("actorId");
     const votes = searchParams.get("votes");
 
-    
-    if (!actorId || !votes) {
-      setFlashMessage("Invalid payment response. No votes recorded.");
+    if (!actorId || !votes || loading) return;
+    if (!currentUser) {
+      console.error("User not found. Authentication might be delayed.");
       return;
     }
     if (loading) return;
@@ -51,6 +54,8 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
     }
     const updateVotes = async (actorId, votes) => {
       try {
+
+
       
         // Send a thank-you email
         const userResponse = await axios.get(`${URL}/users/${currentUser.uid}`, {
@@ -64,10 +69,21 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
 
         const userData = userResponse.data;
         const userEmail = userData?.user?.email;
-        const actorName = userData.contestant?.name || "Your selected contestant";
-        const actorEmail = userData.contestant?.email;
+
         const userIdData = userResponse.data.user.id;
 
+  // ✅ 2. Get the actor (contestant) being voted for
+  const actorResponse = await axios.get(`${URL}/contestants/${actorId}`, {
+    headers: { Authorization: `${API_KEY}` },
+  });
+
+  const actorName = actorResponse.data.name || "Your selected contestant";
+  const actorUserId = actorResponse.data.user_id;
+  const actorUserResponse = await axios.get(`${URL}/users/${actorUserId}`, {
+    headers: { Authorization: `${API_KEY}` },
+  });
+  const actorEmail = actorUserResponse.data.user.email;
+  
         if (!userEmail || !actorName || !votes) {
           console.error("Invalid email data:", { userEmail, actorName, votes });
           return;
