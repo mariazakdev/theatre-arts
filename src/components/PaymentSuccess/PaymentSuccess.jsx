@@ -203,7 +203,8 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
 
         const actorData = actorResponse.data;
         const actorName = actorData.name || "Your selected contestant";
-        const actorUserId = actorData.user_id;
+        const actorUserId = actorData.firebase_auth_id;
+
 
         // Get actor's email from their user_id
         const actorUserResponse = await axios.get(`${URL}/users/${actorUserId}`, {
