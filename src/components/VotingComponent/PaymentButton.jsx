@@ -50,12 +50,7 @@ function PaymentButton({
         let userData;
         let voterEmail;
         let actorName;
-        
-        const actorResponse = await axios.get(`${URL}/contestants/${actorId}`, {
-          headers: { Authorization: `${API_KEY}` },
-        });
-        
-        actorName = actorResponse.data.name || "Your selected contestant";
+
         if (!stripe) {
             console.error("Stripe has not been properly initialized.");
             setErrorMessage("Stripe is not available. Please try again.");
