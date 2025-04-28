@@ -138,16 +138,10 @@
 
 // export default PaymentSuccess;
 
-
 import React, { useEffect, useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
-import emailjs from "emailjs-com";
 import axios from "axios";
-
-const userThankYouId = process.env.REACT_APP_EMAILJS_USER_ID;
-const serviceId = process.env.REACT_APP_EMAILJS_SERVICE_ID_THANK_YOU;
-const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID_THANK_YOU;
 
 function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
   const [searchParams] = useSearchParams();
@@ -156,89 +150,64 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
   const [processed, setProcessed] = useState(false);
   const [flashMessage, setFlashMessage] = useState("");
 
-  const sendThankYouEmail = async (userEmail, actorName, actorEmail) => {
-    const emailData = {
-      voter_email: userEmail,
-      actor_name: actorName,
-      actor_email: actorEmail,
-    };
-
-    try {
-      await emailjs.send(serviceId, templateId, emailData, userThankYouId);
-    } catch (error) {
-      console.error("Error sending thank-you email:", error.text || error);
-    }
-  };
-
   useEffect(() => {
     const actorId = searchParams.get("actorId");
     const votes = searchParams.get("votes");
 
-    if (!actorId || !votes || loading || processed) return;
+    if (!actorId || !votes) {
+      setFlashMessage("Invalid payment response. No votes recorded.");
+      return;
+    }
 
+    if (loading) return;
     if (!currentUser) {
-      console.error("User not found. Authentication might be delayed.");
+      setFlashMessage("You must be logged in to record your votes.");
       return;
     }
 
     const updateVotes = async () => {
       try {
-        // Get user info
-        const userRes = await axios.get(`${URL}/users/${currentUser.uid}`, {
+        console.log("Starting vote update...");
+        console.log("ActorId:", actorId, "Votes:", votes);
+
+        const userResponse = await axios.get(`${URL}/users/${currentUser.uid}`, {
           headers: { Authorization: `${API_KEY}` },
         });
 
-        const userData = userRes.data?.user;
-        if (!userData) {
+        if (!userResponse.data || !userResponse.data.user) {
           setFlashMessage("User data not found.");
           return;
         }
 
-        const userEmail = userData.email;
-        const userId = userData.id;
+        const userIdData = userResponse.data.user.id;
 
-        // Get actor info
-        const actorRes = await axios.get(`${URL}/contestant/${actorId}`, {
-          headers: { Authorization: `${API_KEY}` },
-        });
-
-        const actorData = actorRes.data?.contestant;
-        if (!actorData) {
-          setFlashMessage("Actor data not found.");
-          return;
-        }
-
-        const actorName = actorData.name || "Your selected contestant";
-        const actorEmail = actorData.email;
-
-        // Submit extra votes
-        const votePayload = {
-          userId,
+        const votesData = {
+          userId: userIdData,
           contestantId: actorId,
           numberOfVotes: votes,
         };
 
-        await axios.post(`${URL}/votes-extra`, votePayload, {
+        console.log("Sending votes data:", votesData);
+
+        await axios.post(`${URL}/votes-extra`, votesData, {
           headers: { Authorization: `${API_KEY}` },
         });
 
-        // Submit vote tracker
-        const trackerPayload = {
-          userId,
+        const votesTrackerData = {
+          userId: userIdData,
           contestantId: actorId,
-          email: userEmail,
+          email: currentUser.email,
           numberOfVotes: votes,
           round: 1,
         };
 
-        await axios.post(`${URL}/votes-tracker`, trackerPayload, {
+        console.log("Sending tracker data:", votesTrackerData);
+
+        await axios.post(`${URL}/votes-tracker`, votesTrackerData, {
           headers: { Authorization: `${API_KEY}` },
         });
 
-        // Send thank-you email (without vote count)
-        await sendThankYouEmail(userEmail, actorName, actorEmail);
-
-        setFlashMessage("Thank you for your contribution and for helping this contestant win!");
+        setFlashMessage("Your votes were recorded successfully!");
         setProcessed(true);
 
         setTimeout(() => {
@@ -246,12 +215,14 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
         }, 5000);
       } catch (error) {
         console.error("Vote update failed:", error);
-        setFlashMessage("Something went wrong while processing your vote.");
+        setFlashMessage("There was an issue processing your vote. Please try again later.");
       }
     };
 
-    updateVotes();
-  }, [searchParams, processed, currentUser, loading, URL, API_KEY, navigate]);
+    if (!processed && actorId && votes) {
+      updateVotes();
+    }
+  }, [searchParams, navigate, processed, currentUser, loading, URL, API_KEY]);
 
   return (
     <div className="payment-success">
