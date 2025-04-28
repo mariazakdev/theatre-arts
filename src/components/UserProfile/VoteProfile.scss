@@ -7,12 +7,16 @@
   // overflow: hidden;
   background-color: $secondaryBackground;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  height: 46rem; // height matches VotingComponent "button-wrap__free-button"
+  // height: 46rem; // height matches VotingComponent "button-wrap__free-button"
   @include desktop-sm{
     display: block;
   }
   @include tablet {
     height: 34rem;
+  }
+  @include mobile{
+    height: 50rem;
+
   }
   margin-bottom: 1rem;
   &__top-three-messages {
@@ -42,12 +46,13 @@
   }
 
   @include mobile {
-    height: 40rem;
+    height: 60rem;
   }
 
   &__contestant-wrapper {
     // width: 100%;
-    height: auto;
+    height: auto;    
+
     @include flex(center, center, column);
     @include mobile {
       width: 100%;

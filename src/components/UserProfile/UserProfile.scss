@@ -6,7 +6,8 @@
   // border: 3px solid blue;
   width: 100%;
   border-radius: 8px;
-  overflow: hidden;
+  overflow: hidden;   
+
   background-color: $secondaryBackground;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   height: auto;
@@ -28,16 +29,16 @@
 
   @include mobile {
     height: 40rem;
-    border: 3px solid blue;
 
   }
 
   &__contestant-wrapper {
     // width: 100%; 
+
     height: auto;
     @include flex(center, center, column);
     @include mobile {
-      height: 700px;
+      height: 900px;
     }
   }
 }
