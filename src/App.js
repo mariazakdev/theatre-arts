@@ -30,6 +30,9 @@ import PrivacyPolicyPage from "./pages/PrivacyPolicyPage/PrivacyPolicyPage";
 import TermsOfServicePage from "./pages/TermsOfServicePage/TermsOfServicePage";
 import UserDeletionPage from "./pages/UserDeletionPage/UserDeletionPage";
 import VotingPage2 from "./pages/VotingPage/VotingPageNoSingleVote";
+import ThankYouEmailPage from "./components/PaymentSuccess/ThankYouEmailPage";
+
+
 
 import "./App.scss";
 import VotePaymentSuccessPage2 from "./pages/VotePaymentSuccess/VotePaymentSuccessPage2";
@@ -130,6 +133,7 @@ function App() {
 
             <Route exact path="/vote-payment" element={<VotePaymentSuccessPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY} />} />
             <Route exact path="/vote-payment-singlevote" element={<VotePaymentSuccessPage2 URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY} />} />
+            <Route exact path="/thank-you" element={<ThankYouEmailPage />} />
 
             <Route exact path="/sun-king" element={<SunKingPage URL={URL} CLIENT_URL={CLIENT_URL} API_KEY={API_KEY} />} />
 
