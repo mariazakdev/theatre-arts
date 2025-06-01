@@ -25,9 +25,9 @@ const ThankYouEmailPage = () => {
         serviceId,
         templateId,
         {
-          voter_email: userEmail,
-          actor_name: actorName,
-          actor_email: actorEmail,
+            voter_email: userData.email,
+      actor_name: userData.actorName,
+      actor_email: userData.actorEmail,
         },
         userId
       )
