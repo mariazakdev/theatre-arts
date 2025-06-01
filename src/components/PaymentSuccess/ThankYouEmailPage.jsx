@@ -10,17 +10,24 @@ const ThankYouEmailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { actorId, userData } = location.state || {};
+  const { actorId, userData, userEmail, actorName, actorEmail } = location.state || {};
 
   useEffect(() => {
+    console.log("Component mounted");
+  console.log("userData:", userData);
     if (userData?.email && userData?.actorName && userData?.actorEmail) {
+        console.log("Attempting to send email with these values:");
+        console.log("serviceId:", serviceId);
+        console.log("templateId:", templateId);
+        console.log("userId:", userId);
+
       emailjs.send(
         serviceId,
         templateId,
         {
-          voter_email: userData.email,
-          actor_name: userData.actorName,
-          actor_email: userData.actorEmail,
+          voter_email: userEmail,
+          actor_name: actorName,
+          actor_email: actorEmail,
         },
         userId
       )

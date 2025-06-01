@@ -174,6 +174,18 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
           headers: { Authorization: `${API_KEY}` },
         });
 
+        const userData = userResponse.data;
+        const userEmail = userData?.user?.email;
+        const actorEmail = userData?.contestant?.email;
+        const actorName = userData?.contestant?.name || "Your selected contestant";
+    
+        if (!userEmail || !actorName || !actorEmail) {
+          console.error("Missing email info:", { userEmail, actorName, actorEmail });
+          setFlashMessage("Could not retrieve user or actor info.");
+          return;
+        }
+    
+
         if (!userResponse.data || !userResponse.data.user) {
           setFlashMessage("User data not found.");
           return;
@@ -210,9 +222,21 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
         setFlashMessage("Your votes were recorded successfully!");
         setProcessed(true);
 
-        setTimeout(() => {
-          navigate(`/actors/vote/${actorId}`);
-        }, 5000);
+        // setTimeout(() => {
+        //   navigate(`/actors/vote/${actorId}`);
+        // }, 5000);
+
+        navigate("/thank-you", {
+          state: {
+            actorId,
+            userData: {
+              userEmail,
+              actorName,
+              actorEmail,
+            },
+          },
+        });
+
       } catch (error) {
         console.error("Vote update failed:", error);
         setFlashMessage("There was an issue processing your vote. Please try again later.");
