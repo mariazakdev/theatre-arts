@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 import emailjs from "emailjs-com";
 
 const userId = process.env.REACT_APP_EMAILJS_USER_ID;
@@ -9,34 +10,38 @@ const templateId = process.env.REACT_APP_EMAILJS_TEMPLATE_ID_THANK_YOU;
 const ThankYouEmailPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const { currentUser } = useAuth();
 
-  const { actorId, userData, userEmail, actorName, actorEmail } = location.state || {};
+  const { actorId, userData } = location.state || {};
+  const { actorName, actorEmail } = userData || {};
+  const voterEmail = currentUser?.email;
 
   useEffect(() => {
     console.log("Component mounted");
-  console.log("userData:", userData);
-    if (userData?.email && userData?.actorName && userData?.actorEmail) {
-        console.log("Attempting to send email with these values:");
-        console.log("serviceId:", serviceId);
-        console.log("templateId:", templateId);
-        console.log("userId:", userId);
+    console.log("Voter email (from auth):", voterEmail);
+    console.log("Actor name/email:", actorName, actorEmail);
 
-      emailjs.send(
-        serviceId,
-        templateId,
-        {
-            voter_email: userData.email,
-      actor_name: userData.actorName,
-      actor_email: userData.actorEmail,
-        },
-        userId
-      )
+    if (voterEmail && actorName && actorEmail) {
+      console.log("Attempting to send email...");
+      emailjs
+        .send(
+          serviceId,
+          templateId,
+          {
+            voter_email: voterEmail,
+            actor_name: actorName,
+            actor_email: actorEmail,
+          },
+          userId
+        )
         .then(() => {
-          console.log("Thank-you email sent!");
+          console.log("✅ Thank-you email sent!");
         })
         .catch((err) => {
-          console.error("Email sending failed:", err);
+          console.error("❌ Email sending failed:", err);
         });
+    } else {
+      console.warn("Missing data for thank-you email", { voterEmail, actorName, actorEmail });
     }
 
     const timer = setTimeout(() => {
@@ -48,7 +53,7 @@ const ThankYouEmailPage = () => {
     }, 3000);
 
     return () => clearTimeout(timer);
-  }, [navigate, actorId, userData]);
+  }, [navigate, actorId, voterEmail, actorName, actorEmail]);
 
   return (
     <div style={{ textAlign: "center", padding: "2rem" }}>
