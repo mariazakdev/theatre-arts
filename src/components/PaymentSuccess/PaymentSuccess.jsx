@@ -274,15 +274,20 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
         console.log("Starting vote update...");
         console.log("ActorId:", actorId, "Votes:", votes);
 
+        const actorResponse = await axios.get(`${URL}/constestants/${actorId}`, {
+          headers: { Authorization: `${API_KEY}` },
+        });
+
+  const actorData = actorResponse.data;
+                const actorEmail = actorData.email;
+                const actorName = actorData?.name || "Your selected contestant";
+           
+
         const userResponse = await axios.get(`${URL}/users/${currentUser.uid}`, {
           headers: { Authorization: `${API_KEY}` },
         });
 
-        const userData = userResponse.data;
-                const userEmail = userData?.user?.email;
-                const actorEmail = userData.contestant?.email;
-                const actorName = userData?.contestant?.name || "Your selected contestant";
-                const userIdData = userResponse.data.user.id;
+           const userIdData = userResponse.data.user.id;
         
         if (!userResponse.data || !userResponse.data.user) {
           setFlashMessage("User data not found.");
@@ -353,6 +358,7 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
 
   return (
     <div className="payment-success">
+    
       {processed ? (
         <p className="flash-message">{flashMessage}</p>
       ) : (
