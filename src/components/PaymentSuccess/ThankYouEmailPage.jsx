@@ -46,7 +46,8 @@ const ThankYouEmailPage = () => {
 
     const timer = setTimeout(() => {
       if (actorId) {
-        navigate(`/actor/${actorId}`);
+                  navigate(`/actors/vote/${actorId}`);
+
       } else {
         navigate("/");
       }

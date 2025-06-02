@@ -320,6 +320,14 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
         setFlashMessage("Your votes were recorded successfully!");
         setProcessed(true);
 
+
+        console.log("Navigating with:", {
+          actorId,
+          actorName,
+          actorEmail,
+        });
+        
+
         navigate("/thank-you", {
           state: {
             actorId,
