@@ -274,7 +274,7 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
         console.log("Starting vote update...");
         console.log("ActorId:", actorId, "Votes:", votes);
 
-        const actorResponse = await axios.get(`${URL}/thankyou-info/${actorId}`, {
+        const actorResponse = await axios.get(`${URL}/contestants/thankyou-info/${actorId}`, {
           headers: { Authorization: `${API_KEY}` },
         });
 
@@ -293,8 +293,6 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
           setFlashMessage("User data not found.");
           return;
         }
-
-       
 
         const votesData = {
           userId: userIdData,
