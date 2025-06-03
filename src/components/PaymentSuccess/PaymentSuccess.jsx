@@ -274,7 +274,7 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
         console.log("Starting vote update...");
         console.log("ActorId:", actorId, "Votes:", votes);
 
-        const actorResponse = await axios.get(`${URL}/constestants/${actorId}`, {
+        const actorResponse = await axios.get(`${URL}/contestants/${actorId}`, {
           headers: { Authorization: `${API_KEY}` },
         });
 
