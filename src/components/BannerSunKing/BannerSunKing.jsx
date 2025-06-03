@@ -17,7 +17,6 @@ function BannerSunKing() {
   useEffect(() => {
     axios.get(`${URL}/sun-king`)
       .then((response) => {
-        console.log("Response data:", response.data);
         if (response.data && response.data.length > 0) {
           setSunKingData(response.data[0]);
         } else {
