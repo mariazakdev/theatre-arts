@@ -277,10 +277,10 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
         const actorResponse = await axios.get(`${URL}/contestants/thankyou-info/${actorId}`, {
           headers: { Authorization: `${API_KEY}` },
         });
-
-  const actorData = actorResponse.data;
-                const actorEmail = actorData.email;
-                const actorName = actorData?.name || "Your selected contestant";
+// see backend. it labeled these as such. 
+ const actorData = actorResponse.data;
+const actorEmail = actorData.actorEmail;
+const actorName = actorData.actorName || "Your selected contestant";
            
 
         const userResponse = await axios.get(`${URL}/users/${currentUser.uid}`, {
