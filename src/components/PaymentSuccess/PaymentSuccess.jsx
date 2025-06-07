@@ -281,7 +281,7 @@ function PaymentSuccess({ URL, API_KEY, setErrorMessage }) {
  const actorData = actorResponse.data;
 const actorEmail = actorData.actorEmail;
 const actorName = actorData.actorName || "Your selected contestant";
-           
+           console.log( 'in payment',  actorEmail, actorName )
 
         const userResponse = await axios.get(`${URL}/users/${currentUser.uid}`, {
           headers: { Authorization: `${API_KEY}` },
