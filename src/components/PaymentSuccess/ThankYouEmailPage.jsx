@@ -23,6 +23,7 @@ const ThankYouEmailPage = () => {
 
     if (voterEmail && actorName && actorEmail) {
       console.log("Attempting to send email...");
+      console.log("from thank you page",actorEmail, actorName, voterEmail )
       emailjs
         .send(
           serviceId,
