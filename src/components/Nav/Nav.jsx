@@ -15,7 +15,6 @@ function Nav({ isMobileMenuOpen, onClose, URL, API_KEY }) {
     const fetchUserData = async () => {
       try {
         if (currentUser) {
-          // console.log("Fetching data for user:", currentUser.uid); // Log the user ID
 
           const response = await axios.get(
             `${URL}/users/${currentUser.uid}`,
@@ -41,8 +40,6 @@ function Nav({ isMobileMenuOpen, onClose, URL, API_KEY }) {
     await logout();
     navigate("/");
   };
-
-
 
   const renderContestantLinks = () => {
     if (userData?.is_contestant === 1 && userData.hasPaid === 0 && userData.uploadStatus === 0) {
@@ -81,8 +78,6 @@ function Nav({ isMobileMenuOpen, onClose, URL, API_KEY }) {
       console.error('Failed to copy: ', err);
     });
   };
-
-  // console.log("userData", userData);
 
   return (
     <nav className={`nav ${isMobileMenuOpen ? "mobile-menu-open" : ""}`}>

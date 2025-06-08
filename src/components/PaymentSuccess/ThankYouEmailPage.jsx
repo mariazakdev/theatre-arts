@@ -17,13 +17,9 @@ const ThankYouEmailPage = () => {
   const voterEmail = currentUser?.email;
 
   useEffect(() => {
-    console.log("Component mounted");
-    console.log("Voter email (from auth):", voterEmail);
-    console.log("Actor name/email:", actorName, actorEmail);
-
+    
     if (voterEmail && actorName && actorEmail) {
-      console.log("Attempting to send email...");
-      console.log("from thank you page",actorEmail, actorName, voterEmail )
+     
       emailjs
         .send(
           serviceId,
@@ -36,7 +32,6 @@ const ThankYouEmailPage = () => {
           userId
         )
         .then(() => {
-          console.log("✅ Thank-you email sent!");
         })
         .catch((err) => {
           console.error("❌ Email sending failed:", err);
