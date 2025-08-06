@@ -37,7 +37,11 @@ religion or gender will not influence the judging of individual acts. </h4>
       </div>
     
       <div className="home-filler home-filler2">
-    
+    <h3>
+     <span>Cash prizes. </span>
+     
+    </h3>
+    <h4>Voter's Choice wins $ 5000. Jusge's Choice Wins $ 3000.</h4> 
         <h4>Proceeds from this contest will be utilized to benefit children with Learning Disabilities.
 (It is estimated that in Canada over 4% of children have recognizable learning disabilities 
 whereas the actual numbers could be a lot more as in neighbouring USA it is estimated that 1 out 
