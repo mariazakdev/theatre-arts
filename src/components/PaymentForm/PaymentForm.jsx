@@ -146,7 +146,7 @@ const PaymentForm = ({ URL, CLIENT_URL, API_KEY }) => {
 
       <div className="form-container__payment-info">
         <h3 className="form-container__instruction">
-          Please pay $2.50 for enter contest.
+          Please pay $2.50 to enter contest.
           Then add your monologue video from Youtube or Vimeo
         </h3>
         <label>
