@@ -132,7 +132,7 @@ const handleGoogleSignIn = async () => {
         headers: { Authorization: `${API_KEY}` },
       });
     }
-    navigate("/contestant/login");
+    navigate("/login");
   } catch (error) {
     if (error.code === "auth/popup-closed-by-user") {
       console.error("Google sign-in failed: The user closed the sign-in popup before completing the sign-in process.");
