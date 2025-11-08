@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
- // added serverT 8 nov. Removed duplicate getFirestore()
+ // added serverT 8 nov. 
 import { auth, db } from "../firebase";
 
 import { 
@@ -9,7 +9,10 @@ import {
   signOut, 
   sendPasswordResetEmail,
   setPersistence,
-  browserSessionPersistence // Make sure to import this
+  browserSessionPersistence,
+  onAuthStateChanged,
+  updateEmail as fbUpdateEmail,
+  updatePassword as fbUpdatePassword,
 } from "firebase/auth"; 
 
 const AuthContext = React.createContext();
@@ -51,36 +54,6 @@ async function signup(email, password) {
   }
 }
 
-
-async function signup(email, password) {
-  const cred = await createUserWithEmailAndPassword(auth, email, password);
-  const user = cred.user;
-
-  // create minimal user document
-  await setDoc(doc(db, "users", user.uid), {
-    email: user.email,
-    emailVerified: user.emailVerified || false,
-    createdAt: serverTimestamp(),
-  });
-
-  return cred;
-}
-
-
-    // function login(email, password) {
-    //     // Set the session persistence before signing in
-    //     return setPersistence(auth, browserSessionPersistence)
-    //         .then(() => {
-    //             // Session persistence set, proceed with sign in
-    //             return signInWithEmailAndPassword(auth, email, password);
-    //         })
-    //         .catch((error) => {
-    //             // Handle errors here
-    //             setError(error.message);
-    //             throw error;
-    //         });
-    // }
-
     function login(email, password) {
         // Set the session persistence before signing in
         return setPersistence(auth, browserSessionPersistence)
@@ -98,6 +71,22 @@ async function signup(email, password) {
                 console.error("Error logging in:", error);
             });
     }
+    
+    function logout(){
+        return signOut(auth).catch(setError);
+    }
+
+        function resetPassword(email) {
+        return sendPasswordResetEmail(auth, email)
+            .then(() => {
+                console.log("Password reset email sent.");
+            })
+            .catch((error) => {
+                console.error("Error sending password reset email:", error);
+                setError(error.message);  // This should be displayed to the user
+            });
+    }
+
     
 
 const checkIfActionCompleted = async (userId) => {
@@ -117,23 +106,7 @@ const checkIfActionCompleted = async (userId) => {
     }
 };
 
-    function logout(){
-        return signOut(auth).catch(setError);
-    }
 
-    // function resetPassword(email) {
-    //     return sendPasswordResetEmail(auth, email).catch(setError);
-    // }
-    function resetPassword(email) {
-        return sendPasswordResetEmail(auth, email)
-            .then(() => {
-                console.log("Password reset email sent.");
-            })
-            .catch((error) => {
-                console.error("Error sending password reset email:", error);
-                setError(error.message);  // This should be displayed to the user
-            });
-    }
     function updateEmailFunction(newEmail) {
         if (currentUser) {
             return currentUser.updateEmail(newEmail).catch(setError);
