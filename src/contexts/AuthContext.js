@@ -1,4 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
+
 import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
  // added serverT 8 nov. 
 import { auth, db } from "../firebase";
@@ -29,28 +30,52 @@ export function AuthProvider({ children }) {
 
     // added 8 nov to fix firebase
 async function signup(email, password) {
-  try {
-    // create user in Firebase Auth
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
+    try {
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      const user = cred.user;
 
-    // create Firestore user document
-    await setDoc(
-      doc(db, "users", user.uid),
-      {
-        email: user.email ?? "",
-        emailVerified: !!user.emailVerified,
-        createdAt: serverTimestamp(),
-      },
-      { merge: true } // avoids overwriting if user doc already exists
-    );
+      await setDoc(
+        doc(db, "users", user.uid),
+        {
+          uid: user.uid,
+          email: user.email ?? "",
+          emailVerified: !!user.emailVerified,
+          createdAt: serverTimestamp(),
+        },
+        { merge: true }
+      ).catch((e) => {
+        console.error("setDoc failed", e);
+        throw e;
+      });
 
-    return userCredential;
-  } catch (error) {
-    setError(error.message);
-    throw error;
+      return cred;
+    } catch (e) {
+      setError(e.message);
+      throw e;
+    }
   }
-}
+    
+// async function signup(email, password) {
+//   try {
+//     // create user in Firebase Auth
+//     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+//     const user = userCredential.user;
+//     await setDoc(
+//       doc(db, "users", user.uid),
+//       {
+//         email: user.email ?? "",
+//         emailVerified: !!user.emailVerified,
+//         createdAt: serverTimestamp(),
+//       },
+//       { merge: true } // avoids overwriting if user doc already exists
+//     );
+
+//     return userCredential;
+//   } catch (error) {
+//     setError(error.message);
+//     throw error;
+//   }
+// }
 
     function login(email, password) {
         // Set the session persistence before signing in
@@ -106,23 +131,34 @@ const checkIfActionCompleted = async (userId) => {
 
 
     function updateEmailFunction(newEmail) {
-        if (currentUser) {
-            return currentUser.updateEmail(newEmail).catch(setError);
-        } else {
-            setError('No user is authenticated');
-        }
+        // if (currentUser) {
+        //     return currentUser.updateEmail(newEmail).catch(setError);
+        // } else {
+        //     setError('No user is authenticated');
+        // }
+        // 8 nov
+        if (!auth.currentUser) return setError('No user is authenticated');
+        return fbUpdateEmail(auth.currentUser, newEmail).catch(setError);
     }
+
+
     
     function updatePasswordFunction(newPassword) {
-        if (currentUser) {
-            return currentUser.updatePassword(newPassword).catch(setError);
-        } else {
-            setError('No user is authenticated');
-        }
+        // if (currentUser) {
+        //     return currentUser.updatePassword(newPassword).catch(setError);
+            
+        // } else {
+        //     setError('No user is authenticated');
+        // }
+        // 8 Nov 
+        if (!auth.currentUser) return setError('No user is authenticated');
+        return fbUpdatePassword(auth.currentUser, newPassword).catch(setError);
     }
 
     useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged(user => {
+        // const unsubscribe = auth.onAuthStateChanged(user => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+
             setCurrentUser(user);
             setLoading(false);
         });
