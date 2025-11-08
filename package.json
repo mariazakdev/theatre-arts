@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "homepage": "https://canadian-broadway.vercel.app",
   "private": true,
+   "engines": {
+    "node": "22.x"
+  },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.438.0",
     "@stripe/react-stripe-js": "^2.9.0",
