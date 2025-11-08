@@ -23,8 +23,6 @@ const SignUpContestant = ({ URL, API_KEY }) => {
 
   // const MAX_RESEND_ATTEMPTS = 3;
 
- 
-
 const onSubmit = async (e) => {
   e.preventDefault();
   setIsSubmitting(true); // Disable button
