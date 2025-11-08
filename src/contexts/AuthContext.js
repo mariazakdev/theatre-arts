@@ -27,9 +27,7 @@ export function AuthProvider({ children }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
-    
     // added 8 nov to fix firebase
-
 async function signup(email, password) {
   try {
     // create user in Firebase Auth
@@ -87,7 +85,7 @@ async function signup(email, password) {
             });
     }
 
-    
+
 
 const checkIfActionCompleted = async (userId) => {
     try {
