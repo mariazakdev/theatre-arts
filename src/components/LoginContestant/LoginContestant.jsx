@@ -150,7 +150,8 @@ function LoginContestant({ URL, API_KEY }) {
             break;
           case 404:
             setFlashMessage("We couldn't find your account. Redirecting you to sign up...");
-            setTimeout(() => navigate("/contestant/signup"), 3000);
+            setTimeout(() => navigate("/home"), 3000);
+            
             break;
           case 500:
             setFlashMessage("We're experiencing technical difficulties. Please try signing in later.");

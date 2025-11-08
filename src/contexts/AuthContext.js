@@ -1,7 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
+ // added serverT 8 nov. Removed duplicate getFirestore()
+import { auth, db } from "../firebase";
 
-import { auth } from "../firebase";
 import { 
   createUserWithEmailAndPassword, 
   signInWithEmailAndPassword, 
@@ -24,24 +25,48 @@ export function AuthProvider({ children }) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
-    // function signup(email, password){
-    //     return createUserWithEmailAndPassword(auth, email, password).catch(setError);
-    // }
+    
+    // added 8 nov to fix firebase
 
-//Fixing undefined is not an object (evaluating '(await o(s,A)).user')"
-function signup(email, password) {
-    return createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-            // Handle successful signup here if needed
-            return userCredential;  // Return the userCredential object
-        })
-        .catch((error) => {
-            setError(error.message);
-            throw error;  // Re-throw the error if necessary
-        });
+async function signup(email, password) {
+  try {
+    // create user in Firebase Auth
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const user = userCredential.user;
+
+    // create Firestore user document
+    await setDoc(
+      doc(db, "users", user.uid),
+      {
+        email: user.email ?? "",
+        emailVerified: !!user.emailVerified,
+        createdAt: serverTimestamp(),
+      },
+      { merge: true } // avoids overwriting if user doc already exists
+    );
+
+    return userCredential;
+  } catch (error) {
+    setError(error.message);
+    throw error;
+  }
 }
 
-    
+
+async function signup(email, password) {
+  const cred = await createUserWithEmailAndPassword(auth, email, password);
+  const user = cred.user;
+
+  // create minimal user document
+  await setDoc(doc(db, "users", user.uid), {
+    email: user.email,
+    emailVerified: user.emailVerified || false,
+    createdAt: serverTimestamp(),
+  });
+
+  return cred;
+}
+
 
     // function login(email, password) {
     //     // Set the session persistence before signing in
