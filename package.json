@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "homepage": "https://canadian-broadway.vercel.app",
   "private": true,
-   "engines": {
+  "engines": {
     "node": "22.x"
   },
   "dependencies": {

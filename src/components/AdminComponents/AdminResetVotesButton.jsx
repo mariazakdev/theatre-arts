@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const AdminResetVotesButton = ({ URL, API_KEY }) => {
-  const [contestants, setContestants] = useState([]);
-  const [numOfContestants, setNumOfContestants] = useState(0);
+  const [setContestants] = useState([]);
+  const [setNumOfContestants] = useState(0);
   const [updateCount, setUpdateCount] = useState(0);
 
   useEffect(() => {

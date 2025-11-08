@@ -21,7 +21,7 @@ const SignUpContestant = ({ URL, API_KEY }) => {
   const [isPolling, setIsPolling] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const MAX_RESEND_ATTEMPTS = 3;
+  // const MAX_RESEND_ATTEMPTS = 3;
 
  
 
@@ -95,7 +95,7 @@ const onSubmit = async (e) => {
     });
 
     if (error.code === 'auth/email-already-in-use') {
-      const signInMethods = await fetchSignInMethodsForEmail(auth, email);
+      // const signInMethods = await fetchSignInMethodsForEmail(auth, email);
       const user = auth.currentUser;
 
       if (user && !user.emailVerified) {

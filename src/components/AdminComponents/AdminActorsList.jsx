@@ -21,9 +21,9 @@ const s3Client = new S3Client({
 
 function AdminActorsList({ URL, API_KEY }) {
   const [videoData, setVideoData] = useState([]);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const [currentFilter, setCurrentFilter] = useState("votes");
+  const [setCurrentFilter] = useState("votes");
 
   useEffect(() => {
     fetchVideoData();

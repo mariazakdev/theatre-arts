@@ -94,7 +94,7 @@ const onSubmit = async (e) => {
     });
 
    if (error.code === 'auth/email-already-in-use') {
-      const signInMethods = await fetchSignInMethodsForEmail(auth, email);
+      // const signInMethods = await fetchSignInMethodsForEmail(auth, email);
       const user = auth.currentUser;
 
       if (user && !user.emailVerified) {
@@ -159,48 +159,48 @@ const handleGoogleSignIn = async () => {
 
 
 
-  const handleResendVerification = async () => {
-    try {
-      let user = auth.currentUser;
+  // const handleResendVerification = async () => {
+  //   try {
+  //     let user = auth.currentUser;
   
-      // Check if the user is signed in
-      if (!user) {
-        setFlashMessage({ type: "error", message: "No user is currently signed in. Please log in again." });
-        return;
-      }
+  //     // Check if the user is signed in
+  //     if (!user) {
+  //       setFlashMessage({ type: "error", message: "No user is currently signed in. Please log in again." });
+  //       return;
+  //     }
   
-      // Check if the user's email is not verified
-      if (!user.emailVerified) {
-        // Prevent too many resend attempts
-        if (resendAttempts >= MAX_RESEND_ATTEMPTS) {
-          setFlashMessage({ type: "error", message: "You've reached the maximum number of resend attempts. Please wait a few minutes before trying again." });
-          return;
-        }
+  //     // Check if the user's email is not verified
+  //     if (!user.emailVerified) {
+  //       // Prevent too many resend attempts
+  //       if (resendAttempts >= MAX_RESEND_ATTEMPTS) {
+  //         setFlashMessage({ type: "error", message: "You've reached the maximum number of resend attempts. Please wait a few minutes before trying again." });
+  //         return;
+  //       }
   
-        // Resend the verification email
-        await sendEmailVerification(user);
-        setFlashMessage({ type: "success", message: "Verification email resent. Please check your inbox." });
-        setResendAttempts(resendAttempts + 1);
+  //       // Resend the verification email
+  //       await sendEmailVerification(user);
+  //       setFlashMessage({ type: "success", message: "Verification email resent. Please check your inbox." });
+  //       setResendAttempts(resendAttempts + 1);
   
-        // Start polling for verification status
-        setIsPolling(true);
-      } else {
-        setFlashMessage({ type: "info", message: "Your email is already verified." });
-      }
-    } catch (error) {
-      console.error("Error resending verification email:", error);
+  //       // Start polling for verification status
+  //       setIsPolling(true);
+  //     } else {
+  //       setFlashMessage({ type: "info", message: "Your email is already verified." });
+  //     }
+  //   } catch (error) {
+  //     console.error("Error resending verification email:", error);
   
-      // Handle specific Firebase errors
-      if (error.code === 'auth/too-many-requests') {
-        setFlashMessage({ type: "error", message: "Too many requests. Please wait a few minutes before trying again." });
-      } else if (error.code === 'auth/user-token-expired' || error.code === 'auth/requires-recent-login') {
-        setFlashMessage({ type: "error", message: "Your session has expired. Please log in again." });
-        navigate("/login");
-      } else {
-        setFlashMessage({ type: "error", message: "Failed to resend verification email." });
-      }
-    }
-  };
+  //     // Handle specific Firebase errors
+  //     if (error.code === 'auth/too-many-requests') {
+  //       setFlashMessage({ type: "error", message: "Too many requests. Please wait a few minutes before trying again." });
+  //     } else if (error.code === 'auth/user-token-expired' || error.code === 'auth/requires-recent-login') {
+  //       setFlashMessage({ type: "error", message: "Your session has expired. Please log in again." });
+  //       navigate("/login");
+  //     } else {
+  //       setFlashMessage({ type: "error", message: "Failed to resend verification email." });
+  //     }
+  //   }
+  // };
   
   
   
